@@ -1,0 +1,6 @@
+name = UTAilla
+description = "UTAilla customizations."
+package = Islandora Customizations
+dependencies[] = islandora
+version = 7.x-dev
+core = 7.x
