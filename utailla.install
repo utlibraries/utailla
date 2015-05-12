@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * Install hooks.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function utailla_install() {
+  // Add custom roles.
+  $admin = new stdClass();
+  $admin->name = 'admin';
+  user_role_save($admin);
+  $depositor = new stdClass();
+  $depositor->name = 'depositor';
+  user_role_save($depositor);
+  $super = new stdClass();
+  $super->name = 'superuser';
+  user_role_save($super);
+
+  $fields = array(
+    'alternate_email' => 'Alternate Email',
+    'second_alternate_email' => 'Second Alternate Email',
+    'home_phone' => 'Home Phone',
+    'cell_phone' => 'Cell Phone',
+    'work_phone' => 'Work Phone',
+    'fax' => 'Fax',
+    'address' => 'Address',
+    'alt_address' => 'Alternate Address',
+    'website' => 'Website',
+    'alt_website' => 'Alternate Website',
+  );
+  // Add custom fields on users.
+  foreach ($fields as $field_name => $label) {
+    utailla_create_user_field($field_name, $label);
+  }
+  // Create the fieldgroup.
+  $group = (object) array(
+    'identifier' => 'utailla_user|user|user|form',
+    'group_name' => 'utailla_user',
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'mode' => 'form',
+    'format_type' => 'fieldset',
+    'children' => array_keys($fields),
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+    ),
+  );
+  field_group_group_save($group);
+
+  // Non-grouped fields.
+  utailla_create_user_field('admin_initials', 'Admin Initials');
+  utailla_create_user_field('acc_license', 'ACC License', 'list_boolean');
+  utailla_create_user_field('first_name', 'First Name');
+  utailla_create_user_field('last_name', 'Last Name');
+  utailla_create_user_field('affiliation', 'Affiliation');
+  utailla_create_user_field('country', 'Country');
+}
+
+/**
+ * Create a field and instance on users.
+ */
+function utailla_create_user_field($name, $label, $type = 'text') {
+  $field = array(
+    'field_name' => $name,
+    'type' => $type,
+    'cardinality' => '1',
+  );
+  if ($type == 'list_boolean') {
+    $field += array(
+      'widget' => array(
+        'type' => 'options_on_off',
+      ),
+      'settings' => array(
+        'allowed_values' => array(
+          '0' => 'No',
+          '1' => 'Yes',
+        ),
+      ),
+    );
+  }
+  field_create_field($field);
+  field_create_instance(
+    array(
+      'field_name' => $field['field_name'],
+      'entity_type' => 'user',
+      'bundle' => 'user',
+      'label' => $label,
+    )
+  );
+}
