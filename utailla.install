@@ -90,4 +90,37 @@ function utailla_create_user_field($name, $label, $type = 'text') {
       'label' => $label,
     )
   );
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('utailla');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function utailla_uninstall() {
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('utailla', 'uninstall');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function utailla_schema() {
+  $schema['utailla_language_map'] = array(
+    'description' => "Map of AILLA's old language database to new objects.",
+    'fields' => array(
+      'language_id' => array(
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('language_id', 'pid'),
+  );
+  return $schema;
 }

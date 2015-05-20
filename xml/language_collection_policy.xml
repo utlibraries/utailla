@@ -1,0 +1,8 @@
+<collection_policy xmlns="http://www.islandora.ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Ailla Language Object" xsi:schemaLocation="http://www.islandora.ca">
+    <content_models>
+        <content_model name="Ailla Language Content Model" dsid="DS-COMPOSITE-MODEL" namespace="ailla" pid="ailla:languageCModel"/>
+    </content_models>
+    <search_terms></search_terms>
+    <staging_area></staging_area>
+    <relationship>isMemberOfCollection</relationship>
+</collection_policy>
