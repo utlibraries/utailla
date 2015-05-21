@@ -122,5 +122,61 @@ function utailla_schema() {
     ),
     'primary key' => array('language_id', 'pid'),
   );
+  $schema['utailla_country_map'] = array(
+    'description' => "Map of AILLA's old country database to new objects.",
+    'fields' => array(
+      'country_id' => array(
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('country_id', 'pid'),
+  );
   return $schema;
+}
+
+/**
+ * Update hook to add tables after the fact.
+ */
+function utailla_update_7001() {
+  $schema['utailla_language_map'] = array(
+    'description' => "Map of AILLA's old language database to new objects.",
+    'fields' => array(
+      'language_id' => array(
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('language_id', 'pid'),
+  );
+  $schema['utailla_country_map'] = array(
+    'description' => "Map of AILLA's old country database to new objects.",
+    'fields' => array(
+      'country_id' => array(
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('country_id', 'pid'),
+  );
+  db_create_table('utailla_language_map', $schema['utailla_language_map']);
+  db_create_table('utailla_country_map', $schema['utailla_country_map']);
 }

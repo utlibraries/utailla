@@ -41,12 +41,46 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $datastream->setContentFromFile("$islandora_path/images/folder.png", FALSE);
   $language_collection->ingestDatastream($datastream);
 
+  // Country content model.
+  $country_cmodel = $connection->repository->constructObject('ailla:countryCModel');
+  $country_cmodel->owner = 'fedoraAdmin';
+  $country_cmodel->label = 'Ailla Country Content Model';
+  $country_cmodel->models = 'fedora-system:ContentModel-3.0';
+  // DS-COMPOSITE-MODEL Datastream.
+  $datastream = $country_cmodel->constructDatastream('DS-COMPOSITE-MODEL', 'X');
+  $datastream->label = 'DS-COMPOSITE-MODEL';
+  $datastream->mimetype = 'application/xml';
+  $datastream->setContentFromFile("$module_path/xml/country_composite_model.xml", FALSE);
+  $country_cmodel->ingestDatastream($datastream);
+
+  $country_collection = $connection->repository->constructObject('ailla:country_collection');
+  $country_collection->owner = 'fedoraAdmin';
+  $country_collection->label = 'Country Collection';
+  $country_collection->models = 'islandora:collectionCModel';
+  $country_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
+
+  // Collection Policy Datastream.
+  $datastream = $country_collection->constructDatastream('COLLECTION_POLICY', 'X');
+  $datastream->label = 'Collection policy';
+  $datastream->mimetype = 'application/xml';
+  $datastream->setContentFromFile("$module_path/xml/country_collection_policy.xml", FALSE);
+  $country_collection->ingestDatastream($datastream);
+
+  // TN Datastream.
+  $datastream = $country_collection->constructDatastream('TN', 'M');
+  $datastream->label = 'Thumbnail';
+  $datastream->mimetype = 'image/png';
+  $datastream->setContentFromFile("$islandora_path/images/folder.png", FALSE);
+  $country_collection->ingestDatastream($datastream);
+
   return array(
     'utailla' => array(
       'title' => t('AILLA'),
       'objects' => array(
         $language_cmodel,
         $language_collection,
+        $country_cmodel,
+        $country_collection,
       ),
     ),
   );
