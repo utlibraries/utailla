@@ -177,6 +177,6 @@ function utailla_update_7001() {
     ),
     'primary key' => array('country_id', 'pid'),
   );
-  db_create_table('utailla_language_mapping', $schema['utailla_language_map']);
-  db_create_table('utailla_country_mapping', $schema['utailla_country_map']);
+  db_create_table('utailla_language_map', $schema['utailla_language_map']);
+  db_create_table('utailla_country_map', $schema['utailla_country_map']);
 }

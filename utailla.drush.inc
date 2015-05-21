@@ -252,7 +252,7 @@ function utailla_migrate_country_construct_object($row) {
     $tuque = islandora_get_tuque_connection();
     $object = $tuque->repository->constructObject('ailla');
     $object->models = array('ailla:countryCModel');
-    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'ailla:language_collection');
+    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'ailla:country_collection');
 
     $ds = $object->constructDatastream('MADS', 'M');
     $ds->label = 'MADS Record';
