@@ -1,0 +1,10 @@
+name = UTAilla i18n
+core = 7.x
+package = Islandora Customizations
+dependencies[] = fe_block
+dependencies[] = features
+dependencies[] = locale
+features[fe_block_settings][] = locale-language
+features[features_api][] = api:2
+features[language][] = es
+project path = sites/all/modules/utailla/modules
