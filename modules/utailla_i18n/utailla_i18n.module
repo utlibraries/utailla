@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the UTAilla i18n feature.
  */
+
+include_once 'utailla_i18n.features.inc';

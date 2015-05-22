@@ -34,12 +34,6 @@ function utailla_i18n_default_fe_block_settings() {
         'theme' => 'seven',
         'weight' => 0,
       ),
-      'stark' => array(
-        'region' => 'header',
-        'status' => 1,
-        'theme' => 'stark',
-        'weight' => 0,
-      ),
     ),
     'title' => '',
     'visibility' => 0,
