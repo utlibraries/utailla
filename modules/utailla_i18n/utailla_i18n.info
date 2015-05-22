@@ -1,0 +1,14 @@
+name = UTAilla i18n
+core = 7.x
+package = Islandora Customizations
+dependencies[] = ctools
+dependencies[] = fe_block
+dependencies[] = features
+dependencies[] = locale
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[fe_block_settings][] = locale-language
+features[features_api][] = api:2
+features[language][] = es
+features[variable][] = language_negotiation_language
+project path = sites/all/modules/utailla/modules
