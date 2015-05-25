@@ -153,7 +153,7 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     // Parent language.
     $writer->startElement('aillaParentLang');
     if (isset($all_rows[$row->parent_id])) {
-      $writer->text(html_entity_decode($all_rows[$row->parent_id]->name));
+      $writer->text(html_entity_decode($all_rows[$row->parent_id]->name, ENT_QUOTES, 'UTF-8'));
     }
     $writer->endElement();
 
