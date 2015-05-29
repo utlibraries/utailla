@@ -22,6 +22,12 @@ function utailla_i18n_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ailla' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'ailla',
+        'weight' => -27,
+      ),
       'bartik' => array(
         'region' => 'header',
         'status' => 1,
@@ -35,7 +41,7 @@ function utailla_i18n_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => '',
+    'title' => '<none>',
     'visibility' => 0,
   );
 
