@@ -4,12 +4,17 @@
  * Main hooks.
  */
 
+// Objects.
+define('UTAILLA_COLLECTION', 'ailla:collection_collection');
+// Migrations.
+define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
+
 /**
  * Implements hook_islandora_required_objects().
  */
 function utailla_islandora_required_objects(IslandoraTuque $connection) {
+  module_load_include('inc', 'utailla', 'includes/utilities');
   $module_path = drupal_get_path('module', 'utailla');
-  $islandora_path = drupal_get_path('module', 'islandora');
 
   $language_cmodel = $connection->repository->constructObject('ailla:languageCModel');
   $language_cmodel->owner = 'fedoraAdmin';
@@ -35,11 +40,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $language_collection->ingestDatastream($datastream);
 
   // TN Datastream.
-  $datastream = $language_collection->constructDatastream('TN', 'M');
-  $datastream->label = 'Thumbnail';
-  $datastream->mimetype = 'image/png';
-  $datastream->setContentFromFile("$islandora_path/images/folder.png", FALSE);
-  $language_collection->ingestDatastream($datastream);
+  utailla_set_default_thumb($language_collection);
 
   // Country content model.
   $country_cmodel = $connection->repository->constructObject('ailla:countryCModel');
@@ -67,11 +68,20 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $country_collection->ingestDatastream($datastream);
 
   // TN Datastream.
-  $datastream = $country_collection->constructDatastream('TN', 'M');
-  $datastream->label = 'Thumbnail';
-  $datastream->mimetype = 'image/png';
-  $datastream->setContentFromFile("$islandora_path/images/folder.png", FALSE);
-  $country_collection->ingestDatastream($datastream);
+  utailla_set_default_thumb($country_collection);
+
+  // Collection collection.
+  $collection_collection = $connection->repository->constructObject(UTAILLA_COLLECTION);
+  $collection_collection->owner = 'fedoraAdmin';
+  $collection_collection->label = 'Collections';
+  $collection_collection->models = 'islandora:collectionCModel';
+  $collection_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
+  $collection_collection_policy = $collection_collection->constructDatastream('COLLECTION_POLICY', 'M');
+  $collection_collection_policy->label = 'Collection Policy';
+  $collection_collection_policy->mimetype = 'application/xml';
+  $collection_collection_policy->setContentFromFile("$module_path/xml/collection_collection_policy.xml", FALSE);
+  $collection_collection->ingestDatastream($collection_collection_policy);
+  utailla_set_default_thumb($collection_collection);
 
   return array(
     'utailla' => array(
@@ -81,6 +91,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
         $language_collection,
         $country_cmodel,
         $country_collection,
+        $collection_collection,
       ),
     ),
   );

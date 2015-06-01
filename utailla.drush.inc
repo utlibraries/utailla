@@ -9,7 +9,16 @@
  */
 function utailla_drush_command() {
   $commands = array();
-
+  $commands['utailla-migrate-all'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Run all migrations in the necessary order.',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-migrate-all',
+    ),
+  );
   $commands['utailla-migrate-languages'] = array(
     'bootstrap' => DRUSH_BOOTSTRAP_MAX,
     'drupal_dependencies' => array(
@@ -41,24 +50,47 @@ function utailla_drush_command() {
       ),
     ),
   );
+  $commands['utailla-migrate-collections'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Migrate collections.',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-migrate-collections',
+    ),
+  );
   return $commands;
+}
+
+/**
+ * Drush command callback for running all migrations.
+ */
+function drush_utailla_migrate_all() {
+  module_load_include('inc', 'utailla', '/includes/batch');
+  $migration = Migration::getInstance(UTAILLA_USER_MIGRATION);
+  $migration->processImport();
+  batch_set(utailla_migrate_languages_batch());
+  batch_set(utailla_migrate_countries_batch());
+  batch_set(utailla_migrate_collections_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Drush command callback for migrating collections.
+ */
+function drush_utailla_migrate_collections() {
+  module_load_include('inc', 'utailla', '/includes/batch');
+  batch_set(utailla_migrate_collections_batch());
+  drush_backend_batch_process();
 }
 
 /**
  * Migrates the languages from AILLA's old database.
  */
 function drush_utailla_migrate_languages() {
-  $batch = array(
-    'operations' => array(
-      array(
-        'utailla_migrate_language_batch_operation',
-        array(
-          drush_get_option('database', 'for_migration'),
-        ),
-      ),
-    ),
-  );
-  batch_set($batch);
+  module_load_include('inc', 'utailla', '/includes/batch');
+  batch_set(utailla_migrate_languages_batch(drush_get_option('database', 'for_migration')));
   drush_backend_batch_process();
 }
 
@@ -100,18 +132,13 @@ function utailla_migrate_language_batch_operation($database, &$context) {
  * Construct an object if one doesn't already exist for the row.
  */
 function utailla_migrate_language_construct_object($row, $all_rows) {
+  module_load_include('inc', 'utailla', '/includes/migration.db');
+  module_load_include('inc', 'utailla', '/includes/utilities');
   // Check to see if one already exists for the language id.
-  $exists = db_select('utailla_language_map', 'u')
-    ->condition('language_id', $row->language_id)
-    ->fields('u', array('language_id'))
-    ->execute()
-    ->rowCount();
-  if (!$exists) {
+  if (!utailla_migrated_language_pid($row->language_id)) {
     // Create a new object for this language and add it to our mapping table.
     // Decode the rows for consistency.
-    foreach ($row as &$value) {
-      $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-    }
+    $row = utailla_get_decoded_row_recursive($row);
     unset($value);
     $tuque = islandora_get_tuque_connection();
     $object = $tuque->repository->constructObject('ailla');
@@ -131,81 +158,75 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     // Name (English).
     $writer->startElement('aillaEngName');
     $writer->writeAttribute('authority', 'iso639-3');
-    $writer->text($row->name);
+    $writer->text($row['name']);
     $writer->endElement();
 
     // Name (Alternative).
     $writer->startElement('aillaAltName');
-    $writer->text($row->alternate_names);
+    $writer->text($row['alternate_names']);
     $writer->endElement();
 
     // Language code.
     $writer->startElement('aillaLangCode');
     $writer->writeAttribute('authority', 'iso639-3');
-    $writer->text($row->language_code);
+    $writer->text($row['language_code']);
     $writer->endElement();
 
     // Language family indication.
     $writer->startElement('aillaLangFam');
-    $writer->text($row->is_macro_code);
+    $writer->text($row['is_macro_code']);
     $writer->endElement();
 
     // Parent language.
     $writer->startElement('aillaParentLang');
-    if (isset($all_rows[$row->parent_id])) {
-      $writer->text(html_entity_decode($all_rows[$row->parent_id]->name, ENT_QUOTES, 'UTF-8'));
+    if (isset($all_rows[$row['parent_id']])) {
+      $text_array = utailla_get_decoded_row_recursive(
+        $all_rows[$row['parent_id']]->name
+      );
+      $writer->text($text_array[0]);
     }
     $writer->endElement();
 
     // Description (English).
     $writer->startElement('aillaEngDesc');
-    $writer->text($row->description_en);
+    $writer->text($row['description_en']);
     $writer->endElement();
 
     // Description (Spanish).
     $writer->startElement('aillaSpaDesc');
-    $writer->text($row->description_sp);
+    $writer->text($row['description_sp']);
     $writer->endElement();
 
     $writer->endElement();
     $writer->endDocument();
     $ds->content = $writer->flush();
-    $object->label = $row->name;
+    $object->label = $row['name'];
     $object->ingestDatastream($ds);
     $tuque->repository->ingestObject($object);
     db_insert('utailla_language_map')
       ->fields(array(
-        'language_id' => $row->language_id,
+        'language_id' => $row['language_id'],
         'pid' => $object->id,
       ))
       ->execute();
-    drush_log(t('Constructed an object for the language @lang with a pid of @pid.', array('@lang' => $row->language_code, '@pid' => $object->id)));
+    drush_log(t('Constructed an object for the language @lang with a pid of @pid.', array('@lang' => $row['language_code'], '@pid' => $object->id)));
   }
   else {
-    drush_log(t('An object already exists with a language code of @lang.', array('@lang' => $row->language_code)));
+    drush_log(t('An object already exists with a language code of @lang.', array('@lang' => $row['language_code'])));
   }
 }
 
 /**
- * Migrates the languages from AILLA's old database.
+ * Drush command callback to migrate countries from AILLA's database.
  */
 function drush_utailla_migrate_countries() {
-  $batch = array(
-    'operations' => array(
-      array(
-        'utailla_migrate_countries_batch_operation',
-        array(
-          drush_get_option('database', 'for_migration'),
-        ),
-      ),
-    ),
-  );
-  batch_set($batch);
+  module_load_include('inc', 'utailla', '/includes/batch');
+  batch_set(utailla_migrate_countries_batch(drush_get_option('database', 'for_migration')));
   drush_backend_batch_process();
 }
 
 /**
- * Batch operation to migrate a language out of AILLA's database.
+ * Batch operation to migrate a country out of AILLA's database.
  */
 function utailla_migrate_countries_batch_operation($database, &$context) {
   $sandbox =& $context['sandbox'];
@@ -241,13 +262,9 @@ function utailla_migrate_countries_batch_operation($database, &$context) {
  * Construct an object if one doesn't exist already for the row.
  */
 function utailla_migrate_country_construct_object($row) {
+  module_load_include('inc', 'utailla', '/includes/migration.db');
   // Check to see if one already exists for the language id.
-  $exists = db_select('utailla_country_map', 'u')
-    ->condition('country_id', $row->country_id)
-    ->fields('u', array('country_id'))
-    ->execute()
-    ->rowCount();
-  if (!$exists) {
+  if (!utailla_migrated_country_pid($row->country_id)) {
     // Create a new object for this country and add it to our mapping table.
     $tuque = islandora_get_tuque_connection();
     $object = $tuque->repository->constructObject('ailla');

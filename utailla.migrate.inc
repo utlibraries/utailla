@@ -16,7 +16,7 @@ function utailla_migrate_api() {
       ),
     ),
     'migrations' => array(
-      'UtaillaUser' => array(
+      UTAILLA_USER_MIGRATION => array(
         'class_name' => 'UtaillaUserMigration',
         'group_name' => 'utailla',
       ),

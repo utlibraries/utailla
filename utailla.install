@@ -57,6 +57,9 @@ function utailla_install() {
   utailla_create_user_field('last_name', 'Last Name');
   utailla_create_user_field('affiliation', 'Affiliation');
   utailla_create_user_field('country', 'Country');
+
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('utailla');
 }
 
 /**
@@ -90,8 +93,6 @@ function utailla_create_user_field($name, $label, $type = 'text') {
       'label' => $label,
     )
   );
-  module_load_include('inc', 'islandora', 'includes/solution_packs');
-  islandora_install_solution_pack('utailla');
 }
 
 /**
@@ -106,6 +107,24 @@ function utailla_uninstall() {
  * Implements hook_schema().
  */
 function utailla_schema() {
+  $schema['utailla_collection_map'] = array(
+    'description' => 'Migration map of collections.',
+    'fields' => array(
+      'collection_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('collection_id'),
+  );
   $schema['utailla_language_map'] = array(
     'description' => "Map of AILLA's old language database to new objects.",
     'fields' => array(
@@ -179,4 +198,30 @@ function utailla_update_7001() {
   );
   db_create_table('utailla_language_map', $schema['utailla_language_map']);
   db_create_table('utailla_country_map', $schema['utailla_country_map']);
+}
+
+/**
+ * Add collection migration mapping table.
+ */
+function utailla_update_7002() {
+  $schema = array();
+  $schema['utailla_collection_map'] = array(
+    'description' => 'Migration map of collections.',
+    'fields' => array(
+      'collection_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('collection_id'),
+  );
+  db_create_table('utailla_collection_map', $schema['utailla_collection_map']);
 }
