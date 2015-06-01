@@ -12,6 +12,7 @@ class UtaillaUserMigration extends Migration {
    * @see Migration::__construct()
    */
   public function __construct($arguments) {
+    module_load_include('inc', 'utailla', 'includes/migration.db');
     parent::__construct($arguments);
     $this->roles = array(
       'S' => 'superuser',
@@ -41,17 +42,7 @@ class UtaillaUserMigration extends Migration {
     $this->source = new MigrateSourceSQL($query);
     $this->destination = new MigrateDestinationUser(array());
 
-    $this->map = new MigrateSQLMap(
-      $this->machineName,
-      array(
-        'user_id' => array(
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-        ),
-      ),
-      MigrateDestinationUser::getKeySchema()
-    );
+    $this->map = utailla_get_user_migration_map();
     $this->addFieldMapping('name', 'user_name');
     $this->addFieldMapping('mail', 'email');
     $this->addFieldMapping('created', 'date_created');

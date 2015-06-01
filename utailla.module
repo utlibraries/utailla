@@ -6,6 +6,8 @@
 
 // Objects.
 define('UTAILLA_COLLECTION', 'ailla:collection_collection');
+define('UTAILLA_ORG_COLLECTION', 'ailla:organization_collection');
+define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
 
@@ -16,30 +18,20 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   $module_path = drupal_get_path('module', 'utailla');
 
+  // Language content model.
   $language_cmodel = $connection->repository->constructObject('ailla:languageCModel');
   $language_cmodel->owner = 'fedoraAdmin';
   $language_cmodel->label = 'Ailla Language Content Model';
   $language_cmodel->models = 'fedora-system:ContentModel-3.0';
-  // DS-COMPOSITE-MODEL Datastream.
-  $datastream = $language_cmodel->constructDatastream('DS-COMPOSITE-MODEL', 'X');
-  $datastream->label = 'DS-COMPOSITE-MODEL';
-  $datastream->mimetype = 'application/xml';
-  $datastream->setContentFromFile("$module_path/xml/language_composite_model.xml", FALSE);
-  $language_cmodel->ingestDatastream($datastream);
+  utailla_set_ds_composite($language_cmodel, 'language_composite_model.xml');
 
+  // Language collection.
   $language_collection = $connection->repository->constructObject('ailla:language_collection');
   $language_collection->owner = 'fedoraAdmin';
   $language_collection->label = 'Language Collection';
   $language_collection->models = 'islandora:collectionCModel';
   $language_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
-  // Collection Policy Datastream.
-  $datastream = $language_collection->constructDatastream('COLLECTION_POLICY', 'X');
-  $datastream->label = 'Collection policy';
-  $datastream->mimetype = 'application/xml';
-  $datastream->setContentFromFile("$module_path/xml/language_collection_policy.xml", FALSE);
-  $language_collection->ingestDatastream($datastream);
-
-  // TN Datastream.
+  utailla_set_collection_policy($language_collection, 'language_collection_policy.xml');
   utailla_set_default_thumb($language_collection);
 
   // Country content model.
@@ -47,27 +39,15 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $country_cmodel->owner = 'fedoraAdmin';
   $country_cmodel->label = 'Ailla Country Content Model';
   $country_cmodel->models = 'fedora-system:ContentModel-3.0';
-  // DS-COMPOSITE-MODEL Datastream.
-  $datastream = $country_cmodel->constructDatastream('DS-COMPOSITE-MODEL', 'X');
-  $datastream->label = 'DS-COMPOSITE-MODEL';
-  $datastream->mimetype = 'application/xml';
-  $datastream->setContentFromFile("$module_path/xml/country_composite_model.xml", FALSE);
-  $country_cmodel->ingestDatastream($datastream);
+  utailla_set_ds_composite($country_cmodel, 'country_composite_model.xml');
 
+  // Country collection.
   $country_collection = $connection->repository->constructObject('ailla:country_collection');
   $country_collection->owner = 'fedoraAdmin';
   $country_collection->label = 'Country Collection';
   $country_collection->models = 'islandora:collectionCModel';
   $country_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
-
-  // Collection Policy Datastream.
-  $datastream = $country_collection->constructDatastream('COLLECTION_POLICY', 'X');
-  $datastream->label = 'Collection policy';
-  $datastream->mimetype = 'application/xml';
-  $datastream->setContentFromFile("$module_path/xml/country_collection_policy.xml", FALSE);
-  $country_collection->ingestDatastream($datastream);
-
-  // TN Datastream.
+  utailla_set_collection_policy($country_collection, 'country_collection_policy.xml');
   utailla_set_default_thumb($country_collection);
 
   // Collection collection.
@@ -76,12 +56,23 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $collection_collection->label = 'Collections';
   $collection_collection->models = 'islandora:collectionCModel';
   $collection_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
-  $collection_collection_policy = $collection_collection->constructDatastream('COLLECTION_POLICY', 'M');
-  $collection_collection_policy->label = 'Collection Policy';
-  $collection_collection_policy->mimetype = 'application/xml';
-  $collection_collection_policy->setContentFromFile("$module_path/xml/collection_collection_policy.xml", FALSE);
-  $collection_collection->ingestDatastream($collection_collection_policy);
-  utailla_set_default_thumb($collection_collection);
+  utailla_set_collection_policy($collection_collection, 'collection_collection_policy.xml');
+
+  // Organization collection.
+  $org_collection = $connection->repository->constructObject(UTAILLA_ORG_COLLECTION);
+  $org_collection->owner = 'fedoraAdmin';
+  $org_collection->label = 'Organizations';
+  $org_collection->models = 'islandora:collectionCModel';
+  $org_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
+  utailla_set_default_thumb($org_collection);
+  utailla_set_collection_policy($org_collection, 'organization_collection_policy.xml');
+
+  // Organization content model.
+  $org_cmodel = $connection->repository->constructObject(UTAILLA_ORG_CMODEL);
+  $org_cmodel->owner = 'fedoraAdmin';
+  $org_cmodel->label = 'Organization Content Model';
+  $org_cmodel->models = 'fedora-system:ContentModel-3.0';
+  utailla_set_ds_composite($org_cmodel, 'organization_composite_model.xml');
 
   return array(
     'utailla' => array(
@@ -91,6 +82,8 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
         $language_collection,
         $country_cmodel,
         $country_collection,
+        $org_collection,
+        $org_cmodel,
         $collection_collection,
       ),
     ),

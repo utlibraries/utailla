@@ -60,6 +60,16 @@ function utailla_drush_command() {
       'drush -u 1 -v utailla-migrate-collections',
     ),
   );
+  $commands['utailla-migrate-organizations'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Migrate organizations.',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-migrate-organizations',
+    ),
+  );
   return $commands;
 }
 
@@ -73,6 +83,16 @@ function drush_utailla_migrate_all() {
   batch_set(utailla_migrate_languages_batch());
   batch_set(utailla_migrate_countries_batch());
   batch_set(utailla_migrate_collections_batch());
+  batch_set(utailla_migrate_organizations_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Drush command callback for migrating organizations.
+ */
+function drush_utailla_migrate_organizations() {
+  module_load_include('inc', 'utailla', '/includes/batch');
+  batch_set(utailla_migrate_organizations_batch());
   drush_backend_batch_process();
 }
 
@@ -212,7 +232,7 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     drush_log(t('Constructed an object for the language @lang with a pid of @pid.', array('@lang' => $row['language_code'], '@pid' => $object->id)));
   }
   else {
-    drush_log(t('An object already exists with a language code of @lang.', array('@lang' => $row['language_code'])));
+    drush_log(t('An object already exists with a language code of @lang.', array('@lang' => $row->language_code)));
   }
 }
 
@@ -263,6 +283,7 @@ function utailla_migrate_countries_batch_operation($database, &$context) {
  */
 function utailla_migrate_country_construct_object($row) {
   module_load_include('inc', 'utailla', '/includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/utilities');
   // Check to see if one already exists for the language id.
   if (!utailla_migrated_country_pid($row->country_id)) {
     // Create a new object for this country and add it to our mapping table.
@@ -275,14 +296,7 @@ function utailla_migrate_country_construct_object($row) {
     $ds->label = 'MADS Record';
     $ds->mimetype = 'application/xml';
 
-    $writer = new XMLWriter();
-    $writer->openMemory();
-    $writer->startDocument('1.0', 'utf-8');
-    $writer->startElement('mads');
-    $writer->writeAttribute('xmlns', 'http://www.loc.gov/mads/v2');
-    $writer->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-    $writer->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-    $writer->writeAttribute('xmlns:mads', 'http://www.loc.gov/mads/v2');
+    $writer = utailla_get_mads_writer();
 
     // Country name.
     $writer->startElement('authority');
