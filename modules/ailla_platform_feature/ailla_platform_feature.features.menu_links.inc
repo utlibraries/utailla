@@ -31,6 +31,26 @@ function ailla_platform_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
+  // Exported menu link: main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0
+  $menu_links['main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0',
+    'router_path' => 'uuid',
+    'link_title' => 'AILLA papers',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -49,
+    'customized' => 1,
+  );
   // Exported menu link: main-menu_browse:islandora
   $menu_links['main-menu_browse:islandora'] = array(
     'menu_name' => 'main-menu',
@@ -303,6 +323,26 @@ function ailla_platform_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
+  // Exported menu link: main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2
+  $menu_links['main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
+    'router_path' => 'uuid',
+    'link_title' => 'Depositors',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => -47,
+    'customized' => 1,
+  );
   // Exported menu link: main-menu_disclaimers:<front>
   $menu_links['main-menu_disclaimers:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -345,6 +385,26 @@ function ailla_platform_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
+  // Exported menu link: main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c
+  $menu_links['main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c',
+    'router_path' => 'uuid',
+    'link_title' => 'Events',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -46,
+    'customized' => 1,
+  );
   // Exported menu link: main-menu_formats:<front>
   $menu_links['main-menu_formats:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -366,6 +426,26 @@ function ailla_platform_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
+  // Exported menu link: main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0
+  $menu_links['main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
+    'router_path' => 'uuid',
+    'link_title' => 'Help',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => -45,
+    'customized' => 1,
+  );
   // Exported menu link: main-menu_history:<front>
   $menu_links['main-menu_history:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -386,6 +466,26 @@ function ailla_platform_feature_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 1,
     'parent_identifier' => 'main-menu_welcome:<front>',
+  );
+  // Exported menu link: main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed
+  $menu_links['main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
+    'router_path' => 'uuid',
+    'link_title' => 'How to Use',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => -44,
+    'customized' => 1,
   );
   // Exported menu link: main-menu_keyword-search:<front>
   $menu_links['main-menu_keyword-search:<front>'] = array(
@@ -703,6 +803,7 @@ function ailla_platform_feature_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('AILLA papers');
   t('Access');
   t('Browse');
   t('By Collection');
@@ -717,10 +818,14 @@ function ailla_platform_feature_menu_default_menu_links() {
   t('Contribute');
   t('Data Mgmt Plan');
   t('Delivery');
+  t('Depositors');
   t('Disclaimers');
   t('Download');
+  t('Events');
   t('Formats');
+  t('Help');
   t('History');
+  t('How to Use');
   t('Keyword Search');
   t('Languages');
   t('License');
