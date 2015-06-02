@@ -29,19 +29,19 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -48,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
-  // Exported menu link: main-menu_ailla-papers:node/3
-  $menu_links['main-menu_ailla-papers:node/3'] = array(
+  // Exported menu link: main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0
+  $menu_links['main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/3',
-    'router_path' => 'node/%',
+    'link_path' => 'uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0',
+    'router_path' => 'uuid',
     'link_title' => 'AILLA papers',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_ailla-papers:node/3',
+      'identifier' => 'main-menu_ailla-papers:uuid/node/d3dead96-5202-4497-8ea4-d5934d16cae0',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -258,7 +258,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -48,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_help:node/1',
+    'parent_identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
   );
   // Exported menu link: main-menu_contribute:node/9
   $menu_links['main-menu_contribute:node/9'] = array(
@@ -279,7 +279,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -46,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_help:node/1',
+    'parent_identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
   );
   // Exported menu link: main-menu_data-mgmt-plan:<front>
   $menu_links['main-menu_data-mgmt-plan:<front>'] = array(
@@ -300,7 +300,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_depositors:node/4',
+    'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
   // Exported menu link: main-menu_delivery:<front>
   $menu_links['main-menu_delivery:<front>'] = array(
@@ -321,19 +321,19 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -46,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_depositors:node/4',
+    'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
-  // Exported menu link: main-menu_depositors:node/4
-  $menu_links['main-menu_depositors:node/4'] = array(
+  // Exported menu link: main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2
+  $menu_links['main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/4',
-    'router_path' => 'node/%',
+    'link_path' => 'uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
+    'router_path' => 'uuid',
     'link_title' => 'Depositors',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_depositors:node/4',
+      'identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -383,19 +383,19 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -47,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
-  // Exported menu link: main-menu_events:node/5
-  $menu_links['main-menu_events:node/5'] = array(
+  // Exported menu link: main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c
+  $menu_links['main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/5',
-    'router_path' => 'node/%',
+    'link_path' => 'uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c',
+    'router_path' => 'uuid',
     'link_title' => 'Events',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_events:node/5',
+      'identifier' => 'main-menu_events:uuid/node/a3e0d15c-0a04-491c-bd43-03c20a51146c',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -424,19 +424,19 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_depositors:node/4',
+    'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
-  // Exported menu link: main-menu_help:node/1
-  $menu_links['main-menu_help:node/1'] = array(
+  // Exported menu link: main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0
+  $menu_links['main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/1',
-    'router_path' => 'node/%',
+    'link_path' => 'uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
+    'router_path' => 'uuid',
     'link_title' => 'Help',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_help:node/1',
+      'identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -467,17 +467,17 @@ function ailla_platform_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_welcome:<front>',
   );
-  // Exported menu link: main-menu_how-to-use:node/10
-  $menu_links['main-menu_how-to-use:node/10'] = array(
+  // Exported menu link: main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed
+  $menu_links['main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/10',
-    'router_path' => 'node/%',
+    'link_path' => 'uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
+    'router_path' => 'uuid',
     'link_title' => 'How to Use',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_how-to-use:node/10',
+      'identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -527,7 +527,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_help:node/1',
+    'parent_identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
   );
   // Exported menu link: main-menu_license:<front>
   $menu_links['main-menu_license:<front>'] = array(
@@ -569,7 +569,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -47,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_help:node/1',
+    'parent_identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
   );
   // Exported menu link: main-menu_metadata:<front>
   $menu_links['main-menu_metadata:<front>'] = array(
@@ -590,7 +590,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -47,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_depositors:node/4',
+    'parent_identifier' => 'main-menu_depositors:uuid/node/f0642b9b-25f1-4214-8b3a-b1f89fd273e2',
   );
   // Exported menu link: main-menu_mission:<front>
   $menu_links['main-menu_mission:<front>'] = array(
@@ -695,7 +695,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
   // Exported menu link: main-menu_rights:node/2
   $menu_links['main-menu_rights:node/2'] = array(
@@ -716,7 +716,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 1,
     'weight' => -50,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_help:node/1',
+    'parent_identifier' => 'main-menu_help:uuid/node/1df574dc-04ac-44d7-87ff-798020aafbc0',
   );
   // Exported menu link: main-menu_search:<front>
   $menu_links['main-menu_search:<front>'] = array(
@@ -737,7 +737,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
   // Exported menu link: main-menu_use:<front>
   $menu_links['main-menu_use:<front>'] = array(
@@ -758,7 +758,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -45,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
   // Exported menu link: main-menu_view:<front>
   $menu_links['main-menu_view:<front>'] = array(
@@ -779,7 +779,7 @@ function ailla_platform_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -46,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_how-to-use:node/10',
+    'parent_identifier' => 'main-menu_how-to-use:uuid/node/27f2f019-65d3-4569-965a-5afb045927ed',
   );
   // Exported menu link: main-menu_welcome:<front>
   $menu_links['main-menu_welcome:<front>'] = array(

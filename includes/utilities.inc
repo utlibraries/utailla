@@ -76,7 +76,7 @@ function utailla_restrict_datastream_to_admin($ds) {
 }
 
 /**
- * Get a PID from a site specific URI.
+ * Get a site specific URI from a PID.
  */
 function utailla_get_uri_from_pid($pid) {
   global $base_url;
