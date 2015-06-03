@@ -12,6 +12,27 @@ function utailla_get_migration_database() {
 }
 
 /**
+ * Gets all the info relevant to organizations.
+ */
+function utailla_get_organization_info() {
+  $query = utailla_get_migration_database()
+    ->select('organization', 'o')
+    ->fields('o');
+  $organizations = $query->execute()->fetchAllAssoc('organization_id');
+
+  foreach ($organizations as $id => &$org) {
+    $org->languages = utailla_get_migration_database()
+      ->select('organization_to_language', 'ol')
+      ->fields('ol')
+      ->condition('organization_id', $id)
+      ->execute()
+      ->fetchAll();
+  }
+
+  return $organizations;
+}
+
+/**
  * Gets all the info relevant to collections.
  */
 function utailla_get_collection_info() {
@@ -96,4 +117,55 @@ function utailla_log_collection_mapping($collection_id, $pid) {
       )
     )
     ->execute();
+}
+
+/**
+ * PID of an organization if it has been migrated.
+ */
+function utailla_migrated_organization_pid($organization_id) {
+  return db_select('utailla_organization_map')
+    ->fields('utailla_organization_map', array('pid'))
+    ->condition('utailla_organization_map.organization_id', $organization_id)
+    ->execute()
+    ->fetchField();
+}
+
+/**
+ * Log an organization mapping from the old DB to Fedora.
+ */
+function utailla_log_organization_mapping($organization_id, $pid) {
+  db_insert('utailla_organization_map')
+    ->fields(
+      array(
+        'organization_id' => $organization_id,
+        'pid' => $pid,
+      )
+    )
+    ->execute();
+}
+
+/**
+ * Get migrated UID if one exists.
+ */
+function utailla_get_migrated_user_uid($user_id) {
+  $map = utailla_get_user_migration_map();
+  $source = $map->lookupDestinationID(array($user_id));
+  return isset($source['destid1']) ? $source['destid1'] : NULL;
+}
+
+/**
+ * Get the user migration map object.
+ */
+function utailla_get_user_migration_map() {
+  return new MigrateSQLMap(
+    UTAILLA_USER_MIGRATION,
+    array(
+      'user_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    MigrateDestinationUser::getKeySchema()
+  );
 }

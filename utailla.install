@@ -157,6 +157,24 @@ function utailla_schema() {
     ),
     'primary key' => array('country_id', 'pid'),
   );
+  $schema['utailla_organization_map'] = array(
+    'description' => 'Migration map of organizations.',
+    'fields' => array(
+      'organization_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('organization_id'),
+  );
   return $schema;
 }
 
@@ -224,4 +242,30 @@ function utailla_update_7002() {
     'primary key' => array('collection_id'),
   );
   db_create_table('utailla_collection_map', $schema['utailla_collection_map']);
+}
+
+/**
+ * Add organization migration mapping table.
+ */
+function utailla_update_7003() {
+  $schema = array();
+  $schema['utailla_organization_map'] = array(
+    'description' => 'Migration map of organizations.',
+    'fields' => array(
+      'organization_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('organization_id'),
+  );
+  db_create_table('utailla_organization_map', $schema['utailla_organization_map']);
 }

@@ -15,6 +15,16 @@ function utailla_migrate_collections_batch() {
 }
 
 /**
+ * Batch array for migrating organizations.
+ */
+function utailla_migrate_organizations_batch() {
+  return array(
+    'operations' => array(array('utailla_migrate_organizations_batch_operation', array())),
+    'file' => drupal_get_path('module', 'utailla') . '/includes/organization_migration.inc',
+  );
+}
+
+/**
  * Batch array for migrating languages.
  */
 function utailla_migrate_languages_batch($db = 'for_migration') {
