@@ -124,11 +124,11 @@ function utailla_build_collection_mods($collection) {
           break;
 
         case 'en':
-          $writer->writeAttribute('type', 'eng');
+          $writer->writeAttribute('lang', 'eng');
           break;
 
         case 'sp':
-          $writer->writeAttribute('type', 'spa');
+          $writer->writeAttribute('lang', 'spa');
           break;
 
       }
@@ -147,7 +147,7 @@ function utailla_build_collection_mods($collection) {
         $writer->startElement('language');
         $writer->startElement('languageTerm');
         $writer->writeAttribute('type', 'text');
-        $writer->writeAttribute('text', 'aillaLanguage');
+        $writer->writeAttribute('authority', 'aillaLanguage');
         $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
         $writer->endElement();
         $writer->endElement();
@@ -165,7 +165,7 @@ function utailla_build_collection_mods($collection) {
         $writer->startElement('place');
         $writer->startElement('placeTerm');
         $writer->writeAttribute('type', 'text');
-        $writer->writeAttribute('text', 'aillaCountry');
+        $writer->writeAttribute('authority', 'aillaCountry');
         $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
         $writer->endElement();
         $writer->endElement();
@@ -184,7 +184,7 @@ function utailla_build_collection_mods($collection) {
           break;
 
         case 'sp':
-          $writer->writeAttribute('spa', 'spa');
+          $writer->writeAttribute('lang', 'spa');
           break;
 
       }
