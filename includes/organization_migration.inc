@@ -49,11 +49,14 @@ function utailla_migrate_organization($org_info) {
 
     // Link to user.
     if ($org['user_id']) {
-      $object->relationships->add(
-        ISLANDORA_RELS_EXT_URI,
-        'hasAssociatedUser',
-        utailla_get_uri_from_user(utailla_get_migrated_user_uid($org['user_id']))
-      );
+      $uid = utailla_get_migrated_user_uid($org['user_id']);
+      if ($uid) {
+        $object->relationships->add(
+          ISLANDORA_RELS_EXT_URI,
+          'hasAssociatedUser',
+          utailla_get_uri_from_user($uid)
+        );
+      }
     }
 
     $tuque->repository->ingestObject($object);
@@ -146,16 +149,14 @@ function utailla_build_organization_mads($org) {
   }
   // Languages.
   foreach ($org['languages'] as $language) {
-    $writer->startElement('fieldOfActivity');
-    $writer->writeAttribute('type', 'research language');
-    $writer->writeAttribute('authority', 'aillaLanguage');
-    $writer->writeAttribute(
-      'valueURI',
-      utailla_get_uri_from_pid(
-        utailla_migrated_language_pid($language['language_id'])
-      )
-    );
-    $writer->endElement();
+    $pid = utailla_migrated_language_pid($language['language_id']);
+    if ($pid) {
+      $writer->startElement('fieldOfActivity');
+      $writer->writeAttribute('type', 'research language');
+      $writer->writeAttribute('authority', 'aillaLanguage');
+      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+      $writer->endElement();
+    }
   }
 
   $writer->endElement();

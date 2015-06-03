@@ -142,39 +142,35 @@ function utailla_build_collection_mods($collection) {
   // Languages.
   if ($collection['languages']) {
     foreach ($collection['languages'] as $language) {
-      $writer->startElement('language');
-      $writer->startElement('languageTerm');
-      $writer->writeAttribute('type', 'text');
-      $writer->writeAttribute('text', 'aillaLanguage');
-      $writer->writeAttribute(
-        'valueURI',
-        utailla_get_uri_from_pid(
-          utailla_migrated_language_pid($language['language_id'])
-        )
-      );
-      $writer->endElement();
-      $writer->endElement();
+      $pid = utailla_migrated_language_pid($language['language_id']);
+      if ($pid) {
+        $writer->startElement('language');
+        $writer->startElement('languageTerm');
+        $writer->writeAttribute('type', 'text');
+        $writer->writeAttribute('text', 'aillaLanguage');
+        $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+        $writer->endElement();
+        $writer->endElement();
+      }
     }
   }
 
   // Countries.
   if ($collection['countries']) {
     foreach ($collection['countries'] as $country) {
-      $writer->startElement('originInfo');
-      $writer->writeAttribute('eventType', 'production');
-      $writer->startElement('place');
-      $writer->startElement('placeTerm');
-      $writer->writeAttribute('type', 'text');
-      $writer->writeAttribute('text', 'aillaCountry');
-      $writer->writeAttribute(
-        'valueURI',
-        utailla_get_uri_from_pid(
-          utailla_migrated_country_pid($country['country_id'])
-        )
-      );
-      $writer->endElement();
-      $writer->endElement();
-      $writer->endElement();
+      $pid = utailla_migrated_country_pid($country['country_id']);
+      if ($pid) {
+        $writer->startElement('originInfo');
+        $writer->writeAttribute('eventType', 'production');
+        $writer->startElement('place');
+        $writer->startElement('placeTerm');
+        $writer->writeAttribute('type', 'text');
+        $writer->writeAttribute('text', 'aillaCountry');
+        $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+        $writer->endElement();
+        $writer->endElement();
+        $writer->endElement();
+      }
     }
   }
 
