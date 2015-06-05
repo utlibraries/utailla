@@ -70,6 +70,16 @@ function utailla_drush_command() {
       'drush -u 1 -v utailla-migrate-organizations',
     ),
   );
+  $commands['utailla-migrate-resources'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Migrate resources.',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-migrate-resources',
+    ),
+  );
   return $commands;
 }
 
@@ -84,6 +94,16 @@ function drush_utailla_migrate_all() {
   batch_set(utailla_migrate_countries_batch());
   batch_set(utailla_migrate_collections_batch());
   batch_set(utailla_migrate_organizations_batch());
+  batch_set(utailla_migrate_resources_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Drush command callback for migrating resources.
+ */
+function drush_utailla_migrate_resources() {
+  module_load_include('inc', 'utailla', '/includes/batch');
+  batch_set(utailla_migrate_resources_batch());
   drush_backend_batch_process();
 }
 

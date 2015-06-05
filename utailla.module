@@ -8,6 +8,7 @@
 define('UTAILLA_COLLECTION', 'ailla:collection_collection');
 define('UTAILLA_ORG_COLLECTION', 'ailla:organization_collection');
 define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
+define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
 
@@ -74,6 +75,14 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $org_cmodel->models = 'fedora-system:ContentModel-3.0';
   utailla_set_ds_composite($org_cmodel, 'organization_composite_model.xml');
 
+  // Organization content model.
+  $resource_cmodel = $connection->repository->constructObject(UTAILLA_RESOURCE_CMODEL);
+  $resource_cmodel->owner = 'fedoraAdmin';
+  $resource_cmodel->label = 'Resource Content Model';
+  $resource_cmodel->models = 'fedora-system:ContentModel-3.0';
+  utailla_set_ds_composite($resource_cmodel, 'resource_composite_model.xml');
+
+
   return array(
     'utailla' => array(
       'title' => t('AILLA'),
@@ -85,6 +94,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
         $org_collection,
         $org_cmodel,
         $collection_collection,
+        $resource_cmodel,
       ),
     ),
   );
