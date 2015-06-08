@@ -63,10 +63,12 @@ function utailla_get_resource_info() {
       ->execute()
       ->fetchAll();
 
-    $resource->contributors = utailla_get_migration_database()
-      ->select('contributor_to_resource', 'conr')
-      ->join('role', 'rl', 'rl.role_id = conr.role_id')
-      ->fields('rl, contributor_id')
+    $query = utailla_get_migration_database()
+      ->select('contributor_to_resource', 'conr');
+    $alias = $query->join('role', 'rl', 'rl.role_id=conr.role_id');
+    $resource->contributors = $query
+      ->fields('conr', array('contributor_id'))
+      ->fields($alias, array('role_id', 'role_name', 'papel_nombre'))
       ->condition('conr.resource_id', $resrouce_id)
       ->execute()
       ->fetchAll();
@@ -78,11 +80,10 @@ function utailla_get_resource_info() {
       ->execute()
       ->fetchAll();
 
-    // Genre Mappings need to join with genre table?
-    $resource->genres = utailla_get_migration_database()
-      ->select('genre_to_resource', 'gr')
-      ->join('genre', 'g', 'g.genre_id =gr.genre_id')
-      ->fields('g')
+    $query = utailla_get_migration_database()
+      ->select('genre_to_resource', 'gr');
+    $alias = $query->join('genre', 'g', 'g.genre_id=gr.genre_id');
+    $resource->genres = $query->fields($alias)
       ->condition('gr.resource_id', $resrouce_id)
       ->execute()
       ->fetchAll();
@@ -235,6 +236,14 @@ function utailla_get_migrated_user_uid($user_id) {
   $map = utailla_get_user_migration_map();
   $source = $map->lookupDestinationID(array($user_id));
   return isset($source['destid1']) ? $source['destid1'] : NULL;
+}
+
+/**
+ * PID of a collection if it has been migrated.
+ */
+function utailla_migrated_contributor_pid($collection_id) {
+  // TODO: Remove PLACEHOLDER.
+  return NULL;
 }
 
 /**

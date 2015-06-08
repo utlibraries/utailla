@@ -91,16 +91,16 @@ function utailla_migrate_resource($resource_info) {
     utailla_log_resource_mapping($resource['resource_id'], $object->id);
     drupal_set_message(
       t(
-        'Constructed an object for the resource @org with PID @pid.',
-        array('@org' => $resource['resource_id'], '@pid' => $object->id)
+        'Constructed an object for the resource @resource with PID @pid.',
+        array('@resource' => $resource['resource_id'], '@pid' => $object->id)
       )
     );
   }
   else {
     drupal_set_message(
       t(
-        'An object already exists for the resource @org.',
-        array('@org' => $resource_info->resource_id)
+        'An object already exists for the resource @resource.',
+        array('@resource' => $resource_info->resource_id)
       )
     );
   }
