@@ -4,12 +4,12 @@
  * Main user migration class.
  */
 
-class UtaillaUserMigration extends Migration {
+class UtaillaUserMigration extends UtaillaBaseMigration {
 
   /**
    * Constructor.
    *
-   * @see Migration::__construct()
+   * @see UtaillaBaseMigration::__construct()
    */
   public function __construct($arguments) {
     module_load_include('inc', 'utailla', 'includes/migration.db');
@@ -20,7 +20,7 @@ class UtaillaUserMigration extends Migration {
       'D' => 'depositor',
       'N' => 'authenticated user',
     );
-    $query = Database::getConnection('default', 'for_migration')
+    $query = utailla_get_migration_database()
       ->select('user');
     $query->fields(
       'user',
@@ -40,7 +40,6 @@ class UtaillaUserMigration extends Migration {
       )
     );
     $this->source = new MigrateSourceSQL($query);
-    $this->destination = new MigrateDestinationUser(array());
 
     $this->map = utailla_get_user_migration_map();
     $this->addFieldMapping('name', 'user_name');
@@ -50,15 +49,6 @@ class UtaillaUserMigration extends Migration {
     $this->addFieldMapping('login', 'date_last_used');
     // Custom fields.
     $this->addFieldMapping('alternate_email', 'email1');
-    $this->addFieldMapping('second_alternate_email', 'email2');
-    $this->addFieldMapping('home_phone', 'homephone');
-    $this->addFieldMapping('cell_phone', 'cellphone');
-    $this->addFieldMapping('work_phone', 'workphone');
-    $this->addFieldMapping('fax', 'fax');
-    $this->addFieldMapping('address', 'address1')->callbacks(array($this, 'decode'));
-    $this->addFieldMapping('alt_address', 'address2')->callbacks(array($this, 'decode'));
-    $this->addFieldMapping('website', 'website1');
-    $this->addFieldMapping('alt_website', 'website2');
     $this->addFieldMapping('admin_initials', 'admin_initials')->callbacks(array($this, 'decode'));
     $this->addFieldMapping('first_name', 'first_name')->callbacks(array($this, 'decode'));
     $this->addFieldMapping('last_name', 'last_name')->callbacks(array($this, 'decode'));
@@ -125,14 +115,5 @@ class UtaillaUserMigration extends Migration {
    */
   protected function mapRole($old_value) {
     return $this->roles[$old_value];
-  }
-
-  /**
-   * During migration decode HTML entities.
-   */
-  protected function decode($old_value) {
-    module_load_include('inc', 'utailla', '/includes/utilities');
-    $value_array = utailla_get_decoded_row_recursive($old_value);
-    return $value_array[0];
   }
 }

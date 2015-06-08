@@ -21,5 +21,11 @@ function utailla_migrate_api() {
         'group_name' => 'utailla',
       ),
     ),
+    'migrations' => array(
+      UTAILLA_CONTACT_MIGRATION => array(
+        'class_name' => 'UtaillaContactMigration',
+        'group_name' => 'utailla',
+      ),
+    ),
   );
 }

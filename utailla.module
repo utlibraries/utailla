@@ -10,6 +10,10 @@ define('UTAILLA_ORG_COLLECTION', 'ailla:organization_collection');
 define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
+define('UTAILLA_CONTACT_MIGRATION', 'UtaillaContact');
+// Relationships.
+define('UTAILLA_USER_REL', 'hasAssociatedUser');
+define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 
 /**
  * Implements hook_islandora_required_objects().
