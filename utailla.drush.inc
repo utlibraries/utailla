@@ -70,6 +70,12 @@ function utailla_drush_command() {
       'drush -u 1 -v utailla-migrate-organizations',
     ),
   );
+  $commands['utailla-migrate-contributors'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Migrate contributors',
+    'drupal_dependencies' => array('islandora'),
+    'examples' => array('drush -u 1 -v utailla-migrate-contributors'),
+  );
   return $commands;
 }
 
@@ -77,7 +83,7 @@ function utailla_drush_command() {
  * Drush command callback for running all migrations.
  */
 function drush_utailla_migrate_all() {
-  module_load_include('inc', 'utailla', '/includes/batch');
+  module_load_include('inc', 'utailla', 'includes/batch');
   $user_migration = Migration::getInstance(UTAILLA_USER_MIGRATION);
   $user_migration->processImport();
   $contact_migration = Migration::getInstance(UTAILLA_CONTACT_MIGRATION);
@@ -86,6 +92,16 @@ function drush_utailla_migrate_all() {
   batch_set(utailla_migrate_countries_batch());
   batch_set(utailla_migrate_collections_batch());
   batch_set(utailla_migrate_organizations_batch());
+  batch_set(utailla_migrate_contributors_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Drush command callback for migrating contributors.
+ */
+function drush_utailla_migrate_contributors() {
+  module_load_include('inc', 'utailla', 'includes/batch');
+  batch_set(utailla_migrate_contributors_batch());
   drush_backend_batch_process();
 }
 

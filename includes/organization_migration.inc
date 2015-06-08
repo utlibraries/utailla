@@ -40,35 +40,13 @@ function utailla_migrate_organization($org_info) {
     $object->models = array(UTAILLA_ORG_CMODEL);
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_ORG_COLLECTION);
     $object->label = isset($org['fullname']) ? $org['fullname'] : 'Organization';
+    utailla_set_user_rels($object, $org);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
     $mads_ds->label = 'MADS Record';
     $mads_ds->mimetype = 'application/xml';
     $mads_ds->content = utailla_build_organization_mads($org);
     $object->ingestDatastream($mads_ds);
-
-    // Link to user.
-    if ($org['user_id']) {
-      $uid = utailla_get_migrated_user_uid($org['user_id']);
-      if ($uid) {
-        $object->relationships->add(
-          ISLANDORA_RELS_EXT_URI,
-          UTAILLA_USER_REL,
-          utailla_get_uri_from_user($uid)
-        );
-      }
-    }
-    // Link to contact user.
-    if ($org['contact_id']) {
-      $uid = utailla_get_migrated_contact_uid($org['contact_id']);
-      if ($uid) {
-        $object->relationships->add(
-          ISLANDORA_RELS_EXT_URI,
-          UTAILLA_CONTACT_REL,
-          utailla_get_uri_from_user($uid)
-        );
-      }
-    }
 
     $tuque->repository->ingestObject($object);
     utailla_log_organization_mapping($org['organization_id'], $object->id);
@@ -95,6 +73,7 @@ function utailla_migrate_organization($org_info) {
 function utailla_build_organization_mads($org) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   $writer = utailla_get_mads_writer();
+  utailla_write_common_mads($writer, $org);
 
   // Organization name.
   if ($org['fullname']) {
@@ -135,39 +114,9 @@ function utailla_build_organization_mads($org) {
     $writer->text($org['parent_institution']);
     $writer->endElement();
   }
-  // English description.
-  if ($org['description_en']) {
-    $writer->startElement('note');
-    $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttribute('lang', 'en');
-    $writer->text($org['description_en']);
-    $writer->endElement();
-  }
-  // Spanish description.
-  if ($org['description_sp']) {
-    $writer->startElement('note');
-    $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttribute('lang', 'sp');
-    $writer->text($org['description_sp']);
-    $writer->endElement();
-  }
-  // Depositor status.
-  if ($org['depositor']) {
-    $writer->startElement('note');
-    $writer->writeAttribute('type', 'depositor status');
-    $writer->text($org['depositor']);
-    $writer->endElement();
-  }
   // Languages.
   foreach ($org['languages'] as $language) {
-    $pid = utailla_migrated_language_pid($language['language_id']);
-    if ($pid) {
-      $writer->startElement('fieldOfActivity');
-      $writer->writeAttribute('type', 'research language');
-      $writer->writeAttribute('authority', 'aillaLanguage');
-      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
-      $writer->endElement();
-    }
+    utailla_write_mads_language($writer, $language['language_id']);
   }
 
   $writer->endElement();

@@ -157,6 +157,7 @@ function utailla_schema() {
     ),
     'primary key' => array('country_id', 'pid'),
   );
+
   $schema['utailla_organization_map'] = array(
     'description' => 'Migration map of organizations.',
     'fields' => array(
@@ -174,6 +175,25 @@ function utailla_schema() {
       ),
     ),
     'primary key' => array('organization_id'),
+  );
+
+  $schema['utailla_contributor_map'] = array(
+    'description' => 'Migration map of contributors.',
+    'fields' => array(
+      'contributor_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('contributor_id'),
   );
   return $schema;
 }
@@ -268,4 +288,30 @@ function utailla_update_7003() {
     'primary key' => array('organization_id'),
   );
   db_create_table('utailla_organization_map', $schema['utailla_organization_map']);
+}
+
+/**
+ * Add contributor migration mapping table.
+ */
+function utailla_update_7004() {
+  $schema = array();
+  $schema['utailla_contributor_map'] = array(
+    'description' => 'Migration map of contributors.',
+    'fields' => array(
+      'contributor_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('contributor_id'),
+  );
+  db_create_table('utailla_contributor_map', $schema['utailla_contributor_map']);
 }
