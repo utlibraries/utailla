@@ -11,19 +11,24 @@ function utailla_migrate_resources_batch_operation(&$context) {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   $sandbox =& $context['sandbox'];
   if (!isset($sandbox['resources'])) {
+    $start = 0;
     $sandbox['progress'] = 0;
-    $sandbox['resources'] = utailla_get_resource_info();
-    $sandbox['total'] = count($sandbox['resources']);
+    $sandbox['resources'] = utailla_get_resource_info($start, UTAILLA_LIMIT_FOR_RESOURCE_IMPORT);
+    $sandbox['total'] = utailla_get_resource_count();
   }
   $resource = array_shift($sandbox['resources']);
   utailla_migrate_resource($resource);
-
   $sandbox['progress']++;
+  $start += UTAILLA_LIMIT_FOR_RESOURCE_IMPORT;
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
   $context['message'] = t('Processed @progress of @total.', array(
     '@progress' => $sandbox['progress'],
     '@total' => $sandbox['total'],
   ));
+  // Get the next set of resources until the import is finished.
+  if (!$context['finished'] && empty($sandbox['resources'])) {
+    $sandbox['resources'] = utailla_get_resource_info($start, UTAILLA_LIMIT_FOR_RESOURCE_IMPORT);
+  }
 }
 
 /**

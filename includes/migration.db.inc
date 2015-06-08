@@ -31,14 +31,31 @@ function utailla_get_organization_info() {
 
   return $organizations;
 }
-
 /**
- * Gets all the info relevant to resources.
+ * Get the total number of rows from the resource import table.
  */
-function utailla_get_resource_info() {
+function utailla_get_resource_count() {
   $query = utailla_get_migration_database()
     ->select('resource', 'r')
     ->fields('r');
+  $count = $query->countQuery()->execute()->fetchField();
+  return $count;
+}
+
+/**
+ * Gets all the info relevant to resources.
+ *
+ * @param int $start
+ *   The first record from the result set to return.
+ * @param int $end
+ *   The Number of records to return from the result set.
+ */
+function utailla_get_resource_info($start = NULL, $end = 1000) {
+  // Uses a range on the resource table due to a drush processing issue.
+  $query = utailla_get_migration_database()
+    ->select('resource', 'r')
+    ->fields('r')
+    ->range($start, $end);
   $resources = $query->execute()->fetchAllAssoc('resource_id');
 
   foreach ($resources as $resrouce_id => &$resource) {
@@ -88,7 +105,6 @@ function utailla_get_resource_info() {
       ->execute()
       ->fetchAll();
   }
-
   return $resources;
 }
 

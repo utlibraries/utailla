@@ -11,6 +11,7 @@ define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
+define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 1000);
 
 /**
  * Implements hook_islandora_required_objects().
@@ -81,7 +82,6 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $resource_cmodel->label = 'Resource Content Model';
   $resource_cmodel->models = 'fedora-system:ContentModel-3.0';
   utailla_set_ds_composite($resource_cmodel, 'resource_composite_model.xml');
-
 
   return array(
     'utailla' => array(
