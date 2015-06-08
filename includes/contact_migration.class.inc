@@ -51,6 +51,10 @@ class UtaillaContactMigration extends UtaillaBaseMigration {
     else {
       $row->name = $row->contact_id;
     }
-    $row->name = truncate_utf8($row->name, 60, TRUE);
+    $row->name = html_entity_decode(
+      truncate_utf8($row->name, 60, TRUE),
+      ENT_QUOTES,
+      'UTF-8'
+    );
   }
 }
