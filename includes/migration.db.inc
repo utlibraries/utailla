@@ -12,6 +12,32 @@ function utailla_get_migration_database() {
 }
 
 /**
+ * Get all the info relevant to contributors.
+ */
+function utailla_get_contributor_info($offset = NULL, $limit = 100) {
+  $query = utailla_get_migration_database()
+    ->select('contributor')
+    ->range($offset, $limit)
+    ->fields('contributor');
+  $contributors = $query->execute()->fetchAllAssoc('contributor_id');
+  foreach ($contributors as $id => &$contributor) {
+    $contributor->languages = utailla_get_migration_database()
+      ->select('contributor_to_language', 'cl')
+      ->fields('cl')
+      ->condition('contributor_id', $id)
+      ->execute()
+      ->fetchAll();
+    $contributor->organizations = utailla_get_migration_database()
+      ->select('contributor_to_organization', 'co')
+      ->fields('co')
+      ->condition('contributor_id', $id)
+      ->execute()
+      ->fetchAll();
+  }
+  return $contributors;
+}
+
+/**
  * Gets all the info relevant to organizations.
  */
 function utailla_get_organization_info() {
@@ -246,20 +272,37 @@ function utailla_log_resource_mapping($resource_id, $pid) {
 }
 
 /**
+ * Log a contributor mapping.
+ */
+function utailla_log_contributor_mapping($id, $pid) {
+  db_insert('utailla_contributor_map')
+    ->fields(
+      array(
+        'contributor_id' => $id,
+        'pid' => $pid,
+      )
+    )
+    ->execute();
+}
+
+/**
+ * PID of a contributor that has been migrated.
+ */
+function utailla_migrated_contributor_pid($id) {
+  return db_select('utailla_contributor_map')
+    ->fields('utailla_contributor_map', array('pid'))
+    ->condition('utailla_contributor_map.contributor_id', $id)
+    ->execute()
+    ->fetchField();
+}
+
+/**
  * Get migrated UID if one exists.
  */
 function utailla_get_migrated_user_uid($user_id) {
   $map = utailla_get_user_migration_map();
   $source = $map->lookupDestinationID(array($user_id));
   return isset($source['destid1']) ? $source['destid1'] : NULL;
-}
-
-/**
- * PID of a collection if it has been migrated.
- */
-function utailla_migrated_contributor_pid($collection_id) {
-  // TODO: Remove PLACEHOLDER.
-  return NULL;
 }
 
 /**
@@ -304,4 +347,14 @@ function utailla_get_contact_migration_map() {
     ),
     MigrateDestinationUser::getKeySchema()
   );
+}
+
+/**
+ * Get the number of contributors to migrate.
+ */
+function utailla_get_contributor_count() {
+  $query = utailla_get_migration_database()
+    ->select('contributor')
+    ->fields('contributor');
+  return $query->countQuery()->execute()->fetchField();
 }

@@ -36,17 +36,12 @@ class UtaillaContactMigration extends UtaillaBaseMigration {
    * @see Migration::prepareRow()
    */
   public function prepareRow($row) {
+    module_load_include('inc', 'utailla', 'includes/utilities');
     if ($row->fullname) {
       $row->name = $row->fullname;
     }
-    elseif ($row->first_name && !$row->last_name) {
-      $row->name = $row->first_name;
-    }
-    elseif ($row->last_name && !$row->first_name) {
-      $row->name = $row->last_name;
-    }
-    elseif ($row->last_name && $row->first_name) {
-      $row->name = "{$row->first_name} {$row->last_name}";
+    elseif ($row->first_name || $row->last_name) {
+      $row->name = utailla_concat_name_parts($row);
     }
     else {
       $row->name = $row->contact_id;
