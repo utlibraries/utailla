@@ -111,7 +111,7 @@ function utailla_build_contributor_mads($contributor) {
   }
 
   // Birth date.
-  if ($contributor['birth_date']) {
+  if ($contributor['birth_date'] && $contributor['birth_date'] != '0000-00-00') {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
     $writer->text($contributor['birth_date']);
