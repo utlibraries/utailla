@@ -5,6 +5,16 @@
  */
 
 /**
+ * Batch array for migrating contributors.
+ */
+function utailla_migrate_contributors_batch() {
+  return array(
+    'operations' => array(array('utailla_migrate_contributors_batch_operation', array())),
+    'file' => drupal_get_path('module', 'utailla') . '/includes/contributor_migration.inc',
+  );
+}
+
+/**
  * Batch array for migrating collections.
  */
 function utailla_migrate_collections_batch() {

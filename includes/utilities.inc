@@ -106,3 +106,97 @@ function utailla_get_mads_writer() {
 
   return $writer;
 }
+
+/**
+ * Sets the user relations on an object based on the originating DB row.
+ */
+function utailla_set_user_rels(AbstractObject $object, $row) {
+  // Link to user.
+  if ($row['user_id']) {
+    $uid = utailla_get_migrated_user_uid($row['user_id']);
+    if ($uid) {
+      $object->relationships->add(
+        ISLANDORA_RELS_EXT_URI,
+        UTAILLA_USER_REL,
+        utailla_get_uri_from_user($uid)
+      );
+    }
+  }
+  // Link to contact user.
+  if ($row['contact_id']) {
+    $uid = utailla_get_migrated_contact_uid($row['contact_id']);
+    if ($uid) {
+      $object->relationships->add(
+        ISLANDORA_RELS_EXT_URI,
+        UTAILLA_CONTACT_REL,
+        utailla_get_uri_from_user($uid)
+      );
+    }
+  }
+}
+
+/**
+ * Concatenate name parts based on a DB row.
+ */
+function utailla_concat_name_parts($db_row) {
+  $name = '';
+  $row = (object) $db_row;
+  if ($row->first_name && !$row->last_name) {
+    $name = $row->first_name;
+  }
+  elseif ($row->last_name && !$row->first_name) {
+    $name = $row->last_name;
+  }
+  elseif ($row->last_name && $row->first_name) {
+    $name = "{$row->first_name} {$row->last_name}";
+  }
+  return $name;
+}
+
+/**
+ * Writes common MADS elements based on a db row.
+ */
+function utailla_write_common_mads($writer, $row) {
+  // English description.
+  if (trim($row['description_en'])) {
+    $writer->startElement('note');
+    $writer->writeAttribute('type', 'biographical/historical');
+    $writer->writeAttribute('lang', 'en');
+    $writer->text($row['description_en']);
+    $writer->endElement();
+  }
+  // Spanish description.
+  if (trim($row['description_sp'])) {
+    $writer->startElement('note');
+    $writer->writeAttribute('type', 'biographical/historical');
+    $writer->writeAttribute('lang', 'sp');
+    $writer->text($row['description_sp']);
+    $writer->endElement();
+  }
+  // Depositor status.
+  if ($row['depositor']) {
+    $writer->startElement('note');
+    $writer->writeAttribute('type', 'depositor status');
+    if ($row['depositor'] == 'Y') {
+      $writer->text('yes');
+    }
+    else {
+      $writer->text('no');
+    }
+    $writer->endElement();
+  }
+}
+
+/**
+ * Writes a language MADS element.
+ */
+function utailla_write_mads_language($writer, $language_id, $type = 'research language') {
+  $pid = utailla_migrated_language_pid($language_id);
+  if ($pid) {
+    $writer->startElement('fieldOfActivity');
+    $writer->writeAttribute('type', $type);
+    $writer->writeAttribute('authority', 'aillaLanguage');
+    $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+    $writer->endElement();
+  }
+}
