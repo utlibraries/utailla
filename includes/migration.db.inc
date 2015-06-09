@@ -45,17 +45,17 @@ function utailla_get_resource_count() {
 /**
  * Gets all the info relevant to resources.
  *
- * @param int $start
- *   The first record from the result set to return.
- * @param int $end
- *   The Number of records to return from the result set.
+ * @param int $offset
+ *   The offset when selecting records from the resource table.
+ * @param int $limit
+ *   The Number of records to return from the resource table query.
  */
-function utailla_get_resource_info($start = NULL, $end = 1000) {
+function utailla_get_resource_info($offset = NULL, $limit = UTAILLA_LIMIT_FOR_RESOURCE_IMPORT) {
   // Uses a range on the resource table due to a drush processing issue.
   $query = utailla_get_migration_database()
     ->select('resource', 'r')
     ->fields('r')
-    ->range($start, $end);
+    ->range($offset, $limit);
   $resources = $query->execute()->fetchAllAssoc('resource_id');
 
   foreach ($resources as $resrouce_id => &$resource) {
