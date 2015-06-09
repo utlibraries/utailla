@@ -278,3 +278,30 @@ function utailla_get_user_migration_map() {
     MigrateDestinationUser::getKeySchema()
   );
 }
+
+/**
+ * Get migrated UID if one exists from contact_id.
+ */
+function utailla_get_migrated_contact_uid($id) {
+  $map = utailla_get_contact_migration_map();
+  $source = $map->lookupDestinationID(array($id));
+  return isset($source['destid1']) ? $source['destid1'] : NULL;
+}
+
+/**
+ * Get the contact migration map object.
+ */
+function utailla_get_contact_migration_map() {
+  return new MigrateSQLMap(
+    UTAILLA_CONTACT_MIGRATION,
+    array(
+      'contact_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'alias' => 'c',
+      ),
+    ),
+    MigrateDestinationUser::getKeySchema()
+  );
+}

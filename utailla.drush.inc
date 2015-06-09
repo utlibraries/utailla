@@ -88,8 +88,10 @@ function utailla_drush_command() {
  */
 function drush_utailla_migrate_all() {
   module_load_include('inc', 'utailla', '/includes/batch');
-  $migration = Migration::getInstance(UTAILLA_USER_MIGRATION);
-  $migration->processImport();
+  $user_migration = Migration::getInstance(UTAILLA_USER_MIGRATION);
+  $user_migration->processImport();
+  $contact_migration = Migration::getInstance(UTAILLA_CONTACT_MIGRATION);
+  $contact_migration->processImport();
   batch_set(utailla_migrate_languages_batch());
   batch_set(utailla_migrate_countries_batch());
   batch_set(utailla_migrate_collections_batch());

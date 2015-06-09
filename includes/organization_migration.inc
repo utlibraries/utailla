@@ -53,7 +53,18 @@ function utailla_migrate_organization($org_info) {
       if ($uid) {
         $object->relationships->add(
           ISLANDORA_RELS_EXT_URI,
-          'hasAssociatedUser',
+          UTAILLA_USER_REL,
+          utailla_get_uri_from_user($uid)
+        );
+      }
+    }
+    // Link to contact user.
+    if ($org['contact_id']) {
+      $uid = utailla_get_migrated_contact_uid($org['contact_id']);
+      if ($uid) {
+        $object->relationships->add(
+          ISLANDORA_RELS_EXT_URI,
+          UTAILLA_CONTACT_REL,
           utailla_get_uri_from_user($uid)
         );
       }

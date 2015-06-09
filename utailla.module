@@ -11,7 +11,11 @@ define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
+define('UTAILLA_CONTACT_MIGRATION', 'UtaillaContact');
 define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 1000);
+// Relationships.
+define('UTAILLA_USER_REL', 'hasAssociatedUser');
+define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 
 /**
  * Implements hook_islandora_required_objects().

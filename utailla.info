@@ -7,4 +7,6 @@ dependencies[] = migrate
 dependencies[] = field_group
 version = 7.x-dev
 core = 7.x
+files[] = includes/base_migration.class.inc
 files[] = includes/user_migration.class.inc
+files[] = includes/contact_migration.class.inc
