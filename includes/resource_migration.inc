@@ -10,20 +10,17 @@
 function utailla_migrate_resources_batch_operation(&$context) {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   $sandbox =& $context['sandbox'];
-  if (!isset($sandbox['resources'])) {
-    $sandbox['offset'] = 0;
-    $sandbox['resources'] = utailla_get_resource_info($sandbox['offset']);
+  if (!isset($sandbox['total'])) {
+    $sandbox['progress'] = 0;
     $sandbox['total'] = utailla_get_resource_count();
   }
-  $resource = array_shift($sandbox['resources']);
-  // Get the next set of resources until the import is finished.
-  if (empty($resource)) {
-    $sandbox['offset'] += UTAILLA_LIMIT_FOR_RESOURCE_IMPORT;
-    $sandbox['resources'] = utailla_get_resource_info($sandbox['offset']);
-    $resource = array_shift($sandbox['resources']);
+
+  $resources = utailla_get_resource_info($sandbox['progress']);
+  foreach ($resources as $resource) {
+    utailla_migrate_resource($resource);
+    $sandbox['progress']++;
   }
-  utailla_migrate_resource($resource);
-  $sandbox['progress']++;
+
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
   $context['message'] = t('Processed @progress of @total.', array(
     '@progress' => $sandbox['progress'],
@@ -154,7 +151,6 @@ function utailla_build_resource_mads($resource) {
     if ($object) {
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
-      $writer->writeAttribute('type', 'corporate');
       $writer->startElement('namePart');
       // Contributor.
       $writer->text($object->label);
@@ -164,11 +160,11 @@ function utailla_build_resource_mads($resource) {
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'eng');
       $writer->text($contributor['role_name']);
+      $writer->endElement();
       // Role in spanish.
-      $writer->startElement('role');
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
-      $writer->writeAttribute('lang', 'eng');
+      $writer->writeAttribute('lang', 'spa');
       $writer->text($contributor['papel_nombre']);
       $writer->endElement();
       $writer->endElement();
@@ -186,6 +182,7 @@ function utailla_build_resource_mads($resource) {
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('authority', 'aillaLanguage');
       $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+      $writer->endElement();
       $writer->endElement();
     }
   }

@@ -14,7 +14,7 @@ define('UTAILLA_CONTRIBUTOR_CMODEL', 'ailla:contributorCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
 define('UTAILLA_CONTACT_MIGRATION', 'UtaillaContact');
-define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 1000);
+define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 100);
 // Relationships.
 define('UTAILLA_USER_REL', 'hasAssociatedUser');
 define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
