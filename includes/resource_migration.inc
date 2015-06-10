@@ -52,35 +52,35 @@ function utailla_migrate_resource($resource_info) {
     // Note: some of the data being migrated has empty title_text.
     $english = $spanish = $other = NULL;
     if ($resource['titles']) {
+      // Try to set the label to the english title.
       foreach ($resource['titles'] as $title) {
-        switch ($title['language']) {
-          case 'other':
-            $other = $title['title_text'];
-            break;
-
-          case 'en':
-            $english = $title['title_text'];
-            break;
-
-          case 'sp':
-            $spanish = $title['title_text'];
-            break;
+        if ($title['language'] == 'en' && !empty($title['title_text'])) {
+          $object->label = $title['title_text'];
+          break;
         }
       }
-    }
-
-    // Title order: english > spanish > other > "Resource".
-    if (!empty($english)) {
-      $object->label = $english;
-    }
-    elseif (!empty($spanish)) {
-      $object->label = $spanish;
-    }
-    elseif (!empty($other)) {
-      $object->label = $other;
-    }
-    else {
-      $object->label = 'Resource';
+      // Try to set the label to the spanish title.
+      if (!$object->label) {
+        foreach ($resource['titles'] as $title) {
+          if ($title['language'] == 'sp' && !empty($title['title_text'])) {
+            $object->label = $title['title_text'];
+            break;
+          }
+        }
+        // Try to set the label to the other title.
+        if (!$object->label) {
+          foreach ($resource['titles'] as $title) {
+            if ($title['language'] == 'other' && !empty($title['title_text'])) {
+              $object->label = $title['title_text'];
+              break;
+            }
+          }
+          // If it's still not set use "Resource" as label.
+          if (!$object->label) {
+            $object->label = 'Resource';
+          }
+        }
+      }
     }
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
