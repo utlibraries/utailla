@@ -219,7 +219,7 @@ function utailla_build_resource_mads($resource) {
 
       }
       $writer->writeAttribute('displayLabel', 'Collection Description');
-      $writer->text($description['description']);
+      $writer->text($description['description_text']);
       $writer->endElement();
     }
   }
