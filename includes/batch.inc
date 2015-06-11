@@ -63,3 +63,13 @@ function utailla_migrate_countries_batch($db = 'for_migration') {
     ),
   );
 }
+
+/**
+ * Batch array for migrating resources.
+ */
+function utailla_migrate_resources_batch() {
+  return array(
+    'operations' => array(array('utailla_migrate_resources_batch_operation', array())),
+    'file' => drupal_get_path('module', 'utailla') . '/includes/resource_migration.inc',
+  );
+}

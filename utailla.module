@@ -8,11 +8,13 @@
 define('UTAILLA_COLLECTION', 'ailla:collection_collection');
 define('UTAILLA_ORG_COLLECTION', 'ailla:organization_collection');
 define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
+define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
 define('UTAILLA_CONTRIBUTOR_COLLECTION', 'ailla:contributor_collection');
 define('UTAILLA_CONTRIBUTOR_CMODEL', 'ailla:contributorCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
 define('UTAILLA_CONTACT_MIGRATION', 'UtaillaContact');
+define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 100);
 // Relationships.
 define('UTAILLA_USER_REL', 'hasAssociatedUser');
 define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
@@ -80,6 +82,13 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $org_cmodel->models = 'fedora-system:ContentModel-3.0';
   utailla_set_ds_composite($org_cmodel, 'organization_composite_model.xml');
 
+  // Resource content model.
+  $resource_cmodel = $connection->repository->constructObject(UTAILLA_RESOURCE_CMODEL);
+  $resource_cmodel->owner = 'fedoraAdmin';
+  $resource_cmodel->label = 'Resource Content Model';
+  $resource_cmodel->models = 'fedora-system:ContentModel-3.0';
+  utailla_set_ds_composite($resource_cmodel, 'resource_composite_model.xml');
+
   // Contributor collection.
   $contributor_collection = $connection->repository->constructObject(UTAILLA_CONTRIBUTOR_COLLECTION);
   $contributor_collection->owner = 'fedoraAdmin';
@@ -107,8 +116,9 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
         $org_collection,
         $org_cmodel,
         $contributor_collection,
-        $collection_collection,
         $contributor_cmodel,
+        $collection_collection,
+        $resource_cmodel,
       ),
     ),
   );

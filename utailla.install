@@ -176,7 +176,24 @@ function utailla_schema() {
     ),
     'primary key' => array('organization_id'),
   );
-
+  $schema['utailla_resource_map'] = array(
+    'description' => 'Migration map of resources.',
+    'fields' => array(
+      'resource_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('resource_id'),
+  );
   $schema['utailla_contributor_map'] = array(
     'description' => 'Migration map of contributors.',
     'fields' => array(
@@ -314,4 +331,30 @@ function utailla_update_7004() {
     'primary key' => array('contributor_id'),
   );
   db_create_table('utailla_contributor_map', $schema['utailla_contributor_map']);
+}
+
+/**
+ * Add resource migration mapping table.
+ */
+function utailla_update_7005() {
+  $schema = array();
+  $schema['utailla_resource_map'] = array(
+    'description' => 'Migration map of resources.',
+    'fields' => array(
+      'resource_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('resource_id'),
+  );
+  db_create_table('utailla_resource_map', $schema['utailla_resource_map']);
 }

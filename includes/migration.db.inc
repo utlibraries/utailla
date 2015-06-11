@@ -57,6 +57,82 @@ function utailla_get_organization_info() {
 
   return $organizations;
 }
+/**
+ * Get the total number of rows from the resource import table.
+ */
+function utailla_get_resource_count() {
+  $query = utailla_get_migration_database()
+    ->select('resource', 'r')
+    ->fields('r');
+  $count = $query->countQuery()->execute()->fetchField();
+  return $count;
+}
+
+/**
+ * Gets all the info relevant to resources.
+ *
+ * @param int $offset
+ *   The offset when selecting records from the resource table.
+ * @param int $limit
+ *   The Number of records to return from the resource table query.
+ */
+function utailla_get_resource_info($offset = NULL, $limit = UTAILLA_LIMIT_FOR_RESOURCE_IMPORT) {
+  // Uses a range on the resource table due to a drush processing issue.
+  $query = utailla_get_migration_database()
+    ->select('resource', 'r')
+    ->fields('r')
+    ->range($offset, $limit);
+  $resources = $query->execute()->fetchAllAssoc('resource_id');
+
+  foreach ($resources as $resrouce_id => &$resource) {
+    $resource->titles = utailla_get_migration_database()
+      ->select('resource_title', 'rt')
+      ->fields('rt')
+      ->condition('rt.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
+    $resource->descriptions = utailla_get_migration_database()
+      ->select('resource_description', 'rd')
+      ->fields('rd')
+      ->condition('rd.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
+    $resource->languages = utailla_get_migration_database()
+      ->select('language_to_resource', 'lr')
+      ->fields('lr')
+      ->condition('lr.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
+    $query = utailla_get_migration_database()
+      ->select('contributor_to_resource', 'conr');
+    $alias = $query->join('role', 'rl', 'rl.role_id=conr.role_id');
+    $resource->contributors = $query
+      ->fields('conr', array('contributor_id'))
+      ->fields($alias, array('role_id', 'role_name', 'papel_nombre'))
+      ->condition('conr.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
+    $resource->collections = utailla_get_migration_database()
+      ->select('collection_to_resource', 'collr')
+      ->fields('collr')
+      ->condition('collr.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
+    $query = utailla_get_migration_database()
+      ->select('genre_to_resource', 'gr');
+    $alias = $query->join('genre', 'g', 'g.genre_id=gr.genre_id');
+    $resource->genres = $query->fields($alias)
+      ->condition('gr.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+  }
+  return $resources;
+}
 
 /**
  * Gets all the info relevant to collections.
@@ -164,6 +240,31 @@ function utailla_log_organization_mapping($organization_id, $pid) {
     ->fields(
       array(
         'organization_id' => $organization_id,
+        'pid' => $pid,
+      )
+    )
+    ->execute();
+}
+
+/**
+ * PID of an resource if it has been migrated.
+ */
+function utailla_migrated_resource_pid($resource_id) {
+  return db_select('utailla_resource_map')
+    ->fields('utailla_resource_map', array('pid'))
+    ->condition('utailla_resource_map.resource_id', $resource_id)
+    ->execute()
+    ->fetchField();
+}
+
+/**
+ * Log an organization mapping from the old DB to Fedora.
+ */
+function utailla_log_resource_mapping($resource_id, $pid) {
+  db_insert('utailla_resource_map')
+    ->fields(
+      array(
+        'resource_id' => $resource_id,
         'pid' => $pid,
       )
     )

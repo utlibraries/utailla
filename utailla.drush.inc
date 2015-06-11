@@ -70,6 +70,16 @@ function utailla_drush_command() {
       'drush -u 1 -v utailla-migrate-organizations',
     ),
   );
+  $commands['utailla-migrate-resources'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Migrate resources.',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-migrate-resources',
+    ),
+  );
   $commands['utailla-migrate-contributors'] = array(
     'bootstrap' => DRUSH_BOOTSTRAP_MAX,
     'description' => 'Migrate contributors',
@@ -92,7 +102,17 @@ function drush_utailla_migrate_all() {
   batch_set(utailla_migrate_countries_batch());
   batch_set(utailla_migrate_collections_batch());
   batch_set(utailla_migrate_organizations_batch());
+  batch_set(utailla_migrate_resources_batch());
   batch_set(utailla_migrate_contributors_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Drush command callback for migrating resources.
+ */
+function drush_utailla_migrate_resources() {
+  module_load_include('inc', 'utailla', 'includes/batch');
+  batch_set(utailla_migrate_resources_batch());
   drush_backend_batch_process();
 }
 
@@ -109,7 +129,7 @@ function drush_utailla_migrate_contributors() {
  * Drush command callback for migrating organizations.
  */
 function drush_utailla_migrate_organizations() {
-  module_load_include('inc', 'utailla', '/includes/batch');
+  module_load_include('inc', 'utailla', 'includes/batch');
   batch_set(utailla_migrate_organizations_batch());
   drush_backend_batch_process();
 }
@@ -118,7 +138,7 @@ function drush_utailla_migrate_organizations() {
  * Drush command callback for migrating collections.
  */
 function drush_utailla_migrate_collections() {
-  module_load_include('inc', 'utailla', '/includes/batch');
+  module_load_include('inc', 'utailla', 'includes/batch');
   batch_set(utailla_migrate_collections_batch());
   drush_backend_batch_process();
 }
@@ -127,7 +147,7 @@ function drush_utailla_migrate_collections() {
  * Migrates the languages from AILLA's old database.
  */
 function drush_utailla_migrate_languages() {
-  module_load_include('inc', 'utailla', '/includes/batch');
+  module_load_include('inc', 'utailla', 'includes/batch');
   batch_set(utailla_migrate_languages_batch(drush_get_option('database', 'for_migration')));
   drush_backend_batch_process();
 }
@@ -170,8 +190,8 @@ function utailla_migrate_language_batch_operation($database, &$context) {
  * Construct an object if one doesn't already exist for the row.
  */
 function utailla_migrate_language_construct_object($row, $all_rows) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
-  module_load_include('inc', 'utailla', '/includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/utilities');
   // Check to see if one already exists for the language id.
   if (!utailla_migrated_language_pid($row->language_id)) {
     // Create a new object for this language and add it to our mapping table.
@@ -258,7 +278,7 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
  * Drush command callback to migrate countries from AILLA's database.
  */
 function drush_utailla_migrate_countries() {
-  module_load_include('inc', 'utailla', '/includes/batch');
+  module_load_include('inc', 'utailla', 'includes/batch');
   batch_set(utailla_migrate_countries_batch(drush_get_option('database', 'for_migration')));
   drush_backend_batch_process();
 }
@@ -300,7 +320,7 @@ function utailla_migrate_countries_batch_operation($database, &$context) {
  * Construct an object if one doesn't exist already for the row.
  */
 function utailla_migrate_country_construct_object($row) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
   module_load_include('inc', 'utailla', 'includes/utilities');
   // Check to see if one already exists for the language id.
   if (!utailla_migrated_country_pid($row->country_id)) {
