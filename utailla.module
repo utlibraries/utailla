@@ -123,3 +123,31 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
     ),
   );
 }
+
+/**
+ * Implements hook_islandora_xml_form_builder_forms().
+ */
+function utailla_islandora_xml_form_builder_forms() {
+  $module_path = drupal_get_path('module', 'utailla');
+  return array(
+    'Country MADS form' => array(
+      'form_file' => "$module_path/xml/country_mads_form.xml",
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_xml_form_builder_form_associations().
+ */
+function utailla_islandora_xml_form_builder_form_associations() {
+  return array(
+    'ailla_country_mads_form' => array(
+      'content_model' => 'ailla:countryCModel',
+      'form_name' => 'Country MADS form',
+      'dsid' => 'MADS',
+      'title_field' => array('authority', 'english_name'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+  );
+}
