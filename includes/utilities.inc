@@ -60,6 +60,8 @@ function utailla_get_decoded_row_recursive($row_object) {
         "\n",
         html_entity_decode($column, ENT_QUOTES, 'UTF-8')
       );
+      // Remove vertical tabs from data.
+      $row_array[$index] = preg_replace('/\v/', '', $row_array[$index]);
     }
   }
   return $row_array;

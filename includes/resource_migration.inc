@@ -50,7 +50,6 @@ function utailla_migrate_resource($resource_info) {
       }
     }
     // Note: some of the data being migrated has empty title_text.
-    $english = $spanish = $other = NULL;
     if ($resource['titles']) {
       // Try to set the label to the english title.
       foreach ($resource['titles'] as $title) {
