@@ -55,13 +55,14 @@ function utailla_get_decoded_row_recursive($row_object) {
       }
     }
     else {
+      module_load_include('inc', 'islandora', 'includes/utilities');
+      // Remove all invalid XML characters from string.
+      $row_array[$index] = islandora_sanitize_input_for_valid_xml($column);
       $row_array[$index] = preg_replace(
         '/<br\s*\/?>/i',
         "\n",
-        html_entity_decode($column, ENT_QUOTES, 'UTF-8')
+        html_entity_decode($row_array[$index], ENT_QUOTES, 'UTF-8')
       );
-      // Remove vertical tabs from data.
-      $row_array[$index] = preg_replace('/\v/', '', $row_array[$index]);
     }
   }
   return $row_array;
@@ -105,6 +106,22 @@ function utailla_get_mads_writer() {
   $writer->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
   $writer->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
   $writer->writeAttribute('xmlns:mads', 'http://www.loc.gov/mads/v2');
+
+  return $writer;
+}
+
+/**
+ * Get a MODS xml writer.
+ */
+function utailla_get_mods_writer() {
+  $writer = new XMLWriter();
+  $writer->openMemory();
+  $writer->startDocument('1.0', 'utf-8');
+  $writer->startElement('mods');
+  $writer->writeAttribute('xmlns', 'http://www.loc.gov/mods/v3');
+  $writer->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+  $writer->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+  $writer->writeAttribute('xmlns:mods', 'http://www.loc.gov/mods/v3');
 
   return $writer;
 }

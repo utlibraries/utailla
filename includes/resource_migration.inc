@@ -82,11 +82,11 @@ function utailla_migrate_resource($resource_info) {
       }
     }
 
-    $mads_ds = $object->constructDatastream('MADS', 'M');
-    $mads_ds->label = 'MADS Record';
-    $mads_ds->mimetype = 'application/xml';
-    $mads_ds->content = utailla_build_resource_mads($resource);
-    $object->ingestDatastream($mads_ds);
+    $mods_ds = $object->constructDatastream('MODS', 'M');
+    $mods_ds->label = 'MODS Record';
+    $mods_ds->mimetype = 'application/xml';
+    $mods_ds->content = utailla_build_resource_mods($resource);
+    $object->ingestDatastream($mods_ds);
 
     $tuque->repository->ingestObject($object);
     utailla_log_resource_mapping($resource['resource_id'], $object->id);
@@ -108,11 +108,11 @@ function utailla_migrate_resource($resource_info) {
 }
 
 /**
- * Get content for an resource's MADS DS.
+ * Get content for an resource's MODS DS.
  */
-function utailla_build_resource_mads($resource) {
+function utailla_build_resource_mods($resource) {
   module_load_include('inc', 'utailla', 'includes/utilities');
-  $writer = utailla_get_mads_writer();
+  $writer = utailla_get_mods_writer();
 
   // Titles.
   if ($resource['titles']) {
