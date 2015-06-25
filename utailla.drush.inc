@@ -86,7 +86,56 @@ function utailla_drush_command() {
     'drupal_dependencies' => array('islandora'),
     'examples' => array('drush -u 1 -v utailla-migrate-contributors'),
   );
+  $commands['utailla-dev-prep'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'DO NOT RUN ON PROD IS DESTRUCTIVE',
+    'drupal_dependencies' => array('islandora'),
+    'examples' => array('drush -u 1 -v utailla-dev-prep'),
+  );
   return $commands;
+}
+
+/**
+ * Drush command callback to prep for deving/testing the media migration.
+ */
+function drush_utailla_dev_prep() {
+  module_load_include('inc', 'utailla', 'includes/migration.db');
+  $steps = 5;
+  $records = array();
+  // Get all types.
+  $type_results = utailla_get_migration_database()
+    ->select('media_format')
+    ->fields('media_format', array('media_format_id'))
+    ->execute()
+    ->fetchAllAssoc('media_format_id');
+  $types = array_keys($type_results);
+  $counted_types = array();
+  // Count each type.
+  foreach ($types as $type) {
+    $count = utailla_get_migration_database()
+      ->select('media_file')
+      ->condition('media_format_id', $type)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    // Describe sample.
+    if ($count) {
+      $step_size = floor($count / ($steps - 1) - 1);
+      for ($step = 0; $step < $steps; $step++) {
+        $offset = $step * $step_size;
+        $record = utailla_get_migration_database()
+          ->select('media_file', 'm')
+          ->fields('m')
+          ->condition('media_format_id', $type)
+          ->range($offset, 1)
+          ->execute()
+          ->fetchAssoc('media_file_id');
+        $records[] = $record;
+      }
+    }
+  }
+  dsm($records);
+  // Backup and subset DB.
 }
 
 /**
