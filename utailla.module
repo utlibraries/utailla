@@ -11,6 +11,8 @@ define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
 define('UTAILLA_CONTRIBUTOR_COLLECTION', 'ailla:contributor_collection');
 define('UTAILLA_CONTRIBUTOR_CMODEL', 'ailla:contributorCModel');
+define('UTAILLA_LANGUAGE_CMODEL', 'ailla:languageCModel');
+define('UTAILLA_COUNTRY_CMODEL', 'ailla:countryCModel');
 // Migrations.
 define('UTAILLA_USER_MIGRATION', 'UtaillaUser');
 define('UTAILLA_CONTACT_MIGRATION', 'UtaillaContact');
@@ -18,6 +20,35 @@ define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 100);
 // Relationships.
 define('UTAILLA_USER_REL', 'hasAssociatedUser');
 define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
+// Autocomplete paths.
+define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
+define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
+
+/**
+ * Implements hook_menu().
+ */
+function utailla_menu() {
+  $items = array();
+  $items[UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete parent language callback',
+    'description' => 'Autocomplete to get a language object\'s title.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_title_by_model_autocomplete',
+    'page arguments' => array(3, UTAILLA_LANGUAGE_CMODEL),
+    'access arguments' => array('Edit metadata'),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_COUNTRY_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete country callback',
+    'description' => 'Autocomplete to get a country object\'s title.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_title_by_model_autocomplete',
+    'page arguments' => array(3, UTAILLA_COUNTRY_CMODEL),
+    'access arguments' => array('Edit metadata'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
 
 /**
  * Implements hook_islandora_required_objects().
@@ -27,7 +58,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   $module_path = drupal_get_path('module', 'utailla');
 
   // Language content model.
-  $language_cmodel = $connection->repository->constructObject('ailla:languageCModel');
+  $language_cmodel = $connection->repository->constructObject(UTAILLA_LANGUAGE_CMODEL);
   $language_cmodel->owner = 'fedoraAdmin';
   $language_cmodel->label = 'Ailla Language Content Model';
   $language_cmodel->models = 'fedora-system:ContentModel-3.0';
@@ -43,7 +74,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   utailla_set_default_thumb($language_collection);
 
   // Country content model.
-  $country_cmodel = $connection->repository->constructObject('ailla:countryCModel');
+  $country_cmodel = $connection->repository->constructObject(UTAILLA_COUNTRY_CMODEL);
   $country_cmodel->owner = 'fedoraAdmin';
   $country_cmodel->label = 'Ailla Country Content Model';
   $country_cmodel->models = 'fedora-system:ContentModel-3.0';
@@ -133,6 +164,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Country MADS form' => array(
       'form_file' => "$module_path/xml/country_mads_form.xml",
     ),
+    'Language form' => array(
+      'form_file' => "$module_path/xml/language_form.xml",
+    ),
   );
 }
 
@@ -146,6 +180,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Country MADS form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'english_name'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_language_form' => array(
+      'content_model' => 'ailla:languageCModel',
+      'form_name' => 'Language form',
+      'dsid' => 'LANGUAGE',
+      'title_field' => array('name_english'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
