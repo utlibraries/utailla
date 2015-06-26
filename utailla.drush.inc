@@ -91,6 +91,17 @@ function utailla_drush_command() {
     'description' => 'DO NOT RUN ON PROD IS DESTRUCTIVE',
     'drupal_dependencies' => array('islandora'),
     'examples' => array('drush -u 1 -v utailla-dev-prep'),
+    'options' => array(
+      'dir' => array(
+        'description' => dt("Directory to place scp'd files in."),
+      ),
+      'scp_user' => array(
+        'description' => dt('The user for scp.'),
+      ),
+      'password' => array(
+        'description' => dt('The password for scp.'),
+      ),
+    ),
   );
   return $commands;
 }
@@ -102,6 +113,11 @@ function drush_utailla_dev_prep() {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   $steps = 5;
   $records = array();
+  $target_dir = drush_get_option('dir');
+  $scp_conn = ssh2_connect('islandora-ailla.lib.utexas.edu');
+  ssh2_auth_password($scp_conn, drush_get_option('scp_user'), drush_get_option('password'));
+  // Fix broken DB.
+  $db = utailla_get_migration_database();
   // Get all types.
   $type_results = utailla_get_migration_database()
     ->select('media_format')
@@ -131,11 +147,38 @@ function drush_utailla_dev_prep() {
           ->execute()
           ->fetchAssoc('media_file_id');
         $records[] = $record;
+        // SCP some files down.
+        if (($step % 2) == 1) {
+          mkdir("$target_dir{$record['directory_path']}", 0777, TRUE);
+          ssh2_scp_recv(
+            $scp_conn,
+            "/ailla/media{$record['directory_path']}{$record['identifier']}",
+            "$target_dir{$record['directory_path']}{$record['identifier']}"
+          );
+        }
       }
     }
   }
-  dsm($records);
   // Backup and subset DB.
+  $db->query('CREATE TABLE media_file_backup SELECT * FROM media_file');
+  $db->query('truncate media_file');
+  db_set_active('for_migration');
+  $nullable = array('orig_rec_speed');
+  $unsetable = array('archival_object');
+  foreach ($records as $record) {
+    foreach ($record as $field_name => &$field) {
+      if ($field === '' && in_array($field_name, $nullable)) {
+        $field = NULL;
+      }
+      elseif ($field === '' && in_array($field_name, $unsetable)) {
+        unset($record[$field_name]);
+      }
+    }
+    db_insert('media_file')
+      ->fields($record)
+      ->execute();
+  }
+  db_set_active();
 }
 
 /**
