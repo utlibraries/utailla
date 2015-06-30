@@ -358,3 +358,131 @@ function utailla_get_contributor_count() {
     ->fields('contributor');
   return $query->countQuery()->execute()->fetchField();
 }
+
+/**
+ * Get the basic info relevant to media_files.
+ */
+function utailla_get_media_files() {
+  return utailla_get_migration_database()
+    ->select('media_file')
+    ->fields('media_file')
+    ->execute()
+    ->fetchAllAssoc('media_file_id');
+}
+
+/**
+ * Get all genres.
+ */
+function utailla_get_genres() {
+  return utailla_get_migration_database()
+    ->select('media_content_type')
+    ->fields('media_content_type')
+    ->execute()
+    ->fetchAllAssoc('media_content_id');
+}
+
+/**
+ * Get all encodings.
+ */
+function utailla_get_encodings() {
+  return utailla_get_migration_database()
+    ->select('encoding')
+    ->fields('encoding')
+    ->execute()
+    ->fetchAllAssoc('encoding_id');
+}
+
+/**
+ * Get all platforms.
+ */
+function utailla_get_platforms() {
+  return utailla_get_migration_database()
+    ->select('digi_platform')
+    ->fields('digi_platform')
+    ->execute()
+    ->fetchAllAssoc('digi_platform_id');
+}
+
+/**
+ * Get all mediums.
+ */
+function utailla_get_mediums() {
+  return utailla_get_migration_database()
+    ->select('orig_medium')
+    ->fields('orig_medium')
+    ->execute()
+    ->fetchAllAssoc('orig_medium_id');
+}
+
+/**
+ * Get all the collections for the media_file.
+ */
+function utailla_get_media_file_collections($id) {
+  $collections = utailla_get_migration_database()
+    ->select('collection_to_media')
+    ->fields('collection_to_media', array('collection_id'))
+    ->condition('collection_to_media.media_file_id', $id)
+    ->execute()
+    ->fetchAllAssoc('collection_id');
+  foreach ($collections as $collection_id => &$collection) {
+    $collection = utailla_migrated_collection_pid($collection_id);
+  }
+  return array_values($collections);
+}
+
+/**
+ * Get all the resources for the media_file.
+ */
+function utailla_get_media_file_resources($id) {
+  $resources = utailla_get_migration_database()
+    ->select('resource_to_media')
+    ->fields('resource_to_media', array('resource_id'))
+    ->condition('resource_to_media.media_file_id', $id)
+    ->execute()
+    ->fetchAllAssoc('resource_id');
+  foreach ($resources as $resource_id => &$resource) {
+    $resource = utailla_migrated_resource_pid($resource_id);
+  }
+  return array_values($resources);
+}
+
+/**
+ * Get all the resources for the media_file.
+ */
+function utailla_get_media_file_languages($id) {
+  $languages = utailla_get_migration_database()
+    ->select('language_to_media')
+    ->fields('language_to_media', array('language_id'))
+    ->condition('language_to_media.media_file_id', $id)
+    ->execute()
+    ->fetchAllAssoc('language_id');
+  foreach ($languages as $language_id => &$language) {
+    $language = utailla_migrated_language_pid($language_id);
+  }
+  return array_values($languages);
+}
+
+/**
+ * PID of a media file if it has been migrated.
+ */
+function utailla_migrated_media_file_pid($id) {
+  return db_select('utailla_media_file_map')
+    ->fields('utailla_media_file_map', array('pid'))
+    ->condition('utailla_media_file_map.media_file_id', $id)
+    ->execute()
+    ->fetchField();
+}
+
+/**
+ * Log a media file mapping from the old DB to Fedora.
+ */
+function utailla_log_media_file_mapping($id, $pid) {
+  db_insert('utailla_media_file_map')
+    ->fields(
+      array(
+        'media_file_id' => $id,
+        'pid' => $pid,
+      )
+    )
+    ->execute();
+}

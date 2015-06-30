@@ -212,6 +212,24 @@ function utailla_schema() {
     ),
     'primary key' => array('contributor_id'),
   );
+  $schema['utailla_media_file_map'] = array(
+    'description' => 'Migration map of media files.',
+    'fields' => array(
+      'media_file_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('media_file_id'),
+  );
   return $schema;
 }
 
@@ -357,4 +375,30 @@ function utailla_update_7005() {
     'primary key' => array('resource_id'),
   );
   db_create_table('utailla_resource_map', $schema['utailla_resource_map']);
+}
+
+/**
+ * Add media file migration mapping table.
+ */
+function utailla_update_7006() {
+  $schema = array();
+  $schema['utailla_media_file_map'] = array(
+    'description' => 'Migration map of media files.',
+    'fields' => array(
+      'media_file_id' => array(
+        'description' => 'DB side of the map.',
+        'type' => 'int',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora side of the map.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('media_file_id'),
+  );
+  db_create_table('utailla_media_file_map', $schema['utailla_media_file_map']);
 }
