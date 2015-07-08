@@ -113,7 +113,6 @@ function utailla_schema() {
       'collection_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -130,7 +129,6 @@ function utailla_schema() {
     'fields' => array(
       'language_id' => array(
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -146,7 +144,6 @@ function utailla_schema() {
     'fields' => array(
       'country_id' => array(
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -164,7 +161,6 @@ function utailla_schema() {
       'organization_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -182,7 +178,6 @@ function utailla_schema() {
       'resource_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -200,7 +195,6 @@ function utailla_schema() {
       'contributor_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -218,7 +212,6 @@ function utailla_schema() {
       'media_file_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -242,7 +235,6 @@ function utailla_update_7001() {
     'fields' => array(
       'language_id' => array(
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -258,7 +250,6 @@ function utailla_update_7001() {
     'fields' => array(
       'country_id' => array(
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -284,7 +275,6 @@ function utailla_update_7002() {
       'collection_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -310,7 +300,6 @@ function utailla_update_7003() {
       'organization_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -336,7 +325,6 @@ function utailla_update_7004() {
       'contributor_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -362,7 +350,6 @@ function utailla_update_7005() {
       'resource_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
@@ -388,7 +375,6 @@ function utailla_update_7006() {
       'media_file_id' => array(
         'description' => 'DB side of the map.',
         'type' => 'int',
-        'length' => 11,
         'not null' => TRUE,
       ),
       'pid' => array(
