@@ -336,9 +336,9 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
   public function addRelationships() {
     module_load_include('inc', 'utailla', 'includes/migration.db');
     $collections = utailla_get_media_file_collections($this->mediaInfo['media_file_id']);
-    $collections += utailla_get_media_file_resources($this->mediaInfo['media_file_id']);
+    $resources = utailla_get_media_file_resources($this->mediaInfo['media_file_id']);
     $found_collection = FALSE;
-    foreach ($collections as $collection) {
+    foreach (array_merge($collections, $resources) as $collection) {
       // False collections are in the DB but not Fedora.
       if ($collection) {
         $this->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', $collection);
