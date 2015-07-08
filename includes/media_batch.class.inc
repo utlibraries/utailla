@@ -32,7 +32,6 @@ class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
     $platforms = utailla_get_platforms();
 
     $media_files = utailla_get_media_files();
-    $objects = array();
     foreach ($media_files as $media_file) {
       if (!in_array($media_file->media_format_id, $this->dontMap)) {
         $object = new UtaillaMediaBatchObject(
@@ -45,9 +44,8 @@ class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
           $this->parameters
         );
         $this->addToDatabase($object, $object->getResources());
-        $objects[] = $object;
       }
     }
-    return $objects;
+    return array();
   }
 }
