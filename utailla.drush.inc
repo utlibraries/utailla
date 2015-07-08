@@ -16,7 +16,12 @@ function utailla_drush_command() {
       'islandora',
     ),
     'examples' => array(
-      'drush -u 1 -v utailla-migrate-all',
+      'drush -u 1 -v utailla-migrate-all --directory=/home/vagrant/ailla_files',
+    ),
+    'options' => array(
+      'directory' => array(
+        'description' => dt("Directory to retrieve files from."),
+      ),
     ),
   );
   $commands['utailla-migrate-languages'] = array(
@@ -86,7 +91,54 @@ function utailla_drush_command() {
     'drupal_dependencies' => array('islandora'),
     'examples' => array('drush -u 1 -v utailla-migrate-contributors'),
   );
+  $commands['utailla-media-batch-preprocess'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Preprocess media files for Islandora Batch.',
+    'drupal_dependencies' => array('islandora', 'islandora_batch'),
+    'examples' => array('drush -u 1 -v utailla-media-batch-preprocess --directory=/home/vagrant/ailla_files'),
+    'options' => array(
+      'directory' => array(
+        'description' => dt("Directory to retrieve files from."),
+      ),
+    ),
+  );
+  $commands['utailla-dev-prep'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'DO NOT RUN ON PROD: IS DESTRUCTIVE.',
+    'drupal_dependencies' => array('islandora'),
+    'examples' => array('drush -u 1 -v utailla-dev-prep --directory=/home/vagrant/ailla_files --scp_user=dgi --password=PASS'),
+    'options' => array(
+      'directory' => array(
+        'description' => dt("Directory to place scp'd files in."),
+      ),
+      'scp_user' => array(
+        'description' => dt('The user for scp.'),
+      ),
+      'password' => array(
+        'description' => dt('The password for scp.'),
+      ),
+    ),
+  );
   return $commands;
+}
+
+/**
+ * Drush command callback to preprocess media files for Islandora Batch.
+ */
+function drush_utailla_media_batch_preprocess() {
+  $preprocessor = new UtaillaMediaBatch(
+    islandora_get_tuque_connection(),
+    array('directory' => drush_get_option('directory'))
+  );
+  islandora_batch_handle_preprocessor($preprocessor);
+}
+
+/**
+ * Drush command callback to prep for deving/testing the media migration.
+ */
+function drush_utailla_dev_prep() {
+  module_load_include('inc', 'utailla', 'includes/dev_prep');
+  utailla_dev_prep(drush_get_option('directory'));
 }
 
 /**
@@ -105,6 +157,11 @@ function drush_utailla_migrate_all() {
   batch_set(utailla_migrate_resources_batch());
   batch_set(utailla_migrate_contributors_batch());
   drush_backend_batch_process();
+  $preprocessor = new UtaillaMediaBatch(
+    islandora_get_tuque_connection(),
+    array('directory' => drush_get_option('directory'))
+  );
+  islandora_batch_handle_preprocessor($preprocessor);
 }
 
 /**

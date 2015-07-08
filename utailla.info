@@ -10,3 +10,5 @@ core = 7.x
 files[] = includes/base_migration.class.inc
 files[] = includes/user_migration.class.inc
 files[] = includes/contact_migration.class.inc
+files[] = includes/media_batch.class.inc
+files[] = includes/media_batch_object.class.inc
