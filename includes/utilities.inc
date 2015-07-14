@@ -219,3 +219,53 @@ function utailla_write_mads_language($writer, $language_id, $type = 'research la
     $writer->endElement();
   }
 }
+
+/**
+ * Get the array of access justification options.
+ */
+function utailla_access_justification_options() {
+  return array(
+    t('Protected population (eg children)'),
+    t('Required by IRB or other authority'),
+    t('Access restricted by speech community'),
+    t("Wish of speaker or speaker's family"),
+    t('Ceremonial, ritual, or esoteric language'),
+    t('Thesis in progress'),
+    t('Material under copyright'),
+    t('Could not obtain informed consent'),
+    t('Other reason: please explain'),
+  );
+}
+
+/**
+ * Set the restriction on a file object.
+ */
+function utailla_set_restriction(AbstractObject $object, $restriction_info) {
+  module_load_include('inc', 'utailla', 'includes/db');
+  $lockable_dsids = array(
+    'OBJ',
+    'MEDIUM_SIZE',
+    'JPG',
+    'JP2',
+    'OGG',
+    'MKV',
+    'MP4',
+    'PDF',
+    'PROXY_MP3',
+    'PDFA',
+    'FULL_TEXT',
+    'PREVIEW',
+  );
+  $xacml = new IslandoraXacml($object);
+  if ($restriction_info['reason_option'] === 0) {
+    foreach ($lockable_dsids as $dsid) {
+      $xacml->datastreamRule->addDsid($dsid);
+    }
+    $xacml->datastreamRule->addRole('authenticated user');
+  }
+  else {
+    $xacml->datastreamRule->clear();
+  }
+  $xacml->writeBackToFedora();
+  utailla_upsert_restriction($restriction_info);
+}

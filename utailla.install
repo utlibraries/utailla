@@ -223,6 +223,48 @@ function utailla_schema() {
     ),
     'primary key' => array('media_file_id'),
   );
+  $schema['utailla_media_file_restrictions'] = array(
+    'description' => 'Restriction information for media files.',
+    'fields' => array(
+      'pid' => array(
+        'description' => 'Fedora PID.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+      'level' => array(
+        'type' => 'int',
+        'description' => 'Level of the restriction 1,2,3, or 4.',
+        'not null' => TRUE,
+      ),
+      'end_time' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'description' => 'When the restriction ends (timestamp).',
+      ),
+      'hint' => array(
+        'description' => 'Hint to the password of the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'password' => array(
+        'description' => 'Hashed password for bypassing the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+      ),
+      'reason_option' => array(
+        'description' => 'The selected reason for the restriction.',
+        'type' => 'int',
+      ),
+      'custom_reason' => array(
+        'description' => 'The written reason for the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
   return $schema;
 }
 
@@ -387,4 +429,54 @@ function utailla_update_7006() {
     'primary key' => array('media_file_id'),
   );
   db_create_table('utailla_media_file_map', $schema['utailla_media_file_map']);
+}
+
+/**
+ * Add media file restriction table.
+ */
+function utailla_update_7007() {
+  $schema = array();
+  $schema['utailla_media_file_restrictions'] = array(
+    'description' => 'Restriction information for media files.',
+    'fields' => array(
+      'pid' => array(
+        'description' => 'Fedora PID.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+      'level' => array(
+        'type' => 'int',
+        'description' => 'Level of the restriction 1,2,3, or 4.',
+        'not null' => TRUE,
+      ),
+      'end_time' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'description' => 'When the restriction ends (timestamp).',
+      ),
+      'hint' => array(
+        'description' => 'Hint to the password of the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'password' => array(
+        'description' => 'Hashed password for bypassing the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+      ),
+      'reason_option' => array(
+        'description' => 'The selected reason for the restriction.',
+        'type' => 'int',
+      ),
+      'custom_reason' => array(
+        'description' => 'The written reason for the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
+  db_create_table('utailla_media_file_restrictions', $schema['utailla_media_file_restrictions']);
 }

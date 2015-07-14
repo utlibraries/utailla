@@ -5,7 +5,7 @@
  */
 
 class UtaillaMediaBatchObject extends IslandoraBatchObject {
-  protected $modelMap = array(
+  protected static $modelMap = array(
     1 => 'islandora:sp-audioCModel',
     2 => 'islandora:sp-audioCModel',
     10 => 'islandora:sp_document',
@@ -26,7 +26,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     24 => 'islandora:sp_large_image_cmodel',
     25 => 'islandora:binaryObjectCModel',
   );
-  protected $mimeMap = array(
+  protected static $mimeMap = array(
     1 => 'audio/mp3',
     2 => 'audio/wav',
     10 => 'text/richtext',
@@ -47,7 +47,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     24 => 'image/tiff',
     25 => 'text/xml',
   );
-  protected $metaMap = array(
+  protected static $metaMap = array(
     'text' => array(10, 4, 5, 6, 7, 8, 12, 16, 18, 19, 25),
     'audio' => array(1, 2, 23),
     'image' => array(9, 11, 24),
@@ -87,16 +87,17 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
   public function batchProcess() {
     module_load_include('inc', 'utailla', 'includes/migration.db');
     module_load_include('inc', 'utailla', 'includes/utilities');
+    module_load_include('inc', 'content', 'includes/password');
     $message = '';
 
-    $this->models = $this->modelMap[$this->mediaInfo['media_format_id']];
+    $this->models = self::$modelMap[$this->mediaInfo['media_format_id']];
     $this->label = basename($this->mediaInfo['identifier']);
 
     $file_path = "{$this->preprocessorParameters['directory']}{$this->mediaInfo['directory_path']}{$this->mediaInfo['identifier']}";
     if (is_file($file_path)) {
       $obj = $this->constructDatastream('OBJ');
       $obj->label = $this->label;
-      $obj->mimeType = $this->mimeMap[$this->mediaInfo['media_format_id']];
+      $obj->mimeType = self::$mimeMap[$this->mediaInfo['media_format_id']];
       $obj->setContentFromFile($file_path, FALSE);
       $this->ingestDatastream($obj);
     }
@@ -115,19 +116,35 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     $mods->label = 'MODS';
     $mods->mimeType = 'application/xml';
     $this->languages = utailla_get_media_file_languages($this->mediaInfo['media_file_id']);
-    if (in_array($this->mediaInfo['media_format_id'], $this->metaMap['text'])) {
+    if (in_array($this->mediaInfo['media_format_id'], self::$metaMap['text'])) {
       $mods->content = $this->textMods();
     }
-    elseif (in_array($this->mediaInfo['media_format_id'], $this->metaMap['audio'])) {
+    elseif (in_array($this->mediaInfo['media_format_id'], self::$metaMap['audio'])) {
       $mods->content = $this->audioMods();
     }
-    elseif (in_array($this->mediaInfo['media_format_id'], $this->metaMap['video'])) {
+    elseif (in_array($this->mediaInfo['media_format_id'], self::$metaMap['video'])) {
       $mods->content = $this->videoMods();
     }
-    elseif (in_array($this->mediaInfo['media_format_id'], $this->metaMap['image'])) {
+    elseif (in_array($this->mediaInfo['media_format_id'], self::$metaMap['image'])) {
       $mods->content = $this->imageMods();
     }
     $this->ingestDatastream($mods);
+
+    // Set XACML if necessary and update restriction information.
+    // Original started at 1.
+    $justification_option = $this->mediaInfo['access_justification'] - 1;
+    if ($justification_option != -1) {
+      $restriction_info = array(
+        'pid' => $this->id,
+        'level' => $this->mediaInfo['level'],
+        'end_time' => strtotime($this->mediaInfo['time_limit']),
+        'hint' => $this->mediaInfo['password_hint'],
+        'password' => user_hash_password($this->mediaInfo['password']),
+        'reason_option' => $justification_option,
+        'custom_reason' => $this->mediaInfo['justification_other'],
+      );
+      utailla_set_restriction($this, $restriction_info);
+    }
 
     utailla_log_media_file_mapping($this->mediaInfo['media_file_id'], $this->id);
     return array(
