@@ -447,7 +447,7 @@ function utailla_get_media_file_resources($id) {
 }
 
 /**
- * Get all the resources for the media_file.
+ * Get all the languages for the media_file.
  */
 function utailla_get_media_file_languages($id) {
   $languages = utailla_get_migration_database()
