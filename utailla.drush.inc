@@ -128,7 +128,7 @@ function utailla_drush_command() {
 function drush_utailla_media_batch_preprocess() {
   $preprocessor = new UtaillaMediaBatch(
     islandora_get_tuque_connection(),
-    array('directory' => drush_get_option('directory'))
+    array('directory' => drush_get_option('directory'), 'namespace' => 'ailla')
   );
   islandora_batch_handle_preprocessor($preprocessor);
 }
@@ -159,7 +159,7 @@ function drush_utailla_migrate_all() {
   drush_backend_batch_process();
   $preprocessor = new UtaillaMediaBatch(
     islandora_get_tuque_connection(),
-    array('directory' => drush_get_option('directory'))
+    array('directory' => drush_get_option('directory'), 'namespace' => 'ailla')
   );
   islandora_batch_handle_preprocessor($preprocessor);
 }
