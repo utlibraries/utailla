@@ -47,6 +47,15 @@ function utailla_menu() {
     'access arguments' => array('Edit metadata'),
     'type' => MENU_CALLBACK,
   );
+  $items['islandora/object/%islandora_object/manage/utailla_access_levels'] = array(
+    'title' => 'Access Levels',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('utailla_access_level_form', 2),
+    // @todo Figure out what to do for access.
+    'access callback' => TRUE,
+    'file' => 'includes/access_levels.form.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
   return $items;
 }
 
