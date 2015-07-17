@@ -182,82 +182,34 @@ function utailla_access_level_batch_op($restriction_info, $parent_id, $objects =
       $context['message'] = t('Nothing to iterate.');
       return;
     }
+    $sandbox['processed'] = array();
   }
-  elseif (!$sandbox['iterator']->valid()) {
-    $context['message'] = t('Done.');
-    return;
+  else {
+    //$before = serialize($sandbox['iterator']);
+    $sandbox['iterator']->next();
+    if ($sandbox['iterator']->valid() && in_array($sandbox['iterator']->current()->id, $sandbox['processed'])) {
+      //dsm($before);
+      //dsm(serialize($sandbox['iterator']));
+    }
+    if (!$sandbox['iterator']->valid()) {
+      //dsm(serialize($sandbox['iterator']));
+      $context['message'] = t('Done.');
+      return;
+    }
   }
 
   $current = $sandbox['iterator']->current();
 
-  dsm($current->id, 'the id');
+  //$sandbox['processed'][] = $current->id;
+  dsm($current->id, "Item: {$sandbox['count']}");
+  usleep(250);
   module_load_include('inc', 'utailla', 'includes/utilities');
   //utailla_set_restriction($current, $restriction_info);
 
-  $sandbox['iterator']->next();
+  //$sandbox['iterator']->next();
+  //dsm(serialize($sandbox['iterator']));
   $context['finished'] = $sandbox['count'] / ($sandbox['iterator'] instanceof Countable ?
     count($sandbox['iterator']) :
     $sandbox['count'] + 1);
   $sandbox['count']++;
-}
-
-class UtaillaFileTraversalIterator extends FilterIterator {
-  public function __construct($id) {
-    parent::__construct(new RecursiveIteratorIterator(new UtaillaTraversalIterator($id)));
-  }
-
-  public function accept() {
-    return !array_intersect($this->current()->models, array('islandora:collectionCModel', UTAILLA_RESOURCE_CMODEL));
-  }
-}
-
-class UtaillaTraversalIterator implements RecursiveIterator {
-  protected $id;
-  protected $buffer = array();
-  protected $page;
-  protected $total;
-  const SLICE_SIZE = 20;
-
-  public function __construct($id) {
-    $this->id = $id;
-  }
-
-  public function current() {
-    return islandora_object_load($this->value);
-  }
-
-  public function key() {
-    return $this->current()->id;
-  }
-
-  public function next() {
-    if (empty($this->buffer)) {
-      $this->page++;
-      $this->query();
-    }
-    $value = array_shift($this->buffer);
-    $this->value = $value['object']['value'];
-  }
-
-  public function rewind() {
-    $this->page = -1;
-    $this->buffer = array();
-    $this->next();
-  }
-
-  public function valid() {
-    return $this->value || (!empty($this->buffer) && $this->total < $this->page * static::SLICE_SIZE);
-  }
-
-  protected function query() {
-    list($this->total, $this->buffer) = islandora_basic_collection_get_member_objects(islandora_object_load($this->id), $this->page, static::SLICE_SIZE);
-  }
-
-  public function hasChildren() {
-    return $this->current() && array_intersect($this->current()->models, array('islandora:collectionCModel', UTAILLA_RESOURCE_CMODEL));
-  }
-
-  public function getChildren() {
-    return new UtaillaTraversalIterator($this->current()->id);
-  }
 }
