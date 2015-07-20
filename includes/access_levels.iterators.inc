@@ -5,24 +5,63 @@
  * Some helper iterator classes.
  */
 
+/**
+ * Iterface to help with serialization.
+ */
+interface UtaillaIteratorIteratorInterface {
+  /**
+   * Get all the contained iterators, in an array.
+   *
+   * @return array
+   *   The array of serializable iterators in the order they should be used.
+   */
+  public function getIterators();
+}
 
-class UtaillaFileTraversalIterator extends FilterIterator implements Serializable, UtaillaIteratorIterator {
+/**
+ * A serializable FilterIterator.
+ *
+ * Accepts objects which have neither the 'islandora:collectionCModel' nor the
+ * UTAILLA_RESOURCE_CMODEL.
+ */
+class UtaillaFileTraversalIterator extends FilterIterator implements Serializable, UtaillaIteratorIteratorInterface {
+  /**
+   * @var UtaillaAppendIterator
+   *   The iterator from which to pull filtered results.
+   */
   protected $iterator;
+
+  /**
+   * Constructor.
+   *
+   * @param string $id
+   *   The ID over which to iterate.
+   */
   public function __construct($id) {
     $this->iterator = new UtaillaAppendIterator();
     $this->iterator->append(new UtaillaRecursiveIteratorIterator(new UtaillaTraversalIterator($id)));
     parent::__construct($this->iterator);
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see FilterIterator::accept()
+   */
   public function accept() {
     return !array_intersect($this->current()->models, array('islandora:collectionCModel', UTAILLA_RESOURCE_CMODEL));
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see UtaillaIteratorIteratorInterface::getIterators()
+   */
   public function getIterators() {
     $iterators = array();
 
     foreach ($this->iterator->getIterators() as $iterator) {
-      if ($iterator instanceof UtaillaIteratorIterator) {
+      if ($iterator instanceof UtaillaIteratorIteratorInterface) {
         $iterators = array_merge($iterators, $iterator->getIterators());
       }
       else {
@@ -33,9 +72,20 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
     return $iterators;
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::serialize()
+   */
   public function serialize() {
     return serialize($this->getIterators());
   }
+
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::unserialize()
+   */
   public function unserialize($data) {
     $this->iterator = new UtaillaAppendIterator();
     foreach (unserialize($data) as $iterator) {
@@ -44,112 +94,164 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
       }
       $this->iterator->append($iterator);
     }
+
+    // XXX: Must explicitly call with "parent::", due to SPL implementation.
+    // Will complain about not being initialized correctly if one tries to use
+    // late static binding.
     parent::__construct($this->iterator);
-    //dsm($this->iterator->valid() ? 'valid' : 'invalid', 'inner file');
-  }
-  public function valid() {
-    $valid = parent::valid();
-    //dsm($valid ? 'valid' : 'invalid', __CLASS__);
-    return $valid;
   }
 }
 
-interface UtaillaIteratorIterator {
+class UtaillaAppendIterator extends AppendIterator implements Serializable, UtaillaIteratorIteratorInterface {
   /**
-   * Get all the contained iterators, in an array.
+   * Implementing interface.
    *
-   * @return array
-   *   The array of iterators in the order they should be used.
+   * @see UtaillaIteratorIteratorInterface::getIterators()
    */
-  public function getIterators();
-}
-
-class UtaillaAppendIterator extends AppendIterator implements Serializable, UtaillaIteratorIterator {
-  //public function hasChildren() {
-  //  return $this->getInnerIterator()->hasChildren();
-  //}
-  //public function getChildren() {
-  //  return $this->getInnerIterator()->getChildren();
-  //}
-
   public function getIterators() {
     return iterator_to_array($this->getArrayIterator());
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::serialize()
+   */
   public function serialize() {
     throw new Exception('Is not possible!');
-    //$iterators = $this->getArrayIterator();
-    //return serialize(array_filter(iterator_to_array($iterators), function ($iterator) {
-    //  return $iterator->valid();
-    //}));
   }
+
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::unserialize()
+   */
   public function unserialize($data) {
-    //parent::__construct();
-    //foreach (unserialize($data) as $iterator) {
-    //  $this->append($iterator);
-    //}
-  }
-  public function valid() {
-    $valid = parent::valid();
-    //dsm($valid ? 'valid' : 'invalid', __CLASS__);
-    return $valid;
+    // No-op. Not serializable.
   }
 }
 
-class UtaillaRecursiveIteratorIterator extends RecursiveIteratorIterator implements Serializable, UtaillaIteratorIterator  {
+/**
+ * A RecursiveIteratorIterator from which we can easily grab the iterators.
+ */
+class UtaillaRecursiveIteratorIterator extends RecursiveIteratorIterator implements Serializable, UtaillaIteratorIteratorInterface  {
+  /**
+   * Implementing interface.
+   *
+   * @see UtaillaIteratorIteratorInterface::getIterators()
+   */
   public function getIterators() {
     $iterators = array();
+
     $current_depth = $this->getDepth();
     foreach (range($current_depth, 0) as $depth) {
       $iterator = $this->getSubIterator($depth);
       if ($depth < $current_depth) {
+        // Iterators "deeper" on the stack need to be moved to the next
+        // element, so they avoid "re-recursing" when we later give them to a
+        // RecursiveIteratorIterator.
         $iterator->next();
       }
       $iterators[] = $iterator;
     }
-    //dsm(serialize($iterators), 'qwerqwer');
+
     return $iterators;
   }
+
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::serialize()
+   */
   public function serialize() {
     throw new Exception('Is not possible!');
-    //$iterators = $this->getIterators();
-    //return serialize($iterators);
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see Serializable::unserialize()
+   */
   public function unserialize($data) {
-    //$iterators = unserialize($data);
-    //$asdf = new UtaillaAppendRecursiveIteratorIterator();
-    //foreach ($iterators as $iterator) {
-    //  $asdf->append($iterator);
-    //}
-    //parent::__construct($asdf);
-  }
-  public function valid() {
-    $valid = parent::valid();
-    //dsm($valid ? 'valid' : 'invalid', __CLASS__);
-    return $valid;
+    // No-op. Not serializable.
   }
 }
 
+/**
+ * A RecursiveIterator to iterate over Islandora's collection structure.
+ */
 class UtaillaTraversalIterator implements RecursiveIterator {
+  /**
+   * @var string $id
+   *   The ID of the object being iterated.
+   */
   protected $id;
+
+  /**
+   * @var array $buffer
+   *   An array of associative arrays representing a subset of the results
+   *   being iterated. Inner arrays are structured as per
+   *   islandora_basic_collection_get_member_objects().
+   */
   protected $buffer = array();
+
+  /**
+   * @var int $page
+   *   The "page" of results, in the iteration.
+   */
   protected $page;
+
+  /**
+   * @var int $total
+   *   The total number of results over which we should iterate.
+   */
   protected $total;
+
+  /**
+   * @var bool $rewound
+   *   A boolean flag indicating if this iterator has been rewound.
+   */
+  protected $rewound = FALSE;
+
+  /**
+   * @var int
+   *   The number of objects "per page", while iterating.
+   */
   const SLICE_SIZE = 20;
 
+  /**
+   * Constructor.
+   *
+   * @param string $id
+   *   The PID under which we will iterate.
+   */
   public function __construct($id) {
     $this->id = $id;
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::current()
+   */
   public function current() {
     return islandora_object_load($this->value);
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::key()
+   */
   public function key() {
     return $this->current()->id;
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::next()
+   */
   public function next() {
     if (empty($this->buffer)) {
       $this->page++;
@@ -161,9 +263,15 @@ class UtaillaTraversalIterator implements RecursiveIterator {
       FALSE;
   }
 
-  protected $rewound = FALSE;
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::rewind()
+   */
   public function rewind() {
+    // Prevent rewinding, other than the initial.
     if (!$this->rewound) {
+      // The "next()" call will increment this to page 0.
       $this->page = -1;
       $this->buffer = array();
       $this->next();
@@ -171,20 +279,37 @@ class UtaillaTraversalIterator implements RecursiveIterator {
     }
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::valid()
+   */
   public function valid() {
-    $valid =  $this->value || (!empty($this->buffer) && $this->total < $this->page * static::SLICE_SIZE);
-    //dsm("{$this->id}: " . ($valid ? 'valid' : 'invalid'), __CLASS__);
-    return $valid;
+    // We have a value, or the hope of getting more.
+    return $this->value || (!empty($this->buffer) && $this->total < $this->page * static::SLICE_SIZE);
   }
 
+  /**
+   * Populate our buffer for iteration.
+   */
   protected function query() {
     list($this->total, $this->buffer) = islandora_basic_collection_get_member_objects(islandora_object_load($this->id), $this->page, static::SLICE_SIZE);
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::hasChildren()
+   */
   public function hasChildren() {
     return $this->current() && array_intersect($this->current()->models, array('islandora:collectionCModel', UTAILLA_RESOURCE_CMODEL));
   }
 
+  /**
+   * Implementing interface.
+   *
+   * @see RecursiveIterator::getChildren()
+   */
   public function getChildren() {
     return new UtaillaTraversalIterator($this->current()->id);
   }

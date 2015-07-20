@@ -166,33 +166,37 @@ function utailla_access_level_form_submit(&$form, &$form_state) {
   dsm($form_state['values'], 'fsv');
 }
 
-function utailla_access_level_batch_op($restriction_info, $parent_id, $objects = array(), &$context = NULL) {
+/**
+ * Access level update batch operation.
+ *
+ * @param array $restriction_info
+ *   An associative array containing the information to apply to each object.
+ * @param string|array $objects
+ *   Either a string indicating the root of a tree of objects over which to
+ *   iterate, or an array of multiple PIDs.
+ * @param array $context
+ *   Drupal's batch context.
+ */
+function utailla_access_level_batch_op($restriction_info, $objects, &$context = NULL) {
   $sandbox =& $context['sandbox'];
 
   if (!isset($sandbox['iterator'])) {
     $sandbox['count'] = 0;
-    if (!empty($objects)) {
+    if (is_array($objects)) {
       $sandbox['iterator'] = new ArrayIterator($objects);
     }
     else {
-      $sandbox['iterator'] = new UtaillaFileTraversalIterator($parent_id);
+      $sandbox['iterator'] = new UtaillaFileTraversalIterator($objects);
     }
     $sandbox['iterator']->rewind();
     if (!$sandbox['iterator']->valid()) {
       $context['message'] = t('Nothing to iterate.');
       return;
     }
-    $sandbox['processed'] = array();
   }
   else {
-    //$before = serialize($sandbox['iterator']);
     $sandbox['iterator']->next();
-    if ($sandbox['iterator']->valid() && in_array($sandbox['iterator']->current()->id, $sandbox['processed'])) {
-      //dsm($before);
-      //dsm(serialize($sandbox['iterator']));
-    }
     if (!$sandbox['iterator']->valid()) {
-      //dsm(serialize($sandbox['iterator']));
       $context['message'] = t('Done.');
       return;
     }
@@ -200,14 +204,9 @@ function utailla_access_level_batch_op($restriction_info, $parent_id, $objects =
 
   $current = $sandbox['iterator']->current();
 
-  //$sandbox['processed'][] = $current->id;
-  dsm($current->id, "Item: {$sandbox['count']}");
-  usleep(250);
   module_load_include('inc', 'utailla', 'includes/utilities');
   //utailla_set_restriction($current, $restriction_info);
 
-  //$sandbox['iterator']->next();
-  //dsm(serialize($sandbox['iterator']));
   $context['finished'] = $sandbox['count'] / ($sandbox['iterator'] instanceof Countable ?
     count($sandbox['iterator']) :
     $sandbox['count'] + 1);
