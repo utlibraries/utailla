@@ -65,16 +65,29 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     $files = array();
     list($count, $members) = islandora_basic_collection_get_member_objects($object);
     foreach ($members as $member) {
+      $member_info = utailla_get_restriction($member['object']['value']);
       $files[$member['object']['value']] = array(
-        'title' => $member['title']['value'],
+        'title' => l($member['title']['value'], "islandora/object/{$member['object']['value']}/manage/utailla_access_levels"),
         'modified' => $member['date_modified']['value'],
+        'level' => isset($member_info['level']) ? $member_info['level'] : t('Not set'),
+        'hint' => isset($member_info['hint']) ? $member_info['hint'] : t('N/A'),
       );
     }
     $form['files'] = array(
       '#type' => 'tableselect',
       '#title' => t('Files'),
-      '#header' => array('title' => t('Title'), 'modified' => t('Date Modified')),
+      '#header' => array(
+        'title' => t('Title'),
+        'modified' => t('Date Modified'),
+        'level' => t('Current Access Level'),
+        'hint' => t('Current Hint'),
+      ),
       '#options' => $files,
+      '#description' => t('Selecting no files will apply the level to ALL files under this resource. Showing @count of @total.', array(
+        '@count' => count($members),
+        '@total' => $count,
+      )),
+      '#theme_wrappers' => array('form_element'),
     );
   }
 
