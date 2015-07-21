@@ -193,6 +193,9 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       if (empty($values['end_time'])) {
         form_error($form['end_time'], t('An ending time must be selected.'));
       }
+      elseif (strtotime($values['end_time']) < REQUEST_TIME) {
+        form_error($form['end_time'], t('The ending time must be in the future.'));
+      }
       // Fall-through.
 
     case 4:
