@@ -30,6 +30,7 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
    *   The iterator from which to pull filtered results.
    */
   protected $iterator;
+  protected $excludedModels;
 
   /**
    * Constructor.
@@ -37,7 +38,8 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
    * @param string $id
    *   The ID over which to iterate.
    */
-  public function __construct($id) {
+  public function __construct($id, $exclude_models) {
+    $this->excludedModels = $exclude_models;
     $this->iterator = new UtaillaAppendIterator();
     $this->iterator->append(new UtaillaRecursiveIteratorIterator(new UtaillaTraversalIterator($id)));
     parent::__construct($this->iterator);
@@ -49,7 +51,7 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
    * @see FilterIterator::accept()
    */
   public function accept() {
-    return !array_intersect($this->current()->models, array('islandora:collectionCModel', UTAILLA_RESOURCE_CMODEL));
+    return !array_intersect($this->current()->models, $this->excludedModels);
   }
 
   /**
@@ -78,7 +80,10 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
    * @see Serializable::serialize()
    */
   public function serialize() {
-    return serialize($this->getIterators());
+    return serialize(array(
+      $this->getIterators(),
+      $this->excludedModels,
+    ));
   }
 
   /**
@@ -87,8 +92,9 @@ class UtaillaFileTraversalIterator extends FilterIterator implements Serializabl
    * @see Serializable::unserialize()
    */
   public function unserialize($data) {
+    list($iterators, $this->excludedModels) = unserialize($data);
     $this->iterator = new UtaillaAppendIterator();
-    foreach (unserialize($data) as $iterator) {
+    foreach ($iterators as $iterator) {
       if ($iterator instanceof RecursiveIterator) {
         $iterator = new UtaillaRecursiveIteratorIterator($iterator);
       }
