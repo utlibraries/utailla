@@ -188,7 +188,7 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       if (empty($values['password']) && empty($first_restriction['password'])) {
         form_error($form['password'], t('A password must be entered.'));
       }
-    break;
+      break;
   }
 }
 
@@ -206,7 +206,7 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
  *   level should be handled.
  */
 function utailla_calculate_restriction_level_info($to_set, $first) {
-  $restriction =  array(
+  $restriction = array(
     'level' => $to_set['level'],
     'password' => NULL,
     'hint' => NULL,
