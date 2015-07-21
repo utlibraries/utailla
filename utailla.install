@@ -251,7 +251,6 @@ function utailla_schema() {
         'description' => 'Hashed password for bypassing the restriction.',
         'type' => 'varchar',
         'length' => 256,
-        'not null' => TRUE,
       ),
       'reason_option' => array(
         'description' => 'The selected reason for the restriction.',
@@ -464,7 +463,6 @@ function utailla_update_7007() {
         'description' => 'Hashed password for bypassing the restriction.',
         'type' => 'varchar',
         'length' => 256,
-        'not null' => TRUE,
       ),
       'reason_option' => array(
         'description' => 'The selected reason for the restriction.',
