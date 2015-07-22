@@ -47,6 +47,15 @@ function utailla_menu() {
     'access arguments' => array('Edit metadata'),
     'type' => MENU_CALLBACK,
   );
+  $items['islandora/object/%islandora_object/manage/utailla_access_levels'] = array(
+    'title' => 'Access Levels',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('utailla_access_level_form', 2),
+    'access callback' => 'islandora_object_access',
+    'access arguments' => array('administer utailla access levels', 2),
+    'file' => 'includes/access_levels.form.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
   return $items;
 }
 
@@ -192,4 +201,18 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'template' => FALSE,
     ),
   );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function utailla_permission() {
+  $permission = array();
+
+  $permission['administer utailla access levels'] = array(
+    'title' => t('Administer Access Levels'),
+    'description' => t('Permit access to the "Access Levels" form on collections, resources and files.'),
+  );
+
+  return $permission;
 }

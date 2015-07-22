@@ -12,3 +12,4 @@ files[] = includes/user_migration.class.inc
 files[] = includes/contact_migration.class.inc
 files[] = includes/media_batch.class.inc
 files[] = includes/media_batch_object.class.inc
+files[] = includes/access_levels.iterators.inc
