@@ -56,8 +56,9 @@ function utailla_get_decoded_row_recursive($row_object) {
     }
     else {
       module_load_include('inc', 'islandora', 'includes/utilities');
+      $row_array[$index] = trim($column);
       // Remove all invalid XML characters from string.
-      $row_array[$index] = islandora_sanitize_input_for_valid_xml($column);
+      $row_array[$index] = islandora_sanitize_input_for_valid_xml($row_array[$index]);
       $row_array[$index] = preg_replace(
         '/<br\s*\/?>/i',
         "\n",
