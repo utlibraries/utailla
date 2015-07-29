@@ -53,7 +53,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
   $first_file = utailla_get_first_file($object);
   $info = (array) utailla_get_restriction($first_file->id) + array(
     'hint' => '',
-    'level' => 1,
+    'level' => UTAILLA_RESTRICTION_LEVEL_1,
     'reason_option' => 0,
     'custom_reason' => '',
     'end_time' => NULL,
@@ -95,10 +95,10 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#type' => 'radios',
     '#title' => t('Access Level'),
     '#options' => array(
-      1 => t('Level 1: Public Access'),
-      2 => t('Level 2: Password'),
-      3 => t('Level 3: Time limit'),
-      4 => t('Level 4: Contact depositor'),
+      UTAILLA_RESTRICTION_LEVEL_1 => t('Level 1: Authenticated Access'),
+      UTAILLA_RESTRICTION_LEVEL_2 => t('Level 2: Password'),
+      UTAILLA_RESTRICTION_LEVEL_3 => t('Level 3: Time limit'),
+      UTAILLA_RESTRICTION_LEVEL_4 => t('Level 4: Contact depositor'),
     ),
     '#default_value' => $info['level'],
   );
@@ -108,7 +108,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#states' => array(
       'visible' => array(
         ':input[name=level]' => array(
-          '!value' => 1,
+          '!value' => UTAILLA_RESTRICTION_LEVEL_1,
         ),
       ),
     ),
@@ -121,7 +121,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#states' => array(
       'visible' => array(
         ':input[name=level]' => array(
-          '!value' => 1,
+          '!value' => UTAILLA_RESTRICTION_LEVEL_1,
         ),
       ),
     ),
@@ -134,7 +134,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#states' => array(
       'visible' => array(
         ':input[name=level]' => array(
-          '!value' => 1,
+          '!value' => UTAILLA_RESTRICTION_LEVEL_1,
         ),
       ),
     ),
@@ -147,7 +147,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#states' => array(
       'visible' => array(
         ':input[name=level]' => array(
-          '!value' => 1,
+          '!value' => UTAILLA_RESTRICTION_LEVEL_1,
         ),
         ':input[name=reason_option]' => array(
           // XXX: May have to make lookup of "other" option smarter.
@@ -163,7 +163,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#states' => array(
       'visible' => array(
         ':input[name=level]' => array(
-          'value' => 3,
+          'value' => UTAILLA_RESTRICTION_LEVEL_3,
         ),
       ),
     ),
@@ -189,7 +189,7 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
   $values = $form_state['values'];
   $first_restriction = $form_state['utailla_first_file_info'];
   switch ($values['level']) {
-    case 3:
+    case UTAILLA_RESTRICTION_LEVEL_3:
       if (empty($values['end_time'])) {
         form_error($form['end_time'], t('An ending time must be selected.'));
       }
@@ -198,9 +198,9 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       }
       // Fall-through.
 
-    case 4:
+    case UTAILLA_RESTRICTION_LEVEL_4:
       // Fall-through.
-    case 2:
+    case UTAILLA_RESTRICTION_LEVEL_2:
       if (empty($values['password']) && empty($first_restriction['password'])) {
         form_error($form['password'], t('A password must be entered.'));
       }
@@ -231,7 +231,7 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
     'end_time' => NULL,
   );
 
-  if ($restriction['level'] > 1) {
+  if ($restriction['level'] > 0) {
     require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
     $restriction['password'] = (isset($to_set['password']) && !empty($to_set['password'])) ? user_hash_password($to_set['password']) : $first['password'];
     if (isset($to_set['hint'])) {
@@ -242,7 +242,7 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
       $restriction['custom_reason'] = $to_set['custom_reason'];
     }
   }
-  if (intval($restriction['level']) === 3) {
+  if (intval($restriction['level']) === UTAILLA_RESTRICTION_LEVEL_3) {
     $restriction['end_time'] = strtotime($to_set['end_time']);
   }
 

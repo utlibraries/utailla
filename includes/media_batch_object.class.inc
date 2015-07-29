@@ -87,7 +87,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
   public function batchProcess() {
     module_load_include('inc', 'utailla', 'includes/migration.db');
     module_load_include('inc', 'utailla', 'includes/utilities');
-    module_load_include('inc', 'content', 'includes/password');
+    require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
     $message = '';
 
     $this->models = self::$modelMap[$this->mediaInfo['media_format_id']];
@@ -137,7 +137,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
       $restriction_info = array(
         'pid' => $this->id,
         'level' => $this->mediaInfo['level'],
-        'end_time' => strtotime($this->mediaInfo['time_limit']),
+        'end_time' => $this->mediaInfo['time_limit'] ? strtotime($this->mediaInfo['time_limit']) : NULL,
         'hint' => $this->mediaInfo['password_hint'],
         'password' => user_hash_password($this->mediaInfo['password']),
         'reason_option' => $justification_option,

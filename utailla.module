@@ -24,6 +24,15 @@ define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
 
+// Second duration of media file authorization.
+const UTAILLA_AUTHORIZATION_DURATION = 600;
+
+// Restriction levels.
+const UTAILLA_RESTRICTION_LEVEL_1 = 0;
+const UTAILLA_RESTRICTION_LEVEL_2 = 1;
+const UTAILLA_RESTRICTION_LEVEL_3 = 2;
+const UTAILLA_RESTRICTION_LEVEL_4 = 3;
+
 /**
  * Implements hook_menu().
  */
@@ -215,4 +224,89 @@ function utailla_permission() {
   );
 
   return $permission;
+}
+
+/**
+ * Implements hook_islandora_object_ingested().
+ *
+ * Brings restriction up to Level 1.
+ */
+function utailla_islandora_object_ingested(AbstractObject $object) {
+  module_load_include('inc', 'utailla', 'includes/utilities');
+  utailla_set_restriction($object, array('level' => 0));
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function utailla_block_info() {
+  return array(
+    'utailla_object_credentials' => array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('Object Credential Input'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function utailla_block_view($delta = '') {
+  $to_render = array();
+
+  switch ($delta) {
+    case 'utailla_object_credentials':
+      module_load_include('inc', 'utailla', 'includes/object_credentials');
+      module_load_include('inc', 'utailla', 'includes/db');
+      module_load_include('inc', 'utailla', 'includes/utilities');
+      $object = menu_get_object('islandora_object', 2);
+      $restriction = utailla_get_restriction($object->id);
+      if ($object &&
+        isset($restriction['password']) && $restriction['password'] &&
+        !utailla_user_media_file_current_authorization($object->id)) {
+
+        $to_render['subject'] = t('Unlock Object');
+        $to_render['content'] = drupal_get_form(
+          'utailla_object_credentials_form',
+          $object
+        );
+      }
+      break;
+  }
+  return $to_render;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Cleans out of date restrictions and authorizations.
+ */
+function utailla_cron() {
+  module_load_include('inc', 'utailla', 'includes/db');
+  utailla_remove_outdated_media_file_authorizations();
+  utailla_update_outdated_media_file_restrictions();
+}
+
+/**
+ * Implements hook_islandora_datastream_access().
+ */
+function utailla_islandora_datastream_access($op, $datastream, $user) {
+  module_load_include('inc', 'utailla', 'includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/db');
+
+  $lockable_dsids = utailla_lockable_dastastreams();
+  $pid = $datastream->parent->id;
+  $restriction = utailla_get_restriction($pid);
+  if (in_array($datastream->id, $lockable_dsids) &&
+    $restriction['level'] &&
+    user_is_logged_in() &&
+    !utailla_user_media_file_current_authorization($pid)) {
+
+    return FALSE;
+
+  }
+
+  return NULL;
 }

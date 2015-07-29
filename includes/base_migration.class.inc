@@ -10,7 +10,7 @@ class UtaillaBaseMigration extends Migration {
    * During migration decode HTML entities.
    */
   protected function decode($old_value) {
-    module_load_include('inc', 'utailla', '/includes/utilities');
+    module_load_include('inc', 'utailla', 'includes/utilities');
     $value_array = utailla_get_decoded_row_recursive($old_value);
     return $value_array[0];
   }

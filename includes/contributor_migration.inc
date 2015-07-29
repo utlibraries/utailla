@@ -8,7 +8,7 @@
  * Contributor migration batch opp.
  */
 function utailla_migrate_contributors_batch_operation(&$context) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
   $sandbox =& $context['sandbox'];
   $step = 100;
   if (!isset($sandbox['total'])) {
@@ -33,8 +33,8 @@ function utailla_migrate_contributors_batch_operation(&$context) {
  * Migrate a contributor if it has not already been.
  */
 function utailla_migrate_contributor($contributor_info) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
-  module_load_include('inc', 'utailla', '/includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_contributor_pid($contributor_info->contributor_id)) {
     $contributor = utailla_get_decoded_row_recursive($contributor_info);
     $tuque = islandora_get_tuque_connection();
