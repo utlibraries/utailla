@@ -90,7 +90,14 @@ function utailla_remove_outdated_media_file_authorizations() {
  */
 function utailla_update_outdated_media_file_restrictions() {
   db_update('utailla_media_file_restrictions')
-    ->fields(array('level' => UTAILLA_RESTRICTION_LEVEL_1, 'end_time' => NULL))
+    ->fields(
+      array(
+        'level' => UTAILLA_RESTRICTION_LEVEL_1,
+        'end_time' => NULL,
+        'password' => NULL,
+        'hint' => NULL,
+      )
+    )
     ->condition('level', UTAILLA_RESTRICTION_LEVEL_3)
     ->condition('end_time', time(), '<')
     ->execute();

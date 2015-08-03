@@ -17,6 +17,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Troubleshooting/Issues
 
+DS locking assumes no anonymous access to objects.
 Having problems or solved a problem? Contact [discoverygarden](http://support.discoverygarden.ca).
 
 ## Maintainers/Sponsors
