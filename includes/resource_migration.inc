@@ -112,6 +112,8 @@ function utailla_migrate_resource($resource_info) {
  */
 function utailla_build_resource_mods($resource) {
   module_load_include('inc', 'utailla', 'includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
+
   $writer = utailla_get_mods_writer();
 
   // Titles.
@@ -150,22 +152,23 @@ function utailla_build_resource_mods($resource) {
     if ($object) {
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
-      $writer->startElement('namePart');
-      // Contributor.
-      $writer->text($object->label);
-      // Role in english.
+      // Role in English.
       $writer->startElement('role');
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'eng');
       $writer->text($contributor['role_name']);
       $writer->endElement();
+      $writer->endElement();
+
+      $writer->startElement('namePart');
+      // Contributor.
+      $writer->text($object->label);
       // Role in spanish.
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'spa');
       $writer->text($contributor['papel_nombre']);
-      $writer->endElement();
       $writer->endElement();
       $writer->endElement();
       $writer->endElement();

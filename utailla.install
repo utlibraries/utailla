@@ -263,6 +263,40 @@ function utailla_schema() {
       ),
     ),
     'primary key' => array('pid'),
+    'indexes' => array(
+      'time_level_index' => array('end_time', 'level'),
+      'pid_index' => array('pid'),
+    ),
+  );
+  $schema['utailla_media_file_authorizations'] = array(
+    'description' => 'Restriction information for media files.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'Fedora PID.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'User ID.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'authorization_time' => array(
+        'description' => 'When the authorization was given (timestamp).',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'pid_user_index' => array('pid', 'uid'),
+      'authorization_time_index' => array('authorization_time'),
+    ),
+    'primary key' => array('id'),
   );
   return $schema;
 }
@@ -477,4 +511,45 @@ function utailla_update_7007() {
     'primary key' => array('pid'),
   );
   db_create_table('utailla_media_file_restrictions', $schema['utailla_media_file_restrictions']);
+}
+
+/**
+ * Add media file authorization table and some indexes.
+ */
+function utailla_update_7008() {
+  $schema = array(
+    'utailla_media_file_authorizations' => array(
+      'description' => 'Restriction information for media files.',
+      'fields' => array(
+        'id' => array(
+          'type' => 'serial',
+          'not null' => TRUE,
+        ),
+        'pid' => array(
+          'description' => 'Fedora PID.',
+          'type' => 'varchar',
+          'length' => 64,
+          'not null' => TRUE,
+        ),
+        'uid' => array(
+          'description' => 'User ID.',
+          'type' => 'int',
+          'not null' => TRUE,
+        ),
+        'authorization_time' => array(
+          'description' => 'When the authorization was given (timestamp).',
+          'type' => 'int',
+          'unsigned' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        'pid_user_index' => array('pid', 'uid'),
+        'authorization_time_index' => array('authorization_time'),
+      ),
+      'primary key' => array('id'),
+    ),
+  );
+  db_create_table('utailla_media_file_authorizations', $schema['utailla_media_file_authorizations']);
+  db_add_index('utailla_media_file_restrictions', 'time_level_index', array('end_time', 'level'));
+  db_add_index('utailla_media_file_restrictions', 'pid_index', array('pid'));
 }

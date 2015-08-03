@@ -131,6 +131,7 @@ function utailla_get_mods_writer() {
  * Sets the user relations on an object based on the originating DB row.
  */
 function utailla_set_user_rels(AbstractObject $object, $row) {
+  module_load_include('inc', 'utailla', 'includes/migration.db');
   // Link to user.
   if ($row['user_id']) {
     $uid = utailla_get_migrated_user_uid($row['user_id']);
@@ -239,11 +240,10 @@ function utailla_access_justification_options() {
 }
 
 /**
- * Set the restriction on a file object.
+ * Get a list of lockable DSIDs.
  */
-function utailla_set_restriction(AbstractObject $object, $restriction_info) {
-  module_load_include('inc', 'utailla', 'includes/db');
-  $lockable_dsids = array(
+function utailla_lockable_dastastreams() {
+  return array(
     'OBJ',
     'MEDIUM_SIZE',
     'JPG',
@@ -257,8 +257,16 @@ function utailla_set_restriction(AbstractObject $object, $restriction_info) {
     'FULL_TEXT',
     'PREVIEW',
   );
+}
+
+/**
+ * Set the restriction on a file object.
+ */
+function utailla_set_restriction(AbstractObject $object, $restriction_info) {
+  module_load_include('inc', 'utailla', 'includes/db');
+  $lockable_dsids = utailla_lockable_dastastreams();
   $xacml = new IslandoraXacml($object);
-  if ($restriction_info['reason_option'] === 0) {
+  if ($restriction_info['level'] == 0 && !is_null($restriction_info['level'])) {
     foreach ($lockable_dsids as $dsid) {
       $xacml->datastreamRule->addDsid($dsid);
     }
@@ -271,4 +279,20 @@ function utailla_set_restriction(AbstractObject $object, $restriction_info) {
   utailla_upsert_restriction($restriction_info + array(
     'pid' => $object->id,
   ));
+}
+
+/**
+ * Gets any current authorization for the current user and PID.
+ */
+function utailla_user_media_file_current_authorization($pid) {
+  module_load_include('inc', 'utailla', 'includes/db');
+  $authorization = utailla_user_media_file_authorization($pid);
+  if ($authorization &&
+    time() < ($authorization['authorization_time'] + UTAILLA_AUTHORIZATION_DURATION)) {
+    return $authorization;
+  }
+  elseif ($authorization) {
+    utailla_remove_user_media_file_authorization($pid);
+  }
+  return FALSE;
 }

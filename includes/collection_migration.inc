@@ -8,7 +8,7 @@
  * Batch opp for migrating collections.
  */
 function utailla_migrate_collections_batch_operation(&$context) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
   $sandbox =& $context['sandbox'];
   if (!isset($sandbox['collections'])) {
     $sandbox['progress'] = 0;
@@ -30,8 +30,8 @@ function utailla_migrate_collections_batch_operation(&$context) {
  * Migrate a collection if it hasn't already been.
  */
 function utailla_migrate_collection($collection_info) {
-  module_load_include('inc', 'utailla', '/includes/migration.db');
-  module_load_include('inc', 'utailla', '/includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
+  module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_collection_pid($collection_info->collection_id)) {
     $collection = utailla_get_decoded_row_recursive($collection_info);
     $tuque = islandora_get_tuque_connection();
