@@ -298,6 +298,31 @@ function utailla_schema() {
     ),
     'primary key' => array('id'),
   );
+  $schema['utailla_collection_restrictions'] = array(
+    'description' => 'Restriction information for collections.',
+    'fields' => array(
+      'pid' => array(
+        'description' => 'Fedora PID.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+      'hint' => array(
+        'description' => 'Hint to the password of the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'password' => array(
+        'description' => 'Hashed password for bypassing the restriction.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+    ),
+    'indexes' => array(
+      'pid_index' => array('pid'),
+    ),
+    'primary key' => array('pid'),
+  );
   return $schema;
 }
 
@@ -552,4 +577,36 @@ function utailla_update_7008() {
   db_create_table('utailla_media_file_authorizations', $schema['utailla_media_file_authorizations']);
   db_add_index('utailla_media_file_restrictions', 'time_level_index', array('end_time', 'level'));
   db_add_index('utailla_media_file_restrictions', 'pid_index', array('pid'));
+}
+
+/**
+ * Add new table to track collection restrictions.
+ */
+function utailla_update_7009() {
+  $schema = array(
+    'utailla_collection_restrictions' => array(
+      'description' => 'Restriction information for collections.',
+      'fields' => array(
+        'pid' => array(
+          'description' => 'Fedora PID.',
+          'type' => 'varchar',
+          'length' => 64,
+          'not null' => TRUE,
+        ),
+        'hint' => array(
+          'description' => 'Hint to the password of the restriction.',
+          'type' => 'varchar',
+          'length' => 256,
+        ),
+        'password' => array(
+          'description' => 'Hashed password for bypassing the restriction.',
+          'type' => 'varchar',
+          'length' => 256,
+        ),
+      ),
+      'primary key' => array('pid'),
+    ),
+  );
+  db_create_table('utailla_collection_restrictions', $schema['utailla_collection_restrictions']);
+  db_add_index('utailla_collection_restrictions', 'pid_index', array('pid'));
 }

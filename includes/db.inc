@@ -102,3 +102,32 @@ function utailla_update_outdated_media_file_restrictions() {
     ->condition('end_time', time(), '<')
     ->execute();
 }
+
+/**
+ * Adds a security restriction for a collection.
+ */
+function utailla_upsert_collection_restriction($restriction_info) {
+  db_merge('utailla_collection_restrictions')
+    ->key(array('pid' => $restriction_info['pid']))
+    ->fields($restriction_info)
+    ->execute();
+}
+
+/**
+ * Retrieve collection restriction info.
+ *
+ * @param string $pid
+ *   The PID for which to obtain info.
+ *
+ * @return array|bool
+ *   An associative array contain the info keyed per the
+ *   "utailla_collection_restrictions" table, or boolean FALSE if a restriction
+ *   record could not be found.
+ */
+function utailla_get_collection_restriction($pid) {
+  return db_select('utailla_collection_restrictions', 'r')
+    ->fields('r')
+    ->condition('pid', $pid)
+    ->execute()
+    ->fetchAssoc();
+}

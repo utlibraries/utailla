@@ -32,6 +32,8 @@ function utailla_migrate_collections_batch_operation(&$context) {
 function utailla_migrate_collection($collection_info) {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   module_load_include('inc', 'utailla', 'includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/db');
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
   if (!utailla_migrated_collection_pid($collection_info->collection_id)) {
     $collection = utailla_get_decoded_row_recursive($collection_info);
     $tuque = islandora_get_tuque_connection();
@@ -67,6 +69,12 @@ function utailla_migrate_collection($collection_info) {
       utailla_restrict_datastream_to_admin($admin_note_ds);
     }
 
+    // Need to store collection restriction information for use later on.
+    utailla_upsert_collection_restriction(array(
+      'pid' => $object->id,
+      'password' => empty($collection['password']) ? NULL : user_hash_password($collection['password']),
+      'hint' => empty($collection['password_hint']) ? NULL : $collection['password_hint'],
+    ));
     $tuque->repository->ingestObject($object);
     utailla_log_collection_mapping($collection['collection_id'], $object->id);
     drupal_set_message(
