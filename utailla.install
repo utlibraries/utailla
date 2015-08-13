@@ -318,6 +318,9 @@ function utailla_schema() {
         'length' => 256,
       ),
     ),
+    'indexes' => array(
+      'pid_index' => array('pid'),
+    ),
     'primary key' => array('pid'),
   );
   return $schema;
@@ -605,4 +608,5 @@ function utailla_update_7009() {
     ),
   );
   db_create_table('utailla_collection_restrictions', $schema['utailla_collection_restrictions']);
+  db_add_index('utailla_collection_restrictions', 'pid_index', array('pid'));
 }
