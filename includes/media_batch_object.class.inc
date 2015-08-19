@@ -133,10 +133,11 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     // Set XACML if necessary and update restriction information.
     // Original started at 1.
     $justification_option = $this->mediaInfo['access_justification'] - 1;
-    if ($justification_option != -1) {
+    $level = $this->mediaInfo['level'] - 1;
+    if ($level != -1) {
       $restriction_info = array(
         'pid' => $this->id,
-        'level' => $this->mediaInfo['level'],
+        'level' => $level,
         'end_time' => $this->mediaInfo['time_limit'] ? strtotime($this->mediaInfo['time_limit']) : NULL,
         'hint' => $this->mediaInfo['password_hint'],
         'password' => user_hash_password($this->mediaInfo['password']),
