@@ -141,7 +141,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
         'end_time' => $this->mediaInfo['time_limit'] ? strtotime($this->mediaInfo['time_limit']) : NULL,
         'hint' => $this->mediaInfo['password_hint'],
         'password' => user_hash_password($this->mediaInfo['password']),
-        'reason_option' => $justification_option,
+        'reason_option' => $justification_option < 0 ? NULL : $justification_option,
         'custom_reason' => $this->mediaInfo['justification_other'],
       );
       utailla_set_restriction($this, $restriction_info);
