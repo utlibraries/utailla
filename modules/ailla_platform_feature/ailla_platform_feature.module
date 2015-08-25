@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the ailla platform feature feature.
- */
-
-include_once 'ailla_platform_feature.features.inc';
