@@ -4,6 +4,7 @@ package = Islandora Customizations
 dependencies[] = islandora
 dependencies[] = islandora_xacml_api
 dependencies[] = islandora_basic_collection
+dependencies[] = islandora_authority
 dependencies[] = migrate
 dependencies[] = field_group
 version = 7.x-dev
