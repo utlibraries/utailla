@@ -195,7 +195,7 @@ function utailla_islandora_xml_form_builder_forms() {
     'Language form' => array(
       'form_file' => "$module_path/xml/language_form.xml",
     ),
-    'Collection form' => array(
+    'Ailla Collection MODS form' => array(
       'form_file' => "$module_path/xml/collection_form.xml",
     ),
   );
@@ -223,10 +223,10 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'template' => FALSE,
     ),
     'ailla_collection_form' => array(
-      'content_model' => UTAILLA_COLLECTION,
+      'content_model' => 'islandora:collectionCModel',
       'form_name' => 'Ailla Collection MODS form',
       'dsid' => 'MODS',
-      'title_field' => array('name_english'),
+      'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
@@ -389,8 +389,10 @@ function utailla_validate_language_is_in_collection_language($element, &$form_st
  * Used by Ailla Collection MODS Form to language label from hidden PID field.
  */
 function utailla_convert_language_pid_to_title($form, $form_state) {
+  global $base_url;
   if (isset($form['language_pid']['#value'])) {
-    $obj = islandora_object_load($form['language_pid']['#value']);
+    $pid = str_replace("$base_url/islandora/object/", "", $form['language_pid']['#value']);
+    $obj = islandora_object_load($pid);
     if ($obj) {
       $form['language']['#value'] = $obj->label;
     }
@@ -402,11 +404,24 @@ function utailla_convert_language_pid_to_title($form, $form_state) {
  * Used by Ailla Collection MODS Form to country label from hidden PID field.
  */
 function utailla_convert_country_pid_to_title($form, $form_state) {
+  global $base_url;
   if (isset($form['country_pid']['#value'])) {
-    $obj = islandora_object_load($form['country_pid']['#value']);
+    $pid = str_replace("$base_url/islandora/object/", "", $form['country_pid']['#value']);
+    $obj = islandora_object_load($pid);
     if ($obj) {
       $form['country_name']['#value'] = $obj->label;
     }
   }
   return $form;
+}
+
+/**
+ * Used by Ailla Collection MODS Form to country label from hidden PID field.
+ */
+function utailla_collection_build_uri_on_validate($element, &$form_state) {
+  global $base_url;
+  if (!empty($element['#value']) && strpos($element['#value'], $base_url) === false) {
+    module_load_include('inc', 'utailla', 'includes/utilities');
+    form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
+  }
 }
