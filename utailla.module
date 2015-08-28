@@ -23,6 +23,7 @@ define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 // Autocomplete paths.
 define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
+define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
@@ -53,6 +54,15 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_COUNTRY_CMODEL),
+    'access arguments' => array('Edit metadata'),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_CONTRIBUTOR_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete collector/depositor callback',
+    'description' => 'Autocomplete to get a contributor object\'s title.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_title_by_model_autocomplete',
+    'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL),
     'access arguments' => array('Edit metadata'),
     'type' => MENU_CALLBACK,
   );
@@ -185,6 +195,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Language form' => array(
       'form_file' => "$module_path/xml/language_form.xml",
     ),
+    'Ailla Collection MODS form' => array(
+      'form_file' => "$module_path/xml/collection_form.xml",
+    ),
   );
 }
 
@@ -194,7 +207,7 @@ function utailla_islandora_xml_form_builder_forms() {
 function utailla_islandora_xml_form_builder_form_associations() {
   return array(
     'ailla_country_mads_form' => array(
-      'content_model' => 'ailla:countryCModel',
+      'content_model' => UTAILLA_COUNTRY_CMODEL,
       'form_name' => 'Country MADS form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'english_name'),
@@ -202,10 +215,18 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'template' => FALSE,
     ),
     'ailla_language_form' => array(
-      'content_model' => 'ailla:languageCModel',
+      'content_model' => UTAILLA_LANGUAGE_CMODEL,
       'form_name' => 'Language form',
       'dsid' => 'LANGUAGE',
       'title_field' => array('name_english'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_collection_form' => array(
+      'content_model' => 'islandora:collectionCModel',
+      'form_name' => 'Ailla Collection MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
@@ -345,4 +366,62 @@ function utailla_islandora_datastream_access($op, $datastream, $user) {
   }
 
   return NULL;
+}
+
+/**
+ * Language Validation for Ailla Collection MODS Form.
+ */
+function utailla_validate_language_is_in_collection_language($element, &$form_state) {
+  $collection_languages = array();
+  foreach ($form_state['values']['languages_uri'] as $language) {
+    if (!empty($language['language'])) {
+      $collection_languages[] = $language['language'];
+    }
+  }
+  if (isset($element['#value'])) {
+    if (($element['#value'] && empty($collection_languages)) || ($element['#value'] && !empty($collection_languages) && !in_array($element['#value'], $collection_languages))) {
+      form_error($element, t('@lang is not one of the current collection languages.', array('@lang' => $element['#value'])));
+    }
+  }
+}
+
+/**
+ * Used by Ailla Collection MODS Form to language label from hidden PID field.
+ */
+function utailla_convert_language_pid_to_title($form, $form_state) {
+  global $base_url;
+  if (isset($form['language_pid']['#value'])) {
+    $pid = str_replace("$base_url/islandora/object/", "", $form['language_pid']['#value']);
+    $obj = islandora_object_load($pid);
+    if ($obj) {
+      $form['language']['#value'] = $obj->label;
+    }
+  }
+  return $form;
+}
+
+/**
+ * Used by Ailla Collection MODS Form to country label from hidden PID field.
+ */
+function utailla_convert_country_pid_to_title($form, $form_state) {
+  global $base_url;
+  if (isset($form['country_pid']['#value'])) {
+    $pid = str_replace("$base_url/islandora/object/", "", $form['country_pid']['#value']);
+    $obj = islandora_object_load($pid);
+    if ($obj) {
+      $form['country_name']['#value'] = $obj->label;
+    }
+  }
+  return $form;
+}
+
+/**
+ * Used by Ailla Collection MODS Form to country label from hidden PID field.
+ */
+function utailla_collection_build_uri_on_validate($element, &$form_state) {
+  global $base_url;
+  if (!empty($element['#value']) && strpos($element['#value'], $base_url) === false) {
+    module_load_include('inc', 'utailla', 'includes/utilities');
+    form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
+  }
 }
