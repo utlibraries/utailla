@@ -45,7 +45,7 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_LANGUAGE_CMODEL),
-    'access arguments' => array('Edit metadata'),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
   $items[UTAILLA_COUNTRY_AUTOCOMPLETE] = array(
@@ -54,7 +54,7 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_COUNTRY_CMODEL),
-    'access arguments' => array('Edit metadata'),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
   $items[UTAILLA_CONTRIBUTOR_AUTOCOMPLETE] = array(
@@ -63,7 +63,7 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL),
-    'access arguments' => array('Edit metadata'),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
   $items['islandora/object/%islandora_object/manage/utailla_access_levels'] = array(
