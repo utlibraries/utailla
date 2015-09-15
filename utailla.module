@@ -198,6 +198,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Collection MODS form' => array(
       'form_file' => "$module_path/xml/collection_form.xml",
     ),
+    'Ailla Resource MODS form' => array(
+      'form_file' => "$module_path/xml/resource_form.xml",
+    ),
   );
 }
 
@@ -225,6 +228,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
     'ailla_collection_form' => array(
       'content_model' => 'islandora:collectionCModel',
       'form_name' => 'Ailla Collection MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfoEnglish', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_resource_form' => array(
+      'content_model' => UTAILLA_RESOURCE_CMODEL,
+      'form_name' => 'Ailla Resource MODS form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => FALSE,
