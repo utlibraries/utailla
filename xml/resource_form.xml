@@ -748,10 +748,10 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;abstract lang="eng" displayLabel="Resource Description"&gt;%value%&lt;/abstract&gt;</value>
+              <value>&lt;abstract lang="eng" displayLabel="Resource description"&gt;%value%&lt;/abstract&gt;</value>
             </create>
             <read>
-              <path>mods:abstract[@lang="eng"][@displayLabel="Resource Description"]</path>
+              <path>mods:abstract[@lang="eng"][@displayLabel="Resource description"]</path>
               <context>parent</context>
             </read>
             <update>
@@ -783,10 +783,10 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;abstract lang="spa" displayLabel="Resource Description"&gt;%value%&lt;/abstract&gt;</value>
+              <value>&lt;abstract lang="spa" displayLabel="Resource description"&gt;%value%&lt;/abstract&gt;</value>
             </create>
             <read>
-              <path>mods:abstract[@lang="spa"][@displayLabel="Resource Description"]</path>
+              <path>mods:abstract[@lang="spa"][@displayLabel="Resource description"]</path>
               <context>parent</context>
             </read>
             <update>
