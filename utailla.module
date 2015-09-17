@@ -24,6 +24,7 @@ define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
 define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
+define('UTAILLA_ORGANIZATION_AUTOCOMPLETE', 'utailla/autocomplete/organization');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
@@ -63,6 +64,15 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_ORGANIZATION_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete collector/depositor callback',
+    'description' => 'Autocomplete to get a organization object\'s title.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_title_by_model_autocomplete',
+    'page arguments' => array(3, UTAILLA_ORG_CMODEL),
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
@@ -201,6 +211,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Resource MODS form' => array(
       'form_file' => "$module_path/xml/resource_form.xml",
     ),
+    'Ailla Contributor MADS form' => array(
+      'form_file' => "$module_path/xml/contributor_form.xml",
+    ),
   );
 }
 
@@ -238,6 +251,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Ailla Resource MODS form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_contributor_form' => array(
+      'content_model' => UTAILLA_CONTRIBUTOR_CMODEL,
+      'form_name' => 'Ailla Contributor MADS form',
+      'dsid' => 'MADS',
+      'title_field' => FALSE,
       'transform' => FALSE,
       'template' => FALSE,
     ),
