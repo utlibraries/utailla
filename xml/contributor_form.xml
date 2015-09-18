@@ -123,7 +123,10 @@
                                             <path>mads:namePart[@type="given"]</path>
                                             <context>parent</context>
                                         </read>
-                                        <update>NULL</update>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
                                         <delete>NULL</delete>
                                     </actions>
                                 </properties>
@@ -155,7 +158,10 @@
                                             <path>mads:namePart[@type="family"]</path>
                                             <context>parent</context>
                                         </read>
-                                        <update>NULL</update>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
                                         <delete>NULL</delete>
                                     </actions>
                                 </properties>
@@ -231,7 +237,10 @@
                                             <path>self::node()</path>
                                             <context>parent</context>
                                         </read>
-                                        <update>NULL</update>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
                                         <delete>NULL</delete>
                                     </actions>
                                 </properties>
@@ -271,7 +280,10 @@
                             <path>mads:note[@type="anonymous"]</path>
                             <context>parent</context>
                         </read>
-                        <update>NULL</update>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
                         <delete>NULL</delete>
                     </actions>
                 </properties>
@@ -303,7 +315,10 @@
                             <path>mads:note[@type="nickname"]</path>
                             <context>parent</context>
                         </read>
-                        <update>NULL</update>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
                         <delete>NULL</delete>
                     </actions>
                 </properties>
@@ -324,18 +339,21 @@
                     <tree>TRUE</tree>
                     <actions>
                         <create>
-                            <path>self::node</path>
+                            <path>self::node()</path>
                             <context>parent</context>
                             <schema/>
-                            <type>element</type>
+                            <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value/>
+                            <value>&lt;note type="biographical/historical" lang="eng"&gt;%value%&lt;/note&gt;</value>
                         </create>
                         <read>
                             <path>/mads:mads/mads:note[@type="biographical/historical" and @lang="eng"]</path>
                             <context>parent</context>
                         </read>
-                        <update>NULL</update>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
                         <delete>NULL</delete>
                     </actions>
                 </properties>
@@ -356,18 +374,21 @@
                     <tree>TRUE</tree>
                     <actions>
                         <create>
-                            <path>self::node</path>
+                            <path>self::node()</path>
                             <context>parent</context>
                             <schema/>
-                            <type>element</type>
+                            <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value/>
+                            <value>&lt;note type="biographical/historical" lang="sp"&gt;%value%&lt;/note&gt;</value>
                         </create>
                         <read>
                             <path>/mads:mads/mads:note[@type="biographical/historical" and @lang="sp"]</path>
                             <context>parent</context>
                         </read>
-                        <update>NULL</update>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
                         <delete>NULL</delete>
                     </actions>
                 </properties>
@@ -403,7 +424,10 @@
                             <path>mads:note[@type="depositor status"]</path>
                             <context>parent</context>
                         </read>
-                        <update>NULL</update>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
                         <delete>NULL</delete>
                     </actions>
                 </properties>
@@ -768,12 +792,31 @@
                     <required>FALSE</required>
                     <resizable>FALSE</resizable>
                     <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>element</type>
+                            <prefix>NULL</prefix>
+                            <value>affiliation</value>
+                        </create>
+                        <read>
+                            <path>mads:affiliation</path>
+                            <context>parent</context>
+                        </read>
+                        <update>NULL</update>
+                        <delete>NULL</delete>
+                    </actions>
                 </properties>
                 <children>
                     <element name="0">
                         <properties>
                             <type>tabpanel</type>
                             <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_organization_pid_to_title</index>
+                            </after_build>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
@@ -782,10 +825,21 @@
                             <required>FALSE</required>
                             <resizable>FALSE</resizable>
                             <tree>TRUE</tree>
+                            <user_data>
+                                <islandora_authority_t_pattern>!organization</islandora_authority_t_pattern>
+                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:organizationCModel"</islandora_authority_fq>
+                            </user_data>
                             <actions>
-                                <create>NULL</create>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;organization authority="aillaOrganization"&gt;&lt;/organization&gt;</value>
+                                </create>
                                 <read>
-                                    <path>mads:affiliation/mads:organization</path>
+                                    <path>mads:organization</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
@@ -799,11 +853,51 @@
                             </actions>
                         </properties>
                         <children>
+                            <element name="organization_pid">
+                                <properties>
+                                    <type>islandora_authority_hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <element_validate>
+                                        <index key="0">utailla_collection_build_uri_on_validate</index>
+                                    </element_validate>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
                             <element name="organization">
                                 <properties>
-                                    <type>textfield</type>
+                                    <type>islandora_authority_textfield</type>
                                     <access>TRUE</access>
-                                    <autocomplete_path>utailla/autocomplete/organization</autocomplete_path>
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
                                     <disabled>FALSE</disabled>
@@ -813,22 +907,11 @@
                                     <resizable>FALSE</resizable>
                                     <title>Organization</title>
                                     <tree>TRUE</tree>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>document</context>
-                                            <schema/>
-                                            <type>xml</type>
-                                            <prefix>NULL</prefix>
-                                            <value>&lt;affiliation&gt;&lt;organization&gt;%value%&lt;/organization&gt;&lt;/affiliation&gt;</value>
-                                        </create>
-                                        <read>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                        </read>
-                                        <update>NULL</update>
-                                        <delete>NULL</delete>
-                                    </actions>
+                                    <user_data>
+                                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                                        <islandora_authority_mapping>!organization</islandora_authority_mapping>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                                    </user_data>
                                 </properties>
                                 <children/>
                             </element>
