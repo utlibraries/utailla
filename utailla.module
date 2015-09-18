@@ -24,6 +24,7 @@ define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
 define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
+define('UTAILLA_ORGANIZATION_AUTOCOMPLETE', 'utailla/autocomplete/organization');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
@@ -201,6 +202,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Resource MODS form' => array(
       'form_file' => "$module_path/xml/resource_form.xml",
     ),
+    'Ailla Contributor MADS form' => array(
+      'form_file' => "$module_path/xml/contributor_form.xml",
+    ),
   );
 }
 
@@ -238,6 +242,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Ailla Resource MODS form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_contributor_form' => array(
+      'content_model' => UTAILLA_CONTRIBUTOR_CMODEL,
+      'form_name' => 'Ailla Contributor MADS form',
+      'dsid' => 'MADS',
+      'title_field' => FALSE,
       'transform' => FALSE,
       'template' => FALSE,
     ),
@@ -397,7 +409,7 @@ function utailla_validate_language_is_in_collection_language($element, &$form_st
 }
 
 /**
- * Used by Ailla Collection MODS Form to language label from hidden PID field.
+ * Used by Ailla forms to set language label from hidden PID field.
  */
 function utailla_convert_language_pid_to_title($form, $form_state) {
   global $base_url;
@@ -427,12 +439,58 @@ function utailla_convert_country_pid_to_title($form, $form_state) {
 }
 
 /**
- * Used by Ailla Collection MODS Form to country label from hidden PID field.
+ * Used by Ailla MADS form to set organization label from hidden PID field.
+ */
+function utailla_convert_organization_pid_to_title($form, $form_state) {
+  global $base_url;
+  if (isset($form['organization_pid']['#value'])) {
+    $pid = str_replace("$base_url/islandora/object/", "", $form['organization_pid']['#value']);
+    $obj = islandora_object_load($pid);
+    if ($obj) {
+      $form['organization']['#value'] = $obj->label;
+    }
+  }
+  return $form;
+}
+
+/**
+ * Used by Ailla forms to set label from hidden PID field.
  */
 function utailla_collection_build_uri_on_validate($element, &$form_state) {
   global $base_url;
   if (!empty($element['#value']) && strpos($element['#value'], $base_url) === FALSE) {
     module_load_include('inc', 'utailla', 'includes/utilities');
     form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
+  }
+}
+
+/**
+ * Implements hook_cmodel_pid_dsid_islandora_datastream_alter().
+ */
+function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, array $context) {
+  if ($context['action'] == 'ingest' || $context['action'] == 'modify') {
+    // See if the label needs to be updated.
+    $mads_xml = $datastream->content;
+    $dom = new DOMDocument();
+    $dom->loadXML($mads_xml);
+    $xpath = new DOMXPath($dom);
+    $xpath->registerNamespace('mads', 'http://www.loc.gov/mads/v2');
+    $first_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
+    $last_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
+    if (!empty($first_name) || !empty($last_name)) {
+      $label = '';
+      if (!empty($first_name) && empty($last_name)) {
+        $label = $first_name;
+      }
+      elseif (empty($first_name) && !empty($last_name)) {
+        $label = $last_name;
+      }
+      elseif (!empty($first_name) && !empty($last_name)) {
+        $label = "{$first_name} {$last_name}";
+      }
+      if ($object->label != $label) {
+        $object->label = $label;
+      }
+    }
   }
 }

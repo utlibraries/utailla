@@ -77,27 +77,26 @@ function utailla_build_contributor_mads($contributor) {
   $writer = utailla_get_mads_writer();
   utailla_write_common_mads($writer, $contributor);
 
-  // First name.
-  if ($contributor['first_name']) {
+  if ($contributor['first_name'] || $contributor['last_name']) {
+    // Open the authority record.
     $writer->startElement('authority');
     $writer->startElement('name');
-    $writer->writeAttribute('type', 'personal');
-    $writer->startElement('namePart');
-    $writer->writeAttribute('type', 'given');
-    $writer->text($contributor['first_name']);
-    $writer->endElement();
-    $writer->endElement();
-    $writer->endElement();
-  }
-  // Last name.
-  if ($contributor['last_name']) {
-    $writer->startElement('authority');
-    $writer->startElement('name');
-    $writer->writeAttribute('type', 'personal');
-    $writer->startElement('namePart');
-    $writer->writeAttribute('type', 'family');
-    $writer->text($contributor['last_name']);
-    $writer->endElement();
+    // First name.
+    if ($contributor['first_name']) {
+      $writer->writeAttribute('type', 'personal');
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'given');
+      $writer->text($contributor['first_name']);
+      $writer->endElement();
+    }
+    // Last name.
+    if ($contributor['last_name']) {
+      $writer->writeAttribute('type', 'personal');
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'family');
+      $writer->text($contributor['last_name']);
+      $writer->endElement();
+    }
     $writer->endElement();
     $writer->endElement();
   }
@@ -158,15 +157,18 @@ function utailla_build_contributor_mads($contributor) {
     }
   }
   // Organizations.
-  foreach ($contributor['organizations'] as $org) {
-    $pid = utailla_migrated_organization_pid($org['organization_id']);
-    if ($pid) {
-      $writer->startElement('affiliation');
-      $writer->startElement('organization');
-      $writer->text(utailla_get_uri_from_pid($pid));
-      $writer->endElement();
-      $writer->endElement();
+  if (!empty($contributor['organizations'])) {
+    $writer->startElement('affiliation');
+    foreach ($contributor['organizations'] as $org) {
+      $pid = utailla_migrated_organization_pid($org['organization_id']);
+      if ($pid) {
+        $writer->startElement('organization');
+        $writer->writeAttribute('authority', 'aillaOrganization');
+        $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+        $writer->endElement();
+      }
     }
+    $writer->endElement();
   }
 
   $writer->endElement();
