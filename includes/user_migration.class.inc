@@ -39,7 +39,7 @@ class UtaillaUserMigration extends UtaillaBaseMigration {
         'country',
       )
     );
-    $this->source = new MigrateSourceSQL($query);
+    $this->source = new MigrateSourceSQL($query, array(), NULL, array('map_joinable' => FALSE));
 
     $this->map = utailla_get_user_migration_map();
     $this->addFieldMapping('name', 'user_name');
