@@ -23,7 +23,7 @@ class UtaillaContactMigration extends UtaillaBaseMigration {
     $query->fields('org', array('fullname'))
       ->fields('con', array('first_name', 'last_name'))
       ->fields('c');
-    $this->source = new MigrateSourceSQL($query);
+    $this->source = new MigrateSourceSQL($query, array(), NULL, array('map_joinable' => FALSE));
     $this->map = utailla_get_contact_migration_map();
 
     $this->addFieldMapping('name', 'name');
