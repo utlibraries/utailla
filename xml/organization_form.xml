@@ -96,7 +96,7 @@
               </actions>
             </properties>
             <children>
-              <element name="given">
+              <element name="namePart">
                 <properties>
                   <type>textfield</type>
                   <access>TRUE</access>
