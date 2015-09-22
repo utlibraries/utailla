@@ -208,6 +208,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Organization MADS form' => array(
       'form_file' => "$module_path/xml/organization_form.xml",
     ),
+    'Ailla Media MODS form' => array(
+      'form_file' => "$module_path/xml/media_form.xml",
+    ),
   );
 }
 
@@ -261,6 +264,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Ailla Organization MADS form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'name', 'namePart'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_media_form' => array(
+      'content_model' => 'islandora:sp-audioCModel',
+      'form_name' => 'Ailla Media MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
@@ -473,6 +484,18 @@ function utailla_collection_build_uri_on_validate($element, &$form_state) {
     module_load_include('inc', 'utailla', 'includes/utilities');
     form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
   }
+}
+
+/**
+ * Used by Ailla Media forms to set the date in provenance fields.
+ */
+function utailla_update_provenance_dates($form, $form_state) {
+  $date = new DateTime();
+  $date = $date->format($date::W3C);
+  foreach (array('date_modified', 'date_archived') as $field) {
+    $form[$field]['#value'] = $date;
+  }
+  return $form;
 }
 
 /**
