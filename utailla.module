@@ -205,6 +205,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Contributor MADS form' => array(
       'form_file' => "$module_path/xml/contributor_form.xml",
     ),
+    'Ailla Organization MADS form' => array(
+      'form_file' => "$module_path/xml/organization_form.xml",
+    ),
   );
 }
 
@@ -250,6 +253,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Ailla Contributor MADS form',
       'dsid' => 'MADS',
       'title_field' => FALSE,
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_organization_form' => array(
+      'content_model' => UTAILLA_ORG_CMODEL,
+      'form_name' => 'Ailla Organization MADS form',
+      'dsid' => 'MADS',
+      'title_field' => array('authority', 'name', 'namePart'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
