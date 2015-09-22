@@ -260,7 +260,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'content_model' => UTAILLA_ORG_CMODEL,
       'form_name' => 'Ailla Organization MADS form',
       'dsid' => 'MADS',
-      'title_field' => array('authority', 'name', 'namePart'),
+      'title_field' => array('authority', 'name', 'given'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
