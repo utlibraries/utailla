@@ -210,7 +210,10 @@
                   <path>mads:note[@type="director"]</path>
                   <context>parent</context>
                 </read>
-                <update>NULL</update>
+                <update>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </update>
                 <delete>
                   <path>self::node()</path>
                   <context>self</context>
@@ -314,7 +317,7 @@
               <value>&lt;note type="biographical/historical" lang="en"&gt;%value%&lt;/note&gt;</value>
             </create>
             <read>
-              <path>mads:note[@type="biographical/historical" and @lang="eng"]</path>
+              <path>mads:note[@type="biographical/historical" and @lang="en"]</path>
               <context>parent</context>
             </read>
             <update>
