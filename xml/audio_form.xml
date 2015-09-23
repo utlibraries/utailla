@@ -19,7 +19,7 @@
       <executes_submit_callback>FALSE</executes_submit_callback>
       <multiple>FALSE</multiple>
       <required>FALSE</required>
-      <resizable>FALSE</resizable>      
+      <resizable>FALSE</resizable>
       <tree>TRUE</tree>
       <actions>
         <create>NULL</create>
@@ -297,7 +297,7 @@
       </element>
       <element name="date_created">
         <properties>
-          <type>hidden</type>
+          <type>textfield</type>
           <access>TRUE</access>
           <after_build>
             <index key="0">utailla_convert_country_pid_to_title</index>
@@ -341,6 +341,9 @@
         <properties>
           <type>markup</type>
           <access>TRUE</access>
+          <after_build>
+            <index key="0">utailla_update_provenance_dates</index>
+          </after_build>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <disabled>FALSE</disabled>
@@ -348,9 +351,6 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <after_build>
-            <index key="0">utailla_update_provenance_dates</index>
-          </after_build>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -440,124 +440,93 @@
           </element>
         </children>
       </element>
-      <element name="content_type">
+      <element name="content_type_eng">
         <properties>
-          <type>fieldset</type>
+          <type>select</type>
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
+          <options>
+            <annotation>Annotation/Anotaci&#xF3;n</annotation>
+            <commentary>Commentary/Comentario</commentary>
+            <context>Context/Contexto</context>
+            <guide>Guide/Gu&#xED;a</guide>
+            <illustration>Illustration/Ilustraci&#xF3;n</illustration>
+            <interlinearization>Interlinearization/Interlinearizaci&#xF3;n</interlinearization>
+            <interpretation>Interpretation/Interpretaci&#xF3;n</interpretation>
+            <photo>Photo/Foto</photo>
+            <index key="primary text">Primary Text/Texto Primario</index>
+            <sample>Sample/Muestra</sample>
+            <transcription>Transcription/Transcripci&#xF3;n</transcription>
+            <index key="transcription &amp; translation">Transcription &amp; translation/Transcripci&#xF3;n &amp; traducci&#xF3;n</index>
+            <translation>Translation/Traducci&#xF3;n</translation>
+          </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
           <title>Content Type</title>
           <tree>TRUE</tree>
+          <actions>
+            <create>
+              <path>self::node()</path>
+              <context>parent</context>
+              <schema/>
+              <type>xml</type>
+              <prefix>NULL</prefix>
+              <value>&lt;genre authority="aillaMediaGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
+            </create>
+            <read>
+              <path>mods:genre[@authority='aillaMediaGenres' and @lang='eng']</path>
+              <context>parent</context>
+            </read>
+            <update>
+              <path>self::node()</path>
+              <context>self</context>
+            </update>
+            <delete>NULL</delete>
+          </actions>
         </properties>
-        <children>
-          <element name="content_type_eng">
-            <properties>
-              <type>select</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <options>
-                <index key="">(None)</index>
-                <annotation>Annotation</annotation>
-                <commentary>Commentary</commentary>
-                <context>Context</context>
-                <guide>Guide</guide>
-                <illustration>Illustration</illustration>
-                <interlinearization>Interlinearization</interlinearization>
-                <interpretation>Interpretation</interpretation>
-                <photo>Photo</photo>
-                <index key="primary text">Primary Text</index>
-                <sample>Sample</sample>
-                <transcription>Transcription</transcription>
-                <translation>Translation</translation>
-                <index key="transcription &amp; translation">Transcription &amp; translation</index>
-              </options>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>English</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;genre authority="aillaMediaGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
-                </create>
-                <read>
-                  <path>mods:genre[@authority='aillaMediaGenres' and @lang='eng']</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-          <element name="content_type_spa">
-            <properties>
-              <type>select</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <options>
-                <index key="">(None)</index>
-                <index key="anotaci&#xF3;n">Anotaci&#xF3;n</index>
-                <comentario>comentario</comentario>
-                <contexto>Contexto</contexto>
-                <index key="gu&#xED;a">Gu&#xED;a</index>
-                <index key="ilustraci&#xF3;n">Ilustraci&#xF3;n</index>
-                <index key="interlinearizaci&#xF3;n">Interlinearizaci&#xF3;n</index>
-                <index key="interpretaci&#xF3;n">Interpretaci&#xF3;n</index>
-                <foto>Foto</foto>
-                <index key="texto primario">Texto Primario</index>
-                <muestra>Muestra</muestra>
-                <index key="transcripci&#xF3;n">Transcripci&#xF3;n</index>
-                <index key="traducci&#xF3;n">Traducci&#xF3;n</index>
-                <index key="transcripci&#xF3;n &amp; traducci&#xF3;n">Transcripci&#xF3;n &amp; Traducci&#xF3;n</index>
-              </options>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Spanish</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;genre authority="aillaMediaGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
-                </create>
-                <read>
-                  <path>mods:genre[@authority='aillaMediaGenres' and @lang='spa']</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-        </children>
+        <children/>
+      </element>
+      <element name="content_type_spa">
+        <properties>
+          <type>hidden</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <disabled>FALSE</disabled>
+          <element_validate>
+            <index key="0">utailla_update_spanish_content_type_on_validate</index>
+          </element_validate>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <title>Spanish</title>
+          <tree>TRUE</tree>
+          <actions>
+            <create>
+              <path>self::node()</path>
+              <context>parent</context>
+              <schema/>
+              <type>xml</type>
+              <prefix>NULL</prefix>
+              <value>&lt;genre authority="aillaMediaGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
+            </create>
+            <read>
+              <path>mods:genre[@authority='aillaMediaGenres' and @lang='spa']</path>
+              <context>parent</context>
+            </read>
+            <update>
+              <path>self::node()</path>
+              <context>self</context>
+            </update>
+            <delete>NULL</delete>
+          </actions>
+        </properties>
+        <children/>
       </element>
       <element name="description">
         <properties>
@@ -646,7 +615,7 @@
           </element>
         </children>
       </element>
-      <element name="physicalDesctiption">
+      <element name="physicalDescription">
         <properties>
           <type>fieldset</type>
           <access>TRUE</access>
@@ -822,17 +791,17 @@
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <options>
-                <index key="audio:cassette">audio:cassette</index>
+                <index key="audio:cassette">audio:cassette/audio:casette</index>
                 <index key="audio:DAT">audio:DAT</index>
                 <index key="audio:digital">audio:digital</index>
                 <index key="audio:minidisc">audio:minidisc</index>
-                <index key="audio:open-reel">audio:open-reel</index>
-                <other>Other</other>
-                <unknown>Unknown</unknown>
+                <index key="audio:open-reel">audio:open-reel/audio:carriete abierto</index>
+                <other>Other/Otro</other>
+                <unknown>Unknown/Desconocido</unknown>
               </options>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Original Medium (English)</title>
+              <title>Original Medium</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -858,24 +827,18 @@
           </element>
           <element name="original_medium_spa">
             <properties>
-              <type>select</type>
+              <type>hidden</type>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
-              <options>
-                <index key="audio:casette">audio:casette</index>
-                <index key="audio:DAT">audio:DAT</index>
-                <index key="audio:digital">audio:digital</index>
-                <index key="audio:minidisc">audio:minidisc</index>
-                <index key="audio:open-reel">audio:open-reel</index>
-                <otro>Otro</otro>
-                <desconocido>Desconocido</desconocido>
-              </options>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
+              <element_validate>
+                <index key="0">utailla_update_spanish_original_medium_on_validate</index>
+              </element_validate>
               <title>Original Medium (Spanish)</title>
               <tree>TRUE</tree>
               <actions>
