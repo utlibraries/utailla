@@ -35,6 +35,10 @@ const UTAILLA_RESTRICTION_LEVEL_2 = 1;
 const UTAILLA_RESTRICTION_LEVEL_3 = 2;
 const UTAILLA_RESTRICTION_LEVEL_4 = 3;
 
+// Time in microseconds to slow each object's ingest by in an attempt to give
+// Fedora more time for disk I/O.
+const UTAILLA_USLEEP = 1000000;
+
 /**
  * Implements hook_menu().
  */

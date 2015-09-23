@@ -318,6 +318,7 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     $object->label = $row['name'];
     $object->ingestDatastream($ds);
     $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     db_insert('utailla_language_map')
       ->fields(array(
         'language_id' => $row['language_id'],
@@ -413,6 +414,7 @@ function utailla_migrate_country_construct_object($row) {
     $object->label = $row->country_name;
     $object->ingestDatastream($ds);
     $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     db_insert('utailla_country_map')
       ->fields(array(
         'country_id' => $row->country_id,

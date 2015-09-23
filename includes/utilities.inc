@@ -76,7 +76,9 @@ function utailla_restrict_datastream_to_admin($ds) {
   $xacml = new IslandoraXacml($ds->parent);
   $xacml->datastreamRule->addDsid($ds->id);
   $xacml->datastreamRule->addRole('admin');
+  usleep(UTAILLA_USLEEP);
   $xacml->writeBackToFedora();
+  usleep(UTAILLA_USLEEP);
 }
 
 /**

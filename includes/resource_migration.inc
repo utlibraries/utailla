@@ -89,6 +89,7 @@ function utailla_migrate_resource($resource_info) {
     $object->ingestDatastream($mods_ds);
 
     $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     utailla_log_resource_mapping($resource['resource_id'], $object->id);
     drupal_set_message(
       t(
