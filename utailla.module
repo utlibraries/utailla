@@ -212,6 +212,9 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Organization MADS form' => array(
       'form_file' => "$module_path/xml/organization_form.xml",
     ),
+    'Ailla Audio MODS form' => array(
+      'form_file' => "$module_path/xml/audio_form.xml",
+    ),
   );
 }
 
@@ -265,6 +268,14 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'Ailla Organization MADS form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'name', 'namePart'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_audio_form' => array(
+      'content_model' => 'islandora:sp-audioCModel',
+      'form_name' => 'Ailla Audio MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
       'transform' => FALSE,
       'template' => FALSE,
     ),
@@ -477,6 +488,73 @@ function utailla_collection_build_uri_on_validate($element, &$form_state) {
     module_load_include('inc', 'utailla', 'includes/utilities');
     form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
   }
+}
+
+/**
+ * Used by Ailla Media forms to set the date in provenance fields.
+ */
+function utailla_update_provenance_dates($form, $form_state) {
+  $date = new DateTime();
+  $date = $date->format($date::W3C);
+  $form['date_modified']['#value'] = $date;
+  $form_id = isset($form_state['values']['form_id']) ? $form_state['values']['form_id'] : $form_state['build_info']['form_id'];
+  if ($form_id == 'xml_form_builder_ingest_form' || 'islandora_ingest_form') {
+    $form['date_archived']['#value'] = $date;
+  }
+  return $form;
+}
+
+/**
+ * Used by Ailla Media forms to update the Spanish content_type.
+ */
+function utailla_update_spanish_content_type_on_validate($element, &$form_state) {
+  $mapping = array(
+    'annotation' => 'anotación',
+    'commentary' => 'comentario',
+    'context' => 'contexto',
+    'guide' => 'guía',
+    'illustration' => 'ilustración',
+    'interlinearization' => 'interlinearización',
+    'interpretation' => 'interpretación',
+    'photo' => 'foto',
+    'primary text' => 'texto primario',
+    'sample' => 'muestra',
+    'transcription' => 'transcripción',
+    'transcription & translation' => 'transcripción & traducción',
+    'translation' => 'traducción',
+  );
+  $spanish = is_null($form_state['values']['content_type_eng']) ? NULL : $mapping[$form_state['values']['content_type_eng']];
+  form_set_value($element, $spanish, $form_state);
+}
+
+/**
+ * Used by Ailla Media forms to update the Spanish original_medium.
+ */
+function utailla_update_spanish_original_medium_on_validate($element, &$form_state) {
+  // Only values that differ between Spanish and English are included; any
+  // other values are carried over outright.
+  $mapping = array(
+    'audio:cassette' => 'audio:casette',
+    'audio:open-reel' => 'audio:carriete abierto',
+    'image:analog' => 'imágen:análogo',
+    'image:digital' => 'imágen:digital',
+    'other' => 'otro',
+    'text:archivable digital' => 'texto:digital archivable',
+    'text:Excel' => 'texto:Excel',
+    'text:manuscript' => 'texto:manuscrito',
+    // 15. text:publicado (sic).
+    'text:published' => 'text:publicado',
+    'text:Shoe/Toolbox' => 'texto:Shoe/Toolbox',
+    'text:unarchivable digital' => 'texto:digital no-archivable',
+    'text:unpublished' => 'texto:no-publicado',
+    'text:Word' => 'texto:Word',
+    'text:WordPerfect' => 'texto:WordPerfect',
+    'unknown' => 'desconocido',
+    'video:cassette' => 'video:casette',
+  );
+  $english = $form_state['values']['physicalDescription']['original_medium_eng'];
+  $spanish = array_key_exists($english, $mapping) ? $mapping[$english] : $english;
+  form_set_value($element, $spanish, $form_state);
 }
 
 /**
