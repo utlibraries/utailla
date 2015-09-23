@@ -129,7 +129,7 @@ function utailla_build_collection_mods($collection) {
 
       switch ($title['language']) {
         case 'ind':
-          $writer->writeAttribute('displayLabel', 'Indigenous Title');
+          $writer->writeAttribute('displayLabel', 'Indigenous title');
           $writer->writeAttribute('type', 'alternative');
           break;
 
@@ -198,7 +198,7 @@ function utailla_build_collection_mods($collection) {
           break;
 
       }
-      $writer->writeAttribute('displayLabel', 'Collection Description');
+      $writer->writeAttribute('displayLabel', 'Collection description');
       $writer->text($description['description']);
       $writer->endElement();
     }

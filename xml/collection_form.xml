@@ -900,10 +900,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="eng" displayLabel="Collection Description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="eng" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection Description"]</path>
+                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -935,10 +935,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="spa" displayLabel="Collection Description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="spa" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection Description"]</path>
+                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -970,10 +970,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract displayLabel="Collection Description"&gt;&lt;/abstract&gt;</value>
+                            <value>&lt;abstract displayLabel="Collection description"&gt;&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection Description"]</path>
+                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description"]</path>
                             <context>parent</context>
                         </read>
                         <update>NULL</update>
