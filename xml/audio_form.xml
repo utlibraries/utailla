@@ -322,10 +322,10 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated keyDate="yes" displayLabel="Date research material was created"&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
+              <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated keyDate="yes" displayLabel="Date research material was created."&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
             </create>
             <read>
-              <path>mods:originInfo[@eventType='production']/mods:dateCreated[@keyDate='yes' and @displayLabel='Date research material was created']</path>
+              <path>mods:originInfo[@eventType='production']/mods:dateCreated[@keyDate='yes' and @displayLabel='Date research material was created.']</path>
               <context>parent</context>
             </read>
             <update>
