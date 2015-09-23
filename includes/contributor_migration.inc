@@ -52,6 +52,7 @@ function utailla_migrate_contributor($contributor_info) {
     $object->ingestDatastream($mads_ds);
 
     $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     utailla_log_contributor_mapping($contributor['contributor_id'], $object->id);
     drupal_set_message(
       t(

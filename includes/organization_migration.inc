@@ -49,6 +49,7 @@ function utailla_migrate_organization($org_info) {
     $object->ingestDatastream($mads_ds);
 
     $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     utailla_log_organization_mapping($org['organization_id'], $object->id);
     drupal_set_message(
       t(

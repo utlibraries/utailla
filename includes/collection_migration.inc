@@ -42,6 +42,8 @@ function utailla_migrate_collection($collection_info) {
     $object->models = array('islandora:collectionCModel');
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_COLLECTION);
     $object->label = isset($collection['titles'][0]['title']) ? $collection['titles'][0]['title'] : 'Collection';
+    $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     // Add resource collcetion policy.
     utailla_set_collection_policy($object, 'resource_collection_policy.xml');
 
@@ -75,7 +77,6 @@ function utailla_migrate_collection($collection_info) {
       'password' => empty($collection['password']) ? NULL : user_hash_password($collection['password']),
       'hint' => empty($collection['password_hint']) ? NULL : $collection['password_hint'],
     ));
-    $tuque->repository->ingestObject($object);
     utailla_log_collection_mapping($collection['collection_id'], $object->id);
     drupal_set_message(
       t(
