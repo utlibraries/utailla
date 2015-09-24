@@ -1247,7 +1247,7 @@
                                     <actions>
                                         <create>
                                             <path>self::node()</path>
-                                            <context>parent</context>
+                                            <context>document</context>
                                             <schema/>
                                             <type>xml</type>
                                             <prefix>NULL</prefix>
@@ -1381,7 +1381,7 @@
                                     <actions>
                                         <create>
                                             <path>self::node()</path>
-                                            <context>parent</context>
+                                            <context>document</context>
                                             <schema/>
                                             <type>xml</type>
                                             <prefix>NULL</prefix>
