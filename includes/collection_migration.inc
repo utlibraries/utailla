@@ -53,25 +53,26 @@ function utailla_migrate_collection($collection_info) {
     $mods_ds->content = utailla_build_collection_mods($collection);
     $object->ingestDatastream($mods_ds);
     usleep(UTAILLA_USLEEP);
-
+    $dss_to_restrict = array();
     if ($collection['notes']) {
+      $dss_to_restrict[] = 'NOTE';
       $note_ds = $object->constructDatastream('NOTE', 'M');
       $note_ds->label = 'Note';
       $note_ds->mimetype = 'application/xml';
       $note_ds->content = utailla_build_collection_notes($collection);
       $object->ingestDatastream($note_ds);
-      utailla_restrict_datastream_to_admin($note_ds);
+      usleep(UTAILLA_USLEEP);
     }
-
     if ($collection['admin_notes']) {
+      $dss_to_restrict[] = 'ADMIN_NOTE';
       $admin_note_ds = $object->constructDatastream('ADMIN_NOTE', 'M');
       $admin_note_ds->label = 'Admin Note';
       $admin_note_ds->mimetype = 'application/xml';
       $admin_note_ds->content = utailla_build_collection_admin_notes($collection);
       $object->ingestDatastream($admin_note_ds);
-      utailla_restrict_datastream_to_admin($admin_note_ds);
+      usleep(UTAILLA_USLEEP);
     }
-
+    utailla_restrict_datastreams_to_admin($dss);
     // Need to store collection restriction information for use later on.
     utailla_upsert_collection_restriction(array(
       'pid' => $object->id,
