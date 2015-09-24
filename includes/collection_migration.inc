@@ -52,6 +52,7 @@ function utailla_migrate_collection($collection_info) {
     $mods_ds->mimetype = 'application/xml';
     $mods_ds->content = utailla_build_collection_mods($collection);
     $object->ingestDatastream($mods_ds);
+    usleep(UTAILLA_USLEEP);
 
     if ($collection['notes']) {
       $note_ds = $object->constructDatastream('NOTE', 'M');
