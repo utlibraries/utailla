@@ -43,16 +43,18 @@ function utailla_migrate_contributor($contributor_info) {
     $object->models = array(UTAILLA_CONTRIBUTOR_CMODEL);
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_CONTRIBUTOR_COLLECTION);
     $object->label = utailla_concat_name_parts($contributor);
+    $tuque->repository->ingestObject($object);
+    usleep(UTAILLA_USLEEP);
     utailla_set_user_rels($object, $contributor);
+    usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
     $mads_ds->label = 'MADS Record';
     $mads_ds->mimetype = 'application/xml';
     $mads_ds->content = utailla_build_contributor_mads($contributor);
     $object->ingestDatastream($mads_ds);
-
-    $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
+
     utailla_log_contributor_mapping($contributor['contributor_id'], $object->id);
     drupal_set_message(
       t(
