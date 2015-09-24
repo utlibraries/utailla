@@ -82,24 +82,6 @@ function utailla_restrict_datastream_to_admin($ds) {
 }
 
 /**
- * Restrict a datastreams to the admin role.
- */
-function utailla_restrict_datastreams_to_admin($dss) {
-  if (empty($dss)) {
-    return;
-  }
-  $ds = reset($dss);
-  $xacml = new IslandoraXacml($ds->parent);
-  foreach ($dss as $ds) {
-    $xacml->datastreamRule->addDsid($ds->id);
-    $xacml->datastreamRule->addRole('admin');
-  }
-  usleep(UTAILLA_USLEEP);
-  $xacml->writeBackToFedora();
-  usleep(UTAILLA_USLEEP);
-}
-
-/**
  * Get a site specific URI from a PID.
  */
 function utailla_get_uri_from_pid($pid) {
