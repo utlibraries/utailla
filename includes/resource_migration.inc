@@ -125,7 +125,7 @@ function utailla_build_resource_mods($resource) {
 
         switch ($title['language']) {
           case 'other':
-            $writer->writeAttribute('displayLabel', 'Indigenous Title');
+            $writer->writeAttribute('displayLabel', 'Indigenous title');
             $writer->writeAttribute('type', 'alternative');
             break;
 
@@ -153,6 +153,10 @@ function utailla_build_resource_mods($resource) {
     if ($object) {
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
+      $writer->startElement('namePart');
+
+      // Contributor.
+      $writer->text($object->label);
       // Role in English.
       $writer->startElement('role');
       $writer->startElement('roleTerm');
@@ -162,15 +166,15 @@ function utailla_build_resource_mods($resource) {
       $writer->endElement();
       $writer->endElement();
 
-      $writer->startElement('namePart');
-      // Contributor.
-      $writer->text($object->label);
       // Role in spanish.
+      $writer->startElement('role');
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'spa');
       $writer->text($contributor['papel_nombre']);
       $writer->endElement();
+      $writer->endElement();
+
       $writer->endElement();
       $writer->endElement();
     }
@@ -221,7 +225,7 @@ function utailla_build_resource_mods($resource) {
           break;
 
       }
-      $writer->writeAttribute('displayLabel', 'Collection Description');
+      $writer->writeAttribute('displayLabel', 'Resource description');
       $writer->text($description['description_text']);
       $writer->endElement();
     }
@@ -262,7 +266,6 @@ function utailla_build_resource_mods($resource) {
     $writer->text($resource['language_community']);
     $writer->endElement();
   }
-
   // Source Note.
   if ($resource['original_identifier']) {
     $writer->startElement('note');
@@ -306,12 +309,14 @@ function utailla_build_resource_mods($resource) {
       $writer->startElement('genre');
       $writer->writeAttribute('lang', 'eng');
       $writer->writeAttribute('type', 'local');
+      $writer->writeAttribute('authority', 'aillaResourceGenres');
       $writer->text($genre['name']);
       $writer->endElement();
 
       $writer->startElement('genre');
       $writer->writeAttribute('lang', 'spa');
       $writer->writeAttribute('type', 'local');
+      $writer->writeAttribute('authority', 'aillaResourceGenres');
       $writer->text($genre['nombre']);
       $writer->endElement();
     }
