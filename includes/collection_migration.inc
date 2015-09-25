@@ -46,6 +46,7 @@ function utailla_migrate_collection($collection_info) {
     usleep(UTAILLA_USLEEP);
     // Add resource collcetion policy.
     utailla_set_collection_policy($object, 'resource_collection_policy.xml');
+    usleep(UTAILLA_USLEEP);
 
     $mods_ds = $object->constructDatastream('MODS', 'M');
     $mods_ds->label = 'MODS Record';
