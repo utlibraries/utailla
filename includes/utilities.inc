@@ -278,6 +278,7 @@ function utailla_set_restriction(AbstractObject $object, $restriction_info) {
     $xacml->datastreamRule->clear();
   }
   $xacml->writeBackToFedora();
+  usleep(UTAILLA_USLEEP);
   utailla_upsert_restriction($restriction_info + array(
     'pid' => $object->id,
   ));
