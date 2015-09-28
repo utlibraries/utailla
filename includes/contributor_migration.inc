@@ -42,12 +42,10 @@ function utailla_migrate_contributor($contributor_info) {
     $object = $tuque->repository->constructObject('ailla');
     $object->models = array(UTAILLA_CONTRIBUTOR_CMODEL);
     $object->label = utailla_concat_name_parts($contributor);
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
-    $object->relationships->autoCommit = FALSE;
+    // Parent has to be set before ingest so restriction can be set.
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_CONTRIBUTOR_COLLECTION);
     utailla_set_user_rels($object, $contributor);
-    $object->relationships->commitRelationships();
+    $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
