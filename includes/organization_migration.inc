@@ -39,12 +39,10 @@ function utailla_migrate_organization($org_info) {
     $object = $tuque->repository->constructObject('ailla');
     $object->models = array(UTAILLA_ORG_CMODEL);
     $object->label = isset($org['fullname']) ? $org['fullname'] : 'Organization';
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
-    $object->relationships->autoCommit = FALSE;
+    // Parent has to be set before ingest so restriction can be set.
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_ORG_COLLECTION);
     utailla_set_user_rels($object, $org);
-    $object->relationships->commitRelationships();
+    $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');

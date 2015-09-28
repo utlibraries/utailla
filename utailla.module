@@ -306,6 +306,7 @@ function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/db');
   module_load_include('inc', 'utailla', 'includes/access_levels.form');
 
+  usleep(UTAILLA_USLEEP);
   // See if this object already has a restriction and if it does ignore it.
   $restriction = FALSE;
   if (!utailla_get_restriction($object->id)) {
