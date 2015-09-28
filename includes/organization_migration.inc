@@ -38,11 +38,13 @@ function utailla_migrate_organization($org_info) {
 
     $object = $tuque->repository->constructObject('ailla');
     $object->models = array(UTAILLA_ORG_CMODEL);
-    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_ORG_COLLECTION);
     $object->label = isset($org['fullname']) ? $org['fullname'] : 'Organization';
     $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
+    $object->relationships->autoCommit = FALSE;
+    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_ORG_COLLECTION);
     utailla_set_user_rels($object, $org);
+    $object->relationships->commitRelationships();
     usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
@@ -50,8 +52,8 @@ function utailla_migrate_organization($org_info) {
     $mads_ds->mimetype = 'application/xml';
     $mads_ds->content = utailla_build_organization_mads($org);
     $object->ingestDatastream($mads_ds);
-
     usleep(UTAILLA_USLEEP);
+
     utailla_log_organization_mapping($org['organization_id'], $object->id);
     drupal_set_message(
       t(
