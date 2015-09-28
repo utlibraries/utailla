@@ -40,12 +40,13 @@ function utailla_migrate_collection($collection_info) {
 
     $object = $tuque->repository->constructObject('ailla');
     $object->models = array('islandora:collectionCModel');
-    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_COLLECTION);
     $object->label = isset($collection['titles'][0]['title']) ? $collection['titles'][0]['title'] : 'Collection';
     $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
     // Add resource collcetion policy.
     utailla_set_collection_policy($object, 'resource_collection_policy.xml');
+    usleep(UTAILLA_USLEEP);
+    $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_COLLECTION);
     usleep(UTAILLA_USLEEP);
 
     $mods_ds = $object->constructDatastream('MODS', 'M');
