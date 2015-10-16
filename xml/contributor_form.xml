@@ -379,10 +379,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;note type="biographical/historical" lang="sp"&gt;%value%&lt;/note&gt;</value>
+                            <value>&lt;note type="biographical/historical" lang="spa"&gt;%value%&lt;/note&gt;</value>
                         </create>
                         <read>
-                            <path>/mads:mads/mads:note[@type="biographical/historical" and @lang="sp"]</path>
+                            <path>/mads:mads/mads:note[@type="biographical/historical" and @lang="spa"]</path>
                             <context>parent</context>
                         </read>
                         <update>
