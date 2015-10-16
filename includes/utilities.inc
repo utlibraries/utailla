@@ -184,7 +184,7 @@ function utailla_write_common_mads($writer, $row) {
   if (trim($row['description_en'])) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttribute('lang', 'en');
+    $writer->writeAttribute('lang', 'eng');
     $writer->text($row['description_en']);
     $writer->endElement();
   }
@@ -192,7 +192,7 @@ function utailla_write_common_mads($writer, $row) {
   if (trim($row['description_sp'])) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttribute('lang', 'sp');
+    $writer->writeAttribute('lang', 'spa');
     $writer->text($row['description_sp']);
     $writer->endElement();
   }
