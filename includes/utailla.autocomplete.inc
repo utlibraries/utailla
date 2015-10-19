@@ -9,6 +9,8 @@
  *
  * @param string $string
  *   A search string.
+ * @param string $model
+ *   A string representing the Fedora content model.
  *
  * @return string
  *   The rendered JSON results.
@@ -27,7 +29,18 @@ EOQ;
 
   foreach ($results as $result) {
     if (strpos(drupal_strtoupper($result['title']['value']), drupal_strtoupper($string)) !== FALSE) {
-      $matches[$result['title']['value']] = $result['title']['value'] . ' (' . $result['pid']['value'] . ')';
+      // Need to see if these are part of the aillaLangFam as per UTAILLA-44.
+      // XXX: If we ever index the language datastream this should move to Solr
+      // for this entire autocomplete to cut down on Fedora hits.
+      $object = islandora_object_load($result['pid']['value']);
+      if (isset($object['LANGUAGE'])) {
+        $dom = new DOMDocument();
+        $dom->loadXML($object['LANGUAGE']->content);
+        $dom_xpath = new DOMXPath($dom);
+        if ($dom_xpath->evaluate('/aillaLanguage/aillaLangFam/text() = "Y"')) {
+          $matches[$result['title']['value']] = $result['title']['value'] . ' (' . $result['pid']['value'] . ')';
+        }
+      }
     }
   }
   drupal_json_output($matches);

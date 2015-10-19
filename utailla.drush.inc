@@ -277,9 +277,12 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     $writer->endElement();
 
     // Name (Alternative).
-    $writer->startElement('aillaAltName');
-    $writer->text($row['alternate_names']);
-    $writer->endElement();
+    $alternate_names = explode('; ', $row['alternate_names']);
+    foreach ($alternate_names as $name) {
+      $writer->startElement('aillaAltName');
+      $writer->text($name);
+      $writer->endElement();
+    }
 
     // Language code.
     $writer->startElement('aillaLangCode');
