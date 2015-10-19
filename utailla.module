@@ -299,12 +299,32 @@ function utailla_permission() {
 /**
  * Implements hook_islandora_object_ingested().
  *
- * Brings restriction up to Level 1.
+ * Brings restriction up to Level 1 and adds a field containing the PID into
+ * MADS.
  */
 function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   module_load_include('inc', 'utailla', 'includes/db');
   module_load_include('inc', 'utailla', 'includes/access_levels.form');
+
+  $mads_cmodels = array(
+    'ailla:countryCModel',
+    'ailla:contributorCModel',
+    'ailla:organizationCModel',
+  );
+
+  // Add PID to the MADS record.
+  if (array_intersect($object->models, $mads_cmodels)) {
+    if (isset($object['MADS'])) {
+      $mads_dom = new DOMDocument();
+      $mads_dom->loadXML($object['MADS']->content);
+      $record_info = $mads_dom->createElement('recordInfo');
+      $record_identifier = $mads_dom->createElement('recordIdentifier', $object->id);
+      $record_info->appendChild($record_identifier);
+      $mads_dom->documentElement->appendChild($record_info);
+      $object['MADS']->content = $mads_dom->saveXML();
+    }
+  }
 
   usleep(UTAILLA_USLEEP);
   // See if this object already has a restriction and if it does ignore it.
