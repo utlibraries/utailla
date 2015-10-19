@@ -32,7 +32,7 @@ EOQ;
   $string_filter = function($r) use ($string) {
     return strpos(drupal_strtoupper($r['title']['value']), drupal_strtoupper($string)) !== FALSE;
   };
-  $language_filter = function($r) use ($string) {
+  $language_filter = function($r) {
     // Need to see if these are part of the aillaLangFam as per UTAILLA-44.
     $object = islandora_object_load($r['pid']['value']);
     if (isset($object['LANGUAGE'])) {
