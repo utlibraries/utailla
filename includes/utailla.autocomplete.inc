@@ -9,6 +9,8 @@
  *
  * @param string $string
  *   A search string.
+ * @param string $model
+ *   A string representing the Fedora content model.
  *
  * @return string
  *   The rendered JSON results.
@@ -23,12 +25,30 @@ WHERE {
      <fedora-model:label> ?title
 }
 EOQ;
+  // XXX: If we ever index the AILLA datastreams this should move to Solr
+  // for this entire autocomplete to cut down on Fedora hits.
   $results = $islandora_tuque->repository->ri->sparqlQuery($parent_query, 'unlimited');
 
-  foreach ($results as $result) {
-    if (strpos(drupal_strtoupper($result['title']['value']), drupal_strtoupper($string)) !== FALSE) {
-      $matches[$result['title']['value']] = $result['title']['value'] . ' (' . $result['pid']['value'] . ')';
+  $string_filter = function($r) use ($string) {
+    return strpos(drupal_strtoupper($r['title']['value']), drupal_strtoupper($string)) !== FALSE;
+  };
+  $language_filter = function($r) {
+    // Need to see if these are part of the aillaLangFam as per UTAILLA-44.
+    $object = islandora_object_load($r['pid']['value']);
+    if (isset($object['LANGUAGE'])) {
+      $dom = new DOMDocument();
+      $dom->loadXML($object['LANGUAGE']->content);
+      $dom_xpath = new DOMXPath($dom);
+      return $dom_xpath->evaluate('/aillaLanguage/aillaLangFam/text() = "Y"');
     }
+    return FALSE;
+  };
+  $results = array_filter($results, $string_filter);
+  if ($model == 'ailla:languageCModel') {
+    $results = array_filter($results, $language_filter);
+  }
+  foreach ($results as $result) {
+    $matches[$result['title']['value']] = $result['title']['value'] . ' (' . $result['pid']['value'] . ')';
   }
   drupal_json_output($matches);
 }
