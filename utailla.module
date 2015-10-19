@@ -600,3 +600,26 @@ function utailla_islandora_solr_query_alter($qp) {
     $qp->solrParams['sort'] = 'fgs_label_ss asc';
   }
 }
+
+/**
+ * Implements hook_islandora_datastream_alter().
+ */
+function utailla_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, &$context) {
+  $mads_cmodels = array(
+    'ailla:countryCModel',
+    'ailla:contributorCModel',
+    'ailla:organizationCModel',
+  );
+  // Add PID to the MADS record.
+  if ($context['action'] == 'ingest' && $datastream->id == 'MADS' && array_intersect($object->models, $mads_cmodels)) {
+    if (isset($object['MADS'])) {
+      $mads_dom = new DOMDocument();
+      $mads_dom->loadXML($object['MADS']->content);
+      $record_info = $mads_dom->createElement('recordInfo');
+      $record_identifier = $mads_dom->createElement('recordIdentifier', $object->id);
+      $record_info->appendChild($record_identifier);
+      $mads_dom->documentElement->appendChild($record_info);
+      $object['MADS']->content = $mads_dom->saveXML();
+    }
+  }
+}
