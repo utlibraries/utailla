@@ -580,7 +580,7 @@ function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(Abstrac
         $label = $last_name;
       }
       elseif (!empty($first_name) && !empty($last_name)) {
-        $label = "{$first_name} {$last_name}";
+        $label = "{$last_name}, {$first_name}";
       }
       if ($object->label != $label) {
         $object->label = $label;
