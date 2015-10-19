@@ -299,8 +299,7 @@ function utailla_permission() {
 /**
  * Implements hook_islandora_object_ingested().
  *
- * Brings restriction up to Level 1 and adds a field containing the PID into
- * MADS.
+ * Brings restriction up to Level 1.
  */
 function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/utilities');
