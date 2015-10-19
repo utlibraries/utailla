@@ -76,9 +76,9 @@ function utailla_migrate_organization($org_info) {
 function utailla_build_organization_mads($org) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   $writer = utailla_get_mads_writer();
-  utailla_write_common_mads($writer, $org);
 
-  // Organization name.
+  // Organization name. As per UTAILLA-46, the authority element should be
+  // first.
   if ($org['fullname']) {
     $writer->startElement('authority');
     $writer->startElement('name');
@@ -89,6 +89,8 @@ function utailla_build_organization_mads($org) {
     $writer->endElement();
     $writer->endElement();
   }
+  utailla_write_common_mads($writer, $org);
+
   // Acronym.
   if ($org['acronym']) {
     $writer->startElement('note');
