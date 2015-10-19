@@ -277,10 +277,10 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     $writer->endElement();
 
     // Name (Alternative).
-    $alternate_names = explode('; ', $row['alternate_names']);
+    $alternate_names = explode(';', $row['alternate_names']);
     foreach ($alternate_names as $name) {
       $writer->startElement('aillaAltName');
-      $writer->text($name);
+      $writer->text(trim($name));
       $writer->endElement();
     }
 
