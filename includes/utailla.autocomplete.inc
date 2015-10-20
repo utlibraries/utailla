@@ -29,7 +29,7 @@ EOQ;
   // for this entire autocomplete to cut down on Fedora hits.
   $results = $islandora_tuque->repository->ri->sparqlQuery($parent_query, 'unlimited');
 
-  $string_filter = function($r) use ($string) {
+  $string_filter = function($r) use($string) {
     return strpos(drupal_strtoupper($r['title']['value']), drupal_strtoupper($string)) !== FALSE;
   };
   $language_filter = function($r) {

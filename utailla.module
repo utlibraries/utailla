@@ -623,3 +623,71 @@ function utailla_islandora_datastream_alter(AbstractObject $object, AbstractData
     }
   }
 }
+
+
+/**
+ * Implements hook_islandora_ingest_steps_CMODEL_PID().
+ */
+function utailla_islandora_collectionCModel_islandora_ingest_steps($form_state) {
+  module_load_include('inc', 'islandora', 'includes/ingest.form');
+  $shared_storage = islandora_ingest_form_get_shared_storage($form_state);
+  // As AILLA has custom requirements for applying a specific COLLECTION_POLICY
+  // we need to add a step that will add it. This route is being used as opposed
+  // to an object_ingested or alter implementation to mitigate any potential
+  // fallout that could occur when interacting with the sleep mechanisms
+  // currently in place in their migration.
+  if ($shared_storage['parent'] == 'ailla:collection_collection') {
+    return array(
+      'utailla_collection_policy' => array(
+        'type' => 'callback',
+        'weight' => -11,
+        'module' => 'utailla',
+        'do_function' => array(
+          'function' => 'utailla_apply_collection_policy',
+          'args' => array($form_state),
+        ),
+      ),
+    );
+  }
+}
+
+/**
+ * Implements hook_islandora_ingest_steps_CMODEL_PID_alter().
+ */
+function utailla_islandora_collectionCModel_islandora_ingest_steps_alter(&$steps, &$form_state) {
+  $shared_storage = islandora_ingest_form_get_shared_storage($form_state);
+  if ($shared_storage['parent'] == 'ailla:collection_collection' && isset($steps['islandora_basic_collection'])) {
+    unset($steps['islandora_basic_collection']);
+  }
+}
+
+/**
+ * Callback to add AILLA's COLLECTION_POLICY to the collection object.
+ *
+ * @param array $form_state
+ *   An array containing the Drupal form state.
+ */
+function utailla_apply_collection_policy(&$form_state) {
+  module_load_include('inc', 'islandora', 'includes/ingest.form');
+  $module_path = drupal_get_path('module', 'utailla');
+  $object = islandora_ingest_form_get_object($form_state);
+  $ds = $object->constructDatastream('COLLECTION_POLICY', 'M');
+  $ds->mimetype = 'application/xml';
+  $ds->label = 'Collection policy';
+  $ds->setContentFromFile("$module_path/xml/resource_collection_policy.xml", FALSE);
+  $object->ingestDatastream($ds);
+}
+
+/**
+ * Callback to remove AILLA's COLLECTION_POLICY from the collection object.
+ *
+ * @param array $form_state
+ *   An array containing the Drupal form state.
+ */
+function utailla_undo_collection_policy(&$form_state) {
+  module_load_include('inc', 'islandora', 'includes/ingest.form');
+  $object = islandora_ingest_form_get_object($form_state);
+  if (isset($object['COLLECTION_POLICY'])) {
+    $object->purgeDatastream('COLLECTION_POLICY');
+  }
+}
