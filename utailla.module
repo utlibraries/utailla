@@ -655,7 +655,8 @@ function utailla_islandora_collectionCModel_islandora_ingest_steps($form_state) 
  * Implements hook_islandora_ingest_steps_CMODEL_PID_alter().
  */
 function utailla_islandora_collectionCModel_islandora_ingest_steps_alter(&$steps, &$form_state) {
-  if (isset($steps['islandora_basic_collection'])) {
+  $shared_storage = islandora_ingest_form_get_shared_storage($form_state);
+  if ($shared_storage['parent'] == 'ailla:collection_collection' && isset($steps['islandora_basic_collection'])) {
     unset($steps['islandora_basic_collection']);
   }
 }
