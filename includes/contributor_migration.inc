@@ -142,7 +142,7 @@ function utailla_build_contributor_mads($contributor) {
   if ($contributor['origin']) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttrubite('displayLabel', 'Place of Origin');
+    $writer->writeAttribute('displayLabel', 'Place of Origin');
     $writer->text($contributor['origin']);
     $writer->endElement();
   }
