@@ -108,6 +108,7 @@ function utailla_build_contributor_mads($contributor) {
   if ($contributor['sex']) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
+    $writer->writeAttribute('displayLabel', 'Sex')l
     $writer->text($contributor['sex']);
     $writer->endElement();
   }
@@ -116,6 +117,7 @@ function utailla_build_contributor_mads($contributor) {
   if ($contributor['birth_date'] && $contributor['birth_date'] != '0000-00-00') {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
+    $writer->writeAttribute('displayLabel', 'Date of Birth');
     $writer->text($contributor['birth_date']);
     $writer->endElement();
   }
@@ -140,6 +142,7 @@ function utailla_build_contributor_mads($contributor) {
   if ($contributor['origin']) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
+    $writer->writeAttrubite('displayLabel', 'Place of Origin');
     $writer->text($contributor['origin']);
     $writer->endElement();
   }
