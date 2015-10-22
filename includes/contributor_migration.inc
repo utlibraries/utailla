@@ -108,7 +108,7 @@ function utailla_build_contributor_mads($contributor) {
   if ($contributor['sex']) {
     $writer->startElement('note');
     $writer->writeAttribute('type', 'biographical/historical');
-    $writer->writeAttribute('displayLabel', 'Sex')l
+    $writer->writeAttribute('displayLabel', 'Sex');
     $writer->text($contributor['sex']);
     $writer->endElement();
   }
