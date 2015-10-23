@@ -610,3 +610,29 @@ function utailla_update_7009() {
   db_create_table('utailla_collection_restrictions', $schema['utailla_collection_restrictions']);
   db_add_index('utailla_collection_restrictions', 'pid_index', array('pid'));
 }
+
+/**
+ * Sets the core collection content model form to disabled.
+ */
+function utailla_update_7010() {
+  // See if for some reason it exists already.
+  $exists = db_select('xml_form_builder_association_hooks', 'x')
+    ->fields('x', array('id'))
+    ->condition('id', 'islandora_basic_collection_mods_form')
+    ->execute()
+    ->fetchField();
+  if ($exists) {
+    db_update('xml_form_builder_association_hooks')
+      ->fields(array('enabled' => 0))
+      ->condition('id', 'islandora_basic_collection_mods_form')
+      ->execute();
+  }
+  else {
+    db_insert('xml_form_builder_association_hooks')
+      ->fields(array(
+        'id' => 'islandora_basic_collection_mods_form',
+        'enabled' => 0,
+      ))
+      ->execute();
+  }
+}
