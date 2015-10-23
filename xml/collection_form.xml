@@ -241,47 +241,93 @@
                         </properties>
                         <children/>
                     </element>
-                    <element name="language">
+                    <element name="language_attribute_hidden_element">
                         <properties>
-                            <type>textfield</type>
+                            <type>markup</type>
                             <access>TRUE</access>
-                            <autocomplete_path>utailla/autocomplete/parentlanguage</autocomplete_path>
+                            <after_build>
+                                <index key="0">utailla_replace_attribute_with_language</index>
+                            </after_build>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
-                            <element_validate>
-                                <index key="0">utailla_validate_language_is_in_collection_language</index>
-                            </element_validate>
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <required>FALSE</required>
                             <resizable>FALSE</resizable>
-                            <title>Language</title>
                             <tree>TRUE</tree>
-                            <actions>
-                                <create>
-                                    <path>self::node()</path>
-                                    <context>parent</context>
-                                    <schema/>
-                                    <type>attribute</type>
-                                    <prefix>NULL</prefix>
-                                    <value>lang</value>
-                                </create>
-                                <read>
-                                    <path>@lang</path>
-                                    <context>parent</context>
-                                </read>
-                                <update>
-                                    <path>self::node()</path>
-                                    <context>self</context>
-                                </update>
-                                <delete>
-                                    <path>self::node()</path>
-                                    <context>self</context>
-                                </delete>
-                            </actions>
+                            <user_data>
+                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"~aillaLanguage_aillaLangFam_et:"Y"</islandora_authority_fq>
+                                <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
+                            </user_data>
                         </properties>
-                        <children/>
+                        <children>
+                            <element name="language">
+                                <properties>
+                                    <type>islandora_authority_textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <element_validate>
+                                        <index key="0">utailla_validate_language_is_in_collection_language</index>
+                                    </element_validate>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Language Test</title>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_mapping>!language</islandora_authority_mapping>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                                        <islandora_authority_solr_search_field>aillaLanguage_aillaEngName_et</islandora_authority_solr_search_field>
+                                    </user_data>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="language_attribute">
+                                <properties>
+                                    <type>islandora_authority_hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Language</title>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_solr_search_field>aillaLanguage_aillaLangCode_et</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>lang</value>
+                                        </create>
+                                        <read>
+                                            <path>@lang</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
                     </element>
                 </children>
             </element>
@@ -745,8 +791,8 @@
                                     <title>Language</title>
                                     <tree>TRUE</tree>
                                     <user_data>
-                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
                                         <islandora_authority_mapping>!language</islandora_authority_mapping>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
                                         <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
                                     </user_data>
                                 </properties>
