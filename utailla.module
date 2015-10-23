@@ -80,6 +80,15 @@ function utailla_menu() {
     'file' => 'includes/access_levels.form.inc',
     'type' => MENU_LOCAL_TASK,
   );
+  $items['islandora/object/%islandora_object/manage/overview/add_resource'] = array(
+    'title' => 'Add an object to this Resource',
+    'page callback' => 'utailla_resource_ingest_action',
+    'page arguments' => array(2),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'includes/ingest.form.inc',
+    'access callback' => 'utailla_resource_ingest_access',
+    'access arguments' => array(2),
+  );
   return $items;
 }
 
@@ -690,4 +699,90 @@ function utailla_undo_collection_policy(&$form_state) {
   if (isset($object['COLLECTION_POLICY'])) {
     $object->purgeDatastream('COLLECTION_POLICY');
   }
+}
+
+/**
+ * Determine whether to display the "Add a resource" action.
+ *
+ * @param AbstractObject $resource
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return bool
+ *   TRUE if the user has access, FALSE otherwise.
+ *
+ * @see islandora_basic_collection_ingest_access()
+ */
+function utailla_resource_ingest_access(AbstractObject $resource) {
+  $is_a_resource = in_array('ailla:resourceCModel', $resource->models) && isset($resource['COLLECTION_POLICY']);
+
+  if (!$is_a_resource) {
+    return FALSE;
+  }
+
+  module_load_include('inc', 'islandora', 'includes/ingest.form');
+  module_load_include('inc', 'utailla', 'includes/ingest.form');
+  $configuration = utailla_resource_get_ingest_configuration($resource);
+  $has_ingest_steps = islandora_ingest_can_display_ingest_form($configuration);
+
+  return $has_ingest_steps && islandora_object_access(ISLANDORA_INGEST, $resource);
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function utailla_menu_alter(&$items) {
+  $items['islandora/object/%islandora_object/manage/collection']['page callback'] = 'utailla_manage_collection_and_resource_object';
+  $items['islandora/object/%islandora_object/manage/collection']['access callback'] = 'utailla_collection_and_resource_manage_access';
+  unset($items['islandora/object/%islandora_object/manage/collection']['file']);
+}
+
+/**
+ * Access check for rendering the collection tab.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return bool
+ *   TRUE if the user has access, FALSE otherwise.
+ */
+function utailla_collection_and_resource_manage_access(AbstractObject $object) {
+  return array_intersect(array('islandora:collectionCModel', 'ailla:resourceCModel'), $object->models) && (islandora_object_access(ISLANDORA_BASIC_COLLECTION_MANAGE_COLLECTION_POLICY, $object) ||
+    islandora_object_access(ISLANDORA_BASIC_COLLECTION_MIGRATE_COLLECTION_MEMBERS, $object) ||
+    islandora_object_access(ISLANDORA_INGEST, $object) ||
+    islandora_object_access(ISLANDORA_PURGE, $object));
+}
+
+/**
+ * Wrapper for the management page for collections/resource.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return array
+ *   An array containing the collection/resource management to be rendered.
+ */
+function utailla_manage_collection_and_resource_object(AbstractObject $object) {
+  global $user;
+  module_load_include('inc', 'islandora_basic_collection', 'includes/manage_collection');
+  $data = islandora_basic_collection_manage_object($object);
+
+  // AILLA's resources act like collection so let's do some custom checking
+  // and toggle access as needed.
+  if (in_array('ailla:resourceCModel', $object->models)) {
+    // May same redundant but need to do it this way unfortunately.
+    $policy_management_access = islandora_datastream_access(ISLANDORA_METADATA_EDIT, $object['COLLECTION_POLICY'], $user);
+    $data['manage_collection_object']['policy_management']['#access'] = $policy_management_access;
+    if ($policy_management_access) {
+      $data['manage_collection_object']['policy_management']['form'] = drupal_get_form('islandora_basic_collection_policy_management_form', $object);
+    }
+
+    $share_migrate_children_access = islandora_datastream_access(ISLANDORA_METADATA_EDIT, $object['RELS-EXT'], $user);
+    $data['manage_collection_object']['share_children']['#access'] = $share_migrate_children_access;
+    $data['manage_collection_object']['migrate_children']['#access'] = $share_migrate_children_access;
+    if ($share_migrate_children_access) {
+      $data['manage_collection_object']['share_children']['form'] = drupal_get_form('islandora_basic_collection_share_children_form', $object);
+      $data['manage_collection_object']['migrate_children']['form'] = drupal_get_form('islandora_basic_collection_migrate_children_form', $object);
+    }
+  }
+  return $data;
 }
