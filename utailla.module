@@ -786,3 +786,29 @@ function utailla_manage_collection_and_resource_object(AbstractObject $object) {
   }
   return $data;
 }
+
+/**
+ * After build to populate the value of the language textfield from code.
+ *
+ * @param array $form
+ *   An array representing the form within Drupal.
+ * @param array $form_state
+ *   An array containing the Drupal form state.
+ *
+ * @return array
+ *   The form to be rendered.
+ */
+function utailla_replace_attribute_with_language($form, $form_state) {
+  if (!empty($form['language_attribute']['#value'])) {
+    $qp = new IslandoraSolrQueryProcessor();
+    $qp->buildQuery(format_string('aillaLanguage_aillaLangCode_et:"!code"', array('!code' => $form['language_attribute']['#value'])));
+    $qp->solrParams['fl'] = 'PID, aillaLanguage_aillaEngName_et';
+    $qp->executeQuery(FALSE);
+    // Should only be one result as opearting under the assumption language
+    // codes are unique.
+    $object = reset($qp->islandoraSolrResult['response']['objects']);
+    $language = reset($object['solr_doc']['aillaLanguage_aillaEngName_et']);
+    $form['language']['#value'] = $language;
+  }
+  return $form;
+}
