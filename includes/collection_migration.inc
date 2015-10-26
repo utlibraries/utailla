@@ -208,6 +208,18 @@ function utailla_build_collection_mods($collection) {
     }
   }
 
+  // References.
+  if ($collection['citations']) {
+    $writer->startElement('relatedItem');
+    $writer->writeAttribute('type', 'referencedBy');
+    $writer->startElement('titleInfo');
+    $writer->startElement('title');
+    $writer->text($collection['citations']);
+    $writer->endElement();
+    $writer->endElement();
+    $writer->endElement();
+  }
+
   $writer->endElement();
   $writer->endDocument();
   return $writer->flush();
