@@ -299,3 +299,15 @@ function utailla_user_media_file_current_authorization($pid) {
   }
   return FALSE;
 }
+
+/**
+ * Updates the XACML policy for contributors as needed.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing within Fedora.
+ * @param string $anonymous
+ *   A string representing the current state of the MADS.
+ */
+function utailla_update_contributor_anonymous_policy(AbstractObject $object, $anonymous) {
+
+}

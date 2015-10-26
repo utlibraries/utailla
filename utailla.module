@@ -578,23 +578,39 @@ function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(Abstrac
     $dom->loadXML($mads_xml);
     $xpath = new DOMXPath($dom);
     $xpath->registerNamespace('mads', 'http://www.loc.gov/mads/v2');
-    $first_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
-    $last_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
-    if (!empty($first_name) || !empty($last_name)) {
-      $label = '';
-      if (!empty($first_name) && empty($last_name)) {
-        $label = $first_name;
+    $label = '';
+    // Need to first see if the object is anonymous or not.
+    $anonymous = $xpath->evaluate('/mads:mads/mads:note[@type="anonymous"]/text() = "Y"');
+    if ($anonymous) {
+      $nickname = $xpath->evaluate('string(/mads:mads/mads:note[@type="nickname"]/text())');
+      if (!empty($nickname)) {
+        $label = $nickname;
       }
-      elseif (empty($first_name) && !empty($last_name)) {
-        $label = $last_name;
-      }
-      elseif (!empty($first_name) && !empty($last_name)) {
-        $label = "{$last_name}, {$first_name}";
-      }
-      if ($object->label != $label) {
-        $object->label = $label;
+      else {
+        $label = 'Anonymous';
       }
     }
+    else {
+      $first_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
+      $last_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
+      if (!empty($first_name) || !empty($last_name)) {
+        $label = '';
+        if (!empty($first_name) && empty($last_name)) {
+          $label = $first_name;
+        }
+        elseif (empty($first_name) && !empty($last_name)) {
+          $label = $last_name;
+        }
+        elseif (!empty($first_name) && !empty($last_name)) {
+          $label = "{$last_name}, {$first_name}";
+        }
+      }
+    }
+    if ($object->label != $label) {
+      $object->label = $label;
+    }
+    // Go out and see if the XACML policy needs to be updated or lifted.
+    utailla_update_contributor_anonymous_policy($object, $anonymous);
   }
 }
 
