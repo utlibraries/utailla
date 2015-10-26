@@ -211,11 +211,10 @@ function utailla_build_collection_mods($collection) {
   // References.
   if ($collection['citations']) {
     $writer->startElement('relatedItem');
-    $writer->writeAttribute('type', 'referencedBy');
-    $writer->startElement('titleInfo');
-    $writer->startElement('title');
+    $writer->writeAttribute('type', 'isReferencedBy');
+    $writer->startElement('note');
+    $writer->writeAttribute('type', 'citation/reference');
     $writer->text($collection['citations']);
-    $writer->endElement();
     $writer->endElement();
     $writer->endElement();
   }
