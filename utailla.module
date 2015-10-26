@@ -318,7 +318,8 @@ function utailla_islandora_object_ingested(AbstractObject $object) {
   usleep(UTAILLA_USLEEP);
   // See if this object already has a restriction and if it does ignore it.
   $restriction = FALSE;
-  if (!utailla_get_restriction($object->id)) {
+  // Contributors don't need to have access level restrictions applied to them.
+  if (!in_array(UTAILLA_CONTRIBUTOR_CMODEL, $object->models) && $object->id != UTAILLA_CONTRIBUTOR_COLLECTION && !utailla_get_restriction($object->id)) {
     // See if the collection the media file is a part of has a restriction set.
     // XXX: Is technically possible for a media file to not be part of a
     // resource.
@@ -572,8 +573,9 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
  */
 function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, array $context) {
   if ($context['action'] == 'ingest' || $context['action'] == 'modify') {
+    module_load_include('inc', 'utailla', 'includes/utilities');
     // See if the label needs to be updated.
-    $mads_xml = $datastream->content;
+    $mads_xml = $context['params']['dsString'];
     $dom = new DOMDocument();
     $dom->loadXML($mads_xml);
     $xpath = new DOMXPath($dom);
@@ -609,8 +611,11 @@ function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(Abstrac
     if ($object->label != $label) {
       $object->label = $label;
     }
-    // Go out and see if the XACML policy needs to be updated or lifted.
-    utailla_update_contributor_anonymous_policy($object, $anonymous);
+    // Go out and see if the XACML policy needs to be updated or lifted for
+    // contributors.
+    if (in_array(UTAILLA_CONTRIBUTOR_CMODEL, $object->models)) {
+      utailla_update_contributor_anonymous_policy($object, $anonymous);
+    }
   }
 }
 

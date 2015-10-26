@@ -305,9 +305,43 @@ function utailla_user_media_file_current_authorization($pid) {
  *
  * @param AbstractObject $object
  *   An AbstractObject representing within Fedora.
- * @param string $anonymous
- *   A string representing the current state of the MADS.
+ * @param bool $anonymous
+ *   TRUE if anonymous, FALSE otherwise.
  */
 function utailla_update_contributor_anonymous_policy(AbstractObject $object, $anonymous) {
-
+  $xacml = new IslandoraXacml($object);
+  $updates_needed = FALSE;
+  // Fresh XACML go to town on naively adding things.
+  if ($anonymous) {
+    if (!isset($object['POLICY'])) {
+      $xacml->datastreamRule->addDsid('MADS');
+      $xacml->datastreamRule->addUser($object->owner);
+      $xacml->datastreamRule->addRole('administrator');
+      $updates_needed = TRUE;
+    }
+    else {
+      // XACML already exists need to append to potentially.
+      if (!in_array('MADS', $xacml->datastreamRule->getDsids())) {
+        $xacml->datastreamRule->addDsid('MADS');
+        $updates_needed = TRUE;
+      }
+      if (!in_array($object->owner, $xacml->datastreamRule->getUsers())) {
+        $xacml->datastreamRule->addUser($object->owner);
+        $updates_needed = TRUE;
+      }
+      if (!in_array('administrator', $xacml->datastreamRule->getRoles())) {
+        $xacml->datastreamRule->addRole('administrator');
+        $updates_needed = TRUE;
+      }
+    }
+  }
+  else {
+    // Need to see if we need to remove things from the XACML.
+    if (isset($object['POLICY'])) {
+      $object->purgeDatastream('POLICY');
+    }
+  }
+  if ($updates_needed) {
+    $xacml->writeBackToFedora();
+  }
 }
