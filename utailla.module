@@ -575,7 +575,7 @@ function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(Abstrac
   if ($context['action'] == 'ingest' || $context['action'] == 'modify') {
     module_load_include('inc', 'utailla', 'includes/utilities');
     // See if the label needs to be updated.
-    $mads_xml = $context['params']['dsString'];
+    $mads_xml = $context['action'] == 'ingest' ? $datastream->content : $context['params']['dsString'];
     $dom = new DOMDocument();
     $dom->loadXML($mads_xml);
     $xpath = new DOMXPath($dom);
