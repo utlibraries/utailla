@@ -336,9 +336,22 @@ function utailla_update_contributor_anonymous_policy(AbstractObject $object, $an
     }
   }
   else {
-    // Need to see if we need to remove things from the XACML.
+    // Need to see if we need to remove things from the XACML datastream rule.
     if (isset($object['POLICY'])) {
-      $object->purgeDatastream('POLICY');
+      $ds_rule = $xacml->datastreamRule->getRuleArray();
+      if (!empty($ds_rule['mimes']) || !empty($ds_rule['dsidregexs']) || !empty($ds_rule['mimeregexs']) || count($ds_rule['dsids']) > 1) {
+        drupal_set_message(t('Datastream POLICY settings have diverged from default: Restriction for MADS has not been automatically lifted for @pid.', array('@pid' => $object->id)), 'error');
+      }
+      elseif (in_array('MADS', $ds_rule['dsids'])) {
+        $updates_needed = TRUE;
+        $xacml->datastreamRule->removeDsid('MADS');
+        $xacml->datastreamRule->removeUser($object->owner);
+        // Let's see if the entire POLICY can be nuked.
+        if (!$xacml->managementRule->isPopulated() && !$xacml->viewingRule->isPopulated() && !$xacml->datastreamRule->isPopulated()) {
+          $object->purgeDatastream('POLICY');
+          $updates_needed = FALSE;
+        }
+      }
     }
   }
   if ($updates_needed) {
