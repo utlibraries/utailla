@@ -299,3 +299,62 @@ function utailla_user_media_file_current_authorization($pid) {
   }
   return FALSE;
 }
+
+/**
+ * Updates the XACML policy for contributors as needed.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing within Fedora.
+ * @param bool $anonymous
+ *   TRUE if anonymous, FALSE otherwise.
+ */
+function utailla_update_contributor_anonymous_policy(AbstractObject $object, $anonymous) {
+  $xacml = new IslandoraXacml($object);
+  $updates_needed = FALSE;
+  // Fresh XACML go to town on naively adding things.
+  if ($anonymous) {
+    if (!isset($object['POLICY'])) {
+      $xacml->datastreamRule->addDsid('MADS');
+      $xacml->datastreamRule->addUser($object->owner);
+      $xacml->datastreamRule->addRole('administrator');
+      $updates_needed = TRUE;
+    }
+    else {
+      // XACML already exists need to append to potentially.
+      if (!in_array('MADS', $xacml->datastreamRule->getDsids())) {
+        $xacml->datastreamRule->addDsid('MADS');
+        $updates_needed = TRUE;
+      }
+      if (!in_array($object->owner, $xacml->datastreamRule->getUsers())) {
+        $xacml->datastreamRule->addUser($object->owner);
+        $updates_needed = TRUE;
+      }
+      if (!in_array('administrator', $xacml->datastreamRule->getRoles())) {
+        $xacml->datastreamRule->addRole('administrator');
+        $updates_needed = TRUE;
+      }
+    }
+  }
+  else {
+    // Need to see if we need to remove things from the XACML datastream rule.
+    if (isset($object['POLICY'])) {
+      $ds_rule = $xacml->datastreamRule->getRuleArray();
+      if (!empty($ds_rule['mimes']) || !empty($ds_rule['dsidregexs']) || !empty($ds_rule['mimeregexs']) || count($ds_rule['dsids']) > 1) {
+        drupal_set_message(t('Datastream POLICY settings have diverged from default: Restriction for MADS has not been automatically lifted for @pid.', array('@pid' => $object->id)), 'error');
+      }
+      elseif (in_array('MADS', $ds_rule['dsids'])) {
+        $updates_needed = TRUE;
+        $xacml->datastreamRule->removeDsid('MADS');
+        $xacml->datastreamRule->removeUser($object->owner);
+        // Let's see if the entire POLICY can be nuked.
+        if (!$xacml->managementRule->isPopulated() && !$xacml->viewingRule->isPopulated() && !$xacml->datastreamRule->isPopulated()) {
+          $object->purgeDatastream('POLICY');
+          $updates_needed = FALSE;
+        }
+      }
+    }
+  }
+  if ($updates_needed) {
+    $xacml->writeBackToFedora();
+  }
+}
