@@ -358,3 +358,27 @@ function utailla_update_contributor_anonymous_policy(AbstractObject $object, $an
     $xacml->writeBackToFedora();
   }
 }
+
+/**
+ * Check the mods to see if an object is archived.
+ *
+ * @param AbstractObject $object
+ *   The fedora object to check for archival status.
+ *
+ * @return bool
+ *   TRUE if archival status is A, FALSE otherwise.
+ */
+function utailla_is_object_archived(AbstractObject $object) {
+  if (isset($object['MODS'])) {
+    $mods = new SimpleXMLElement($object['MODS']->content);
+    $mods->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+    // Archival Status.
+    $archival_status = $mods->xpath('/mods:mods/mods:note[@type="archival status"]');
+    if (count($archival_status) > 0 && ($status = (string) reset($archival_status))) {
+      if ($status == "A") {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
