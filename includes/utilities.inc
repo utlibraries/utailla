@@ -374,8 +374,9 @@ function utailla_is_object_archived(AbstractObject $object) {
     $mods->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
     // Archival Status.
     $archival_status = $mods->xpath('/mods:mods/mods:note[@type="archival status"]');
-    if (count($archival_status) > 0 && ($status = (string) reset($archival_status))) {
-      if ($status == "A") {
+    if (count($archival_status) > 0) {
+      $status = (string) reset($archival_status);
+      if (!empty($status) && $status == "A") {
         return TRUE;
       }
     }
