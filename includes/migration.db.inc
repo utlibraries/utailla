@@ -361,11 +361,15 @@ function utailla_get_contributor_count() {
 
 /**
  * Get the basic info relevant to media_files.
+ *
+ * @note
+ *   AILLA wishes to constrain media files that belong to resource only.
  */
 function utailla_get_media_files() {
-  return utailla_get_migration_database()
-    ->select('media_file')
-    ->fields('media_file')
+  $db = utailla_get_migration_database();
+  $query = $db->select('media_file', 'media');
+  $query->rightJoin('resource_to_media', 'resource', 'resource.media_file_id = media.media_file_id');
+  return $query->fields('media', array())
     ->execute()
     ->fetchAllAssoc('media_file_id');
 }
@@ -412,22 +416,6 @@ function utailla_get_mediums() {
     ->fields('orig_medium')
     ->execute()
     ->fetchAllAssoc('orig_medium_id');
-}
-
-/**
- * Get all the collections for the media_file.
- */
-function utailla_get_media_file_collections($id) {
-  $collections = utailla_get_migration_database()
-    ->select('collection_to_media')
-    ->fields('collection_to_media', array('collection_id'))
-    ->condition('collection_to_media.media_file_id', $id)
-    ->execute()
-    ->fetchAllAssoc('collection_id');
-  foreach ($collections as $collection_id => &$collection) {
-    $collection = utailla_migrated_collection_pid($collection_id);
-  }
-  return array_values($collections);
 }
 
 /**
