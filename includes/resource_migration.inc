@@ -35,7 +35,7 @@ function utailla_migrate_resource($resource_info) {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_resource_pid($resource_info->resource_id)) {
-    $resource = utailla_get_decoded_row_recursive($resource_info);
+    $resource = utailla_get_decoded_row_recursive($resource_info, array('citations'));
     $tuque = islandora_get_tuque_connection();
 
     $object = $tuque->repository->constructObject('ailla');
@@ -324,10 +324,13 @@ function utailla_build_resource_mods($resource) {
 
   // Reference/Citation.
   if ($resource['citations']) {
-    $writer->startElement('note');
-    $writer->writeAttribute('type', 'citation/reference');
-    $writer->text($resource['citations']);
-    $writer->endElement();
+    $citations = preg_split('/<br\s*\/?>/i', $resource['citations']);
+    foreach ($citations as $citation) {
+      $writer->startElement('note');
+      $writer->writeAttribute('type', 'citation/reference');
+      $writer->text($citation);
+      $writer->endElement();
+    }
   }
 
   $writer->endElement();

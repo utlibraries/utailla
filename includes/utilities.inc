@@ -45,8 +45,13 @@ function utailla_set_ds_composite(AbstractObject $object, $file_name) {
  *
  * The originating database had HTML fragments that we transform into text the
  * only tag was br so we are replacing these with newlines.
+ *
+ * @param array $row_object
+ *   Recursive database array.
+ * @param array $ignore_brs
+ *   List of indexes not to remove the br from.
  */
-function utailla_get_decoded_row_recursive($row_object) {
+function utailla_get_decoded_row_recursive($row_object, $ignore_brs = array()) {
   $row_array = (array) $row_object;
   foreach ($row_array as $index => $column) {
     if (is_array($column)) {
@@ -59,11 +64,14 @@ function utailla_get_decoded_row_recursive($row_object) {
       $row_array[$index] = trim($column);
       // Remove all invalid XML characters from string.
       $row_array[$index] = islandora_sanitize_input_for_valid_xml($row_array[$index]);
-      $row_array[$index] = preg_replace(
-        '/<br\s*\/?>/i',
-        "\n",
-        html_entity_decode($row_array[$index], ENT_QUOTES, 'UTF-8')
-      );
+      $row_array[$index] = html_entity_decode($row_array[$index], ENT_QUOTES, 'UTF-8');
+      if (!in_array($index, $ignore_brs)) {
+        $row_array[$index] = preg_replace(
+          '/<br\s*\/?>/i',
+          "\n",
+          $row_array[$index]
+        );
+      }
     }
   }
   return $row_array;
