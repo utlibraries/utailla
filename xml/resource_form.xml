@@ -709,10 +709,10 @@
                   <schema/>
                   <type>xml</type>
                   <prefix>NULL</prefix>
-                  <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" authority="aillaCountry"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
+                  <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" authority="aillaCountry" displayLabel="Country"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
                 </create>
                 <read>
-                  <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@authority="aillaCountry"]</path>
+                  <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@authority="aillaCountry"][@displayLabel="Country"]</path>
                   <context>parent</context>
                 </read>
                 <update>
@@ -1029,10 +1029,10 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text"&gt;%value%&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
+              <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" displayLabel="Place created"&gt;%value%&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
             </create>
             <read>
-              <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][not(@authority="aillaCountry")]</path>
+              <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@displayLabel="Place created"]</path>
               <context>parent</context>
             </read>
             <update>

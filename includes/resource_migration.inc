@@ -204,6 +204,7 @@ function utailla_build_resource_mods($resource) {
       $writer->startElement('placeTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('authority', 'aillaCountry');
+      $writer->writeAttribute('displayLabel', 'Country');
       $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
       $writer->endElement();
       $writer->endElement();
@@ -281,6 +282,7 @@ function utailla_build_resource_mods($resource) {
     $writer->startElement('place');
     $writer->startElement('placeTerm');
     $writer->writeAttribute('type', 'text');
+    $writer->writeAttribute('displayLabel', 'Place created');
     $writer->text($resource['place']);
     $writer->endElement();
     $writer->endElement();
