@@ -75,7 +75,7 @@ function utailla_menu() {
     'title' => 'Access Levels',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('utailla_access_level_form', 2),
-    'access callback' => 'islandora_object_access',
+    'access callback' => 'utailla_access_level_access',
     'access arguments' => array('administer utailla access levels', 2),
     'file' => 'includes/access_levels.form.inc',
     'type' => MENU_LOCAL_TASK,
@@ -382,7 +382,8 @@ function utailla_block_view($delta = '') {
       $restriction = utailla_get_restriction($object->id);
       if ($object &&
         isset($restriction['password']) && $restriction['password'] &&
-        !utailla_user_media_file_current_authorization($object->id)) {
+        !utailla_user_media_file_current_authorization($object->id) &&
+        !utailla_is_object_archived($object)) {
 
         $to_render['subject'] = t('Unlock Object');
         $to_render['content'] = drupal_get_form(
@@ -832,4 +833,15 @@ function utailla_replace_attribute_with_language($form, $form_state) {
     $form['language']['#value'] = $language;
   }
   return $form;
+}
+
+/**
+ * Custom access callback for 'Access Level' tab.
+ */
+function utailla_access_level_access($perm, $object = NULL) {
+  module_load_include('inc', 'utailla', 'includes/utilities');
+  if (utailla_is_object_archived($object)) {
+    return FALSE;
+  }
+  return islandora_object_access($perm, $object);
 }
