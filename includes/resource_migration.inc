@@ -155,41 +155,22 @@ function utailla_build_resource_mods($resource) {
     $nickname = "";
     if (isset($object['MADS'])) {
       // Load contributor MADS Datastream.
-      $mads = new SimpleXMLElement($object['MADS']->content);
-      $mads->registerXPathNamespace('mads', 'http://www.loc.gov/mads/v2');
-
-      // Get given name value from MADS.
-      $name_part_given = $mads->xpath('/mads:mads/mads:authority/mads:name/mads:namePart[@type="given"]');
-      if (count($name_part_given) > 0) {
-        $given_name = (string) reset($name_part_given);
-      }
-
-      // Get family name value from MADS.
-      $name_part_family = $mads->xpath('/mads:mads/mads:authority/mads:name/mads:namePart[@type="family"]');
-      if (count($name_part_family) > 0) {
-        $family_name = (string) reset($name_part_family);
-      }
-
-      // Get nickname value from MADS.
-      $nickname_note = $mads->xpath('/mads:mads/mads:note[@type="nickname"]');
-      if (count($nickname_note) > 0) {
-        $nickname = (string) reset($nickname_note);
-      }
-
-      // Get anonymous value from MADS.
-      $anonymous = $mads->xpath('/mads:mads/mads:note[@type="anonymous"]');
-      if (count($anonymous) > 0) {
-        $anonymous_status = (string) reset($anonymous);
-        // Anonymous records use nickname if avialable otherwise defaults to
-        // Anonymous and saves the value into the namepart[@type="family"].
-        if (!empty($anonymous_status) && $anonymous_status == "Y") {
-          $given_name = "";
-          if (!empty($nickname)) {
-            $family_name = $nickname;
-          }
-          else {
-            $family_name = "Anonymous";
-          }
+      $dom = new DOMDocument();
+      $dom->loadXML($object['MADS']->content);
+      $xpath = new DOMXPath($dom);
+      $xpath->registerNamespace('mads', 'http://www.loc.gov/mads/v2');
+      $given_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
+      $family_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
+      // Anonymous records use nickname if avialable otherwise defaults to
+      // Anonymous and saves the value into the namepart[@type="family"].
+      $anonymous = $xpath->evaluate('/mads:mads/mads:note[@type="anonymous"]/text() = "Y"');
+      if ($anonymous) {
+        $nickname = $xpath->evaluate('string(/mads:mads/mads:note[@type="nickname"]/text())');
+        if (!empty($nickname)) {
+          $family_name = $nickname;
+        }
+        else {
+          $family_name = 'Anonymous';
         }
       }
 
