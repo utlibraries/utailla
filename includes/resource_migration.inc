@@ -150,13 +150,64 @@ function utailla_build_resource_mods($resource) {
   foreach ($resource['contributors'] as $contributor) {
     $pid = utailla_migrated_contributor_pid($contributor['contributor_id']);
     $object = islandora_object_load($pid);
-    if ($object) {
+    $given_name = "";
+    $family_name = "";
+    $nickname = "";
+    if (isset($object['MADS'])) {
+      // Load contributor MADS Datastream.
+      $mads = new SimpleXMLElement($object['MADS']->content);
+      $mads->registerXPathNamespace('mads', 'http://www.loc.gov/mads/v2');
+
+      // Get given name value from MADS.
+      $name_part_given = $mads->xpath('/mads:mads/mads:authority/mads:name/mads:namePart[@type="given"]');
+      if (count($name_part_given) > 0) {
+        $given_name = (string) reset($name_part_given);
+      }
+
+      // Get family name value from MADS.
+      $name_part_family = $mads->xpath('/mads:mads/mads:authority/mads:name/mads:namePart[@type="family"]');
+      if (count($name_part_family) > 0) {
+        $family_name = (string) reset($name_part_family);
+      }
+
+      // Get nickname value from MADS.
+      $nickname_note = $mads->xpath('/mads:mads/mads:note[@type="nickname"]');
+      if (count($nickname_note) > 0) {
+        $nickname = (string) reset($nickname_note);
+      }
+
+      // Get anonymous value from MADS.
+      $anonymous = $mads->xpath('/mads:mads/mads:note[@type="anonymous"]');
+      if (count($anonymous) > 0) {
+        $anonymous_status = (string) reset($anonymous);
+        // Anonymous records use nickname if avialable otherwise defaults to
+        // Anonymous and saves the value into the namepart[@type="family"].
+        if (!empty($anonymous_status) && $anonymous_status == "Y") {
+          $given_name = "";
+          if (!empty($nickname)) {
+            $family_name = $nickname;
+          }
+          else {
+            $family_name = "Anonymous";
+          }
+        }
+      }
+
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
-      $writer->startElement('namePart');
 
-      // Contributor.
-      $writer->text($object->label);
+      // Contributor Given Name.
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'given');
+      $writer->text($given_name);
+      $writer->endElement();
+
+      // Contributor Family Name.
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'family');
+      $writer->text($family_name);
+      $writer->endElement();
+
       // Role in English.
       $writer->startElement('role');
       $writer->startElement('roleTerm');
@@ -175,7 +226,6 @@ function utailla_build_resource_mods($resource) {
       $writer->endElement();
       $writer->endElement();
 
-      $writer->endElement();
       $writer->endElement();
     }
   }
