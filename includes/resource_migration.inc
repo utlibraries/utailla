@@ -90,6 +90,9 @@ function utailla_migrate_resource($resource_info) {
 
     $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
+    // Add media file collection policy.
+    utailla_set_collection_policy($object, 'media_collection_policy.xml');
+    usleep(UTAILLA_USLEEP);
     utailla_log_resource_mapping($resource['resource_id'], $object->id);
     drupal_set_message(
       t(
