@@ -43,7 +43,7 @@ function utailla_migrate_collection($collection_info) {
     $object->label = isset($collection['titles'][0]['title']) ? $collection['titles'][0]['title'] : 'Collection';
     $tuque->repository->ingestObject($object);
     usleep(UTAILLA_USLEEP);
-    // Add resource collcetion policy.
+    // Add resource collection policy.
     utailla_set_collection_policy($object, 'resource_collection_policy.xml');
     usleep(UTAILLA_USLEEP);
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_COLLECTION);

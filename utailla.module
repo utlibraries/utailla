@@ -685,11 +685,28 @@ function utailla_islandora_collectionCModel_islandora_ingest_steps($form_state) 
         'module' => 'utailla',
         'do_function' => array(
           'function' => 'utailla_apply_collection_policy',
-          'args' => array($form_state),
+          'args' => array('resource'),
         ),
       ),
     );
   }
+}
+
+/**
+ * Implements hook_islandora_ingest_steps_CMODEL_PID().
+ */
+function utailla_ailla_resourceCModel_islandora_ingest_steps($form_state) {
+  return array(
+    'utailla_collection_policy' => array(
+      'type' => 'callback',
+      'weight' => -11,
+      'module' => 'utailla',
+      'do_function' => array(
+        'function' => 'utailla_apply_collection_policy',
+        'args' => array('media'),
+      ),
+    ),
+  );
 }
 
 /**
@@ -707,15 +724,17 @@ function utailla_islandora_collectionCModel_islandora_ingest_steps_alter(&$steps
  *
  * @param array $form_state
  *   An array containing the Drupal form state.
+ * @param string $type
+ *   The type of COLLECTION_POLICY to apply either 'resource' or 'media'.
  */
-function utailla_apply_collection_policy(&$form_state) {
+function utailla_apply_collection_policy(&$form_state, $type) {
   module_load_include('inc', 'islandora', 'includes/ingest.form');
   $module_path = drupal_get_path('module', 'utailla');
   $object = islandora_ingest_form_get_object($form_state);
   $ds = $object->constructDatastream('COLLECTION_POLICY', 'M');
   $ds->mimetype = 'application/xml';
   $ds->label = 'Collection policy';
-  $ds->setContentFromFile("$module_path/xml/resource_collection_policy.xml", FALSE);
+  $ds->setContentFromFile("$module_path/xml/{$type}_collection_policy.xml", FALSE);
   $object->ingestDatastream($ds);
 }
 
