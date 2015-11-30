@@ -154,39 +154,23 @@ function utailla_build_resource_mods($resource) {
     $family_name = "";
     $nickname = "";
     if (isset($object['MADS'])) {
-      // Load contributor MADS Datastream.
-      $dom = new DOMDocument();
-      $dom->loadXML($object['MADS']->content);
-      $xpath = new DOMXPath($dom);
-      $xpath->registerNamespace('mads', 'http://www.loc.gov/mads/v2');
-      $given_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
-      $family_name = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
-      // Anonymous records use nickname if avialable otherwise defaults to
-      // Anonymous and saves the value into the namepart[@type="family"].
-      $anonymous = $xpath->evaluate('/mads:mads/mads:note[@type="anonymous"]/text() = "Y"');
-      if ($anonymous) {
-        $nickname = $xpath->evaluate('string(/mads:mads/mads:note[@type="nickname"]/text())');
-        if (!empty($nickname)) {
-          $family_name = $nickname;
-        }
-        else {
-          $family_name = 'Anonymous';
-        }
-      }
+      // Get the namepart data out of MADS.
+      $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
 
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
+      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
 
       // Contributor Given Name.
       $writer->startElement('namePart');
       $writer->writeAttribute('type', 'given');
-      $writer->text($given_name);
+      $writer->text($name_data['given_name']);
       $writer->endElement();
 
       // Contributor Family Name.
       $writer->startElement('namePart');
       $writer->writeAttribute('type', 'family');
-      $writer->text($family_name);
+      $writer->text($name_data['family_name']);
       $writer->endElement();
 
       // Role in English.

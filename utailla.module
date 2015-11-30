@@ -25,6 +25,7 @@ define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlangu
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
 define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
 define('UTAILLA_ORGANIZATION_AUTOCOMPLETE', 'utailla/autocomplete/organization');
+define('UTAILLA_ASSOCIATE_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/associate/contributor');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
@@ -68,6 +69,15 @@ function utailla_menu() {
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
     'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_ASSOCIATE_CONTRIBUTOR_AUTOCOMPLETE] = array(
+    'title' => 'Associate contributors callback',
+    'description' => 'Autocomplete to get a contributor.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_associate_contributor_autocomplete',
+    'page arguments' => array(4),
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
@@ -844,4 +854,55 @@ function utailla_access_level_access($perm, $object = NULL) {
     return FALSE;
   }
   return islandora_object_access($perm, $object);
+}
+
+/**
+ * Custom Validation for association contributor autocomplete.
+ */
+function utailla_association_contributor_validate($element, &$form_state, &$form) {
+  if (!empty($element['namepart_autocomplete']['#value'])) {
+    // Get the PID from the autocomplete - this is based on returned format in
+    // utailla.autocomplete.inc and is required to split the name into nameparta
+    // and save the valueURI so the relationship with the object can be
+    // maintained.
+    $pieces = explode('(', trim($element['namepart_autocomplete']['#value'], ')'));
+    if (count($pieces) > 1) {
+      // PID is always the last part of the autocomplete results.
+      $pid = end($pieces);
+      $object = islandora_object_load($pid);
+      if ($object) {
+        // Get the namepart data from object MADS and update hidden form fields.
+        module_load_include('inc', 'utailla', 'includes/utilities');
+        $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
+        form_set_value($element['namepart_given'], $name_data['given_name'], $form_state);
+        form_set_value($element['namepart_family'], $name_data['family_name'], $form_state);
+        form_set_value($element['contributor_pid'], utailla_get_uri_from_pid($pid), $form_state);
+      }
+    }
+  }
+}
+
+/**
+ * Contributor populate autocomplete field using hidden nameparts and PID.
+ */
+function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
+  global $base_url;
+  if (empty($form['namepart_autocomplete']['#value'])) {
+    $given_name = (!empty($form['namepart_given']['#value']) ? $form['namepart_given']['#value'] : "");
+    $family_name = (!empty($form['namepart_family']['#value']) ? $form['namepart_family']['#value'] : "");
+    $pid = (!empty($form['contributor_pid']['#value']) ? str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']) : "");
+    if (!empty($given_name) && empty($family_name)) {
+      $display_value = $given_name;
+    }
+    elseif (empty($given_name) && !empty($family_name)) {
+      $display_value = $family_name;
+    }
+    elseif (!empty($given_name) && !empty($family_name)) {
+      $display_value = "{$family_name}, {$given_name}";
+    }
+    if (!empty($display_value)) {
+      $form['namepart_autocomplete']['#value'] = "{$display_value} ({$pid})";
+    }
+  }
+  return $form;
 }
