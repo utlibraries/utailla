@@ -153,9 +153,6 @@ function utailla_build_resource_mods($resource) {
   foreach ($resource['contributors'] as $contributor) {
     $pid = utailla_migrated_contributor_pid($contributor['contributor_id']);
     $object = islandora_object_load($pid);
-    $given_name = "";
-    $family_name = "";
-    $nickname = "";
     if (isset($object['MADS'])) {
       // Get the namepart data out of MADS.
       $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);

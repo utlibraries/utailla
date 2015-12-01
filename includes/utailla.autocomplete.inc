@@ -65,9 +65,7 @@ EOQ;
 function utailla_associate_contributor_autocomplete($string) {
   $qp = new IslandoraSolrQueryProcessor();
   $qp->solrLimit = 0;
-  $upper = strtoupper($string);
-  $qp->buildQuery("RELS_EXT_hasModel_uri_s:\"info:fedora/ailla:contributorCModel\" AND (fgs_label_mt:*$string* OR fgs_label_mt:*$upper*)");
-  $qp->solrParams['fl'] = 'PID, fgs_label_t, RELS_EXT_hasModel_uri_s';
+  $qp->buildQuery("RELS_EXT_hasModel_uri_s:\"info:fedora/ailla:contributorCModel\" AND fgs_label_mt:*$string*");
   $qp->executeQuery();
   $matches = array();
   if ($qp->islandoraSolrResult['response']['numFound'] > 0) {
