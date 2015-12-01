@@ -925,3 +925,19 @@ function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   }
   return $form;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function utailla_form_islandora_solr_admin_settings_alter(&$form, &$form_state) {
+  // Add a custom field to the required_solr_fields section for the label search
+  // field to be used when searching contributor objects with the autocomplete.
+  $form['islandora_solr_tabs']['required_solr_fields']['utailla_contributor_search_field'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Contributor object label Solr search field'),
+    '#size' => 30,
+    '#description' => t("The Solr field containing an object's label. This should be a single valued or multi valued text field."),
+    '#default_value' => variable_get('utailla_contributor_search_field', 'fgs_label_t'),
+    '#required' => TRUE,
+  );
+}
