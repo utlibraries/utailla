@@ -391,3 +391,36 @@ function utailla_is_object_archived(AbstractObject $object) {
   }
   return FALSE;
 }
+
+/**
+ * Gets any namepart data from contributor object MADS datastream.
+ */
+function utailla_get_contributor_nameparts_from_mads($mads_ds) {
+  $results = array(
+    "given_name" => "",
+    "family_name" => "",
+  );
+  // Load contributor MADS Datastream.
+  $dom = new DOMDocument();
+  $dom->loadXML($mads_ds);
+  $xpath = new DOMXPath($dom);
+  $xpath->registerNamespace('mads', 'http://www.loc.gov/mads/v2');
+  // XXX: This assumes that the contributor objects will only ever have one MADS
+  // record for name, note[@type="anonymous"], and mads:note[@type="nickname"].
+  $results['given_name'] = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="given"]/text())');
+  $results['family_name'] = $xpath->evaluate('string(/mads:mads/mads:authority/mads:name[@type="personal"]/mads:namePart[@type="family"]/text())');
+  // Anonymous record(s) use nickname if avialable otherwise defaults to
+  // 'Anonymous' and saves the value into the namepart[@type="family"].
+  $anonymous = $xpath->evaluate('/mads:mads/mads:note[@type="anonymous"]/text() = "Y"');
+  if ($anonymous) {
+    $results['given_name'] = "";
+    $nickname = $xpath->evaluate('string(/mads:mads/mads:note[@type="nickname"]/text())');
+    if (!empty($nickname)) {
+      $results['family_name'] = $nickname;
+    }
+    else {
+      $results['family_name'] = 'Anonymous';
+    }
+  }
+  return $results;
+}

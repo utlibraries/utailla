@@ -52,3 +52,29 @@ EOQ;
   }
   drupal_json_output($matches);
 }
+
+/**
+ * Autocomplete that searches for Contributor objects.
+ *
+ * @param string $string
+ *   A search string.
+ *
+ * @return string
+ *   The rendered JSON results.
+ */
+function utailla_associate_contributor_autocomplete($string) {
+  $qp = new IslandoraSolrQueryProcessor();
+  $qp->solrLimit = 0;
+  $contributor_search_label_field = variable_get('utailla_contributor_search_field', 'fgs_label_t');
+  $display_label_field = variable_get('islandora_solr_object_label_field', 'fgs_label_s');
+  $model_field = variable_get('islandora_solr_content_model_field', 'RELS_EXT_hasModel_uri_ms');
+  $qp->buildQuery("$model_field:\"info:fedora/ailla:contributorCModel\" AND $contributor_search_label_field:*$string*");
+  $qp->executeQuery();
+  $matches = array();
+  if ($qp->islandoraSolrResult['response']['numFound'] > 0) {
+    foreach ($qp->islandoraSolrResult['response']['objects'] as $object) {
+      $matches["{$object['solr_doc'][$display_label_field]} ({$object['PID']})"] = "{$object['solr_doc'][$display_label_field]} ({$object['PID']})";
+    }
+  }
+  drupal_json_output($matches);
+}

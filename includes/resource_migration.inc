@@ -153,13 +153,26 @@ function utailla_build_resource_mods($resource) {
   foreach ($resource['contributors'] as $contributor) {
     $pid = utailla_migrated_contributor_pid($contributor['contributor_id']);
     $object = islandora_object_load($pid);
-    if ($object) {
+    if (isset($object['MADS'])) {
+      // Get the namepart data out of MADS.
+      $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
+
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
-      $writer->startElement('namePart');
+      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
 
-      // Contributor.
-      $writer->text($object->label);
+      // Contributor Given Name.
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'given');
+      $writer->text($name_data['given_name']);
+      $writer->endElement();
+
+      // Contributor Family Name.
+      $writer->startElement('namePart');
+      $writer->writeAttribute('type', 'family');
+      $writer->text($name_data['family_name']);
+      $writer->endElement();
+
       // Role in English.
       $writer->startElement('role');
       $writer->startElement('roleTerm');
@@ -178,7 +191,6 @@ function utailla_build_resource_mods($resource) {
       $writer->endElement();
       $writer->endElement();
 
-      $writer->endElement();
       $writer->endElement();
     }
   }

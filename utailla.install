@@ -101,6 +101,7 @@ function utailla_create_user_field($name, $label, $type = 'text') {
 function utailla_uninstall() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   islandora_install_solution_pack('utailla', 'uninstall');
+  variable_del('utailla_contributor_search_field');
 }
 
 /**
