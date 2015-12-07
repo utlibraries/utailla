@@ -368,7 +368,7 @@ function utailla_get_contributor_count() {
 function utailla_get_media_files() {
   $db = utailla_get_migration_database();
   $query = $db->select('media_file', 'media');
-  $query->condition('identifier', db_like('%-sa.%'), 'NOT LIKE');
+  $query->condition('identifier', '%' . db_like('-sa.') . '%', 'NOT LIKE');
   $query->rightJoin('resource_to_media', 'resource', 'resource.media_file_id = media.media_file_id');
   return $query->fields('media', array())
     ->execute()
