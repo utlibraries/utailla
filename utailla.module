@@ -234,6 +234,15 @@ function utailla_islandora_xml_form_builder_forms() {
     'Ailla Audio MODS form' => array(
       'form_file' => "$module_path/xml/audio_form.xml",
     ),
+    'Ailla Text MODS form' => array(
+      'form_file' => "$module_path/xml/text_form.xml",
+    ),
+    'Ailla Video MODS form' => array(
+      'form_file' => "$module_path/xml/video_form.xml",
+    ),
+    'Ailla Image MODS form' => array(
+      'form_file' => "$module_path/xml/image_form.xml",
+    ),
   );
 }
 
@@ -293,6 +302,54 @@ function utailla_islandora_xml_form_builder_form_associations() {
     'ailla_audio_form' => array(
       'content_model' => 'islandora:sp-audioCModel',
       'form_name' => 'Ailla Audio MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_video_form' => array(
+      'content_model' => 'islandora:sp_videoCModel',
+      'form_name' => 'Ailla Video MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_document_form' => array(
+      'content_model' => 'islandora:sp_document',
+      'form_name' => 'Ailla Text MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_pdf_form' => array(
+      'content_model' => 'islandora:sp_pdf',
+      'form_name' => 'Ailla Text MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_binary_form' => array(
+      'content_model' => 'islandora:binaryObjectCModel',
+      'form_name' => 'Ailla Text MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_basic_image_form' => array(
+      'content_model' => 'islandora:sp_basic_image',
+      'form_name' => 'Ailla Image MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array('titleInfo', 'title'),
+      'transform' => FALSE,
+      'template' => FALSE,
+    ),
+    'ailla_large_image_form' => array(
+      'content_model' => 'islandora:sp_large_image_cmodel',
+      'form_name' => 'Ailla Image MODS form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfo', 'title'),
       'transform' => FALSE,
