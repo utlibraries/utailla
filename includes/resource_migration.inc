@@ -128,7 +128,7 @@ function utailla_build_resource_mods($resource) {
 
         switch ($title['language']) {
           case 'other':
-            $writer->writeAttribute('displayLabel', 'Indigenous title');
+            $writer->writeAttribute('displayLabel', 'Title (Indigenous language)');
             $writer->writeAttribute('type', 'alternative');
             break;
 
@@ -159,6 +159,8 @@ function utailla_build_resource_mods($resource) {
 
       $writer->startElement('name');
       $writer->writeAttribute('type', 'personal');
+      $writer->writeAttribute('authority', 'aillaPerson');
+      $writer->writeAttribute('displayLabel', 'Contributor (Individual)');
       $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
 
       // Contributor Given Name.
@@ -178,6 +180,7 @@ function utailla_build_resource_mods($resource) {
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'eng');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
       $writer->text($contributor['role_name']);
       $writer->endElement();
       $writer->endElement();
@@ -187,7 +190,48 @@ function utailla_build_resource_mods($resource) {
       $writer->startElement('roleTerm');
       $writer->writeAttribute('type', 'text');
       $writer->writeAttribute('lang', 'spa');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
       $writer->text($contributor['papel_nombre']);
+      $writer->endElement();
+      $writer->endElement();
+
+      $writer->endElement();
+    }
+  }
+
+  // organization and role.
+  foreach ($resource['organizations'] as $organization) {
+    $pid = utailla_migrated_organization_pid($organization['organization_id']);
+    $object = islandora_object_load($pid);
+    if ($object) {
+      $writer->startElement('name');
+      $writer->writeAttribute('type', 'corporate');
+      $writer->writeAttribute('authority', 'aillaOrganization');
+      $writer->writeAttribute('displayLabel', 'Contributor (Organization)');
+      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+
+      // Contributor Given Name.
+      $writer->startElement('namePart');
+      $writer->text($object->label);
+      $writer->endElement();
+
+      // Role in English.
+      $writer->startElement('role');
+      $writer->startElement('roleTerm');
+      $writer->writeAttribute('type', 'text');
+      $writer->writeAttribute('lang', 'eng');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
+      $writer->text($organization['role_name']);
+      $writer->endElement();
+      $writer->endElement();
+
+      // Role in spanish.
+      $writer->startElement('role');
+      $writer->startElement('roleTerm');
+      $writer->writeAttribute('type', 'text');
+      $writer->writeAttribute('lang', 'spa');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
+      $writer->text($organization['papel_nombre']);
       $writer->endElement();
       $writer->endElement();
 
@@ -234,14 +278,15 @@ function utailla_build_resource_mods($resource) {
       switch ($description['language']) {
         case 'en':
           $writer->writeAttribute('lang', 'eng');
+          $writer->writeAttribute('displayLabel', 'Resource description (English)');
           break;
 
         case 'sp':
           $writer->writeAttribute('lang', 'spa');
+          $writer->writeAttribute('displayLabel', 'Resource description (Spanish)');
           break;
 
       }
-      $writer->writeAttribute('displayLabel', 'Resource description');
       $writer->text($description['description_text']);
       $writer->endElement();
     }
@@ -267,6 +312,8 @@ function utailla_build_resource_mods($resource) {
         $writer->startElement('titleInfo');
         $writer->writeAttribute('displayLabel', 'Collection name');
         $writer->startElement('title');
+        $writer->writeAttribute('authority', 'aillaCollection');
+        $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
         $writer->text($collection->label);
         $writer->endElement();
         $writer->endElement();
@@ -316,7 +363,6 @@ function utailla_build_resource_mods($resource) {
 
   // Type of Resource.
   $writer->startElement('typeOfResource');
-  $writer->writeAttribute('collection', 'yes');
   $writer->text('mixed material');
   $writer->endElement();
 
