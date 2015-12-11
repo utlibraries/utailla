@@ -35,7 +35,7 @@ function utailla_migrate_resource($resource_info) {
   module_load_include('inc', 'utailla', 'includes/migration.db');
   module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_resource_pid($resource_info->resource_id)) {
-    $resource = utailla_get_decoded_row_recursive($resource_info, array('citations'));
+    $resource = utailla_get_decoded_row_recursive($resource_info, array('citations', 'description_text'));
     $tuque = islandora_get_tuque_connection();
 
     $object = $tuque->repository->constructObject('ailla');
