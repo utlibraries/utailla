@@ -421,7 +421,7 @@
                                     <path>self::node()</path>
                                     <context>parent</context>
                                     <schema/>
-                                    <type>element</type>
+                                    <type>xml</type>
                                     <prefix>NULL</prefix>
                                     <value>&lt;dateOther displayLabel="Date archived"&gt;%value%&lt;/dateOther&gt;</value>
                                 </create>
