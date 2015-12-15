@@ -421,9 +421,9 @@
                                     <path>self::node()</path>
                                     <context>parent</context>
                                     <schema/>
-                                    <type>element</type>
+                                    <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>dateOther</value>
+                                    <value>&lt;dateOther displayLabel="Date archived"&gt;%value%&lt;/dateOther&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:dateOther</path>
@@ -475,7 +475,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;genre authority="aillaMediaGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
+                            <value>&lt;genre authority="aillaMediaGenres" lang="eng" displayLabel="Content type (English)"]&gt;%value%&lt;/genre&gt;</value>
                         </create>
                         <read>
                             <path>mods:genre[@authority='aillaMediaGenres' and @lang='eng']</path>
@@ -513,7 +513,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;genre authority="aillaMediaGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
+                            <value>&lt;genre authority="aillaMediaGenres" lang="spa" displayLabel="Content type (Spanish)"&gt;%value%&lt;/genre&gt;</value>
                         </create>
                         <read>
                             <path>mods:genre[@authority='aillaMediaGenres' and @lang='spa']</path>
@@ -563,7 +563,7 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;note type="recording/production note" lang="eng"&gt;%value%&lt;/note&gt;</value>
+                                    <value>&lt;note type="recording/production note" lang="eng" displayLabel="Technical description (English)"&gt;%value%&lt;/note&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:note[@type="recording/production note" and @lang="eng"]</path>
@@ -598,7 +598,7 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;note type="recording/production note" lang="spa"&gt;%value%&lt;/note&gt;</value>
+                                    <value>&lt;note type="recording/production note" lang="spa" displayLabel="Technical description (Spanish)"&gt;%value%&lt;/note&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:note[@type="recording/production note" and @lang="spa"]</path>
@@ -787,10 +787,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium" lang="eng"&gt;%value%&lt;/form&gt;</value>
+                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium (English)" lang="eng"&gt;%value%&lt;/form&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium" and @lang="eng"]</path>
+                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium (English)" and @lang="eng"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
@@ -825,10 +825,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium" lang="spa"&gt;%value%&lt;/form&gt;</value>
+                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium (Spanish)" lang="spa"&gt;%value%&lt;/form&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium" and @lang="spa"]</path>
+                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium (Spanish)" and @lang="spa"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
