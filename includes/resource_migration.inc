@@ -133,10 +133,12 @@ function utailla_build_resource_mods($resource) {
             break;
 
           case 'en':
+            $writer->writeAttribute('displayLabel', 'Title (English)');
             $writer->writeAttribute('lang', 'eng');
             break;
 
           case 'sp':
+            $writer->writeAttribute('displayLabel', 'Title (Spanish)');
             $writer->writeAttribute('lang', 'spa');
             break;
 
