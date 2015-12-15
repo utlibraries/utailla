@@ -51,7 +51,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo lang="eng" /&gt;</value>
+                            <value>&lt;titleInfo lang="eng" displayLabel="Title (English)"/&gt;</value>
                         </create>
                         <read>
                             <path>mods:titleInfo[@lang="eng"]</path>
@@ -121,7 +121,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo lang="spa" /&gt;</value>
+                            <value>&lt;titleInfo lang="spa" displayLabel="Title (Spanish)"/&gt;</value>
                         </create>
                         <read>
                             <path>mods:titleInfo[@lang="spa"]</path>
@@ -192,10 +192,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo type="alternative" displayLabel="Indigenous title" /&gt;</value>
+                            <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous language)"/&gt;</value>
                         </create>
                         <read>
-                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Indigenous title"]</path>
+                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -946,10 +946,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="eng" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="eng" displayLabel="Collection description (English)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description (English)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -981,10 +981,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="spa" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="spa" displayLabel=Collection description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description (Spanish)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -1016,10 +1016,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract displayLabel="Collection description"&gt;&lt;/abstract&gt;</value>
+                            <value>&lt;abstract displayLabel="Collection description  (Indigenous language)"&gt;&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description  (Indigenous language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>NULL</update>
