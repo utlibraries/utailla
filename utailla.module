@@ -9,8 +9,8 @@ define('UTAILLA_COLLECTION', 'ailla:collection_collection');
 define('UTAILLA_ORG_COLLECTION', 'ailla:organization_collection');
 define('UTAILLA_ORG_CMODEL', 'ailla:organizationCModel');
 define('UTAILLA_RESOURCE_CMODEL', 'ailla:resourceCModel');
-define('UTAILLA_CONTRIBUTOR_COLLECTION', 'ailla:contributor_collection');
-define('UTAILLA_CONTRIBUTOR_CMODEL', 'ailla:contributorCModel');
+define('UTAILLA_CONTRIBUTOR_COLLECTION', 'ailla:persons_collection');
+define('UTAILLA_CONTRIBUTOR_CMODEL', 'ailla:personsCModel');
 define('UTAILLA_LANGUAGE_CMODEL', 'ailla:languageCModel');
 define('UTAILLA_COUNTRY_CMODEL', 'ailla:countryCModel');
 // Migrations.
@@ -175,7 +175,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   // Contributor collection.
   $contributor_collection = $connection->repository->constructObject(UTAILLA_CONTRIBUTOR_COLLECTION);
   $contributor_collection->owner = 'fedoraAdmin';
-  $contributor_collection->label = 'Contributors';
+  $contributor_collection->label = 'Persons';
   $contributor_collection->models = 'islandora:collectionCModel';
   $contributor_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
   utailla_set_default_thumb($contributor_collection);
@@ -184,7 +184,7 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
   // Contributor content model.
   $contributor_cmodel = $connection->repository->constructObject(UTAILLA_CONTRIBUTOR_CMODEL);
   $contributor_cmodel->owner = 'fedoraAdmin';
-  $contributor_cmodel->label = 'Contributor Content Model';
+  $contributor_cmodel->label = 'Persons Content Model';
   $contributor_cmodel->models = 'fedora-system:ContentModel-3.0';
   utailla_set_ds_composite($contributor_cmodel, 'contributor_composite_model.xml');
 
@@ -704,9 +704,9 @@ function utailla_islandora_solr_query_alter($qp) {
  */
 function utailla_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, &$context) {
   $mads_cmodels = array(
-    'ailla:countryCModel',
-    'ailla:contributorCModel',
-    'ailla:organizationCModel',
+    UTAILLA_COUNTRY_CMODEL,
+    UTAILLA_CONTRIBUTOR_CMODEL,
+    UTAILLA_ORG_CMODEL,
   );
   // Add PID to the MADS record.
   if ($context['action'] == 'ingest' && $datastream->id == 'MADS' && array_intersect($object->models, $mads_cmodels)) {

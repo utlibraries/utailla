@@ -1,6 +1,6 @@
-<collection_policy xmlns="http://www.islandora.ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Ailla Contributor Object" xsi:schemaLocation="http://www.islandora.ca">
+<collection_policy xmlns="http://www.islandora.ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Ailla Person Object" xsi:schemaLocation="http://www.islandora.ca">
     <content_models>
-        <content_model name="Ailla Contributor Content Model" dsid="DS-COMPOSITE-MODEL" namespace="ailla" pid="ailla:contributorCModel"/>
+        <content_model name="Ailla Persons Content Model" dsid="DS-COMPOSITE-MODEL" namespace="ailla" pid="ailla:personsCModel"/>
     </content_models>
     <search_terms></search_terms>
     <staging_area></staging_area>
