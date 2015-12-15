@@ -366,59 +366,6 @@
                 </properties>
                 <children/>
             </element>
-            <element name="typeOfResource">
-                <properties>
-                    <type>select</type>
-                    <access>TRUE</access>
-                    <collapsed>FALSE</collapsed>
-                    <collapsible>FALSE</collapsible>
-                    <default_value>mixed material</default_value>
-                    <disabled>FALSE</disabled>
-                    <executes_submit_callback>FALSE</executes_submit_callback>
-                    <multiple>FALSE</multiple>
-                    <options>
-                        <index key="">- select a type -</index>
-                        <text>text</text>
-                        <cartographic>cartographic</cartographic>
-                        <index key="notated music">notated music</index>
-                        <index key="sound recording">sound recording</index>
-                        <index key="sound recording-musical">sound recording-musical</index>
-                        <index key="sound recording-nonmusical">sound recording-nonmusical</index>
-                        <index key="moving image">moving image</index>
-                        <index key="three dimensional object">three dimensional object</index>
-                        <index key="software, multimedia">software, multimedia</index>
-                        <index key="mixed material">mixed material</index>
-                        <index key="still image">still image</index>
-                    </options>
-                    <required>FALSE</required>
-                    <resizable>FALSE</resizable>
-                    <title>Type of Resource</title>
-                    <tree>TRUE</tree>
-                    <actions>
-                        <create>
-                            <path>self::node()</path>
-                            <context>parent</context>
-                            <schema/>
-                            <type>xml</type>
-                            <prefix>NULL</prefix>
-                            <value>&lt;typeOfResource collection="yes"&gt;%value%&lt;/typeOfResource&gt;</value>
-                        </create>
-                        <read>
-                            <path>mods:typeOfResource</path>
-                            <context>parent</context>
-                        </read>
-                        <update>
-                            <path>self::node()</path>
-                            <context>self</context>
-                        </update>
-                        <delete>
-                            <path>self::node()</path>
-                            <context>self</context>
-                        </delete>
-                    </actions>
-                </properties>
-                <children/>
-            </element>
             <element name="collectors">
                 <properties>
                     <type>tabs</type>
@@ -676,6 +623,59 @@
                         </children>
                     </element>
                 </children>
+            </element>
+            <element name="typeOfResource">
+                <properties>
+                    <type>select</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <default_value>mixed material</default_value>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <options>
+                        <index key="">- select a type -</index>
+                        <text>text</text>
+                        <cartographic>cartographic</cartographic>
+                        <index key="notated music">notated music</index>
+                        <index key="sound recording">sound recording</index>
+                        <index key="sound recording-musical">sound recording-musical</index>
+                        <index key="sound recording-nonmusical">sound recording-nonmusical</index>
+                        <index key="moving image">moving image</index>
+                        <index key="three dimensional object">three dimensional object</index>
+                        <index key="software, multimedia">software, multimedia</index>
+                        <index key="mixed material">mixed material</index>
+                        <index key="still image">still image</index>
+                    </options>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Type of Resource</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;typeOfResource collection="yes"&gt;%value%&lt;/typeOfResource&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:typeOfResource</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </delete>
+                    </actions>
+                </properties>
+                <children/>
             </element>
             <element name="languages_uri">
                 <properties>

@@ -113,11 +113,6 @@ function utailla_build_collection_mods($collection) {
   $writer->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
   $writer->writeAttribute('xsi:schemaLocation', 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd');
 
-  $writer->startElement('typeOfResource');
-  $writer->writeAttribute('collection', 'yes');
-  $writer->text('mixed material');
-  $writer->endElement();
-
   // Website.
   if ($collection['website']) {
     $writer->startElement('note');
@@ -154,6 +149,11 @@ function utailla_build_collection_mods($collection) {
       $writer->endElement();
     }
   }
+
+  $writer->startElement('typeOfResource');
+  $writer->writeAttribute('collection', 'yes');
+  $writer->text('mixed material');
+  $writer->endElement();
 
   // Languages.
   if ($collection['languages']) {
