@@ -400,10 +400,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text"&gt;collector&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
+                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;Collector&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;Coleccionista&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:name[mods:role/mods:roleTerm="collector"]</path>
+                                    <path>mods:name[mods:role/mods:roleTerm="Collector"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
@@ -527,10 +527,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text"&gt;depositor&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
+                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;Depositor&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;Depositante&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:name[mods:role/mods:roleTerm="depositor"]</path>
+                                    <path>mods:name[mods:role/mods:roleTerm="Depositor"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>

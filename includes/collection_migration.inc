@@ -155,6 +155,70 @@ function utailla_build_collection_mods($collection) {
   $writer->text('mixed material');
   $writer->endElement();
 
+  // Collectors / Depositors - they are different identified as collector /
+  // depositor by the roleterm value.
+  if ($collection['depositors']) {
+    foreach ($collection['depositors'] as $depositor) {
+      if ($depositor['depositor_type'] == "I") {
+        $pid = utailla_migrated_contributor_pid($depositor['depositor_id']);
+      }
+      else {
+        $pid = utailla_migrated_organization_pid($depositor['depositor_id']);
+      }
+      $object = islandora_object_load($pid);
+
+      $writer->startElement('name');
+      $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+
+      // Depositor is an Individual (contributorCModel Object).
+      if ($depositor['depositor_type'] == "I" && isset($object['MADS'])) {
+        $writer->writeAttribute('type', 'personal');
+        // Get the namepart data out of MADS.
+        $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
+
+        // Contributor Given Name.
+        $writer->startElement('namePart');
+        $writer->writeAttribute('type', 'given');
+        $writer->text($name_data['given_name']);
+        $writer->endElement();
+
+        // Contributor Family Name.
+        $writer->startElement('namePart');
+        $writer->writeAttribute('type', 'family');
+        $writer->text($name_data['family_name']);
+        $writer->endElement();
+      }
+      else {
+        // Depositor is an Organization (organizationCModel Object).
+        $writer->writeAttribute('type', 'corporate');
+        $writer->startElement('namePart');
+        $writer->text($object->label);
+        $writer->endElement();
+      }
+
+      // Role in English.
+      $writer->startElement('role');
+      $writer->startElement('roleTerm');
+      $writer->writeAttribute('type', 'text');
+      $writer->writeAttribute('lang', 'eng');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
+      $writer->text($depositor['role_name']);
+      $writer->endElement();
+      $writer->endElement();
+
+      // Role in spanish.
+      $writer->startElement('role');
+      $writer->startElement('roleTerm');
+      $writer->writeAttribute('type', 'text');
+      $writer->writeAttribute('lang', 'spa');
+      $writer->writeAttribute('authority', 'aillaRoleTerms');
+      $writer->text($depositor['papel_nombre']);
+      $writer->endElement();
+      $writer->endElement();
+
+      $writer->endElement();
+    }
+  }
   // Languages.
   if ($collection['languages']) {
     foreach ($collection['languages'] as $language) {
