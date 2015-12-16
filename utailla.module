@@ -639,7 +639,7 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
 /**
  * Implements hook_cmodel_pid_dsid_islandora_datastream_alter().
  */
-function utailla_ailla_contributorCModel_MADS_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, array $context) {
+function utailla_ailla_personsCModel_MADS_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, array $context) {
   if ($context['action'] == 'ingest' || $context['action'] == 'modify') {
     module_load_include('inc', 'utailla', 'includes/utilities');
     // See if the label needs to be updated.
