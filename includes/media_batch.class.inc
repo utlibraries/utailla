@@ -5,7 +5,7 @@
  */
 
 class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
-  protected $dontMap = array(13, 3, 15, 20, 21, 22, 26);
+  protected $dontMap = array(3, 26);
 
   /**
    * Queries the migration DB for objects to make.

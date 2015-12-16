@@ -8,50 +8,62 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
   protected static $modelMap = array(
     1 => 'islandora:sp-audioCModel',
     2 => 'islandora:sp-audioCModel',
-    10 => 'islandora:sp_document',
+    // Not caring about 3, as that's a directory.
     4 => 'islandora:sp_pdf',
     5 => 'islandora:sp_document',
     6 => 'islandora:sp_document',
     7 => 'islandora:sp_document',
     8 => 'islandora:sp_document',
     9 => 'islandora:sp_basic_image',
+    10 => 'islandora:sp_document',
     11 => 'islandora:sp_large_image_cmodel',
     12 => 'islandora:binaryObjectCModel',
+    13 => 'islandora:sp_videoCModel',
     14 => 'islandora:sp_videoCModel',
+    15 => 'islandora:sp_videoCModel',
     16 => 'islandora:sp_document',
     17 => 'islandora:sp_videoCModel',
     18 => 'islandora:binaryObjectCModel',
     19 => 'islandora:binaryObjectCModel',
+    20 => 'islandora:sp_videoCModel',
+    21 => 'islandora:sp_videoCModel',
+    22 => 'islandora:sp_videoCModel',
     23 => 'islandora:sp_videoCModel',
     24 => 'islandora:sp_large_image_cmodel',
     25 => 'islandora:binaryObjectCModel',
+    // There's a 26, but that's .zip files.
   );
   protected static $mimeMap = array(
     1 => 'audio/mp3',
     2 => 'audio/wav',
-    10 => 'text/richtext',
     4 => 'application/pdf',
     5 => 'application/msword',
     6 => 'text/html',
     7 => 'text/plain',
     8 => 'application/Wordperfect5.1',
     9 => 'image/jpeg',
+    10 => 'text/richtext',
     11 => 'image/tiff',
     12 => 'text/xml',
+    13 => 'video/mj2',
     14 => 'video/avi',
+    15 => 'video/mpeg',
     16 => 'application/vnd.oasis.opendocument',
     17 => 'video/quicktime',
     18 => 'text/x-eaf+xml',
     19 => 'text/x-trs+xml',
+    20 => 'video/vnd.rn-realvideo',
+    21 => 'video/x-ms-wm',
+    22 => 'video/mpeg',
     23 => 'video/mp4',
     24 => 'image/tiff',
     25 => 'text/xml',
   );
   protected static $metaMap = array(
-    'text' => array(10, 4, 5, 6, 7, 8, 12, 16, 18, 19, 25),
-    'audio' => array(1, 2, 23),
+    'text' => array(4, 5, 6, 7, 8, 10, 12, 16, 18, 19, 25),
+    'audio' => array(1, 2),
     'image' => array(9, 11, 24),
-    'video' => array(14, 17),
+    'video' => array(13, 14, 15, 17, 20, 21, 22, 23),
   );
 
   /**
@@ -233,7 +245,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
       $writer->writeAttribute('eventType', 'production');
       $writer->startElement('dateCreated');
       $writer->writeAttribute('keyDate', 'yes');
-      $writer->writeAttribute('displayLabel', 'Date research material was created.');
+      $writer->writeAttribute('displayLabel', 'Date research material was created');
       $writer->text($this->mediaInfo['date_created']);
       $writer->endElement();
       $writer->endElement();
@@ -271,6 +283,10 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     $writer->startElement('physicalDescription');
     $writer->startElement('extent');
     $writer->text("{$this->mediaInfo['length_hours']}:{$this->mediaInfo['length_mins']}:{$this->mediaInfo['length_secs']}");
+    $writer->endElement();
+    $writer->startElement('extent');
+    $writer->writeAttribute('displayLabel', 'Length in pages');
+    $writer->text($this->mediaInfo['pages']);
     $writer->endElement();
     $writer->startElement('note');
     $writer->writeAttribute('type', 'encoding specifications');
@@ -314,14 +330,14 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
       $writer->startElement('note');
       $writer->writeAttribute('type', 'recording/production note');
       $writer->writeAttribute('lang', 'eng');
-      $writer->text($this->mediaInfo['description_en']);
+      $writer->text($this->normalizeNewlines($this->mediaInfo['description_en']));
       $writer->endElement();
     }
     if ($this->mediaInfo['description_sp']) {
       $writer->startElement('note');
       $writer->writeAttribute('type', 'recording/production note');
       $writer->writeAttribute('lang', 'spa');
-      $writer->text($this->mediaInfo['description_sp']);
+      $writer->text($this->normalizeNewlines($this->mediaInfo['description_sp']));
       $writer->endElement();
     }
     $writer->startElement('note');
@@ -344,6 +360,24 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
       $writer->text($this->mediaInfo['tape_status']);
       $writer->endElement();
     }
+  }
+
+  /**
+   * Normalizes carriage returns and <br/> tags for MODS entry.
+   *
+   * @param string $string
+   *   The string to normalize.
+   *
+   * @return string
+   *   The normalized string.
+   */
+  protected function normalizeNewlines($string) {
+    // The <br/> tags seem to be preceded with Windows-style carriage returns.
+    $string = str_replace("\r", '', $string);
+    // Replacing with friendlier newline characters that also won't get run
+    // over by XMLWriter::text().
+    $string = str_replace("<br/>", "\n", $string);
+    return $string;
   }
 
   /**
