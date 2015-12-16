@@ -113,11 +113,6 @@ function utailla_build_collection_mods($collection) {
   $writer->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
   $writer->writeAttribute('xsi:schemaLocation', 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd');
 
-  $writer->startElement('typeOfResource');
-  $writer->writeAttribute('collection', 'yes');
-  $writer->text('mixed material');
-  $writer->endElement();
-
   // Website.
   if ($collection['website']) {
     $writer->startElement('note');
@@ -133,15 +128,17 @@ function utailla_build_collection_mods($collection) {
 
       switch ($title['language']) {
         case 'ind':
-          $writer->writeAttribute('displayLabel', 'Indigenous title');
+          $writer->writeAttribute('displayLabel', 'Title (Indigenous language)');
           $writer->writeAttribute('type', 'alternative');
           break;
 
         case 'en':
+          $writer->writeAttribute('displayLabel', 'Title (English)');
           $writer->writeAttribute('lang', 'eng');
           break;
 
         case 'sp':
+          $writer->writeAttribute('displayLabel', 'Title (Spanish)');
           $writer->writeAttribute('lang', 'spa');
           break;
 
@@ -152,6 +149,11 @@ function utailla_build_collection_mods($collection) {
       $writer->endElement();
     }
   }
+
+  $writer->startElement('typeOfResource');
+  $writer->writeAttribute('collection', 'yes');
+  $writer->text('mixed material');
+  $writer->endElement();
 
   // Languages.
   if ($collection['languages']) {
@@ -194,15 +196,16 @@ function utailla_build_collection_mods($collection) {
       $writer->startElement('abstract');
       switch ($description['language']) {
         case 'en':
+          $writer->writeAttribute('displayLabel', 'Collection description (English)');
           $writer->writeAttribute('lang', 'eng');
           break;
 
         case 'sp':
+          $writer->writeAttribute('displayLabel', 'Collection description (Spanish)');
           $writer->writeAttribute('lang', 'spa');
           break;
 
       }
-      $writer->writeAttribute('displayLabel', 'Collection description');
       $writer->text($description['description']);
       $writer->endElement();
     }

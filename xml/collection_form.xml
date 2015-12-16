@@ -51,7 +51,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo lang="eng" /&gt;</value>
+                            <value>&lt;titleInfo lang="eng" displayLabel="Title (English)"/&gt;</value>
                         </create>
                         <read>
                             <path>mods:titleInfo[@lang="eng"]</path>
@@ -121,7 +121,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo lang="spa" /&gt;</value>
+                            <value>&lt;titleInfo lang="spa" displayLabel="Title (Spanish)"/&gt;</value>
                         </create>
                         <read>
                             <path>mods:titleInfo[@lang="spa"]</path>
@@ -192,10 +192,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo type="alternative" displayLabel="Indigenous title" /&gt;</value>
+                            <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous language)"/&gt;</value>
                         </create>
                         <read>
-                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Indigenous title"]</path>
+                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -362,59 +362,6 @@
                             <context>self</context>
                         </update>
                         <delete>NULL</delete>
-                    </actions>
-                </properties>
-                <children/>
-            </element>
-            <element name="typeOfResource">
-                <properties>
-                    <type>select</type>
-                    <access>TRUE</access>
-                    <collapsed>FALSE</collapsed>
-                    <collapsible>FALSE</collapsible>
-                    <default_value>mixed material</default_value>
-                    <disabled>FALSE</disabled>
-                    <executes_submit_callback>FALSE</executes_submit_callback>
-                    <multiple>FALSE</multiple>
-                    <options>
-                        <index key="">- select a type -</index>
-                        <text>text</text>
-                        <cartographic>cartographic</cartographic>
-                        <index key="notated music">notated music</index>
-                        <index key="sound recording">sound recording</index>
-                        <index key="sound recording-musical">sound recording-musical</index>
-                        <index key="sound recording-nonmusical">sound recording-nonmusical</index>
-                        <index key="moving image">moving image</index>
-                        <index key="three dimensional object">three dimensional object</index>
-                        <index key="software, multimedia">software, multimedia</index>
-                        <index key="mixed material">mixed material</index>
-                        <index key="still image">still image</index>
-                    </options>
-                    <required>FALSE</required>
-                    <resizable>FALSE</resizable>
-                    <title>Type of Resource</title>
-                    <tree>TRUE</tree>
-                    <actions>
-                        <create>
-                            <path>self::node()</path>
-                            <context>parent</context>
-                            <schema/>
-                            <type>xml</type>
-                            <prefix>NULL</prefix>
-                            <value>&lt;typeOfResource collection="yes"&gt;%value%&lt;/typeOfResource&gt;</value>
-                        </create>
-                        <read>
-                            <path>mods:typeOfResource</path>
-                            <context>parent</context>
-                        </read>
-                        <update>
-                            <path>self::node()</path>
-                            <context>self</context>
-                        </update>
-                        <delete>
-                            <path>self::node()</path>
-                            <context>self</context>
-                        </delete>
                     </actions>
                 </properties>
                 <children/>
@@ -676,6 +623,59 @@
                         </children>
                     </element>
                 </children>
+            </element>
+            <element name="typeOfResource">
+                <properties>
+                    <type>select</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <default_value>mixed material</default_value>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <options>
+                        <index key="">- select a type -</index>
+                        <text>text</text>
+                        <cartographic>cartographic</cartographic>
+                        <index key="notated music">notated music</index>
+                        <index key="sound recording">sound recording</index>
+                        <index key="sound recording-musical">sound recording-musical</index>
+                        <index key="sound recording-nonmusical">sound recording-nonmusical</index>
+                        <index key="moving image">moving image</index>
+                        <index key="three dimensional object">three dimensional object</index>
+                        <index key="software, multimedia">software, multimedia</index>
+                        <index key="mixed material">mixed material</index>
+                        <index key="still image">still image</index>
+                    </options>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Type of Resource</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;typeOfResource collection="yes"&gt;%value%&lt;/typeOfResource&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:typeOfResource</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </delete>
+                    </actions>
+                </properties>
+                <children/>
             </element>
             <element name="languages_uri">
                 <properties>
@@ -946,10 +946,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="eng" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="eng" displayLabel="Collection description (English)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description (English)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -981,10 +981,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="spa" displayLabel="Collection description"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="spa" displayLabel=Collection description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description (Spanish)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -1016,10 +1016,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract displayLabel="Collection description"&gt;&lt;/abstract&gt;</value>
+                            <value>&lt;abstract displayLabel="Collection description  (Indigenous language)"&gt;&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description"]</path>
+                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description  (Indigenous language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>NULL</update>
