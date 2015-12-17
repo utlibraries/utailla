@@ -170,7 +170,7 @@ function utailla_build_collection_mods($collection) {
       $writer->startElement('name');
       $writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
 
-      // Depositor is an Individual (contributorCModel Object).
+      // Depositor is an Individual (personCModel Object).
       if ($depositor['depositor_type'] == "I" && isset($object['MADS'])) {
         $writer->writeAttribute('type', 'personal');
         $writer->writeAttribute('authority', 'aillaPerson');
