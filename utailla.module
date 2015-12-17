@@ -970,7 +970,6 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
           form_set_value($element['namepart_org'], $object->label, $form_state);
           form_set_value($element['name_type'], "corporate", $form_state);
           form_set_value($element['authority'], "aillaOrganization", $form_state);
-          form_set_value($element['authority'], "aillaPerson", $form_state);
           // Display label should only exist in the resource form and not the
           // collection form.
           if (isset($element['display_label'])) {
