@@ -54,7 +54,7 @@ EOQ;
 }
 
 /**
- * Autocomplete that searches for Contributor objects.
+ * Autocomplete that searches for Contributor/Organization objects.
  *
  * @param string $string
  *   A search string.
