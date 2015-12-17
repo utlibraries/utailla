@@ -362,7 +362,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     }
   }
 
- /**
+  /**
    * Add relationships to the current object.
    *
    * @see IslandoraBatchObject::addRelationships

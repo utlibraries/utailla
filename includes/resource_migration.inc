@@ -201,7 +201,7 @@ function utailla_build_resource_mods($resource) {
     }
   }
 
-  // organization and role.
+  // Organization and role.
   foreach ($resource['organizations'] as $organization) {
     $pid = utailla_migrated_organization_pid($organization['organization_id']);
     $object = islandora_object_load($pid);
