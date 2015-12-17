@@ -116,6 +116,16 @@ function utailla_get_resource_info($offset = NULL, $limit = UTAILLA_LIMIT_FOR_RE
       ->execute()
       ->fetchAll();
 
+    $query = utailla_get_migration_database()
+      ->select('organization_to_resource', 'org');
+    $alias = $query->join('role', 'rl', 'rl.role_id=org.role_id');
+    $resource->organizations = $query
+      ->fields('org', array('organization_id'))
+      ->fields($alias, array('role_id', 'role_name', 'papel_nombre'))
+      ->condition('org.resource_id', $resrouce_id)
+      ->execute()
+      ->fetchAll();
+
     $resource->collections = utailla_get_migration_database()
       ->select('collection_to_resource', 'collr')
       ->fields('collr')

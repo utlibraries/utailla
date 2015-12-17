@@ -475,7 +475,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;genre authority="aillaMediaGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
+                            <value>&lt;genre authority="aillaMediaGenres" lang="eng" displayLabel="Content type (English)"&gt;%value%&lt;/genre&gt;</value>
                         </create>
                         <read>
                             <path>mods:genre[@authority='aillaMediaGenres' and @lang='eng']</path>
@@ -513,7 +513,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;genre authority="aillaMediaGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
+                            <value>&lt;genre authority="aillaMediaGenres" lang="spa" displayLabel="Content type (Spanish)"&gt;%value%&lt;/genre&gt;</value>
                         </create>
                         <read>
                             <path>mods:genre[@authority='aillaMediaGenres' and @lang='spa']</path>
