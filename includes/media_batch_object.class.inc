@@ -330,14 +330,14 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
       $writer->startElement('note');
       $writer->writeAttribute('type', 'recording/production note');
       $writer->writeAttribute('lang', 'eng');
-      $writer->text($this->normalizeNewlines($this->mediaInfo['description_en']));
+      $writer->text($this->mediaInfo['description_en']);
       $writer->endElement();
     }
     if ($this->mediaInfo['description_sp']) {
       $writer->startElement('note');
       $writer->writeAttribute('type', 'recording/production note');
       $writer->writeAttribute('lang', 'spa');
-      $writer->text($this->normalizeNewlines($this->mediaInfo['description_sp']));
+      $writer->text($this->mediaInfo['description_sp']);
       $writer->endElement();
     }
     $writer->startElement('note');
@@ -362,25 +362,7 @@ class UtaillaMediaBatchObject extends IslandoraBatchObject {
     }
   }
 
-  /**
-   * Normalizes carriage returns and <br/> tags for MODS entry.
-   *
-   * @param string $string
-   *   The string to normalize.
-   *
-   * @return string
-   *   The normalized string.
-   */
-  protected function normalizeNewlines($string) {
-    // The <br/> tags seem to be preceded with Windows-style carriage returns.
-    $string = str_replace("\r", '', $string);
-    // Replacing with friendlier newline characters that also won't get run
-    // over by XMLWriter::text().
-    $string = str_replace("<br/>", "\n", $string);
-    return $string;
-  }
-
-  /**
+ /**
    * Add relationships to the current object.
    *
    * @see IslandoraBatchObject::addRelationships

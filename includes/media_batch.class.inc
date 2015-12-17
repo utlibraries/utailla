@@ -36,7 +36,10 @@ class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
       if (!in_array($media_file->media_format_id, $this->dontMap)) {
         $object = new UtaillaMediaBatchObject(
           $this->connection,
-          utailla_get_decoded_row_recursive((array) $media_file),
+          utailla_get_decoded_row_recursive((array) $media_file, array(
+            'description_en',
+            'description_sp',
+          )),
           $sanitized_genres,
           $encodings,
           $platforms,
