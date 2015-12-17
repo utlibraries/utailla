@@ -68,8 +68,9 @@ function utailla_associate_contributor_autocomplete($string) {
   $contributor_search_label_field = variable_get('utailla_contributor_search_field', 'fgs_label_t');
   $display_label_field = variable_get('islandora_solr_object_label_field', 'fgs_label_s');
   $model_field = variable_get('islandora_solr_content_model_field', 'RELS_EXT_hasModel_uri_ms');
-  $qp->buildQuery(format_string("$model_field:\"info:fedora/@contributor_cmodel\" AND $contributor_search_label_field:*$string*", array(
+  $qp->buildQuery(format_string("($model_field:\"info:fedora/@contributor_cmodel\" AND $contributor_search_label_field:*$string*) OR ($model_field:\"info:fedora/@organization_cmodel\" AND $contributor_search_label_field:*$string*)", array(
     '@contributor_cmodel' => UTAILLA_CONTRIBUTOR_CMODEL,
+    '@organization_cmodel' => UTAILLA_ORG_CMODEL,
   )));
   $qp->executeQuery();
   $matches = array();
