@@ -189,7 +189,7 @@ function utailla_build_collection_mods($collection) {
         $writer->text($name_data['family_name']);
         $writer->endElement();
       }
-      else {
+      elseif ($depositor['depositor_type'] == "O") {
         // Depositor is an Organization (organizationCModel Object).
         $writer->writeAttribute('type', 'corporate');
         $writer->writeAttribute('authority', 'aillaOrganization');
