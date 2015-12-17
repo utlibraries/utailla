@@ -180,6 +180,16 @@ function utailla_get_collection_info() {
       ->condition('lc.collection_id', $collection_id)
       ->execute()
       ->fetchAll();
+
+    $query = utailla_get_migration_database()
+      ->select('collection_to_depositor', 'cd');
+    $alias = $query->join('role', 'rl', 'rl.role_id=cd.role_id');
+    $collection->depositors = $query
+      ->fields('cd', array('depositor_id', 'depositor_type'))
+      ->fields($alias, array('role_id', 'role_name', 'papel_nombre'))
+      ->condition('cd.collection_id', $collection_id)
+      ->execute()
+      ->fetchAll();
   };
   return $collections;
 }

@@ -296,7 +296,7 @@
                     <multiple>FALSE</multiple>
                     <required>FALSE</required>
                     <resizable>FALSE</resizable>
-                    <title>Contributor (Individual)</title>
+                    <title>Contributor(s)</title>
                     <tree>TRUE</tree>
                 </properties>
                 <children>
@@ -323,12 +323,12 @@
                                     <path>self::node()</path>
                                     <context>parent</context>
                                     <schema/>
-                                    <type>xml</type>
+                                    <type>element</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;name type="personal" authority="aillaPerson"/&gt;</value>
+                                    <value>name</value>
                                 </create>
                                 <read>
-                                    <path>mods:name[@type="personal"][@authority="aillaPerson"]</path>
+                                    <path>mods:name</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
@@ -365,7 +365,45 @@
                                             <prefix>NULL</prefix>
                                             <value>type</value>
                                         </create>
-                                        <read>NULL</read>
+                                        <read>
+                                            <path>@type</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="authority">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <default_value>aillaPerson</default_value>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>authority</value>
+                                        </create>
+                                        <read>
+                                            <path>@authority</path>
+                                            <context>parent</context>
+                                        </read>
                                         <update>
                                             <path>self::node()</path>
                                             <context>self</context>
@@ -389,6 +427,40 @@
                                     <resizable>FALSE</resizable>
                                     <title>Name</title>
                                     <tree>TRUE</tree>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_org">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>element</type>
+                                            <prefix>NULL</prefix>
+                                            <value>namePart</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:namePart[not(@type="family")][not(@type="given")]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
                                 </properties>
                                 <children/>
                             </element>
@@ -625,78 +697,17 @@
                                 </properties>
                                 <children/>
                             </element>
-                        </children>
-                    </element>
-                </children>
-            </element>
-            <element name="organizations">
-                <properties>
-                    <type>tabs</type>
-                    <access>TRUE</access>
-                    <collapsed>FALSE</collapsed>
-                    <collapsible>FALSE</collapsible>
-                    <disabled>FALSE</disabled>
-                    <executes_submit_callback>FALSE</executes_submit_callback>
-                    <multiple>FALSE</multiple>
-                    <required>FALSE</required>
-                    <resizable>FALSE</resizable>
-                    <title>Contributor (Organization)</title>
-                    <tree>TRUE</tree>
-                </properties>
-                <children>
-                    <element name="0">
-                        <properties>
-                            <type>tabpanel</type>
-                            <access>TRUE</access>
-                            <collapsed>FALSE</collapsed>
-                            <collapsible>FALSE</collapsible>
-                            <disabled>FALSE</disabled>
-                            <executes_submit_callback>FALSE</executes_submit_callback>
-                            <multiple>FALSE</multiple>
-                            <required>FALSE</required>
-                            <resizable>FALSE</resizable>
-                            <tree>TRUE</tree>
-                            <user_data>
-                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:organizationCModel"</islandora_authority_fq>
-                                <islandora_authority_t_pattern>!organization</islandora_authority_t_pattern>
-                            </user_data>
-                            <actions>
-                                <create>
-                                    <path>self::node()</path>
-                                    <context>parent</context>
-                                    <schema/>
-                                    <type>xml</type>
-                                    <prefix>NULL</prefix>
-                                    <value>&lt;name type="corporate" authority="aillaOrganization"/&gt;</value>
-                                </create>
-                                <read>
-                                    <path>mods:name[@type="corporate"][@authority="aillaOrganization"]</path>
-                                    <context>parent</context>
-                                </read>
-                                <update>
-                                    <path>self::node()</path>
-                                    <context>self</context>
-                                </update>
-                                <delete>
-                                    <path>self::node()</path>
-                                    <context>self</context>
-                                </delete>
-                            </actions>
-                        </properties>
-                        <children>
-                            <element name="name_type">
+                            <element name="display_label">
                                 <properties>
                                     <type>hidden</type>
                                     <access>TRUE</access>
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
-                                    <default_value>corporate</default_value>
                                     <disabled>FALSE</disabled>
                                     <executes_submit_callback>FALSE</executes_submit_callback>
                                     <multiple>FALSE</multiple>
                                     <required>FALSE</required>
                                     <resizable>FALSE</resizable>
-                                    <title>Type</title>
                                     <tree>TRUE</tree>
                                     <actions>
                                         <create>
@@ -705,220 +716,10 @@
                                             <schema/>
                                             <type>attribute</type>
                                             <prefix>NULL</prefix>
-                                            <value>type</value>
-                                        </create>
-                                        <read>NULL</read>
-                                        <update>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </update>
-                                        <delete>NULL</delete>
-                                    </actions>
-                                </properties>
-                                <children/>
-                            </element>
-                            <element name="namepart_display">
-                                <properties>
-                                    <type>islandora_authority_textfield</type>
-                                    <access>TRUE</access>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <disabled>FALSE</disabled>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <title>Language</title>
-                                    <tree>TRUE</tree>
-                                    <user_data>
-                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                                        <islandora_authority_mapping>!organization</islandora_authority_mapping>
-                                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                                    </user_data>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                            <schema/>
-                                            <type>element</type>
-                                            <prefix>NULL</prefix>
-                                            <value>namePart</value>
+                                            <value>displayLabel</value>
                                         </create>
                                         <read>
-                                            <path>mods:namePart</path>
-                                            <context>parent</context>
-                                        </read>
-                                        <update>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </update>
-                                        <delete>NULL</delete>
-                                    </actions>
-                                </properties>
-                                <children/>
-                            </element>
-                            <element name="organization_pid">
-                                <properties>
-                                    <type>islandora_authority_hidden</type>
-                                    <access>TRUE</access>
-                                    <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <disabled>FALSE</disabled>
-                                    <element_validate>
-                                        <index key="0">utailla_collection_build_uri_on_validate</index>
-                                    </element_validate>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <tree>TRUE</tree>
-                                    <user_data>
-                                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
-                                    </user_data>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                            <schema/>
-                                            <type>attribute</type>
-                                            <prefix>NULL</prefix>
-                                            <value>valueURI</value>
-                                        </create>
-                                        <read>
-                                            <path>@valueURI</path>
-                                            <context>parent</context>
-                                        </read>
-                                        <update>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </update>
-                                        <delete>NULL</delete>
-                                    </actions>
-                                </properties>
-                                <children/>
-                            </element>
-                            <element name="eng_role">
-                                <properties>
-                                    <type>select</type>
-                                    <access>TRUE</access>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <default_value>Contributor</default_value>
-                                    <disabled>FALSE</disabled>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <options>
-                                        <Analyst>Analyst</Analyst>
-                                        <Annotator>Annotator</Annotator>
-                                        <Author>Author</Author>
-                                        <Compiler>Compiler</Compiler>
-                                        <Consultant>Consultant</Consultant>
-                                        <Contributor>Contributor</Contributor>
-                                        <Creator>Creator</Creator>
-                                        <index key="Data technician/keyboarder">Data technician/keyboarder</index>
-                                        <Digitizer>Digitizer</Digitizer>
-                                        <Editor>Editor</Editor>
-                                        <Videographer>Videographer</Videographer>
-                                        <Illustrator>Illustrator</Illustrator>
-                                        <Interlocutor>Interlocutor</Interlocutor>
-                                        <Interpreter>Interpreter</Interpreter>
-                                        <Interviewer>Interviewer</Interviewer>
-                                        <index key="Performer/actor">Performer/actor</index>
-                                        <Photographer>Photographer</Photographer>
-                                        <Publisher>Publisher</Publisher>
-                                        <Recorder>Recorder</Recorder>
-                                        <index key="Research Participant">Research Participant</index>
-                                        <Researcher>Researcher</Researcher>
-                                        <Responder>Responder</Responder>
-                                        <index key="Sign language signer">Sign language signer</index>
-                                        <Signatory>Signatory</Signatory>
-                                        <Singer>Singer</Singer>
-                                        <Speaker>Speaker</Speaker>
-                                        <Sponsor>Sponsor</Sponsor>
-                                        <Transcriber>Transcriber</Transcriber>
-                                        <Translator>Translator</Translator>
-                                    </options>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <title>Contributor Role English</title>
-                                    <tree>TRUE</tree>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                            <schema/>
-                                            <type>xml</type>
-                                            <prefix>NULL</prefix>
-                                            <value>&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;&lt;/role&gt;</value>
-                                        </create>
-                                        <read>
-                                            <path>mods:role/mods:roleTerm[@type="text" and @lang="eng"]</path>
-                                            <context>parent</context>
-                                        </read>
-                                        <update>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </update>
-                                        <delete>NULL</delete>
-                                    </actions>
-                                </properties>
-                                <children/>
-                            </element>
-                            <element name="spa_role">
-                                <properties>
-                                    <type>select</type>
-                                    <access>TRUE</access>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <default_value>Contribuyente</default_value>
-                                    <disabled>FALSE</disabled>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <options>
-                                        <Analista>Analista</Analista>
-                                        <Anotator>Anotator</Anotator>
-                                        <Autor>Autor</Autor>
-                                        <Compilador>Compilador</Compilador>
-                                        <Consultante>Consultante</Consultante>
-                                        <Contribuyente>Contribuyente</Contribuyente>
-                                        <Creador>Creador</Creador>
-                                        <Digitalizador>Digitalizador</Digitalizador>
-                                        <Editor>Editor</Editor>
-                                        <Ilustrador>Ilustrador</Ilustrador>
-                                        <Interlocutor>Interlocutor</Interlocutor>
-                                        <index key="Int&#xE9;rprete">Int&#xE9;rprete</index>
-                                        <Interrogador>Interrogador</Interrogador>
-                                        <index key="Fot&#xF3;grafo">Fot&#xF3;grafo</index>
-                                        <Publicador>Publicador</Publicador>
-                                        <index key="Participante de Investiga">Participante de Investiga</index>
-                                        <Investigador>Investigador</Investigador>
-                                        <Respondiente>Respondiente</Respondiente>
-                                        <index key="Se&#xF1;alador">Se&#xF1;alador</index>
-                                        <Firmante>Firmante</Firmante>
-                                        <Cantante>Cantante</Cantante>
-                                        <Hablante>Hablante</Hablante>
-                                        <Patrocinador>Patrocinador</Patrocinador>
-                                        <Transcritor>Transcritor</Transcritor>
-                                        <Traductor>Traductor</Traductor>
-                                        <index key="Camar&#xF3;grafo">Camar&#xF3;grafo</index>
-                                    </options>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <title>Contributor Role Spanish</title>
-                                    <tree>TRUE</tree>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                            <schema/>
-                                            <type>xml</type>
-                                            <prefix>NULL</prefix>
-                                            <value>&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;&lt;/role&gt;</value>
-                                        </create>
-                                        <read>
-                                            <path>mods:role/mods:roleTerm[@type="text" and @lang="spa"]</path>
+                                            <path>@displayLabel</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
