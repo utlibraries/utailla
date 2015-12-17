@@ -385,9 +385,15 @@
                         <properties>
                             <type>tabpanel</type>
                             <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_hidden_nameparts_to_autocomplete</index>
+                            </after_build>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_association_contributor_validate</index>
+                            </element_validate>
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <required>FALSE</required>
@@ -453,11 +459,46 @@
                                 </properties>
                                 <children/>
                             </element>
-                            <element name="namepart">
+                            <element name="authority">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Authority</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>authority</value>
+                                        </create>
+                                        <read>
+                                            <path>@type</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_autocomplete">
                                 <properties>
                                     <type>textfield</type>
                                     <access>TRUE</access>
-                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
                                     <disabled>FALSE</disabled>
@@ -467,6 +508,57 @@
                                     <resizable>FALSE</resizable>
                                     <title>Name</title>
                                     <tree>TRUE</tree>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_org">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>element</type>
+                                            <prefix>NULL</prefix>
+                                            <value>namePart</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:namePart[not(@type="family")][not(@type="given")]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_given">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
                                     <actions>
                                         <create>
                                             <path>self::node()</path>
@@ -474,10 +566,80 @@
                                             <schema/>
                                             <type>xml</type>
                                             <prefix>NULL</prefix>
-                                            <value>&lt;namePart&gt;%value%&lt;/namePart&gt;</value>
+                                            <value>&lt;namePart type="given"&gt;%value%&lt;/namePart&gt;</value>
                                         </create>
                                         <read>
-                                            <path>mods:namePart</path>
+                                            <path>mods:namePart[@type="given"]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_family">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>xml</type>
+                                            <prefix>NULL</prefix>
+                                            <value>&lt;namePart type="family"&gt;%value%&lt;/namePart&gt;</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:namePart[@type="family"]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="contributor_pid">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Authority</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
@@ -512,9 +674,15 @@
                         <properties>
                             <type>tabpanel</type>
                             <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_hidden_nameparts_to_autocomplete</index>
+                            </after_build>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_association_contributor_validate</index>
+                            </element_validate>
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <required>FALSE</required>
@@ -546,7 +714,7 @@
                         <children>
                             <element name="name_type">
                                 <properties>
-                                    <type>select</type>
+                                    <type>hidden</type>
                                     <access>TRUE</access>
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
@@ -554,10 +722,6 @@
                                     <disabled>FALSE</disabled>
                                     <executes_submit_callback>FALSE</executes_submit_callback>
                                     <multiple>FALSE</multiple>
-                                    <options>
-                                        <corporate>Corporate</corporate>
-                                        <personal>Personal</personal>
-                                    </options>
                                     <required>FALSE</required>
                                     <resizable>FALSE</resizable>
                                     <title>Type</title>
@@ -584,11 +748,46 @@
                                 </properties>
                                 <children/>
                             </element>
-                            <element name="depositors">
+                            <element name="authority">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Authority</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>authority</value>
+                                        </create>
+                                        <read>
+                                            <path>@type</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_autocomplete">
                                 <properties>
                                     <type>textfield</type>
                                     <access>TRUE</access>
-                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
                                     <disabled>FALSE</disabled>
@@ -598,6 +797,57 @@
                                     <resizable>FALSE</resizable>
                                     <title>Name</title>
                                     <tree>TRUE</tree>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_org">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>element</type>
+                                            <prefix>NULL</prefix>
+                                            <value>namePart</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:namePart[not(@type="family")][not(@type="given")]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_given">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
                                     <actions>
                                         <create>
                                             <path>self::node()</path>
@@ -605,10 +855,80 @@
                                             <schema/>
                                             <type>xml</type>
                                             <prefix>NULL</prefix>
-                                            <value>&lt;namePart&gt;%value%&lt;/namePart&gt;</value>
+                                            <value>&lt;namePart type="given"&gt;%value%&lt;/namePart&gt;</value>
                                         </create>
                                         <read>
-                                            <path>mods:namePart</path>
+                                            <path>mods:namePart[@type="given"]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_family">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>xml</type>
+                                            <prefix>NULL</prefix>
+                                            <value>&lt;namePart type="family"&gt;%value%&lt;/namePart&gt;</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:namePart[@type="family"]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="contributor_pid">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Authority</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
@@ -981,7 +1301,7 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="spa" displayLabel=Collection description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="spa" displayLabel="Collection description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
                             <path>mods:abstract[@lang="spa"][@displayLabel="Collection description (Spanish)"]</path>
