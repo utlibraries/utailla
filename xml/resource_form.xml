@@ -365,7 +365,10 @@
                                             <prefix>NULL</prefix>
                                             <value>type</value>
                                         </create>
-                                        <read>NULL</read>
+                                        <read>
+                                            <path>@type</path>
+                                            <context>parent</context>
+                                        </read>
                                         <update>
                                             <path>self::node()</path>
                                             <context>self</context>
@@ -398,7 +401,7 @@
                                             <value>authority</value>
                                         </create>
                                         <read>
-                                            <path>self::node()</path>
+                                            <path>@authority</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
@@ -683,6 +686,40 @@
                                         </create>
                                         <read>
                                             <path>@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="display_label">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>displayLabel</value>
+                                        </create>
+                                        <read>
+                                            <path>@displayLabel</path>
                                             <context>parent</context>
                                         </read>
                                         <update>

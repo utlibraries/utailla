@@ -957,6 +957,11 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
           form_set_value($element['namepart_family'], $name_data['family_name'], $form_state);
           form_set_value($element['name_type'], "personal", $form_state);
           form_set_value($element['authority'], "aillaPerson", $form_state);
+          // Display label should only exist in the resource form and not the
+          // collection form.
+          if (isset($element['display_label'])) {
+            form_set_value($element['display_label'], "Contributor (Individual)", $form_state);
+          }
         }
         else {
           // The contributor is an organization.
@@ -965,6 +970,12 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
           form_set_value($element['namepart_org'], $object->label, $form_state);
           form_set_value($element['name_type'], "corporate", $form_state);
           form_set_value($element['authority'], "aillaOrganization", $form_state);
+          form_set_value($element['authority'], "aillaPerson", $form_state);
+          // Display label should only exist in the resource form and not the
+          // collection form.
+          if (isset($element['display_label'])) {
+            form_set_value($element['display_label'], "Contributor (Organization)", $form_state);
+          }
         }
         form_set_value($element['contributor_pid'], utailla_get_uri_from_pid($pid), $form_state);
       }

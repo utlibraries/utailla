@@ -482,7 +482,7 @@
                                             <value>authority</value>
                                         </create>
                                         <read>
-                                            <path>@type</path>
+                                            <path>@authority</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
