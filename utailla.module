@@ -950,7 +950,8 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
       if ($object) {
         // The contributor is a person object.
         if (in_array(UTAILLA_CONTRIBUTOR_CMODEL, $object->models)) {
-          // Get the namepart data from object MADS and update hidden form fields.
+          // Get the namepart data from object MADS and update hidden form
+          // fields.
           $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
           form_set_value($element['namepart_given'], $name_data['given_name'], $form_state);
           form_set_value($element['namepart_family'], $name_data['family_name'], $form_state);
@@ -979,15 +980,22 @@ function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   if (empty($form['namepart_autocomplete']['#value'])) {
     $given_name = (!empty($form['namepart_given']['#value']) ? $form['namepart_given']['#value'] : "");
     $family_name = (!empty($form['namepart_family']['#value']) ? $form['namepart_family']['#value'] : "");
+    $org_name = (!empty($form['namepart_org']['#value']) ? $form['namepart_org']['#value'] : "");
+    $name_type = (!empty($form['name_type']['#value']) ? $form['name_type']['#value'] : "personal");
     $pid = (!empty($form['contributor_pid']['#value']) ? str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']) : "");
-    if (!empty($given_name) && empty($family_name)) {
-      $display_value = $given_name;
+    if ($name_type == "corporate") {
+      $display_value = $org_name;
     }
-    elseif (empty($given_name) && !empty($family_name)) {
-      $display_value = $family_name;
-    }
-    elseif (!empty($given_name) && !empty($family_name)) {
-      $display_value = "{$family_name}, {$given_name}";
+    else {
+      if (!empty($given_name) && empty($family_name)) {
+        $display_value = $given_name;
+      }
+      elseif (empty($given_name) && !empty($family_name)) {
+        $display_value = $family_name;
+      }
+      elseif (!empty($given_name) && !empty($family_name)) {
+        $display_value = "{$family_name}, {$given_name}";
+      }
     }
     if (!empty($display_value)) {
       $form['namepart_autocomplete']['#value'] = "{$display_value} ({$pid})";
