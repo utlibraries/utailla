@@ -173,6 +173,7 @@ function utailla_build_collection_mods($collection) {
       // Depositor is an Individual (contributorCModel Object).
       if ($depositor['depositor_type'] == "I" && isset($object['MADS'])) {
         $writer->writeAttribute('type', 'personal');
+        $writer->writeAttribute('authority', 'aillaPerson');
         // Get the namepart data out of MADS.
         $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
 
@@ -191,6 +192,7 @@ function utailla_build_collection_mods($collection) {
       else {
         // Depositor is an Organization (organizationCModel Object).
         $writer->writeAttribute('type', 'corporate');
+        $writer->writeAttribute('authority', 'aillaOrganization');
         $writer->startElement('namePart');
         $writer->text($object->label);
         $writer->endElement();
