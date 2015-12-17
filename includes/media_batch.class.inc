@@ -5,7 +5,7 @@
  */
 
 class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
-  protected $dontMap = array(13, 3, 15, 20, 21, 22, 26);
+  protected $dontMap = array(3, 26);
 
   /**
    * Queries the migration DB for objects to make.
@@ -36,7 +36,10 @@ class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
       if (!in_array($media_file->media_format_id, $this->dontMap)) {
         $object = new UtaillaMediaBatchObject(
           $this->connection,
-          utailla_get_decoded_row_recursive((array) $media_file),
+          utailla_get_decoded_row_recursive((array) $media_file, array(
+            'description_en',
+            'description_sp',
+          )),
           $sanitized_genres,
           $encodings,
           $platforms,
