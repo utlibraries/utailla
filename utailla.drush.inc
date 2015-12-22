@@ -152,9 +152,9 @@ function drush_utailla_migrate_all() {
   $contact_migration->processImport();
   batch_set(utailla_migrate_languages_batch());
   batch_set(utailla_migrate_countries_batch());
-  batch_set(utailla_migrate_collections_batch());
   batch_set(utailla_migrate_organizations_batch());
   batch_set(utailla_migrate_contributors_batch());
+  batch_set(utailla_migrate_collections_batch());
   batch_set(utailla_migrate_resources_batch());
   drush_backend_batch_process();
   $preprocessor = new UtaillaMediaBatch(
