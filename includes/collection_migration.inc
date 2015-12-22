@@ -103,6 +103,7 @@ function utailla_migrate_collection($collection_info) {
  */
 function utailla_build_collection_mods($collection) {
   module_load_include('inc', 'utailla', 'includes/utilities');
+  module_load_include('inc', 'utailla', 'includes/migration.db');
 
   $writer = new XMLWriter();
   $writer->openMemory();
