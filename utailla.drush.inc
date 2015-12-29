@@ -236,11 +236,11 @@ function utailla_migrate_language_batch_operation($database, &$context) {
   $chunk_size = 10;
   foreach (array_slice($sandbox['rows'], 0, $chunk_size) as $row) {
     utailla_migrate_language_construct_object($row, $sandbox['stashed_rows']);
+    $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
   }
   $sandbox['rows'] = array_slice($sandbox['rows'], $chunk_size);
 
 
-  $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
   $context['message'] = t('Processed @progress of @total.', array(
     '@progress' => $sandbox['progress'],
