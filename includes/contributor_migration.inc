@@ -37,23 +37,20 @@ function utailla_migrate_contributor($contributor_info) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_contributor_pid($contributor_info->contributor_id)) {
     $contributor = utailla_get_decoded_row_recursive($contributor_info);
-    $tuque = islandora_get_tuque_connection();
 
-    $object = $tuque->repository->constructObject('ailla');
+    $object = utailla_get_new_object();
     $object->models = array(UTAILLA_CONTRIBUTOR_CMODEL);
     $object->label = utailla_concat_name_parts($contributor);
     // Parent has to be set before ingest so restriction can be set.
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_CONTRIBUTOR_COLLECTION);
     utailla_set_user_rels($object, $contributor);
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
     $mads_ds->label = 'MADS Record';
     $mads_ds->mimetype = 'application/xml';
     $mads_ds->content = utailla_build_contributor_mads($contributor);
     $object->ingestDatastream($mads_ds);
-    usleep(UTAILLA_USLEEP);
+    islandora_add_object($object);
 
     utailla_log_contributor_mapping($contributor['contributor_id'], $object->id);
     drupal_set_message(

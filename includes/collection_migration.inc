@@ -36,25 +36,19 @@ function utailla_migrate_collection($collection_info) {
   require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
   if (!utailla_migrated_collection_pid($collection_info->collection_id)) {
     $collection = utailla_get_decoded_row_recursive($collection_info);
-    $tuque = islandora_get_tuque_connection();
 
-    $object = $tuque->repository->constructObject('ailla');
+    $object = utailla_get_new_object();
     $object->models = array('islandora:collectionCModel');
     $object->label = isset($collection['titles'][0]['title']) ? $collection['titles'][0]['title'] : 'Collection';
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
     // Add resource collection policy.
     utailla_set_collection_policy($object, 'resource_collection_policy.xml');
-    usleep(UTAILLA_USLEEP);
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_COLLECTION);
-    usleep(UTAILLA_USLEEP);
 
     $mods_ds = $object->constructDatastream('MODS', 'M');
     $mods_ds->label = 'MODS Record';
     $mods_ds->mimetype = 'application/xml';
     $mods_ds->content = utailla_build_collection_mods($collection);
     $object->ingestDatastream($mods_ds);
-    usleep(UTAILLA_USLEEP);
 
     if ($collection['notes']) {
       $note_ds = $object->constructDatastream('NOTE', 'M');
@@ -73,6 +67,7 @@ function utailla_migrate_collection($collection_info) {
       $object->ingestDatastream($admin_note_ds);
       utailla_restrict_datastream_to_admin($admin_note_ds);
     }
+    islandora_add_object($object);
 
     // Need to store collection restriction information for use later on.
     utailla_upsert_collection_restriction(array(
