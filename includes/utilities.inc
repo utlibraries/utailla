@@ -434,6 +434,15 @@ function utailla_get_new_object($namespace = 'ailla') {
   return $tuque->repository->constructObject($pid);
 }
 
+/**
+ * Add a restriction entry to the object if one is not present.
+ *
+ * @param AbstractObject $object
+ *   The object to which to add a restriction. If it has not yet been allocated
+ *   a PID, then we skip it and do nothing. PIDs might be allocated by being
+ *   either constructed similar to utailla_get_new_object() or by having already
+ *   been ingested into Fedora.
+ */
 function utailla_add_restriction_if_missing(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/db');
   module_load_include('inc', 'utailla', 'includes/access_levels.form');
