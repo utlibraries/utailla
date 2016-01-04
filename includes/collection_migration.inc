@@ -15,10 +15,13 @@ function utailla_migrate_collections_batch_operation(&$context) {
     $sandbox['collections'] = utailla_get_collection_info();
     $sandbox['total'] = count($sandbox['collections']);
   }
-  $collection = array_shift($sandbox['collections']);
-  utailla_migrate_collection($collection);
+  $chunk_size = 10;
+  foreach (array_slice($sandbox['collections'], 0, $chunk_size) as $collection) {
+    utailla_migrate_collection($collection);
+    $sandbox['progress']++;
+  }
+  $sandbox['collections'] = array_slice($sandbox['collections'], $chunk_size);
 
-  $sandbox['progress']++;
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
   $context['message'] = t('Processed @progress of @total.', array(
     '@progress' => $sandbox['progress'],
