@@ -232,10 +232,13 @@ function utailla_migrate_language_batch_operation($database, &$context) {
       return;
     }
   }
-  $row = array_shift($sandbox['rows']);
-  utailla_migrate_language_construct_object($row, $sandbox['stashed_rows']);
+  $chunk_size = 10;
+  foreach (array_slice($sandbox['rows'], 0, $chunk_size) as $row) {
+    utailla_migrate_language_construct_object($row, $sandbox['stashed_rows']);
+    $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
+  }
+  $sandbox['rows'] = array_slice($sandbox['rows'], $chunk_size);
 
-  $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
   $context['message'] = t('Processed @progress of @total.', array(
     '@progress' => $sandbox['progress'],
@@ -321,7 +324,6 @@ function utailla_migrate_language_construct_object($row, $all_rows) {
     $object->label = $row['name'];
     $object->ingestDatastream($ds);
     $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
     db_insert('utailla_language_map')
       ->fields(array(
         'language_id' => $row['language_id'],
@@ -417,7 +419,6 @@ function utailla_migrate_country_construct_object($row) {
     $object->label = $row->country_name;
     $object->ingestDatastream($ds);
     $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
     db_insert('utailla_country_map')
       ->fields(array(
         'country_id' => $row->country_id,

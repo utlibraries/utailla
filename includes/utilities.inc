@@ -84,9 +84,7 @@ function utailla_restrict_datastream_to_admin($ds) {
   $xacml = new IslandoraXacml($ds->parent);
   $xacml->datastreamRule->addDsid($ds->id);
   $xacml->datastreamRule->addRole('admin');
-  usleep(UTAILLA_USLEEP);
   $xacml->writeBackToFedora();
-  usleep(UTAILLA_USLEEP);
 }
 
 /**
@@ -286,7 +284,6 @@ function utailla_set_restriction(AbstractObject $object, $restriction_info) {
     $xacml->datastreamRule->clear();
   }
   $xacml->writeBackToFedora();
-  usleep(UTAILLA_USLEEP);
   utailla_upsert_restriction($restriction_info + array(
     'pid' => $object->id,
   ));
@@ -423,4 +420,72 @@ function utailla_get_contributor_nameparts_from_mads($mads_ds) {
     }
   }
   return $results;
+}
+
+/**
+ * Helper to get a new object with a bound PID.
+ *
+ * @return IslandoraNewFedoraObject
+ *   An uningested object with a concrete PID.
+ */
+function utailla_get_new_object($namespace = 'ailla') {
+  $tuque = islandora_get_tuque_connection();
+  $pid = $tuque->repository->getNextIdentifier($namespace);
+  return $tuque->repository->constructObject($pid);
+}
+
+/**
+ * Add a restriction entry to the object if one is not present.
+ *
+ * @param AbstractObject $object
+ *   The object to which to add a restriction. If it has not yet been allocated
+ *   a PID, then we skip it and do nothing. PIDs might be allocated by being
+ *   either constructed similar to utailla_get_new_object() or by having already
+ *   been ingested into Fedora.
+ */
+function utailla_add_restriction_if_missing(AbstractObject $object) {
+  module_load_include('inc', 'utailla', 'includes/db');
+  module_load_include('inc', 'utailla', 'includes/access_levels.form');
+  module_load_include('inc', 'islandora', 'includes/utilities');
+
+  if (!islandora_is_valid_pid($object->id)) {
+    // Object does not yet have a real PID allocated; abort.
+    return;
+  }
+
+  // See if this object already has a restriction and if it does ignore it.
+  $restriction = FALSE;
+  // Contributors don't need to have access level restrictions applied to them.
+  if (!in_array(UTAILLA_CONTRIBUTOR_CMODEL, $object->models) && $object->id != UTAILLA_CONTRIBUTOR_COLLECTION && !utailla_get_restriction($object->id)) {
+    // See if the collection the media file is a part of has a restriction set.
+    // XXX: Is technically possible for a media file to not be part of a
+    // resource.
+    $ignore_models = array_merge(utailla_collection_like_models(), array('fedora-system:ContentModel-3.0'));
+    if (!array_intersect($ignore_models, $object->models)) {
+      $parent_rels = $object->relationships->get(FEDORA_RELS_EXT_URI, 'isMemberOfCollection');
+      $parent_rels = reset($parent_rels);
+      $parent_pid = $parent_rels['object']['value'];
+      $parent_object = islandora_object_load($parent_pid);
+      // See if this a collection or if we need to go one more level.
+      if (in_array('islandora:collectionCModel', $object->models)) {
+        $restriction = utailla_get_collection_restriction($parent_object->id);
+      }
+      else {
+        $grandparent_rels = $parent_object->relationships->get(FEDORA_RELS_EXT_URI, 'isMemberOfCollection');
+        $grandparent_rels = reset($grandparent_rels);
+        $grandparent_pid = $grandparent_rels['object']['value'];
+        $restriction = utailla_get_collection_restriction($grandparent_pid);
+      }
+      if ($restriction) {
+        utailla_set_restriction($object, array(
+          'level' => UTAILLA_RESTRICTION_LEVEL_1,
+          'hint' => $restriction['hint'],
+          'password' => $restriction['password'],
+        ));
+      }
+    }
+    if (!$restriction) {
+      utailla_set_restriction($object, array('level' => UTAILLA_RESTRICTION_LEVEL_1));
+    }
+  }
 }

@@ -36,9 +36,8 @@ function utailla_migrate_resource($resource_info) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_resource_pid($resource_info->resource_id)) {
     $resource = utailla_get_decoded_row_recursive($resource_info, array('citations', 'description_text'));
-    $tuque = islandora_get_tuque_connection();
 
-    $object = $tuque->repository->constructObject('ailla');
+    $object = utailla_get_new_object();
     $object->models = array(UTAILLA_RESOURCE_CMODEL);
     // Add all collection relationships.
     if ($resource['collections']) {
@@ -88,11 +87,10 @@ function utailla_migrate_resource($resource_info) {
     $mods_ds->content = utailla_build_resource_mods($resource);
     $object->ingestDatastream($mods_ds);
 
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
     // Add media file collection policy.
     utailla_set_collection_policy($object, 'media_collection_policy.xml');
-    usleep(UTAILLA_USLEEP);
+    islandora_add_object($object);
+
     utailla_log_resource_mapping($resource['resource_id'], $object->id);
     drupal_set_message(
       t(

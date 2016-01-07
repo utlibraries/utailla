@@ -34,23 +34,20 @@ function utailla_migrate_organization($org_info) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   if (!utailla_migrated_organization_pid($org_info->organization_id)) {
     $org = utailla_get_decoded_row_recursive($org_info);
-    $tuque = islandora_get_tuque_connection();
 
-    $object = $tuque->repository->constructObject('ailla');
+    $object = utailla_get_new_object();
     $object->models = array(UTAILLA_ORG_CMODEL);
     $object->label = isset($org['fullname']) ? $org['fullname'] : 'Organization';
     // Parent has to be set before ingest so restriction can be set.
     $object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', UTAILLA_ORG_COLLECTION);
     utailla_set_user_rels($object, $org);
-    $tuque->repository->ingestObject($object);
-    usleep(UTAILLA_USLEEP);
 
     $mads_ds = $object->constructDatastream('MADS', 'M');
     $mads_ds->label = 'MADS Record';
     $mads_ds->mimetype = 'application/xml';
     $mads_ds->content = utailla_build_organization_mads($org);
     $object->ingestDatastream($mads_ds);
-    usleep(UTAILLA_USLEEP);
+    islandora_add_object($object);
 
     utailla_log_organization_mapping($org['organization_id'], $object->id);
     drupal_set_message(
