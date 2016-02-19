@@ -645,11 +645,11 @@ function utailla_validate_language_code($element, &$form_state) {
       foreach ($lang_codes as $lang_code) {
         if (strcmp(trim($lang_code->wholeText), trim($code)) == 0) {
           return TRUE;
-        } 
+        }
       }
     }
   }
-  form_error($element, t("Language code $code does not belong to any known language in the repository."));
+  form_error($element, t("Language code @code does not belong to any known language in the repository.", array('@code' => $code)));
 }
 
 /**

@@ -89,7 +89,7 @@ function utailla_language_code_autocomplete($string) {
   };
   $codes = array_map($language_code_map, $results);
   $codes = array_filter($codes, $null_filter);
-  
+
   $matches = array();
   foreach ($codes as $code) {
     foreach ($code as $key => $value) {
