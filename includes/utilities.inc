@@ -489,3 +489,22 @@ function utailla_add_restriction_if_missing(AbstractObject $object) {
     }
   }
 }
+
+/**
+ * Queries RI for all language object PIDs.
+ *
+ * @return array
+ *   RI query results.
+ */
+function utailla_get_language_pids() {
+  $islandora_tuque = islandora_get_tuque_connection();
+  $parent_query = <<<EOQ
+SELECT ?pid FROM <#ri>
+WHERE {
+?pid <fedora-model:hasModel> <info:fedora/ailla:languageCModel>
+}
+EOQ;
+  // XXX: If we ever index the AILLA datastreams this should move to Solr
+  // for this entire autocomplete to cut down on Fedora hits.
+  return $islandora_tuque->repository->ri->sparqlQuery($parent_query, 'unlimited');
+}

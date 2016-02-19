@@ -349,7 +349,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Nickname</title>
+          <title>Pseudonym</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -449,6 +449,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <default_value>no</default_value>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -484,7 +485,7 @@
       </element>
       <element name="native_language">
         <properties>
-          <type>markup</type>
+          <type>tabs</type>
           <access>TRUE</access>
           <after_build>
             <index key="0">utailla_convert_language_pid_to_title</index>
@@ -501,85 +502,101 @@
             <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
             <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"</islandora_authority_fq>
           </user_data>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;fieldOfActivity type="native language" authority="aillaLanguage"&gt;&lt;/fieldOfActivity&gt;</value>
-            </create>
-            <read>
-              <path>mads:fieldOfActivity[@type="native language" and @authority="aillaLanguage"]</path>
-              <context>parent</context>
-            </read>
-            <update>NULL</update>
-            <delete>NULL</delete>
-          </actions>
         </properties>
         <children>
-          <element name="language_pid">
+          <element name="0">
             <properties>
-              <type>islandora_authority_hidden</type>
+              <type>tabpanel</type>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <disabled>FALSE</disabled>
-              <element_validate>
-                <index key="0">utailla_collection_build_uri_on_validate</index>
-              </element_validate>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
               <tree>TRUE</tree>
-              <user_data>
-                <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
-              </user_data>
               <actions>
                 <create>
                   <path>self::node()</path>
                   <context>parent</context>
                   <schema/>
-                  <type>attribute</type>
+                  <type>xml</type>
                   <prefix>NULL</prefix>
-                  <value>valueURI</value>
+                  <value>&lt;fieldOfActivity type="native language" authority="aillaLanguage"&gt;&lt;/fieldOfActivity&gt;</value>
                 </create>
                 <read>
-                  <path>@valueURI</path>
+                  <path>mads:fieldOfActivity[@type="native language" and @authority="aillaLanguage"]</path>
                   <context>parent</context>
                 </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
+                <update>NULL</update>
                 <delete>NULL</delete>
               </actions>
             </properties>
-            <children/>
-          </element>
-          <element name="language">
-            <properties>
-              <type>islandora_authority_textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Native Language</title>
-              <tree>TRUE</tree>
-              <user_data>
-                <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                <islandora_authority_mapping>!language</islandora_authority_mapping>
-                <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-              </user_data>
-            </properties>
-            <children/>
+            <children>
+              <element name="language_pid">
+                <properties>
+                  <type>islandora_authority_hidden</type>
+                  <access>TRUE</access>
+                  <collapsed>FALSE</collapsed>
+                  <collapsible>FALSE</collapsible>
+                  <disabled>FALSE</disabled>
+                  <element_validate>
+                    <index key="0">utailla_collection_build_uri_on_validate</index>
+                  </element_validate>
+                  <executes_submit_callback>FALSE</executes_submit_callback>
+                  <multiple>FALSE</multiple>
+                  <required>FALSE</required>
+                  <resizable>FALSE</resizable>
+                  <tree>TRUE</tree>
+                  <user_data>
+                    <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                    <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                  </user_data>
+                  <actions>
+                    <create>
+                      <path>self::node()</path>
+                      <context>parent</context>
+                      <schema/>
+                      <type>attribute</type>
+                      <prefix>NULL</prefix>
+                      <value>valueURI</value>
+                    </create>
+                    <read>
+                      <path>@valueURI</path>
+                      <context>parent</context>
+                    </read>
+                    <update>
+                      <path>self::node()</path>
+                      <context>self</context>
+                    </update>
+                    <delete>NULL</delete>
+                  </actions>
+                </properties>
+                <children/>
+              </element>
+              <element name="language">
+                <properties>
+                  <type>islandora_authority_textfield</type>
+                  <access>TRUE</access>
+                  <collapsed>FALSE</collapsed>
+                  <collapsible>FALSE</collapsible>
+                  <disabled>FALSE</disabled>
+                  <executes_submit_callback>FALSE</executes_submit_callback>
+                  <multiple>FALSE</multiple>
+                  <required>FALSE</required>
+                  <resizable>FALSE</resizable>
+                  <title>Native Language</title>
+                  <tree>TRUE</tree>
+                  <user_data>
+                    <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                    <islandora_authority_mapping>!language</islandora_authority_mapping>
+                    <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                  </user_data>
+                </properties>
+                <children/>
+              </element>
+            </children>
           </element>
         </children>
       </element>

@@ -21,6 +21,8 @@ define('UTAILLA_LIMIT_FOR_RESOURCE_IMPORT', 100);
 define('UTAILLA_USER_REL', 'hasAssociatedUser');
 define('UTAILLA_CONTACT_REL', 'hasAssociatedContact');
 // Autocomplete paths.
+define('UTAILLA_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/language');
+define('UTAILLA_LANGUAGE_CODE_AUTOCOMPLETE', 'utailla/autocomplete/languageCode');
 define('UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE', 'utailla/autocomplete/parentlanguage');
 define('UTAILLA_COUNTRY_AUTOCOMPLETE', 'utailla/autocomplete/countries');
 define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
@@ -41,12 +43,30 @@ const UTAILLA_RESTRICTION_LEVEL_4 = 3;
  */
 function utailla_menu() {
   $items = array();
-  $items[UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE] = array(
-    'title' => 'Autocomplete parent language callback',
+  $items[UTAILLA_LANGUAGE_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete language callback',
     'description' => 'Autocomplete to get a language object\'s title.',
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
-    'page arguments' => array(3, UTAILLA_LANGUAGE_CMODEL),
+    'page arguments' => array(3, UTAILLA_LANGUAGE_CMODEL, FALSE),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_LANGUAGE_CODE_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete language code callback',
+    'description' => 'Autocomplete to get a language object\'s code.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_language_code_autocomplete',
+    'page arguments' => array(3),
+    'access arguments' => array(ISLANDORA_METADATA_EDIT),
+    'type' => MENU_CALLBACK,
+  );
+  $items[UTAILLA_PARENT_LANGUAGE_AUTOCOMPLETE] = array(
+    'title' => 'Autocomplete parent language callback',
+    'description' => 'Autocomplete to get a language object\'s title, filtering by parent language.',
+    'file' => 'includes/utailla.autocomplete.inc',
+    'page callback' => 'utailla_title_by_model_autocomplete',
+    'page arguments' => array(3, UTAILLA_LANGUAGE_CMODEL, TRUE),
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
@@ -55,7 +75,7 @@ function utailla_menu() {
     'description' => 'Autocomplete to get a country object\'s title.',
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
-    'page arguments' => array(3, UTAILLA_COUNTRY_CMODEL),
+    'page arguments' => array(3, UTAILLA_COUNTRY_CMODEL, FALSE),
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
@@ -64,7 +84,7 @@ function utailla_menu() {
     'description' => 'Autocomplete to get a contributor object\'s title.',
     'file' => 'includes/utailla.autocomplete.inc',
     'page callback' => 'utailla_title_by_model_autocomplete',
-    'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL),
+    'page arguments' => array(3, UTAILLA_CONTRIBUTOR_CMODEL, FALSE),
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
@@ -604,6 +624,32 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
   $english = $form_state['values']['physicalDescription']['original_medium_eng'];
   $spanish = array_key_exists($english, $mapping) ? $mapping[$english] : $english;
   form_set_value($element, $spanish, $form_state);
+}
+
+/**
+ * Language Code Validation for Ailla Collection MODS Form.
+ */
+function utailla_validate_language_code($element, &$form_state) {
+  module_load_include('inc', 'utailla', 'includes/utilities');
+  $results = utailla_get_language_pids();
+
+  $code = $element['#value'];
+
+  foreach ($results as $result) {
+    $object = islandora_object_load($result['pid']['value']);
+    if (isset($object['LANGUAGE'])) {
+      $dom = new DOMDocument();
+      $dom->loadXML($object['LANGUAGE']->content);
+      $dom_xpath = new DOMXPath($dom);
+      $lang_codes = $dom_xpath->query('/aillaLanguage/aillaLangCode/text()');
+      foreach ($lang_codes as $lang_code) {
+        if (strcmp(trim($lang_code->wholeText), trim($code)) == 0) {
+          return TRUE;
+        } 
+      }
+    }
+  }
+  form_error($element, t("Language code $code does not belong to any known language in the repository."));
 }
 
 /**
