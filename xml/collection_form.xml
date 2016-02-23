@@ -256,6 +256,7 @@
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
+              <title>Language</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
