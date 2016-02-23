@@ -68,7 +68,7 @@ function utailla_language_code_autocomplete($string) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   $results = utailla_get_language_pids();
 
-  $language_code_map = function($r) {
+  $language_code_map = function($r) use($string) {
     // Need to see if these are part of the aillaLangFam as per UTAILLA-44.
     $object = islandora_object_load($r['pid']['value']);
     if (isset($object['LANGUAGE'])) {
@@ -76,16 +76,20 @@ function utailla_language_code_autocomplete($string) {
       $dom->loadXML($object['LANGUAGE']->content);
       $dom_xpath = new DOMXPath($dom);
       $lang_codes = $dom_xpath->query('/aillaLanguage/aillaLangCode/text()');
-      foreach ($lang_codes as $lang_code) {
+      foreach ($lang_codes as $lang_code_elem) {
+        $lang_code = $lang_code_elem->wholeText;
+        if (strpos(drupal_strtoupper($lang_code), drupal_strtoupper($string)) === FALSE) {
+          continue;
+        }
         $mapped = array();
-        $mapped[$lang_code->wholeText] = $lang_code->wholeText . ' (' . $r['pid']['value'] . ')';
+        $mapped[$lang_code] = $lang_code . ' (' . $r['pid']['value'] . ')';
         return $mapped;
       }
     }
     return NULL;
   };
-  $null_filter = function($r) {
-    return $r !== NULL;
+  $null_filter = function($v) {
+    return $v !== NULL;
   };
   $codes = array_map($language_code_map, $results);
   $codes = array_filter($codes, $null_filter);
