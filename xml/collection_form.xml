@@ -192,10 +192,12 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous language)"/&gt;</value>
+                            <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous
+                                language)"/&gt;</value>
                         </create>
                         <read>
-                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous language)"]</path>
+                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous
+                                language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -241,93 +243,47 @@
                         </properties>
                         <children/>
                     </element>
-                    <element name="language_attribute_hidden_element">
+                    <element name="language">
                         <properties>
-                            <type>markup</type>
+                            <type>textfield</type>
                             <access>TRUE</access>
-                            <after_build>
-                                <index key="0">utailla_replace_attribute_with_language</index>
-                            </after_build>
+                            <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_validate_language_code</index>
+                            </element_validate>
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <required>FALSE</required>
                             <resizable>FALSE</resizable>
+                            <title>Language</title>
                             <tree>TRUE</tree>
-                            <user_data>
-                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"~aillaLanguage_aillaLangFam_et:"Y"</islandora_authority_fq>
-                                <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
-                            </user_data>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>attribute</type>
+                                    <prefix>NULL</prefix>
+                                    <value>lang</value>
+                                </create>
+                                <read>
+                                    <path>@lang</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
                         </properties>
-                        <children>
-                            <element name="language">
-                                <properties>
-                                    <type>islandora_authority_textfield</type>
-                                    <access>TRUE</access>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <disabled>FALSE</disabled>
-                                    <element_validate>
-                                        <index key="0">utailla_validate_language_is_in_collection_language</index>
-                                    </element_validate>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <title>Language Test</title>
-                                    <tree>TRUE</tree>
-                                    <user_data>
-                                        <islandora_authority_mapping>!language</islandora_authority_mapping>
-                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                                        <islandora_authority_solr_search_field>aillaLanguage_aillaEngName_et</islandora_authority_solr_search_field>
-                                    </user_data>
-                                </properties>
-                                <children/>
-                            </element>
-                            <element name="language_attribute">
-                                <properties>
-                                    <type>islandora_authority_hidden</type>
-                                    <access>TRUE</access>
-                                    <collapsed>FALSE</collapsed>
-                                    <collapsible>FALSE</collapsible>
-                                    <disabled>FALSE</disabled>
-                                    <executes_submit_callback>FALSE</executes_submit_callback>
-                                    <multiple>FALSE</multiple>
-                                    <required>FALSE</required>
-                                    <resizable>FALSE</resizable>
-                                    <title>Language</title>
-                                    <tree>TRUE</tree>
-                                    <user_data>
-                                        <islandora_authority_solr_search_field>aillaLanguage_aillaLangCode_et</islandora_authority_solr_search_field>
-                                    </user_data>
-                                    <actions>
-                                        <create>
-                                            <path>self::node()</path>
-                                            <context>parent</context>
-                                            <schema/>
-                                            <type>attribute</type>
-                                            <prefix>NULL</prefix>
-                                            <value>lang</value>
-                                        </create>
-                                        <read>
-                                            <path>@lang</path>
-                                            <context>parent</context>
-                                        </read>
-                                        <update>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </update>
-                                        <delete>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </delete>
-                                    </actions>
-                                </properties>
-                                <children/>
-                            </element>
-                        </children>
+                        <children/>
                     </element>
                 </children>
             </element>
@@ -406,7 +362,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;Collector&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;Coleccionista&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
+                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng"
+                                        authority="aillaRoleTerms"&gt;Collector&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm
+                                        type="text" lang="spa"
+                                        authority="aillaRoleTerms"&gt;Coleccionista&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:name[mods:role/mods:roleTerm="Collector"]</path>
@@ -695,7 +654,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;Depositor&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;Depositante&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
+                                    <value>&lt;name&gt;&lt;role&gt;&lt;roleTerm type="text" lang="eng"
+                                        authority="aillaRoleTerms"&gt;Depositor&lt;/roleTerm&gt;&lt;/role&gt;&lt;role&gt;&lt;roleTerm
+                                        type="text" lang="spa"
+                                        authority="aillaRoleTerms"&gt;Depositante&lt;/roleTerm&gt;&lt;/role&gt;&lt;/name&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:name[mods:role/mods:roleTerm="Depositor"]</path>
@@ -1038,7 +1000,8 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;language&gt;&lt;languageTerm type="text" authority="aillaLanguage"&gt;&lt;/languageTerm&gt;&lt;/language&gt;</value>
+                                    <value>&lt;language&gt;&lt;languageTerm type="text"
+                                        authority="aillaLanguage"&gt;&lt;/languageTerm&gt;&lt;/language&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:language/mods:languageTerm[@type="text"][@authority="aillaLanguage"]</path>
@@ -1163,7 +1126,9 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" authority="aillaCountry"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
+                                    <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm
+                                        type="text"
+                                        authority="aillaCountry"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:originInfo[@eventType="production"]/mods:place/mods:placeTerm[@type="text"][@authority="aillaCountry"]</path>
@@ -1266,10 +1231,12 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="eng" displayLabel="Collection description (English)"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="eng" displayLabel="Collection description
+                                (English)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description (English)"]</path>
+                            <path>mods:abstract[@lang="eng"][@displayLabel="Collection description
+                                (English)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -1301,10 +1268,12 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract lang="spa" displayLabel="Collection description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
+                            <value>&lt;abstract lang="spa" displayLabel="Collection description
+                                (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description (Spanish)"]</path>
+                            <path>mods:abstract[@lang="spa"][@displayLabel="Collection description
+                                (Spanish)"]</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -1336,10 +1305,12 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;abstract displayLabel="Collection description  (Indigenous language)"&gt;&lt;/abstract&gt;</value>
+                            <value>&lt;abstract displayLabel="Collection description (Indigenous
+                                language)"&gt;&lt;/abstract&gt;</value>
                         </create>
                         <read>
-                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection description  (Indigenous language)"]</path>
+                            <path>mods:abstract[not(@lang="spa")][not(@lang="eng")][@displayLabel="Collection
+                                description (Indigenous language)"]</path>
                             <context>parent</context>
                         </read>
                         <update>NULL</update>
@@ -1379,7 +1350,7 @@
                         <properties>
                             <type>textfield</type>
                             <access>TRUE</access>
-                            <autocomplete_path>utailla/autocomplete/parentlanguage</autocomplete_path>
+                            <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
@@ -1421,7 +1392,7 @@
             </element>
             <element name="references">
                 <properties>
-                    <type>textfield</type>
+                    <type>tabs</type>
                     <access>TRUE</access>
                     <collapsed>FALSE</collapsed>
                     <collapsible>FALSE</collapsible>
@@ -1432,27 +1403,85 @@
                     <resizable>FALSE</resizable>
                     <title>References</title>
                     <tree>TRUE</tree>
-                    <actions>
-                        <create>
-                            <path>self::node()</path>
-                            <context>parent</context>
-                            <schema/>
-                            <type>xml</type>
-                            <prefix>NULL</prefix>
-                            <value>&lt;relatedItem type="isReferencedBy"&gt;&lt;note type="citation/reference"&gt;%value%&lt;/note&gt;&lt;/relatedItem&gt;</value>
-                        </create>
-                        <read>
-                            <path>mods:relatedItem[@type="isReferencedBy"]/mods:note[@type="citation/reference"]</path>
-                            <context>parent</context>
-                        </read>
-                        <update>
-                            <path>self::node()</path>
-                            <context>self</context>
-                        </update>
-                        <delete>NULL</delete>
-                    </actions>
                 </properties>
-                <children/>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;relatedItem type="isReferencedBy"&gt;&lt;/relatedItem&gt;</value>
+                                </create>
+                                <read>
+                                    <path>mods:relatedItem[@type="isReferencedBy"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="reference">
+                                <properties>
+                                    <type>textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Reference</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>xml</type>
+                                            <prefix>NULL</prefix>
+                                            <value>&lt;note type="citation/reference"&gt;%value%&lt;/note&gt;</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:note[@type="citation/reference"]</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
             </element>
         </children>
     </form>
