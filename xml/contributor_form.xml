@@ -487,9 +487,6 @@
         <properties>
           <type>tabs</type>
           <access>TRUE</access>
-          <after_build>
-            <index key="0">utailla_convert_language_pid_to_title</index>
-          </after_build>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <disabled>FALSE</disabled>
@@ -498,16 +495,15 @@
           <required>FALSE</required>
           <resizable>FALSE</resizable>
           <tree>TRUE</tree>
-          <user_data>
-            <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
-            <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"</islandora_authority_fq>
-          </user_data>
         </properties>
         <children>
           <element name="0">
             <properties>
               <type>tabpanel</type>
               <access>TRUE</access>
+              <after_build>
+                <index key="0">utailla_convert_language_pid_to_title</index>
+              </after_build>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <disabled>FALSE</disabled>
@@ -516,6 +512,10 @@
               <required>FALSE</required>
               <resizable>FALSE</resizable>
               <tree>TRUE</tree>
+              <user_data>
+                <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
+                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"</islandora_authority_fq>
+              </user_data>
               <actions>
                 <create>
                   <path>self::node()</path>
