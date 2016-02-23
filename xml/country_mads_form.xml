@@ -128,7 +128,7 @@
                   <value>&lt;mads:geographic lang="spa" authority="geonames" authorityURI="http://sws.geonames.org"&gt;%value%&lt;/mads:geographic&gt;</value>
                 </create>
                 <read>
-                  <path>mads:geographic[@lang="eng"][@authority="geonames"][@authorityURI="http://sws.geonames.org"]</path>
+                  <path>mads:geographic[@lang="spa"][@authority="geonames"][@authorityURI="http://sws.geonames.org"]</path>
                   <context>parent</context>
                 </read>
                 <update>
