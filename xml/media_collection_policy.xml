@@ -3,8 +3,9 @@
         <content_model dsid="" name="Islandora Basic Image Content Model" namespace="ailla" pid="islandora:sp_basic_image"></content_model>
         <content_model dsid="" name="Islandora Video Content Model" namespace="ailla" pid="islandora:sp_videoCModel"></content_model>
         <content_model dsid="" name="Islandora Binary Object Content Model" namespace="ailla" pid="islandora:binaryObjectCModel"></content_model>
-        <content_model dsid="" name="Islandora Newspaper Issue Content Model" namespace="ailla" pid="islandora:newspaperIssueCModel"></content_model>
         <content_model dsid="" name="Islandora Audio Content Model" namespace="ailla" pid="islandora:sp-audioCModel"></content_model>
+        <content_model dsid="" name="Islandora PDF Content Model" namespace="ailla" pid="islandora:sp_pdf"/>
+        <content_model dsid="" name="Islandora Large Image Content Model" namespace="ailla" pid="islandora:sp_large_image_cmodel"/>
     </content_models>
     <search_terms></search_terms>
     <staging_area></staging_area>
