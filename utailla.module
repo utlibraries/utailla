@@ -441,7 +441,7 @@ function utailla_block_view($delta = '') {
         // Objects with a restricion level of 'Authenticated Access' may
         // still contain a password; this is inherited from the collection and
         // exists as a default if the access level is changed.
-        isset($restriction['level']) && $restriction['level'] != 0 &&
+        isset($restriction['level']) && $restriction['level'] != UTAILLA_RESTRICTION_LEVEL_1 &&
         isset($restriction['password']) && $restriction['password'] &&
         !utailla_user_media_file_current_authorization($object->id) &&
         !utailla_is_object_archived($object)) {
