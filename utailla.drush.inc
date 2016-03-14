@@ -486,7 +486,6 @@ function utailla_resource_policy_batch_operation(&$context) {
     $pid = array_shift($sandbox['pids']);
 
     $object = islandora_object_load($pid);
-    echo $object->label . PHP_EOL;
 
     $collection_policy_path = drupal_get_path('module', 'utailla') . '/xml/media_collection_policy.xml';
     $object['COLLECTION_POLICY']->setContentFromFile($collection_policy_path);
