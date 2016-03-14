@@ -384,6 +384,10 @@ function utailla_permission() {
     'title' => t('Administer Access Levels'),
     'description' => t('Permit access to the "Access Levels" form on collections, resources and files.'),
   );
+  $permission['view Person MADS datastream'] = array(
+    'title' => t('View the Person MADS datastream'),
+    'description' => t('Permit access to view MADS datastreams for Person objects.'),
+  );
 
   return $permission;
 }
@@ -468,6 +472,13 @@ function utailla_cron() {
  * Implements hook_islandora_datastream_access().
  */
 function utailla_islandora_datastream_access($op, $datastream, $user) {
+  // Block access to MADS datastream for Person objects
+  if ($op === ISLANDORA_VIEW_OBJECTS && $datastream->id == 'MADS' &&
+    in_array(UTAILLA_CONTRIBUTOR_CMODEL, $datastream->parent->models)) {
+
+    return user_access('view Person MADS datastream');
+  }
+
   module_load_include('inc', 'utailla', 'includes/utilities');
   module_load_include('inc', 'utailla', 'includes/db');
 
