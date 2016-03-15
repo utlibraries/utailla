@@ -119,6 +119,16 @@ function utailla_drush_command() {
       ),
     ),
   );
+  $commands['utailla-update-resource-policy'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Update Resource Content Policies',
+    'drupal_dependencies' => array(
+      'islandora',
+    ),
+    'examples' => array(
+      'drush -u 1 -v utailla-update-resource-policy',
+    ),
+  );
   return $commands;
 }
 
@@ -430,4 +440,91 @@ function utailla_migrate_country_construct_object($row) {
   else {
     drush_log(t('An object already exists with a country code of @code.', array('@code' => $row->country_code)));
   }
+}
+
+/**
+ * Drush command callback to update the Collection Policy of Resource objects.
+ */
+function drush_utailla_update_resource_policy() {
+  $batch = array(
+    'file' => drupal_get_path('module', 'utailla') . '/utailla.drush.inc',
+    'operations' => array(
+      array(
+        'utailla_resource_policy_batch_operation',
+        array(),
+      ),
+    ),
+  );
+  batch_set($batch);
+  drush_backend_batch_process();
+}
+
+/**
+ * Batch operation to update Resource Collection Policy datastreams.
+ *
+ * @param $context
+ */
+function utailla_resource_policy_batch_operation(&$context) {
+  $sandbox =& $context['sandbox'];
+  if (!isset($sandbox['pids'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['pids'] = utailla_drush_cmodel_query_pids(UTAILLA_RESOURCE_CMODEL);
+    $sandbox['total'] = count($sandbox['pids']);
+    if ($sandbox['total'] == 0) {
+      // Nothing to process.
+      $context['finished'] = 1;
+      $context['message'] = t('Nothing to update.');
+      return;
+    }
+    else {
+      $context['finished'] = 0;
+    }
+  }
+
+  $local_count = 0;
+  while ($local_count < 40 && $sandbox['progress'] < $sandbox['total']) {
+    $pid = array_shift($sandbox['pids']);
+
+    $object = islandora_object_load($pid);
+
+    $collection_policy_path = drupal_get_path('module', 'utailla') . '/xml/media_collection_policy.xml';
+    $object['COLLECTION_POLICY']->setContentFromFile($collection_policy_path);
+
+    $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
+    $context['finished'] = $sandbox['progress'] / $sandbox['total'];
+    $local_count++;
+  }
+
+  $context['message'] = t('Processed @progress of @total.', array(
+    '@progress' => $sandbox['progress'],
+    '@total' => $sandbox['total'],
+  ));
+}
+
+/**
+ * Query helper to get a list of PIDs having the defined content model.
+ *
+ * @param $content_model
+ *   Content Model of the objects to query.
+ *
+ * @return array
+ */
+function utailla_drush_cmodel_query_pids($content_model) {
+  $query = <<<EOQ
+SELECT ?pid
+FROM <#ri>
+WHERE {
+  ?pid <fedora-model:hasModel> <info:fedora/$content_model>
+}
+EOQ;
+// Connect to Tuque and grab the results.
+  $connection = islandora_get_tuque_connection();
+  $results = $connection->repository->ri->sparqlQuery($query);
+
+  $pids = array();
+  foreach ($results as $result) {
+    $pids[] = $result['pid']['value'];
+  }
+
+  return $pids;
 }
