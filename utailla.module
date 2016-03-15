@@ -1058,13 +1058,10 @@ function utailla_form_islandora_solr_admin_settings_alter(&$form, &$form_state) 
 /**
  * Implements hook_form_alter().
  */
-
-function utailla_form_alter(&$form, &$form_state, $form_id) {
+function utailla_form_islandora_video_upload_form_alter(&$form, &$form_state) {
   // Add mpeg and mpg as video upload options.
-  if ($form_id == 'islandora_video_upload_form') {
-    $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
-    $extensions = array('ogg mp4 mov qt m4v avi mkv mpeg mpg');
-    $form['file']['#upload_validators']['file_validate_extensions'] = $extensions;
-    $form['file']['#description'] = t('Select video to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0]));
-  }
+  $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
+  $extensions = array('ogg mp4 mov qt m4v avi mkv mpeg mpg');
+  $form['file']['#upload_validators']['file_validate_extensions'] = $extensions;
+  $form['file']['#description'] = t('Select video to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0]));
 }
