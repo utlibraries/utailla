@@ -473,9 +473,7 @@ function utailla_cron() {
  */
 function utailla_islandora_datastream_access($op, $datastream, $user) {
   // Block access to MADS datastream for Person objects
-  if ($op === ISLANDORA_VIEW_OBJECTS && $datastream->id == 'MADS' &&
-    in_array(UTAILLA_CONTRIBUTOR_CMODEL, $datastream->parent->models)) {
-
+  if ($datastream->id == 'MADS' && in_array(UTAILLA_CONTRIBUTOR_CMODEL, $datastream->parent->models)) {
     return user_access('view Person MADS datastream');
   }
 
