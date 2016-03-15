@@ -703,6 +703,24 @@ function utailla_ailla_personsCModel_MADS_islandora_datastream_alter(AbstractObj
     }
     if ($object->label != $label) {
       $object->label = $label;
+      // Also need to update dc:title if an update, since it can get set from the label.
+      if ($context['action'] == 'modify') {
+        $dc_xml = $object['DC']->content;
+        $dc_dom = new DOMDocument();
+        $dc_dom->loadXML($dc_xml);
+
+        $current_titles = $dc_dom->getElementsByTagName('title');
+        if ($current_titles->length) {
+          $current_titles->item(0)->parentNode->removeChild($current_titles->item(0));
+        }
+        if (!$current_titles->length || $current_titles->item(0)->nodeValue != $label) {
+          $new_title = $dc_dom->createElementNS('http://purl.org/dc/elements/1.1/', 'title');
+          $new_title_text = $dc_dom->createTextNode($label);
+          $new_title->appendChild($new_title_text);
+          $dc_dom->documentElement->appendChild($new_title);
+          $object['DC']->setContentFromString($dc_dom->saveXML());
+        }
+      }
     }
     // Go out and see if the XACML policy needs to be updated or lifted for
     // contributors.
