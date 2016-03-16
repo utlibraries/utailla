@@ -388,6 +388,10 @@ function utailla_permission() {
     'title' => t('View the Person MADS datastream'),
     'description' => t('Permit access to view MADS datastreams for Person objects.'),
   );
+  $permission['bypass access level restrictions'] = array(
+    'title' => t('Bypass Access Level restrictions'),
+    'description' => t('Permit access to view datastreams that are restricted by access levels.'),
+  );
 
   return $permission;
 }
@@ -485,8 +489,8 @@ function utailla_islandora_datastream_access($op, $datastream, $user) {
   $restriction = utailla_get_restriction($pid);
   if (in_array($datastream->id, $lockable_dsids) &&
     $restriction['level'] &&
-    user_is_logged_in() &&
-    !utailla_user_media_file_current_authorization($pid)) {
+    !utailla_user_media_file_current_authorization($pid) &&
+    !user_access('bypass access level restrictions')) {
 
     return FALSE;
 
