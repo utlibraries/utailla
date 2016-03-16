@@ -1083,3 +1083,12 @@ function utailla_form_islandora_video_upload_form_alter(&$form, &$form_state) {
   $form['file']['#upload_validators']['file_validate_extensions'] = $extensions;
   $form['file']['#description'] = t('Select video to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0]));
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function utailla_form_islandora_audio_audio_upload_form_alter(&$form, &$form_state) {
+  // AILLA doesn't want the thumbnail upload option.
+  $form['supply_thumbnail']['#access'] = FALSE;
+  $form['thumbnail_section']['#access'] = FALSE;
+}
