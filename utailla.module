@@ -580,7 +580,7 @@ function utailla_update_provenance_dates($form, $form_state) {
   $date = $date->format($date::W3C);
   $form['date_modified']['#value'] = $date;
   $form_id = isset($form_state['values']['form_id']) ? $form_state['values']['form_id'] : $form_state['build_info']['form_id'];
-  if ($form_id == 'xml_form_builder_ingest_form' || 'islandora_ingest_form') {
+  if ($form_id == 'xml_form_builder_ingest_form' || $form_id == 'islandora_ingest_form') {
     $form['date_archived']['#value'] = $date;
   }
   return $form;
