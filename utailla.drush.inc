@@ -543,31 +543,37 @@ EOQ;
 function drush_utailla_clean_text_extents() {
   batch_set(array(
     'operations' => array(
-      array('utailla_clean_text_extents_batch_op', array()),
+      array(
+        'utailla_clean_extents_batch_op',
+        array(
+          array(
+            'islandora:sp_pdf',
+            'islandora:sp_document',
+            'islandora:binaryObjectCModel',
+          ),
+          array(
+            format_string('!field:"0:0:0"', array(
+              '!field' => 'mods_physicalDescription_extent_s',
+            )),
+          ),
+          'utailla_nuke_elements',
+          array(
+            '//mods:mods[mods:typeOfResource/text() = "text"]/mods:physicalDescription/mods:extent[text() = "0:0:0"]',
+          ),
+        ),
+      ),
     ),
   ));
   drush_backend_batch_process();
 }
 
 /**
- * Get the text models.
- */
-function utailla_text_models() {
-  return array(
-    'islandora:sp_pdf',
-    'islandora:sp_document',
-    'islandora:binaryObjectCModel',
-  );
-}
-
-/**
  * Batch operation; Clean text extents of time-like content.
  */
-function utailla_clean_text_extents_batch_op(&$context) {
+function utailla_clean_extents_batch_op($models, $fqs, $callback, $callback_args, &$context) {
   $sandbox = &$context['sandbox'];
 
   $created_field = 'fgs_createdDate_dt';
-  $extent_field = 'mods_physicalDescription_extent_s';
 
   if (!isset($sandbox['to_process']) || empty($sandbox['to_process'])) {
     $add_uri_prefix_and_quote = function ($model) {
@@ -583,16 +589,12 @@ function utailla_clean_text_extents_batch_op(&$context) {
     // Query for some PIDs to clean up.
     $qp = new IslandoraSolrQueryProcessor();
     $qp->buildQuery('*:*');
-    $qp->solrParams['fl'] = "PID,$created_field,$extent_field";
-    $qp->solrParams['fq'] = array(
-      format_string('!field:(!values)', array(
-        '!field' => 'RELS_EXT_hasModel_uri_ms',
-        '!values' => implode(' OR ', array_map($add_uri_prefix_and_quote, utailla_text_models())),
-      )),
-      format_string('!field:"0:0:0"', array(
-        '!field' => $extent_field,
-      )),
-    );
+    $qp->solrParams['fl'] = "PID,$created_field";
+    $qp->solrParams['fq'] = $fqs;
+    $qp->solrParams['fq'][] = format_string('!field:(!values)', array(
+      '!field' => 'RELS_EXT_hasModel_uri_ms',
+      '!values' => implode(' OR ', array_map($add_uri_prefix_and_quote, $models)),
+    ));
     if (isset($sandbox['last_processed']) && $sandbox['last_processed']) {
       $qp->solrParams['fq'][] = format_string('!date_field:{"!start_date" TO *} OR (!date_field:"!start_date" AND PID:{"!start_pid" TO *})', array(
         '!date_field' => $created_field,
@@ -614,9 +616,9 @@ function utailla_clean_text_extents_batch_op(&$context) {
   // Cleanup the MODS for a given object.
   list($pid, $date) = $sandbox['last_processed'] = array_shift($sandbox['to_process']);
   $object = islandora_object_load($pid);
-  utailla_clean_text_extents($object);
+  $count = call_user_func_array($callback, array_merge(array($object), $callback_args));
 
-  $context['message'] = t('Processed @pid.', array(
+  $context['message'] = format_plural($count, 'Processed @pid, changing 1 occurence.', 'Processed @pid, changing @count occurences.', array(
     '@pid' => $pid,
   ));
   $context['finished'] = 0;
@@ -625,13 +627,8 @@ function utailla_clean_text_extents_batch_op(&$context) {
 /**
  * Helper function; remove time-like extent entries from text.
  */
-function utailla_clean_text_extents(AbstractObject $object) {
-  if (!array_intersect($object->models, utailla_text_models())) {
-    throw new InvalidArgumentException(t('Attempting to clean non-text object: @pid', array(
-      '@pid' => $object->id,
-    )));
-  }
-  elseif (!isset($object['MODS'])) {
+function utailla_nuke_elements(AbstractObject $object, $path) {
+  if (!isset($object['MODS'])) {
     throw new InvalidArgumentException(t('The given object does not appear to have a MODS datastream: @pid', array(
       '@pid' => $object->id,
     )));
@@ -641,11 +638,13 @@ function utailla_clean_text_extents(AbstractObject $object) {
   $doc->loadXML($object['MODS']->content);
   $xpath = new DOMXPath($doc);
   $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-  $results = $xpath->query('//mods:mods[mods:typeOfResource/text() = "text"]/mods:physicalDescription/mods:extent[text() = "0:0:0"]');
+  $results = $xpath->query($path);
   foreach ($results as $result) {
     $result->parentNode->removeChild($result);
   }
-  if ($results->length > 0) {
+  $length = $results->length;
+  if ($length > 0) {
     $object['MODS']->content = $doc->saveXML();
   }
+  return $length;
 }
