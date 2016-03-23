@@ -137,6 +137,14 @@ function utailla_drush_command() {
       'islandora_solr',
     ),
   );
+  $commands['utailla-clean-multimedia-extents'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Wipe page-like extents from multimedia (video and audio) objects.',
+    'drupal dependencies' => array(
+      'islandora',
+      'islandora_solr',
+    ),
+  );
   return $commands;
 }
 
@@ -553,7 +561,7 @@ function drush_utailla_clean_text_extents() {
           ),
           array(
             format_string('!field:"0:0:0"', array(
-              '!field' => 'mods_physicalDescription_extent_s',
+              '!field' => 'mods_physicalDescription_extent_ms',
             )),
           ),
           'utailla_nuke_elements',
@@ -647,4 +655,33 @@ function utailla_nuke_elements(AbstractObject $object, $path) {
     $object['MODS']->content = $doc->saveXML();
   }
   return $length;
+}
+
+/**
+ * Command callback; Queue up and kick off the batch.
+ */
+function drush_utailla_clean_multimedia_extents() {
+  batch_set(array(
+    'operations' => array(
+      array(
+        'utailla_clean_extents_batch_op',
+        array(
+          array(
+            'islandora:sp_videoCModel',
+            'islandora:sp-audioCModel',
+          ),
+          array(
+            format_string('!field:"0"', array(
+              '!field' => 'mods_physicalDescription_extent_ms',
+            )),
+          ),
+          'utailla_nuke_elements',
+          array(
+            '//mods:mods/mods:physicalDescription/mods:extent[@displayLabel="Length in pages" and text() = "0"]',
+          ),
+        ),
+      ),
+    ),
+  ));
+  drush_backend_batch_process();
 }
