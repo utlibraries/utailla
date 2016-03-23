@@ -129,6 +129,14 @@ function utailla_drush_command() {
       'drush -u 1 -v utailla-update-resource-policy',
     ),
   );
+  $commands['utailla-clean-text-extents'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Wipe time-like extents from text objects.',
+    'drupal dependencies' => array(
+      'islandora',
+      'islandora_solr',
+    ),
+  );
   return $commands;
 }
 
@@ -527,4 +535,117 @@ EOQ;
   }
 
   return $pids;
+}
+
+/**
+ * Command callback; Queue up and kick off the batch.
+ */
+function drush_utailla_clean_text_extents() {
+  batch_set(array(
+    'operations' => array(
+      array('utailla_clean_text_extents_batch_op', array()),
+    ),
+  ));
+  drush_backend_batch_process();
+}
+
+/**
+ * Get the text models.
+ */
+function utailla_text_models() {
+  return array(
+    'islandora:sp_pdf',
+    'islandora:sp_document',
+    'islandora:binaryObjectCModel',
+  );
+}
+
+/**
+ * Batch operation; Clean text extents of time-like content.
+ */
+function utailla_clean_text_extents_batch_op(&$context) {
+  $sandbox = &$context['sandbox'];
+
+  $created_field = 'fgs_createdDate_dt';
+  $extent_field = 'mods_physicalDescription_extent_s';
+
+  if (!isset($sandbox['to_process']) || empty($sandbox['to_process'])) {
+    $add_uri_prefix_and_quote = function ($model) {
+      return format_string('"info:fedora/!model"', array(
+        '!model' => $model,
+      ));
+    };
+    $map_to_process = function ($result) use ($created_field) {
+      $doc = $result['solr_doc'];
+      return array($doc['PID'], $doc[$created_field]);
+    };
+
+    // Query for some PIDs to clean up.
+    $qp = new IslandoraSolrQueryProcessor();
+    $qp->buildQuery('*:*');
+    $qp->solrParams['fl'] = "PID,$created_field,$extent_field";
+    $qp->solrParams['fq'] = array(
+      format_string('!field:(!values)', array(
+        '!field' => 'RELS_EXT_hasModel_uri_ms',
+        '!values' => implode(' OR ', array_map($add_uri_prefix_and_quote, utailla_text_models())),
+      )),
+      format_string('!field:"0:0:0"', array(
+        '!field' => $extent_field,
+      )),
+    );
+    if (isset($sandbox['last_processed']) && $sandbox['last_processed']) {
+      $qp->solrParams['fq'][] = format_string('!date_field:{"!start_date" TO *} OR (!date_field:"!start_date" AND PID:{"!start_pid" TO *})', array(
+        '!date_field' => $created_field,
+        '!start_date' => $sandbox['last_processed'][1],
+        '!start_pid' => $sandbox['last_processed'][0],
+      ));
+    }
+    $qp->solrParams['sort'] = "$created_field asc, PID asc";
+    $qp->solrLimit = 1000;
+    $qp->executeQuery(FALSE, TRUE);
+    $sandbox['to_process'] = array_map($map_to_process, $qp->islandoraSolrResult['response']['objects']);
+  }
+
+  if (empty($sandbox['to_process'])) {
+    // Done.
+    return;
+  }
+
+  // Cleanup the MODS for a given object.
+  list($pid, $date) = $sandbox['last_processed'] = array_shift($sandbox['to_process']);
+  $object = islandora_object_load($pid);
+  utailla_clean_text_extents($object);
+
+  $context['message'] = t('Processed @pid.', array(
+    '@pid' => $pid,
+  ));
+  $context['finished'] = 0;
+}
+
+/**
+ * Helper function; remove time-like extent entries from text.
+ */
+function utailla_clean_text_extents(AbstractObject $object) {
+  if (!array_intersect($object->models, utailla_text_models())) {
+    throw new InvalidArgumentException(t('Attempting to clean non-text object: @pid', array(
+      '@pid' => $object->id,
+    )));
+  }
+  elseif (!isset($object['MODS'])) {
+    throw new InvalidArgumentException(t('The given object does not appear to have a MODS datastream: @pid', array(
+      '@pid' => $object->id,
+    )));
+  }
+
+  $doc = new DOMDocument();
+  $doc->loadXML($object['MODS']->content);
+  $xpath = new DOMXPath($doc);
+  $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+  $results = $xpath->query('//mods:mods[mods:typeOfResource/text() = "text"]/mods:physicalDescription/mods:extent[text() = "0:0:0"]');
+  foreach ($results as $result) {
+    $result->parentNode->removeChild($result);
+  }
+  if ($results->length > 0) {
+    $object['MODS']->content = $doc->saveXML();
+  }
 }
