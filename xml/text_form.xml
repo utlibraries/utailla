@@ -423,7 +423,7 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;dateOther displayLabel="Date archived"&gt;&lt;/dateOther&gt;</value>
+                                    <value>&lt;dateOther displayLabel="Date archived"&gt;%value%&lt;/dateOther&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:dateOther</path>
