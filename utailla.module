@@ -648,6 +648,10 @@ function utailla_validate_language_code($element, &$form_state) {
 
   $code = $element['#value'];
 
+  if ($code === '') {
+    return;
+  }
+
   foreach ($results as $result) {
     $object = islandora_object_load($result['pid']['value']);
     if (isset($object['LANGUAGE'])) {
