@@ -404,6 +404,18 @@ function utailla_permission() {
 function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   utailla_add_restriction_if_missing($object);
+  
+  $media_types = array(
+    'islandora:sp-audioCModel',
+    'islandora:sp_basic_image',
+    'islandora:binaryObjectCModel',
+    'islandora:sp_large_image_cmodel',
+    'islandora:sp_pdf',
+    'islandora:sp_videoCModel',
+  );
+  if ((bool) array_intersect($object->models, $media_types) && $object->label == 'New Object' && isset($object['OBJ'])) {
+    $object->label = $object['OBJ']->label;
+  }
 }
 
 /**
