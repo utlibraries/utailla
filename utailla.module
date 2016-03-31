@@ -229,34 +229,34 @@ function utailla_islandora_required_objects(IslandoraTuque $connection) {
 function utailla_islandora_xml_form_builder_forms() {
   $module_path = drupal_get_path('module', 'utailla');
   return array(
-    'Country MADS form' => array(
+    'AILLA Country Form' => array(
       'form_file' => "$module_path/xml/country_mads_form.xml",
     ),
-    'Language form' => array(
+    'AILLA Language Form' => array(
       'form_file' => "$module_path/xml/language_form.xml",
     ),
-    'Ailla Collection MODS form' => array(
+    'AILLA Collection Form' => array(
       'form_file' => "$module_path/xml/collection_form.xml",
     ),
-    'Ailla Resource MODS form' => array(
+    'AILLA Resource Form' => array(
       'form_file' => "$module_path/xml/resource_form.xml",
     ),
-    'Ailla Contributor MADS form' => array(
+    'AILLA Contributor Form' => array(
       'form_file' => "$module_path/xml/contributor_form.xml",
     ),
-    'Ailla Organization MADS form' => array(
+    'AILLA Organization Form' => array(
       'form_file' => "$module_path/xml/organization_form.xml",
     ),
-    'Ailla Audio MODS form' => array(
+    'AILLA Audio Form' => array(
       'form_file' => "$module_path/xml/audio_form.xml",
     ),
-    'Ailla Text MODS form' => array(
+    'AILLA Text Form' => array(
       'form_file' => "$module_path/xml/text_form.xml",
     ),
-    'Ailla Video MODS form' => array(
+    'AILLA Video Form' => array(
       'form_file' => "$module_path/xml/video_form.xml",
     ),
-    'Ailla Image MODS form' => array(
+    'AILLA Image Form' => array(
       'form_file' => "$module_path/xml/image_form.xml",
     ),
   );
@@ -269,7 +269,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
   return array(
     'ailla_country_mads_form' => array(
       'content_model' => UTAILLA_COUNTRY_CMODEL,
-      'form_name' => 'Country MADS form',
+      'form_name' => 'AILLA Country Form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'english_name'),
       'transform' => FALSE,
@@ -277,7 +277,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_language_form' => array(
       'content_model' => UTAILLA_LANGUAGE_CMODEL,
-      'form_name' => 'Language form',
+      'form_name' => 'AILLA Language Form',
       'dsid' => 'LANGUAGE',
       'title_field' => array('name_english'),
       'transform' => FALSE,
@@ -285,7 +285,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_collection_form' => array(
       'content_model' => 'islandora:collectionCModel',
-      'form_name' => 'Ailla Collection MODS form',
+      'form_name' => 'AILLA Collection Form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => FALSE,
@@ -293,7 +293,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_resource_form' => array(
       'content_model' => UTAILLA_RESOURCE_CMODEL,
-      'form_name' => 'Ailla Resource MODS form',
+      'form_name' => 'AILLA Resource Form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => FALSE,
@@ -301,7 +301,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_contributor_form' => array(
       'content_model' => UTAILLA_CONTRIBUTOR_CMODEL,
-      'form_name' => 'Ailla Contributor MADS form',
+      'form_name' => 'AILLA Contributor Form',
       'dsid' => 'MADS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -309,7 +309,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_organization_form' => array(
       'content_model' => UTAILLA_ORG_CMODEL,
-      'form_name' => 'Ailla Organization MADS form',
+      'form_name' => 'AILLA Organization Form',
       'dsid' => 'MADS',
       'title_field' => array('authority', 'name', 'namePart'),
       'transform' => FALSE,
@@ -317,7 +317,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_audio_form' => array(
       'content_model' => 'islandora:sp-audioCModel',
-      'form_name' => 'Ailla Audio MODS form',
+      'form_name' => 'AILLA Audio Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -325,7 +325,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_video_form' => array(
       'content_model' => 'islandora:sp_videoCModel',
-      'form_name' => 'Ailla Video MODS form',
+      'form_name' => 'AILLA Video Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -333,7 +333,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_document_form' => array(
       'content_model' => 'islandora:sp_document',
-      'form_name' => 'Ailla Text MODS form',
+      'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -341,7 +341,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_pdf_form' => array(
       'content_model' => 'islandora:sp_pdf',
-      'form_name' => 'Ailla Text MODS form',
+      'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -349,7 +349,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_binary_form' => array(
       'content_model' => 'islandora:binaryObjectCModel',
-      'form_name' => 'Ailla Text MODS form',
+      'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -357,7 +357,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_basic_image_form' => array(
       'content_model' => 'islandora:sp_basic_image',
-      'form_name' => 'Ailla Image MODS form',
+      'form_name' => 'AILLA Image Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -365,7 +365,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
     ),
     'ailla_large_image_form' => array(
       'content_model' => 'islandora:sp_large_image_cmodel',
-      'form_name' => 'Ailla Image MODS form',
+      'form_name' => 'AILLA Image Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
       'transform' => FALSE,
@@ -383,6 +383,14 @@ function utailla_permission() {
   $permission['administer utailla access levels'] = array(
     'title' => t('Administer Access Levels'),
     'description' => t('Permit access to the "Access Levels" form on collections, resources and files.'),
+  );
+  $permission['view Person MADS datastream'] = array(
+    'title' => t('View the Person MADS datastream'),
+    'description' => t('Permit access to view MADS datastreams for Person objects.'),
+  );
+  $permission['bypass access level restrictions'] = array(
+    'title' => t('Bypass Access Level restrictions'),
+    'description' => t('Permit access to view datastreams that are restricted by access levels.'),
   );
 
   return $permission;
@@ -438,6 +446,10 @@ function utailla_block_view($delta = '') {
       $object = menu_get_object('islandora_object', 2);
       $restriction = utailla_get_restriction($object->id);
       if ($object &&
+        // Objects with a restricion level of 'Authenticated Access' may
+        // still contain a password; this is inherited from the collection and
+        // exists as a default if the access level is changed.
+        isset($restriction['level']) && $restriction['level'] != UTAILLA_RESTRICTION_LEVEL_1 &&
         isset($restriction['password']) && $restriction['password'] &&
         !utailla_user_media_file_current_authorization($object->id) &&
         !utailla_is_object_archived($object)) {
@@ -468,6 +480,11 @@ function utailla_cron() {
  * Implements hook_islandora_datastream_access().
  */
 function utailla_islandora_datastream_access($op, $datastream, $user) {
+  // Block access to MADS datastream for Person objects
+  if ($datastream->id == 'MADS' && in_array(UTAILLA_CONTRIBUTOR_CMODEL, $datastream->parent->models)) {
+    return user_access('view Person MADS datastream');
+  }
+
   module_load_include('inc', 'utailla', 'includes/utilities');
   module_load_include('inc', 'utailla', 'includes/db');
 
@@ -476,8 +493,8 @@ function utailla_islandora_datastream_access($op, $datastream, $user) {
   $restriction = utailla_get_restriction($pid);
   if (in_array($datastream->id, $lockable_dsids) &&
     $restriction['level'] &&
-    user_is_logged_in() &&
-    !utailla_user_media_file_current_authorization($pid)) {
+    !utailla_user_media_file_current_authorization($pid) &&
+    !user_access('bypass access level restrictions')) {
 
     return FALSE;
 
@@ -567,7 +584,7 @@ function utailla_update_provenance_dates($form, $form_state) {
   $date = $date->format($date::W3C);
   $form['date_modified']['#value'] = $date;
   $form_id = isset($form_state['values']['form_id']) ? $form_state['values']['form_id'] : $form_state['build_info']['form_id'];
-  if ($form_id == 'xml_form_builder_ingest_form' || 'islandora_ingest_form') {
+  if ($form_id == 'xml_form_builder_ingest_form' || $form_id == 'islandora_ingest_form') {
     $form['date_archived']['#value'] = $date;
   }
   return $form;
@@ -635,6 +652,10 @@ function utailla_validate_language_code($element, &$form_state) {
 
   $code = $element['#value'];
 
+  if ($code === '') {
+    return;
+  }
+
   foreach ($results as $result) {
     $object = islandora_object_load($result['pid']['value']);
     if (isset($object['LANGUAGE'])) {
@@ -694,6 +715,24 @@ function utailla_ailla_personsCModel_MADS_islandora_datastream_alter(AbstractObj
     }
     if ($object->label != $label) {
       $object->label = $label;
+      // Also need to update dc:title if an update, since it can get set from the label.
+      if ($context['action'] == 'modify') {
+        $dc_xml = $object['DC']->content;
+        $dc_dom = new DOMDocument();
+        $dc_dom->loadXML($dc_xml);
+
+        $current_titles = $dc_dom->getElementsByTagName('title');
+        if ($current_titles->length) {
+          $current_titles->item(0)->parentNode->removeChild($current_titles->item(0));
+        }
+        if (!$current_titles->length || $current_titles->item(0)->nodeValue != $label) {
+          $new_title = $dc_dom->createElementNS('http://purl.org/dc/elements/1.1/', 'title');
+          $new_title_text = $dc_dom->createTextNode($label);
+          $new_title->appendChild($new_title_text);
+          $dc_dom->documentElement->appendChild($new_title);
+          $object['DC']->setContentFromString($dc_dom->saveXML());
+        }
+      }
     }
     // Go out and see if the XACML policy needs to be updated or lifted for
     // contributors.
@@ -1044,4 +1083,24 @@ function utailla_form_islandora_solr_admin_settings_alter(&$form, &$form_state) 
     '#default_value' => variable_get('utailla_contributor_search_field', 'fgs_label_t'),
     '#required' => TRUE,
   );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function utailla_form_islandora_video_upload_form_alter(&$form, &$form_state) {
+  // Add mpeg and mpg as video upload options.
+  $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
+  $extensions = array('ogg mp4 mov qt m4v avi mkv mpeg mpg');
+  $form['file']['#upload_validators']['file_validate_extensions'] = $extensions;
+  $form['file']['#description'] = t('Select video to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0]));
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function utailla_form_islandora_audio_audio_upload_form_alter(&$form, &$form_state) {
+  // AILLA doesn't want the thumbnail upload option.
+  $form['supply_thumbnail']['#access'] = FALSE;
+  $form['thumbnail_section']['#access'] = FALSE;
 }
