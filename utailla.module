@@ -388,6 +388,10 @@ function utailla_permission() {
     'title' => t('View the Person MADS datastream'),
     'description' => t('Permit access to view MADS datastreams for Person objects.'),
   );
+  $permission['bypass access level restrictions'] = array(
+    'title' => t('Bypass Access Level restrictions'),
+    'description' => t('Permit access to view datastreams that are restricted by access levels.'),
+  );
 
   return $permission;
 }
@@ -489,8 +493,8 @@ function utailla_islandora_datastream_access($op, $datastream, $user) {
   $restriction = utailla_get_restriction($pid);
   if (in_array($datastream->id, $lockable_dsids) &&
     $restriction['level'] &&
-    user_is_logged_in() &&
-    !utailla_user_media_file_current_authorization($pid)) {
+    !utailla_user_media_file_current_authorization($pid) &&
+    !user_access('bypass access level restrictions')) {
 
     return FALSE;
 
@@ -711,6 +715,24 @@ function utailla_ailla_personsCModel_MADS_islandora_datastream_alter(AbstractObj
     }
     if ($object->label != $label) {
       $object->label = $label;
+      // Also need to update dc:title if an update, since it can get set from the label.
+      if ($context['action'] == 'modify') {
+        $dc_xml = $object['DC']->content;
+        $dc_dom = new DOMDocument();
+        $dc_dom->loadXML($dc_xml);
+
+        $current_titles = $dc_dom->getElementsByTagName('title');
+        if ($current_titles->length) {
+          $current_titles->item(0)->parentNode->removeChild($current_titles->item(0));
+        }
+        if (!$current_titles->length || $current_titles->item(0)->nodeValue != $label) {
+          $new_title = $dc_dom->createElementNS('http://purl.org/dc/elements/1.1/', 'title');
+          $new_title_text = $dc_dom->createTextNode($label);
+          $new_title->appendChild($new_title_text);
+          $dc_dom->documentElement->appendChild($new_title);
+          $object['DC']->setContentFromString($dc_dom->saveXML());
+        }
+      }
     }
     // Go out and see if the XACML policy needs to be updated or lifted for
     // contributors.
@@ -1072,4 +1094,13 @@ function utailla_form_islandora_video_upload_form_alter(&$form, &$form_state) {
   $extensions = array('ogg mp4 mov qt m4v avi mkv mpeg mpg');
   $form['file']['#upload_validators']['file_validate_extensions'] = $extensions;
   $form['file']['#description'] = t('Select video to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0]));
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function utailla_form_islandora_audio_audio_upload_form_alter(&$form, &$form_state) {
+  // AILLA doesn't want the thumbnail upload option.
+  $form['supply_thumbnail']['#access'] = FALSE;
+  $form['thumbnail_section']['#access'] = FALSE;
 }
