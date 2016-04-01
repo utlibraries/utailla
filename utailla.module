@@ -288,7 +288,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Collection Form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_resource_form' => array(
@@ -296,7 +296,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Resource Form',
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_contributor_form' => array(
@@ -320,7 +320,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Audio Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_video_form' => array(
@@ -328,7 +328,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Video Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_document_form' => array(
@@ -336,7 +336,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_pdf_form' => array(
@@ -344,7 +344,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_binary_form' => array(
@@ -352,7 +352,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Text Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_basic_image_form' => array(
@@ -360,7 +360,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Image Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
     'ailla_large_image_form' => array(
@@ -368,7 +368,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'form_name' => 'AILLA Image Form',
       'dsid' => 'MODS',
       'title_field' => FALSE,
-      'transform' => FALSE,
+      'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
     ),
   );
