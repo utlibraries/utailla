@@ -693,7 +693,6 @@
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <options>
-                                <zip>zip</zip>
                                 <text>text</text>
                                 <index key="PDF/A">PDF/A</index>
                             </options>
