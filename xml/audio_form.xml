@@ -67,14 +67,14 @@
                 <children>
                     <element name="title">
                         <properties>
-                            <type>hidden</type>
+                            <type>textfield</type>
                             <access>TRUE</access>
                             <collapsed>FALSE</collapsed>
                             <collapsible>FALSE</collapsible>
                             <disabled>FALSE</disabled>
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
-                            <required>FALSE</required>
+                            <required>TRUE</required>
                             <resizable>FALSE</resizable>
                             <title>Title</title>
                             <tree>TRUE</tree>
@@ -322,10 +322,10 @@
                             <schema/>
                             <type>xml</type>
                             <prefix>NULL</prefix>
-                            <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated keyDate="yes" displayLabel="Date research material was created."&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
+                            <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated keyDate="yes" displayLabel="Date research material was created"&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
                         </create>
                         <read>
-                            <path>mods:originInfo[@eventType='production']/mods:dateCreated[@keyDate='yes' and @displayLabel='Date research material was created.']</path>
+                            <path>mods:originInfo[@eventType='production']/mods:dateCreated[@keyDate='yes' and @displayLabel='Date research material was created']</path>
                             <context>parent</context>
                         </read>
                         <update>
@@ -461,7 +461,7 @@
                         <index key="primary text">Primary Text/Texto Primario</index>
                         <sample>Sample/Muestra</sample>
                         <transcription>Transcription/Transcripci&#xF3;n</transcription>
-                        <index key="transcription &amp; translation">Transcription &amp; translation/Transcripci&#xF3;n &amp; traducci&#xF3;n</index>
+                        <index key="transcription &amp; translation">Transcription &amp; translation/Transcripci&#xF3;n y traducci&#xF3;n</index>
                         <translation>Translation/Traducci&#xF3;n</translation>
                     </options>
                     <required>FALSE</required>
@@ -528,7 +528,7 @@
                 </properties>
                 <children/>
             </element>
-            <element name="description">
+            <element name="physicalDescription">
                 <properties>
                     <type>fieldset</type>
                     <access>TRUE</access>
@@ -539,8 +539,24 @@
                     <multiple>FALSE</multiple>
                     <required>FALSE</required>
                     <resizable>FALSE</resizable>
-                    <title>Description</title>
+                    <title>Physical Description</title>
                     <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>element</type>
+                            <prefix>NULL</prefix>
+                            <value>physicalDescription</value>
+                        </create>
+                        <read>
+                            <path>mods:physicalDescription</path>
+                            <context>parent</context>
+                        </read>
+                        <update>NULL</update>
+                        <delete>NULL</delete>
+                    </actions>
                 </properties>
                 <children>
                     <element name="descriptionEnglish">
@@ -613,39 +629,6 @@
                         </properties>
                         <children/>
                     </element>
-                </children>
-            </element>
-            <element name="physicalDescription">
-                <properties>
-                    <type>fieldset</type>
-                    <access>TRUE</access>
-                    <collapsed>FALSE</collapsed>
-                    <collapsible>FALSE</collapsible>
-                    <disabled>FALSE</disabled>
-                    <executes_submit_callback>FALSE</executes_submit_callback>
-                    <multiple>FALSE</multiple>
-                    <required>FALSE</required>
-                    <resizable>FALSE</resizable>
-                    <title>Physical Description</title>
-                    <tree>TRUE</tree>
-                    <actions>
-                        <create>
-                            <path>self::node()</path>
-                            <context>parent</context>
-                            <schema/>
-                            <type>element</type>
-                            <prefix>NULL</prefix>
-                            <value>physicalDescription</value>
-                        </create>
-                        <read>
-                            <path>mods:physicalDescription</path>
-                            <context>parent</context>
-                        </read>
-                        <update>NULL</update>
-                        <delete>NULL</delete>
-                    </actions>
-                </properties>
-                <children>
                     <element name="length">
                         <properties>
                             <type>textfield</type>
@@ -791,7 +774,7 @@
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <options>
-                                <index key="audio:cassette">audio:cassette/audio:casette</index>
+                                <index key="audio:cassette">audio:cassette/audio:casete</index>
                                 <index key="audio:DAT">audio:DAT</index>
                                 <index key="audio:digital">audio:digital</index>
                                 <index key="audio:minidisc">audio:minidisc</index>
