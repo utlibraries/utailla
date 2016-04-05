@@ -793,10 +793,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium (English)" lang="eng"&gt;%value%&lt;/form&gt;</value>
+                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" lang="eng"&gt;%value%&lt;/form&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium (English)" and @lang="eng"]</path>
+                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @lang="eng"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
@@ -831,10 +831,10 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" displayLabel="Original Medium (Spanish)" lang="spa"&gt;%value%&lt;/form&gt;</value>
+                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" lang="spa"&gt;%value%&lt;/form&gt;</value>
                                 </create>
                                 <read>
-                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @displayLabel="Original Medium (Spanish)" and @lang="spa"]</path>
+                                    <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @lang="spa"]</path>
                                     <context>parent</context>
                                 </read>
                                 <update>
