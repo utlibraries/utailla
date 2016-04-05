@@ -595,7 +595,6 @@ function utailla_update_provenance_dates($form, $form_state) {
   $date = new DateTime();
   $date = $date->format($date::W3C);
   $form_id = isset($form_state['values']['form_id']) ? $form_state['values']['form_id'] : $form_state['build_info']['form_id'];
-  dsm($form_id, "form ID");
   if ($form_id == 'xml_form_builder_datastream_form') {
     $form['date_modified']['#value'] = $date;
   }
