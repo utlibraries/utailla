@@ -676,8 +676,7 @@
                             <executes_submit_callback>FALSE</executes_submit_callback>
                             <multiple>FALSE</multiple>
                             <options>
-                                <text>text</text>
-                                <index key="PDF/A">PDF/A</index>
+                                <text>text/texto</text>
                             </options>
                             <required>FALSE</required>
                             <resizable>FALSE</resizable>
