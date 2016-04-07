@@ -499,9 +499,10 @@ function utailla_add_restriction_if_missing(AbstractObject $object) {
 function utailla_get_language_pids() {
   $islandora_tuque = islandora_get_tuque_connection();
   $parent_query = <<<EOQ
-SELECT ?pid FROM <#ri>
+SELECT ?pid ?title FROM <#ri>
 WHERE {
-?pid <fedora-model:hasModel> <info:fedora/ailla:languageCModel>
+?pid <fedora-model:hasModel> <info:fedora/ailla:languageCModel> ;
+     <fedora-model:label> ?title
 }
 EOQ;
   // XXX: If we ever index the AILLA datastreams this should move to Solr
