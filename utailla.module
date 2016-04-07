@@ -578,6 +578,43 @@ function utailla_convert_organization_pid_to_title($form, $form_state) {
 }
 
 /**
+ * Value callback for populating the visible select from a hidden one.
+ */
+function utailla_set_visible_select_value_callback($element, $input, $form_state) {
+  if ($input === FALSE) {
+    $index = 0;
+    $form = $form_state['complete form'];
+    if (isset($element['#user_data'][0])) {
+      $hidden = $element['#user_data'][0];
+      $parents = $element['#parents'];
+      array_splice($parents, count($parents) - 1, 1, $hidden);
+      $hidden_select = drupal_array_get_nested_value($form, $parents);
+      $options = array_keys($hidden_select['#options']);
+      $default_value = isset($hidden_select['#default_value']) ?
+                     $hidden_select['#default_value'] :
+                     reset($hidden_select["#options"]);
+      $index = array_search($default_value, $options);
+    }
+    return isset($element['#default_value']) ? $element['#default_value'] : $index;
+  }
+}
+
+/**
+ * Used by Ailla forms to set the contributor role on hidden fields.
+ */
+function utailla_update_hidden_selects_on_validate($element, &$form_state, $form) {
+  $index = $element['#value'];
+  foreach($element['#user_data'] as $hidden) {
+    $parents = $element['#parents'];
+    array_splice($parents, count($parents) - 1, 1, $hidden);
+    $hidden_select = drupal_array_get_nested_value($form, $parents);
+    $options = array_keys($hidden_select['#options']);
+    $value = $options[$index];
+    drupal_array_set_nested_value($form_state['values'], $parents, $value, TRUE);
+  }
+}
+
+/**
  * Used by Ailla forms to set label from hidden PID field.
  */
 function utailla_collection_build_uri_on_validate($element, &$form_state) {

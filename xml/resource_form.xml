@@ -105,12 +105,12 @@
             <properties>
               <type>textfield</type>
               <access>TRUE</access>
-              <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
+              <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <disabled>FALSE</disabled>
               <element_validate>
-                <index key="0">utailla_validate_language_is_in_collection_language</index>
+                <index key="0">utailla_validate_language_code</index>
               </element_validate>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -532,9 +532,64 @@
                 </properties>
                 <children/>
               </element>
-              <element name="eng_role">
+              <element name="role">
                 <properties>
                   <type>select</type>
+                  <access>TRUE</access>
+                  <collapsed>FALSE</collapsed>
+                  <collapsible>FALSE</collapsible>
+                  <disabled>FALSE</disabled>
+                  <executes_submit_callback>FALSE</executes_submit_callback>
+                  <multiple>FALSE</multiple>
+                  <options>
+                    <index key="0">Actor, performer/Actor, Actriz</index>
+                    <index key="1">Analyst/Analista</index>
+                    <index key="2">Annotator/Anotador</index>
+                    <index key="3">Author/Autor</index>
+                    <index key="4">Compiler/Recopilador</index>
+                    <index key="5">Consultant/Consultante</index>
+                    <index key="6">Contributor/Contribuidor</index>
+                    <index key="7">Creator/Creador</index>
+                    <index key="8">Data technician, keyboarder/Técnico de datos</index>
+                    <index key="9">Digitizer/Digitalizador</index>
+                    <index key="10">Editor/Editor</index>
+                    <index key="11">Illustrator/Ilustrador</index>
+                    <index key="12">Interlocutor/Interlocutor</index>
+                    <index key="13">Interpreter/Intérprete</index>
+                    <index key="14">Interviewer/Entrevistador</index>
+                    <index key="15">Photographer/Fotógrafo</index>
+                    <index key="16">Publisher/Publicador</index>
+                    <index key="17">Recorder/Grabador</index>
+                    <index key="18">Research participant/Participante de investigación</index>
+                    <index key="19">Researcher/Investigador</index>
+                    <index key="20">Responder/Contestador</index>
+                    <index key="21">Sign language signer/Señalador de lenguaje de señas</index>
+                    <index key="22">Signatory/Firmante</index>
+                    <index key="23">Singer/Cantante</index>
+                    <index key="24">Speaker/Hablante</index>
+                    <index key="25">Sponsor/Patrocinador</index>
+                    <index key="26">Transcriber/Transcritor</index>
+                    <index key="27">Translator/Traductor</index>
+                    <index key="28">Videographer/Camarógrafo</index>
+                  </options>
+                  <required>FALSE</required>
+                  <resizable>FALSE</resizable>
+                  <title>Roles/Papeles</title>
+                  <tree>TRUE</tree>
+                  <element_validate>
+                    <index key="0">utailla_update_hidden_selects_on_validate</index>
+                  </element_validate>
+                  <value_callback>utailla_set_visible_select_value_callback</value_callback>
+                  <user_data>
+                    <index key="0">eng_role</index>
+                    <index key="1">spa_role</index>
+                  </user_data>
+                </properties>
+                <children/>
+              </element>
+              <element name="eng_role">
+                <properties>
+                  <type>hidden</type>
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
@@ -543,35 +598,35 @@
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <options>
-                    <Analyst>Analyst</Analyst>
-                    <Annotator>Annotator</Annotator>
-                    <Author>Author</Author>
-                    <Compiler>Compiler</Compiler>
-                    <Consultant>Consultant</Consultant>
-                    <Contributor>Contributor</Contributor>
-                    <Creator>Creator</Creator>
-                    <index key="Data technician/keyboarder">Data technician/keyboarder</index>
-                    <Digitizer>Digitizer</Digitizer>
-                    <Editor>Editor</Editor>
-                    <Videographer>Videographer</Videographer>
-                    <Illustrator>Illustrator</Illustrator>
-                    <Interlocutor>Interlocutor</Interlocutor>
-                    <Interpreter>Interpreter</Interpreter>
-                    <Interviewer>Interviewer</Interviewer>
-                    <index key="Performer/actor">Performer/actor</index>
-                    <Photographer>Photographer</Photographer>
-                    <Publisher>Publisher</Publisher>
-                    <Recorder>Recorder</Recorder>
-                    <index key="Research Participant">Research Participant</index>
-                    <Researcher>Researcher</Researcher>
-                    <Responder>Responder</Responder>
+                    <index key="Actor, performer">Actor, performer</index>
+                    <index key="Analyst">Analyst</index>
+                    <index key="Annotator">Annotator</index>
+                    <index key="Author">Author</index>
+                    <index key="Compiler">Compiler</index>
+                    <index key="Consultant">Consultant</index>
+                    <index key="Contributor">Contributor</index>
+                    <index key="Creator">Creator</index>
+                    <index key="Data technician, keyboarder">Data technician, keyboarder</index>
+                    <index key="Digitizer">Digitizer</index>
+                    <index key="Editor">Editor</index>
+                    <index key="Illustrator">Illustrator</index>
+                    <index key="Interlocutor">Interlocutor</index>
+                    <index key="Interpreter">Interpreter</index>
+                    <index key="Interviewer">Interviewer</index>
+                    <index key="Photographer">Photographer</index>
+                    <index key="Publisher">Publisher</index>
+                    <index key="Recorder">Recorder</index>
+                    <index key="Research participant">Research participant</index>
+                    <index key="Researcher">Researcher</index>
+                    <index key="Responder">Responder</index>
                     <index key="Sign language signer">Sign language signer</index>
-                    <Signatory>Signatory</Signatory>
-                    <Singer>Singer</Singer>
-                    <Speaker>Speaker</Speaker>
-                    <Sponsor>Sponsor</Sponsor>
-                    <Transcriber>Transcriber</Transcriber>
-                    <Translator>Translator</Translator>
+                    <index key="Signatory">Signatory</index>
+                    <index key="Singer">Singer</index>
+                    <index key="Speaker">Speaker</index>
+                    <index key="Sponsor">Sponsor</index>
+                    <index key="Transcriber">Transcriber</index>
+                    <index key="Translator">Translator</index>
+                    <index key="Videographer">Videographer</index>
                   </options>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
@@ -601,41 +656,44 @@
               </element>
               <element name="spa_role">
                 <properties>
-                  <type>select</type>
+                  <type>hidden</type>
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
-                  <default_value>Contribuyente</default_value>
+                  <default_value>Contribuidor</default_value>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <options>
-                    <Analista>Analista</Analista>
-                    <Anotator>Anotator</Anotator>
-                    <Autor>Autor</Autor>
-                    <Compilador>Compilador</Compilador>
-                    <Consultante>Consultante</Consultante>
-                    <Contribuyente>Contribuyente</Contribuyente>
-                    <Creador>Creador</Creador>
-                    <Digitalizador>Digitalizador</Digitalizador>
-                    <Editor>Editor</Editor>
-                    <Ilustrador>Ilustrador</Ilustrador>
-                    <Interlocutor>Interlocutor</Interlocutor>
-                    <index key="Int&#xE9;rprete">Int&#xE9;rprete</index>
-                    <Interrogador>Interrogador</Interrogador>
-                    <index key="Fot&#xF3;grafo">Fot&#xF3;grafo</index>
-                    <Publicador>Publicador</Publicador>
-                    <index key="Participante de Investiga">Participante de Investiga</index>
-                    <Investigador>Investigador</Investigador>
-                    <Respondiente>Respondiente</Respondiente>
-                    <index key="Se&#xF1;alador">Se&#xF1;alador</index>
-                    <Firmante>Firmante</Firmante>
-                    <Cantante>Cantante</Cantante>
-                    <Hablante>Hablante</Hablante>
-                    <Patrocinador>Patrocinador</Patrocinador>
-                    <Transcritor>Transcritor</Transcritor>
-                    <Traductor>Traductor</Traductor>
-                    <index key="Camar&#xF3;grafo">Camar&#xF3;grafo</index>
+                    <index key="Actor, Actriz">Actor, Actriz</index>
+                    <index key="Analista">Analista</index>
+                    <index key="Anotador">Anotador</index>
+                    <index key="Autor">Autor</index>
+                    <index key="Recopilador">Recopilador</index>
+                    <index key="Consultante">Consultante</index>
+                    <index key="Contribuidor">Contribuidor</index>
+                    <index key="Creador">Creador</index>
+                    <index key="Técnico de datos">Técnico de datos</index>
+                    <index key="Digitalizador">Digitalizador</index>
+                    <index key="Editor">Editor</index>
+                    <index key="Ilustrador">Ilustrador</index>
+                    <index key="Interlocutor">Interlocutor</index>
+                    <index key="Intérprete">Intérprete</index>
+                    <index key="Entrevistador">Entrevistador</index>
+                    <index key="Fotógrafo">Fotógrafo</index>
+                    <index key="Publicador">Publicador</index>
+                    <index key="Grabador">Grabador</index>
+                    <index key="Participante de investigación">Participante de investigación</index>
+                    <index key="Investigador">Investigador</index>
+                    <index key="Contestador">Contestador</index>
+                    <index key="Señalador de lenguaje de señas">Señalador de lenguaje de señas</index>
+                    <index key="Firmante">Firmante</index>
+                    <index key="Cantante">Cantante</index>
+                    <index key="Hablante">Hablante</index>
+                    <index key="Patrocinador">Patrocinador</index>
+                    <index key="Transcritor">Transcritor</index>
+                    <index key="Traductor">Traductor</index>
+                    <index key="Camarógrafo">Camarógrafo</index>
                   </options>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
@@ -1349,7 +1407,7 @@
         </properties>
         <children/>
       </element>
-      <element name="genres_uri_eng">
+      <element name="genres">
         <properties>
           <type>tabs</type>
           <access>TRUE</access>
@@ -1360,7 +1418,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Genres English</title>
+          <title>Genres</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -1387,7 +1445,7 @@
               </actions>
             </properties>
             <children>
-              <element name="eng_genre">
+              <element name="genre">
                 <properties>
                   <type>select</type>
                   <access>TRUE</access>
@@ -1397,58 +1455,137 @@
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <options>
-                    <Article>Article</Article>
-                    <Book>Book</Book>
+                    <index key="0">Article/Artículo</index>
+                    <index key="1">Book/Libro</index>
+                    <index key="2">Ceremonial dialog/Diálogo ceremonial</index>
+                    <index key="3">Ceremony/Ceremonia</index>
+                    <index key="4">Chant/Canto</index>
+                    <index key="5">Commentary/Comentario</index>
+                    <index key="6">Conversation/Conversación</index>
+                    <index key="7">Correspondence/Correo, correspondencia</index>
+                    <index key="8">Curse/Maldición</index>
+                    <index key="9">Dataset/Juego, conjunto de datos</index>
+                    <index key="10">Debate/Debate</index>
+                    <index key="11">Description/Descripción</index>
+                    <index key="12">Dispute/Dispute</index>
+                    <index key="13">Document/Documento</index>
+                    <index key="14">Drama/Drama</index>
+                    <index key="15">Educational material/ Material educativo, didáctico</index>
+                    <index key="16">Elicitation/Elicitación</index>
+                    <index key="17">Ethnography/Etnografía</index>
+                    <index key="18">Field notes/Notas de campo</index>
+                    <index key="19">Grammar/Gramática</index>
+                    <index key="20">Grammar sketch/Esboza de gramática</index>
+                    <index key="21">Greeting &amp; leave-taking/Saludos y despedidas</index>
+                    <index key="22">Handout/Guía, volante</index>
+                    <index key="23">History/Historia</index>
+                    <index key="24">Image/Imagen</index>
+                    <index key="25">Instructions/Instrucciones</index>
+                    <index key="26">Instrumental music/Música instrumental</index>
+                    <index key="27">Interview/Entrevista</index>
+                    <index key="28">Lexicon/Léxico</index>
+                    <index key="29">Map/Mapa</index>
+                    <index key="30">Meeting/Reunión</index>
+                    <index key="31">Myth/Mito</index>
+                    <index key="32">Narrative/Narrativa</index>
+                    <index key="33">Oratory/Oratoria</index>
+                    <index key="34">Permissions/Permisos</index>
+                    <index key="35">Photograph/Fotografía</index>
+                    <index key="36">Poetry/Poesía</index>
+                    <index key="37">Prayer/Rezos, oraciones</index>
+                    <index key="38">Presentation/Ponencia</index>
+                    <index key="39">Procedure/Procedimiento</index>
+                    <index key="40">Proverb/Refrán, proverbio</index>
+                    <index key="41">Questionnaire/Cuestionario</index>
+                    <index key="42">Reader/Lectura</index>
+                    <index key="43">Recipe/Receta</index>
+                    <index key="44">Ritual song/Canción Ritual</index>
+                    <index key="45">Song/Canción</index>
+                    <index key="46">Speech play/Juego de palabras</index>
+                    <index key="47">Testimony/Testimonio</index>
+                    <index key="48">Thesis/Tesis</index>
+                    <index key="49">Unintelligible speech/Habla no inteligible</index>
+                    <index key="50">Whistled speech/Habla silbada</index>
+                    <index key="51">Wordlist/Lista de palabras</index>
+                  </options>
+                  <required>FALSE</required>
+                  <resizable>FALSE</resizable>
+                  <title>Genres/Géneros</title>
+                  <tree>TRUE</tree>
+                  <element_validate>
+                    <index key="0">utailla_update_hidden_selects_on_validate</index>
+                  </element_validate>
+                  <value_callback>utailla_set_visible_select_value_callback</value_callback>
+                  <user_data>
+                    <index key="0">eng_genre</index>
+                    <index key="1">spa_genre</index>
+                  </user_data>
+                </properties>
+                <children/>
+              </element>
+              <element name="eng_genre">
+                <properties>
+                  <type>hidden</type>
+                  <access>FALSE</access>
+                  <collapsed>FALSE</collapsed>
+                  <collapsible>FALSE</collapsible>
+                  <disabled>FALSE</disabled>
+                  <executes_submit_callback>FALSE</executes_submit_callback>
+                  <multiple>FALSE</multiple>
+                  <default_value>Article</default_value>
+                  <options>
+                    <index key="Article">Article</index>
+                    <index key="Book">Book</index>
                     <index key="Ceremonial dialog">Ceremonial dialog</index>
-                    <Ceremony>Ceremony</Ceremony>
-                    <Chant>Chant</Chant>
-                    <Commentary>Commentary</Commentary>
-                    <Conversation>Conversation</Conversation>
-                    <Correspondence>Correspondence</Correspondence>
-                    <Curse>Curse</Curse>
-                    <Dataset>Dataset</Dataset>
-                    <Debate>Debate</Debate>
-                    <Description>Description</Description>
-                    <Dispute>Dispute</Dispute>
-                    <Document>Document</Document>
-                    <Drama>Drama</Drama>
+                    <index key="Ceremony">Ceremony</index>
+                    <index key="Chant">Chant</index>
+                    <index key="Commentary">Commentary</index>
+                    <index key="Conversation">Conversation</index>
+                    <index key="Correspondence">Correspondence</index>
+                    <index key="Curse">Curse</index>
+                    <index key="Dataset">Dataset</index>
+                    <index key="Debate">Debate</index>
+                    <index key="Description">Description</index>
+                    <index key="Dispute">Dispute</index>
+                    <index key="Document">Document</index>
+                    <index key="Drama">Drama</index>
                     <index key="Educational material">Educational material</index>
-                    <Elicitation>Elicitation</Elicitation>
-                    <Ethnography>Ethnography</Ethnography>
+                    <index key="Elicitation">Elicitation</index>
+                    <index key="Ethnography">Ethnography</index>
                     <index key="Field notes">Field notes</index>
-                    <Grammar>Grammar</Grammar>
+                    <index key="Grammar">Grammar</index>
                     <index key="Grammar sketch">Grammar sketch</index>
-                    <index key="Greeting/Leave-taking">Greeting/Leave-taking</index>
-                    <Handout>Handout</Handout>
-                    <History>History</History>
-                    <Image>Image</Image>
-                    <Instructions>Instructions</Instructions>
+                    <index key="Greeting &amp; leave-taking">Greeting &amp; leave-taking</index>
+                    <index key="Handout">Handout</index>
+                    <index key="History">History</index>
+                    <index key="Image">Image</index>
+                    <index key="Instructions">Instructions</index>
                     <index key="Instrumental music">Instrumental music</index>
-                    <Interview>Interview</Interview>
-                    <Lexicon>Lexicon</Lexicon>
-                    <Map>Map</Map>
-                    <Meeting>Meeting</Meeting>
-                    <Myth>Myth</Myth>
-                    <Narrative>Narrative</Narrative>
-                    <Oratory>Oratory</Oratory>
-                    <Permissions>Permissions</Permissions>
-                    <Photograph>Photograph</Photograph>
-                    <Poetry>Poetry</Poetry>
-                    <Prayer>Prayer</Prayer>
-                    <Presentation>Presentation</Presentation>
-                    <Procedure>Procedure</Procedure>
-                    <Proverb>Proverb</Proverb>
-                    <Questionnaire>Questionnaire</Questionnaire>
-                    <Reader>Reader</Reader>
-                    <Recipe>Recipe</Recipe>
+                    <index key="Interview">Interview</index>
+                    <index key="Lexicon">Lexicon</index>
+                    <index key="Map">Map</index>
+                    <index key="Meeting">Meeting</index>
+                    <index key="Myth">Myth</index>
+                    <index key="Narrative">Narrative</index>
+                    <index key="Oratory">Oratory</index>
+                    <index key="Permissions">Permissions</index>
+                    <index key="Photograph">Photograph</index>
+                    <index key="Poetry">Poetry</index>
+                    <index key="Prayer">Prayer</index>
+                    <index key="Presentation">Presentation</index>
+                    <index key="Procedure">Procedure</index>
+                    <index key="Proverb">Proverb</index>
+                    <index key="Questionnaire">Questionnaire</index>
+                    <index key="Reader">Reader</index>
+                    <index key="Recipe">Recipe</index>
                     <index key="Ritual song">Ritual song</index>
-                    <Song>Song</Song>
+                    <index key="Song">Song</index>
                     <index key="Speech play">Speech play</index>
-                    <Testimony>Testimony</Testimony>
-                    <Thesis>Thesis</Thesis>
+                    <index key="Testimony">Testimony</index>
+                    <index key="Thesis">Thesis</index>
                     <index key="Unintelligible speech">Unintelligible speech</index>
                     <index key="Whistled speech">Whistled speech</index>
-                    <Wordlist>Wordlist</Wordlist>
+                    <index key="Wordlist">Wordlist</index>
                   </options>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
@@ -1479,109 +1616,68 @@
                 </properties>
                 <children/>
               </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="genres_uri_spa">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Genres Spanish</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <actions>
-                <create>NULL</create>
-                <read>
-                  <path>mods:genre[@type='local' and @authority="aillaResourceGenres" and @lang="spa"]</path>
-                  <context>parent</context>
-                </read>
-                <update>NULL</update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children>
               <element name="spa_genre">
                 <properties>
-                  <type>select</type>
+                  <type>hidden</type>
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
+                  <default_value>Artículo</default_value>
                   <options>
-                    <index key="Art&#xED;culo">Art&#xED;culo</index>
-                    <Libro>Libro</Libro>
-                    <index key="Di&#xE1;logo ceremonial">Di&#xE1;logo ceremonial</index>
-                    <Ceremonia>Ceremonia</Ceremonia>
-                    <Canto>Canto</Canto>
-                    <Comentario>Comentario</Comentario>
-                    <index key="Conversaci&#xF3;n">Conversaci&#xF3;n</index>
-                    <Correo>Correo</Correo>
-                    <index key="Maldici&#xF3;n">Maldici&#xF3;n</index>
-                    <index key="Juego de datos">Juego de datos</index>
-                    <Debate>Debate</Debate>
-                    <index key="Descripci&#xF3;n">Descripci&#xF3;n</index>
-                    <Disputa>Disputa</Disputa>
-                    <Documento>Documento</Documento>
-                    <Drama>Drama</Drama>
-                    <index key="Material educativo">Material educativo</index>
-                    <index key="Elicitaci&#xF3;n">Elicitaci&#xF3;n</index>
-                    <index key="Etnograf&#xED;a">Etnograf&#xED;a</index>
-                    <index key="Notas del campo">Notas del campo</index>
-                    <index key="Gram&#xE1;tica">Gram&#xE1;tica</index>
-                    <Esboza>Esboza</Esboza>
-                    <index key="Saludo/Despedido">Saludo/Despedido</index>
-                    <index key="Volante/gu&#xED;a">Volante/gu&#xED;a</index>
-                    <Historia>Historia</Historia>
-                    <index key="Im&#xE1;gen">Im&#xE1;gen</index>
-                    <Instrucciones>Instrucciones</Instrucciones>
-                    <index key="M&#xFA;sica instrumental">M&#xFA;sica instrumental</index>
-                    <Entrevista>Entrevista</Entrevista>
-                    <index key="L&#xE9;xico">L&#xE9;xico</index>
-                    <Mapa>Mapa</Mapa>
-                    <Encuentro>Encuentro</Encuentro>
-                    <Mito>Mito</Mito>
-                    <Narrativa>Narrativa</Narrativa>
-                    <Oratoria>Oratoria</Oratoria>
-                    <Permisos>Permisos</Permisos>
-                    <index key="Fotograf&#xED;a">Fotograf&#xED;a</index>
-                    <index key="Poes&#xED;a">Poes&#xED;a</index>
-                    <Rezo>Rezo</Rezo>
-                    <Ponencia>Ponencia</Ponencia>
-                    <Procedimiento>Procedimiento</Procedimiento>
-                    <index key="Refr&#xE1;n">Refr&#xE1;n</index>
-                    <Cuestionario>Cuestionario</Cuestionario>
-                    <index key="Lecciones elemental">Lecciones elemental</index>
-                    <Receta>Receta</Receta>
-                    <index key="Canci&#xF3;n ritual">Canci&#xF3;n ritual</index>
-                    <index key="Canci&#xF3;n">Canci&#xF3;n</index>
-                    <index key="Juego de habla">Juego de habla</index>
-                    <Testimonio>Testimonio</Testimonio>
-                    <Tesis>Tesis</Tesis>
-                    <index key="Habla ininteligible">Habla ininteligible</index>
-                    <index key="Habla chiflada">Habla chiflada</index>
+                    <index key="Artículo">Artículo</index>
+                    <index key="Libro">Libro</index>
+                    <index key="Diálogo ceremonial">Diálogo ceremonial</index>
+                    <index key="Ceremonia">Ceremonia</index>
+                    <index key="Canto">Canto</index>
+                    <index key="Comentario">Comentario</index>
+                    <index key="Conversación">Conversación</index>
+                    <index key="Correo, correspondencia">Correo, correspondencia</index>
+                    <index key="Maldición">Maldición</index>
+                    <index key="Juego, conjunto de datos">Juego, conjunto de datos</index>
+                    <index key="Debate">Debate</index>
+                    <index key="Descripción">Descripción</index>
+                    <index key="Dispute">Dispute</index>
+                    <index key="Documento">Documento</index>
+                    <index key="Drama">Drama</index>
+                    <index key="Material educativo, didáctico">Material educativo, didáctico</index>
+                    <index key="Elicitación">Elicitación</index>
+                    <index key="Etnografía">Etnografía</index>
+                    <index key="Notas de campo">Notas de campo</index>
+                    <index key="Gramática">Gramática</index>
+                    <index key="Esboza de gramática">Esboza de gramática</index>
+                    <index key="Saludos y despedidas">Saludos y despedidas</index>
+                    <index key="Guía, volante">Guía, volante</index>
+                    <index key="Historia">Historia</index>
+                    <index key="Imagen">Imagen</index>
+                    <index key="Instrucciones">Instrucciones</index>
+                    <index key="Música instrumental">Música instrumental</index>
+                    <index key="Entrevista">Entrevista</index>
+                    <index key="Léxico">Léxico</index>
+                    <index key="Mapa">Mapa</index>
+                    <index key="Reunión">Reunión</index>
+                    <index key="Mito">Mito</index>
+                    <index key="Narrativa">Narrativa</index>
+                    <index key="Oratoria">Oratoria</index>
+                    <index key="Permisos">Permisos</index>
+                    <index key="Fotografía">Fotografía</index>
+                    <index key="Poesía">Poesía</index>
+                    <index key="Rezos, oraciones">Rezos, oraciones</index>
+                    <index key="Ponencia">Ponencia</index>
+                    <index key="Procedimiento">Procedimiento</index>
+                    <index key="Refrán, proverbio">Refrán, proverbio</index>
+                    <index key="Cuestionario">Cuestionario</index>
+                    <index key="Lectura">Lectura</index>
+                    <index key="Receta">Receta</index>
+                    <index key="Canción Ritual">Canción Ritual</index>
+                    <index key="Canción">Canción</index>
+                    <index key="Juego de palabras">Juego de palabras</index>
+                    <index key="Testimonio">Testimonio</index>
+                    <index key="Tesis">Tesis</index>
+                    <index key="Habla no inteligible">Habla no inteligible</index>
+                    <index key="Habla silbada">Habla silbada</index>
                     <index key="Lista de palabras">Lista de palabras</index>
                   </options>
                   <required>FALSE</required>
@@ -1598,7 +1694,7 @@
                       <value>&lt;genre type="local" authority="aillaResourceGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
                     </create>
                     <read>
-                      <path>self::node()</path>
+                      <path>following-sibling::node()[@lang="spa" and local-name()='genre' and position()=1]</path>
                       <context>parent</context>
                     </read>
                     <update>
