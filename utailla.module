@@ -404,7 +404,6 @@ function utailla_permission() {
 function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   utailla_add_restriction_if_missing($object);
-  
   $media_types = array(
     'islandora:sp-audioCModel',
     'islandora:sp_basic_image',
@@ -492,7 +491,7 @@ function utailla_cron() {
  * Implements hook_islandora_datastream_access().
  */
 function utailla_islandora_datastream_access($op, $datastream, $user) {
-  // Block access to MADS datastream for Person objects
+  // Block access to MADS datastream for Person objects.
   if ($datastream->id == 'MADS' && in_array(UTAILLA_CONTRIBUTOR_CMODEL, $datastream->parent->models)) {
     return user_access('view Person MADS datastream');
   }
@@ -590,9 +589,7 @@ function utailla_set_visible_select_value_callback($element, $input, $form_state
       array_splice($parents, count($parents) - 1, 1, $hidden);
       $hidden_select = drupal_array_get_nested_value($form, $parents);
       $options = array_keys($hidden_select['#options']);
-      $default_value = isset($hidden_select['#default_value']) ?
-                     $hidden_select['#default_value'] :
-                     reset($hidden_select["#options"]);
+      $default_value = isset($hidden_select['#default_value']) ? $hidden_select['#default_value'] : reset($hidden_select["#options"]);
       $index = array_search($default_value, $options);
     }
     return isset($element['#default_value']) ? $element['#default_value'] : $index;
@@ -604,7 +601,7 @@ function utailla_set_visible_select_value_callback($element, $input, $form_state
  */
 function utailla_update_hidden_selects_on_validate($element, &$form_state, $form) {
   $index = $element['#value'];
-  foreach($element['#user_data'] as $hidden) {
+  foreach ($element['#user_data'] as $hidden) {
     $parents = $element['#parents'];
     array_splice($parents, count($parents) - 1, 1, $hidden);
     $hidden_select = drupal_array_get_nested_value($form, $parents);
@@ -764,7 +761,8 @@ function utailla_ailla_personsCModel_MADS_islandora_datastream_alter(AbstractObj
     }
     if ($object->label != $label) {
       $object->label = $label;
-      // Also need to update dc:title if an update, since it can get set from the label.
+      // Also need to update dc:title if an update, since it can get set from
+      // the label.
       if ($context['action'] == 'modify') {
         $dc_xml = $object['DC']->content;
         $dc_dom = new DOMDocument();

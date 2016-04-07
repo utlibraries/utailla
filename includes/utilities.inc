@@ -235,7 +235,7 @@ function utailla_write_mads_language($writer, $language_id, $type = 'research la
  */
 function utailla_access_justification_options() {
   return array(
-    t('Protected population (eg children)'),
+    t('Protected population (e.g., children)'),
     t('Required by IRB or other authority'),
     t('Access restricted by speech community'),
     t("Wish of speaker or speaker's family"),
