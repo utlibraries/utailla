@@ -404,7 +404,7 @@ function utailla_permission() {
 function utailla_islandora_object_ingested(AbstractObject $object) {
   module_load_include('inc', 'utailla', 'includes/utilities');
   utailla_add_restriction_if_missing($object);
-  
+
   $media_types = array(
     'islandora:sp-audioCModel',
     'islandora:sp_basic_image',
@@ -594,8 +594,10 @@ function utailla_collection_build_uri_on_validate($element, &$form_state) {
 function utailla_update_provenance_dates($form, $form_state) {
   $date = new DateTime();
   $date = $date->format($date::W3C);
-  $form['date_modified']['#value'] = $date;
   $form_id = isset($form_state['values']['form_id']) ? $form_state['values']['form_id'] : $form_state['build_info']['form_id'];
+  if ($form_id == 'xml_form_builder_datastream_form') {
+    $form['date_modified']['#value'] = $date;
+  }
   if ($form_id == 'xml_form_builder_ingest_form' || $form_id == 'islandora_ingest_form') {
     $form['date_archived']['#value'] = $date;
   }
@@ -632,7 +634,7 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
   // Only values that differ between Spanish and English are included; any
   // other values are carried over outright.
   $mapping = array(
-    'audio:cassette' => 'audio:casette',
+    'audio:cassette' => 'audio:casete',
     'audio:open-reel' => 'audio:carriete abierto',
     'image:analog' => 'imágen:análogo',
     'image:digital' => 'imágen:digital',
@@ -641,14 +643,14 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
     'text:Excel' => 'texto:Excel',
     'text:manuscript' => 'texto:manuscrito',
     // 15. text:publicado (sic).
-    'text:published' => 'text:publicado',
+    'text:published' => 'texto:publicado',
     'text:Shoe/Toolbox' => 'texto:Shoe/Toolbox',
     'text:unarchivable digital' => 'texto:digital no-archivable',
     'text:unpublished' => 'texto:no-publicado',
     'text:Word' => 'texto:Word',
     'text:WordPerfect' => 'texto:WordPerfect',
     'unknown' => 'desconocido',
-    'video:cassette' => 'video:casette',
+    'video:cassette' => 'video:casete',
   );
   $english = $form_state['values']['physicalDescription']['original_medium_eng'];
   $spanish = array_key_exists($english, $mapping) ? $mapping[$english] : $english;
