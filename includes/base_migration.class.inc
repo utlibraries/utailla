@@ -4,6 +4,9 @@
  * Base migration class.
  */
 
+/**
+ * Base migration class.
+ */
 class UtaillaBaseMigration extends Migration {
 
   /**

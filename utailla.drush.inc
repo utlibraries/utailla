@@ -478,7 +478,8 @@ function drush_utailla_update_resource_policy() {
 /**
  * Batch operation to update Resource Collection Policy datastreams.
  *
- * @param $context
+ * @param array $context
+ *   Batch context.
  */
 function utailla_resource_policy_batch_operation(&$context) {
   $sandbox =& $context['sandbox'];
@@ -520,10 +521,11 @@ function utailla_resource_policy_batch_operation(&$context) {
 /**
  * Query helper to get a list of PIDs having the defined content model.
  *
- * @param $content_model
+ * @param array $content_model
  *   Content Model of the objects to query.
  *
  * @return array
+ *   A list of PIDs with the given content model.
  */
 function utailla_drush_cmodel_query_pids($content_model) {
   $query = <<<EOQ
@@ -533,7 +535,7 @@ WHERE {
   ?pid <fedora-model:hasModel> <info:fedora/$content_model>
 }
 EOQ;
-// Connect to Tuque and grab the results.
+  // Connect to Tuque and grab the results.
   $connection = islandora_get_tuque_connection();
   $results = $connection->repository->ri->sparqlQuery($query);
 

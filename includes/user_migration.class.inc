@@ -4,6 +4,9 @@
  * Main user migration class.
  */
 
+/**
+ * Main user migration class.
+ */
 class UtaillaUserMigration extends UtaillaBaseMigration {
 
   /**

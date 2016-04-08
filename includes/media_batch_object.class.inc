@@ -4,6 +4,9 @@
  * Media batch object class file.
  */
 
+/**
+ * Media batch object class
+ */
 class UtaillaMediaBatchObject extends IslandoraBatchObject {
   protected static $modelMap = array(
     1 => 'islandora:sp-audioCModel',

@@ -4,6 +4,9 @@
  * Media file migration batch class file.
  */
 
+/**
+ * Media file migration batch class.
+ */
 class UtaillaMediaBatch extends IslandoraBatchPreprocessor {
   protected $dontMap = array(3, 26);
 

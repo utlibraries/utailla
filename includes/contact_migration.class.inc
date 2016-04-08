@@ -4,6 +4,9 @@
  * Contact migration class file.
  */
 
+/**
+ * Contact migration class.
+ */
 class UtaillaContactMigration extends UtaillaBaseMigration {
 
   /**
