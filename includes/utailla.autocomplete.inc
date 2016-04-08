@@ -66,7 +66,10 @@ EOQ;
  */
 function utailla_language_code_autocomplete($string) {
   module_load_include('inc', 'utailla', 'includes/utilities');
-  $results = utailla_get_language_pids();
+  $language_filter = function($r) use($string) {
+    return strpos(drupal_strtoupper($r['title']['value']), drupal_strtoupper($string)) !== FALSE;
+  };
+  $results = array_filter(utailla_get_language_pids(), $language_filter);
 
   $language_code_map = function($r) use($string) {
     // Need to see if these are part of the aillaLangFam as per UTAILLA-44.
@@ -78,12 +81,9 @@ function utailla_language_code_autocomplete($string) {
       $lang_codes = $dom_xpath->query('/aillaLanguage/aillaLangCode/text()');
       foreach ($lang_codes as $lang_code_elem) {
         $lang_code = $lang_code_elem->wholeText;
-        if (strpos(drupal_strtoupper($lang_code), drupal_strtoupper($string)) === FALSE) {
-          continue;
-        }
-        $mapped = array();
-        $mapped[$lang_code] = $lang_code . ' (' . $r['pid']['value'] . ')';
-        return $mapped;
+        return array(
+          $lang_code => "{$r['title']['value']} <strong>[{$lang_code}]</strong> ({$r['pid']['value']})",
+        );
       }
     }
     return NULL;
