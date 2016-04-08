@@ -660,7 +660,28 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
 /**
  * Language Code Validation for Ailla Collection MODS Form.
  */
-function utailla_validate_language_code($element, &$form_state) {
+function utailla_validate_language_code($element, &$form_state, $form) {
+
+  // We only validate and use the language code if it's linked element is
+  // populated. The linked element must share the same parent. Also we
+  // require a value if the linked element has a value.
+  if (isset($element['#user_data'][0])) {
+    $linked = $element['#user_data'][0];
+    $parents = $element['#parents'];
+    array_splice($parents, count($parents) - 1, 1, $linked);
+    $linked_element = drupal_array_get_nested_value($form, $parents);
+    if (empty($linked_element['#value'])) {
+      // Ignore user given value, and give no error.
+      form_set_value($element, '', $form_state);
+      return;
+    }
+    elseif (empty($element['#value'])) {
+      // If the linked element has a value a language code must be given.
+      form_error($element, t("Language code is required"));
+      return;
+    }
+  }
+
   module_load_include('inc', 'utailla', 'includes/utilities');
   $results = utailla_get_language_pids();
 
