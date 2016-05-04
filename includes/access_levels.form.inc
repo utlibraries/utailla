@@ -157,7 +157,9 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     ),
   );
   $form['end_time'] = array(
-    '#type' => 'datepicker',
+    '#type' => 'date_popup',
+    '#timepicker' => FALSE,
+    '#date_format' => 'Y-m-d',
     '#title' => t('Time Limit'),
     '#default_value' => $info['end_time'] !== NULL ? gmdate('Y-m-d', $info['end_time']) : NULL,
     '#states' => array(
