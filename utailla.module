@@ -397,13 +397,21 @@ function utailla_permission() {
 }
 
 /**
- * Implements hook_islandora_object_ingested().
- *
- * Brings restriction up to Level 1.
+ * Implements hook_islandora_derivative().
  */
-function utailla_islandora_object_ingested(AbstractObject $object) {
-  module_load_include('inc', 'utailla', 'includes/utilities');
-  utailla_add_restriction_if_missing($object);
+function utailla_islandora_derivative(AbstractObject $object) {
+  $mod_path = drupal_get_path('module', 'utailla');
+  $derivatives = array();
+
+  $derivatives['utailla_restrict'] = array(
+    'source_dsid' => NULL,
+    'destination_dsid' => NULL,
+    'weight' => -100,
+    'function' => array(
+      'utailla_derivative_set_restriction',
+    ),
+    'file' => "$mod_path/includes/derivatives.inc",
+  );
 
   $media_types = array(
     'islandora:sp-audioCModel',
@@ -413,9 +421,18 @@ function utailla_islandora_object_ingested(AbstractObject $object) {
     'islandora:sp_pdf',
     'islandora:sp_videoCModel',
   );
-  if ((bool) array_intersect($object->models, $media_types) && $object->label == 'New Object' && isset($object['OBJ'])) {
-    $object->label = $object['OBJ']->label;
+  if (array_intersect($object->models, $media_types)) {
+    $derivatives['utailla_label'] = array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => NULL,
+      'function' => array(
+        'utailla_derivative_set_label_from_obj',
+      ),
+      'file' => "$mod_path/includes/derivatives.inc",
+    );
   }
+
+  return $derivatives;
 }
 
 /**
