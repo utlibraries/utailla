@@ -509,3 +509,18 @@ EOQ;
   // for this entire autocomplete to cut down on Fedora hits.
   return $islandora_tuque->repository->ri->sparqlQuery($parent_query, 'unlimited');
 }
+
+/**
+ * Helper; get the media models.
+ */
+function utailla_get_media_models() {
+  $models =& drupal_static(__FUNCTION__, NULL);
+
+  if ($models === NULL) {
+    $mod_path = drupal_get_path('module', 'utailla');
+    $policy = new CollectionPolicy(file_get_contents("$mod_path/xml/media_collection_policy.xml"));
+    $models = array_keys($policy->getContentModels());
+  }
+
+  return $models;
+}
