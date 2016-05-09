@@ -397,25 +397,36 @@ function utailla_permission() {
 }
 
 /**
- * Implements hook_islandora_object_ingested().
- *
- * Brings restriction up to Level 1.
+ * Implements hook_islandora_derivative().
  */
-function utailla_islandora_object_ingested(AbstractObject $object) {
+function utailla_islandora_derivative(AbstractObject $object) {
+  $mod_path = drupal_get_path('module', 'utailla');
   module_load_include('inc', 'utailla', 'includes/utilities');
-  utailla_add_restriction_if_missing($object);
 
-  $media_types = array(
-    'islandora:sp-audioCModel',
-    'islandora:sp_basic_image',
-    'islandora:binaryObjectCModel',
-    'islandora:sp_large_image_cmodel',
-    'islandora:sp_pdf',
-    'islandora:sp_videoCModel',
+  $derivatives = array();
+
+  $derivatives['utailla_restrict'] = array(
+    'source_dsid' => NULL,
+    'destination_dsid' => NULL,
+    'weight' => -100,
+    'function' => array(
+      'utailla_derivative_set_restriction',
+    ),
+    'file' => "$mod_path/includes/derivatives.inc",
   );
-  if ((bool) array_intersect($object->models, $media_types) && $object->label == 'New Object' && isset($object['OBJ'])) {
-    $object->label = $object['OBJ']->label;
+
+  if (array_intersect($object->models, utailla_get_media_models())) {
+    $derivatives['utailla_label'] = array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => NULL,
+      'function' => array(
+        'utailla_derivative_set_label_from_obj',
+      ),
+      'file' => "$mod_path/includes/derivatives.inc",
+    );
   }
+
+  return $derivatives;
 }
 
 /**
@@ -968,6 +979,10 @@ function utailla_menu_alter(&$items) {
   $items['islandora/object/%islandora_object/manage/collection']['page callback'] = 'utailla_manage_collection_and_resource_object';
   $items['islandora/object/%islandora_object/manage/collection']['access callback'] = 'utailla_collection_and_resource_manage_access';
   unset($items['islandora/object/%islandora_object/manage/collection']['file']);
+
+  $object_path =& $items['islandora/object/%islandora_object'];
+  $object_path['title arguments'][] = $object_path['title callback'];
+  $object_path['title callback'] = 'utailla_media_file_title_callback';
 }
 
 /**
@@ -1174,4 +1189,33 @@ function utailla_form_islandora_audio_audio_upload_form_alter(&$form, &$form_sta
   // AILLA doesn't want the thumbnail upload option.
   $form['supply_thumbnail']['#access'] = FALSE;
   $form['thumbnail_section']['#access'] = FALSE;
+}
+
+/**
+ * Title callback; get OBJ title for media if not set to the object.
+ *
+ * Something of a superficial improvement, to ensure that the media file title
+ * is visible immediately after the ingest. Being set on the object (and
+ * therefore appearing elsewhere in the GUI) occurs later, in a derivative
+ * callback.
+ */
+function utailla_media_file_title_callback(AbstractObject $object) {
+  $titles =& drupal_static(__FUNCTION__, array());
+
+  if (!isset($titles[$object->id])) {
+    $args = func_get_args();
+    $wrapped = end($args);
+    $wrapped_args = array_slice($args, 0, -1);
+
+    module_load_include('inc', 'utailla', 'includes/utilities');
+    if (array_intersect($object->models, utailla_get_media_models()) && $object->label == 'New Object' && isset($object['OBJ'])) {
+      $title = $object['OBJ']->label;
+    }
+    else {
+      $title = call_user_func_array($wrapped, $wrapped_args);
+    }
+    $titles[$object->id] = $title;
+  }
+
+  return $titles[$object->id];
 }
