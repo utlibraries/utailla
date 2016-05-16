@@ -704,6 +704,18 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
 }
 
 /**
+ * Used by Ailla forms to populate the identifier with the PID.
+ */
+function utailla_update_identifier_with_pid_on_validate($element, &$form_state) {
+  if (isset($form_state['islandora'])) {
+    $object = reset($form_state['islandora']['objects']);
+    if ($object && $element['value'] !== $object->id) {
+      form_set_value($element, $object->id, $form_state);
+    }
+  }
+}
+
+/**
  * Language Code Validation for Ailla Collection MODS Form.
  */
 function utailla_validate_language_code($element, &$form_state, $form) {
@@ -1094,8 +1106,6 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
           // Get the namepart data from object MADS and update hidden form
           // fields.
           $name_data = utailla_get_contributor_nameparts_from_mads($object['MADS']->content);
-          form_set_value($element['namepart_given'], $name_data['given_name'], $form_state);
-          form_set_value($element['namepart_family'], $name_data['family_name'], $form_state);
           form_set_value($element['name_type'], "personal", $form_state);
           form_set_value($element['authority'], "aillaPerson", $form_state);
           // Display label should only exist in the resource form and not the
@@ -1106,9 +1116,6 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
         }
         else {
           // The contributor is an organization.
-          form_set_value($element['namepart_given'], "", $form_state);
-          form_set_value($element['namepart_family'], "", $form_state);
-          form_set_value($element['namepart_org'], $object->label, $form_state);
           form_set_value($element['name_type'], "corporate", $form_state);
           form_set_value($element['authority'], "aillaOrganization", $form_state);
           // Display label should only exist in the resource form and not the
@@ -1129,9 +1136,6 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
 function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   global $base_url;
   if (empty($form['namepart_autocomplete']['#value'])) {
-    $given_name = (!empty($form['namepart_given']['#value']) ? $form['namepart_given']['#value'] : "");
-    $family_name = (!empty($form['namepart_family']['#value']) ? $form['namepart_family']['#value'] : "");
-    $org_name = (!empty($form['namepart_org']['#value']) ? $form['namepart_org']['#value'] : "");
     $name_type = (!empty($form['name_type']['#value']) ? $form['name_type']['#value'] : "personal");
     $pid = (!empty($form['contributor_pid']['#value']) ? str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']) : "");
     if ($name_type == "corporate") {
