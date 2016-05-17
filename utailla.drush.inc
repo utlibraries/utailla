@@ -145,6 +145,13 @@ function utailla_drush_command() {
       'islandora_solr',
     ),
   );
+  $commands['utailla-update-metadata'] = array(
+    'bootstrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Update the slew of things that were identified in the migrated metadata.',
+    'drupal dependencies' => array(
+      'islandora',
+    ),
+  );
   return $commands;
 }
 
@@ -685,5 +692,14 @@ function drush_utailla_clean_multimedia_extents() {
       ),
     ),
   ));
+  drush_backend_batch_process();
+}
+
+/**
+ * Command callback; update all the metadata.
+ */
+function drush_utailla_update_metadata() {
+  module_load_include('inc', 'utailla', 'includes/update.batch');
+  batch_set(utailla_update_metadata_batch());
   drush_backend_batch_process();
 }
