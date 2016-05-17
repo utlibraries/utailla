@@ -704,13 +704,15 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
 }
 
 /**
- * Used by Ailla forms to populate the identifier with the PID.
+ * Used by Ailla forms to populate the identifier with the URI.
  */
-function utailla_update_identifier_with_pid_on_validate($element, &$form_state) {
+function utailla_update_identifier_with_uri_on_validate($element, &$form_state) {
   if (isset($form_state['islandora'])) {
     $object = reset($form_state['islandora']['objects']);
     if ($object && $element['value'] !== $object->id) {
-      form_set_value($element, $object->id, $form_state);
+      module_load_include('inc', 'utailla', 'includes/utilities');
+      $uri = utailla_get_uri_from_pid($object->id);
+      form_set_value($element, uri, $form_state);
     }
   }
 }

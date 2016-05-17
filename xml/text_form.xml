@@ -1038,7 +1038,7 @@
           <collapsible>FALSE</collapsible>
           <disabled>FALSE</disabled>
           <element_validate>
-            <index key="0">utailla_update_identifier_with_pid_on_validate</index>
+            <index key="0">utailla_update_identifier_with_uri_on_validate</index>
           </element_validate>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
