@@ -137,7 +137,7 @@ WHERE {
           <fedora-model:createdDate> ?created ;
           <fedora-view:disseminates> ?ds .
   ?ds <fedora-view:disseminationType> <info:fedora/*/!dsid> .
-  FILTER(sameTerm(?model, <info:fedora/islandora:sp-audioCModel>) || sameTerm(?model, <info:fedora/islandora:sp_pdf>) || sameTerm(?model, <info:fedora/islandora:sp_document>) || sameTerm(?model, <info:fedora/islandora:sp_basic_image>) || sameTerm(?model, <info:fedora/islandora:sp_large_image_cmodel>) || sameTerm(?model, <info:fedora/islandora:binaryObjectCModel>) || sameTerm(?model, <info:fedora/islandora:videoCModel>))
+  FILTER(sameTerm(?model, <info:fedora/islandora:sp-audioCModel>) || sameTerm(?model, <info:fedora/islandora:sp_pdf>) || sameTerm(?model, <info:fedora/islandora:sp_document>) || sameTerm(?model, <info:fedora/islandora:sp_basic_image>) || sameTerm(?model, <info:fedora/islandora:sp_large_image_cmodel>) || sameTerm(?model, <info:fedora/islandora:binaryObjectCModel>) || sameTerm(?model, <info:fedora/islandora:sp_videoCModel>))
 }
 ORDER BY ?created
 
