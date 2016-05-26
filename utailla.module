@@ -707,12 +707,17 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
  * Used by Ailla forms to populate the identifier with the URI.
  */
 function utailla_update_identifier_with_uri_on_validate($element, &$form_state) {
-  if (isset($form_state['islandora'])) {
-    $object = reset($form_state['islandora']['objects']);
-    if ($object && $element['value'] !== $object->id) {
+  if (empty($element['#value'])) {
+    // Object is contained in the islandora array on ingest, and in the build
+    // info on modification.
+    $object = reset($form_state['build_info']['args']);
+    if (!is_subclass_of($object, 'AbstractObject')) {
+      $object = reset($form_state['islandora']['objects']);
+    }
+    if ($object) {
       module_load_include('inc', 'utailla', 'includes/utilities');
       $uri = utailla_get_uri_from_pid($object->id);
-      form_set_value($element, uri, $form_state);
+      form_set_value($element, $uri, $form_state);
     }
   }
 }

@@ -1070,7 +1070,7 @@
               <value>&lt;identifier type="URI"&gt;&lt;/identifier&gt;</value>
             </create>
             <read>
-              <path>mods:identifier[@type="uri"]</path>
+              <path>mods:identifier[@type="URI"]</path>
               <context>parent</context>
             </read>
             <update>NULL</update>
