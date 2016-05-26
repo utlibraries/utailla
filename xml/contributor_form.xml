@@ -884,12 +884,12 @@
                   <path>self::node()</path>
                   <context>parent</context>
                   <schema/>
-                  <type>xml</type>
+                  <type>element</type>
                   <prefix>NULL</prefix>
-                  <value>&lt;affiliation&gt;&lt;organization authority="aillaOrganization"&gt;&lt;/organization&gt;&lt;/affiliation&gt;</value>
+                  <value>affiliation</value>
                 </create>
                 <read>
-                  <path>mads:affiliation/mads:organization</path>
+                  <path>mads:affiliation</path>
                   <context>parent</context>
                 </read>
                 <update>
@@ -903,36 +903,36 @@
               </actions>
             </properties>
             <children>
-              <element name="organization_pid">
+              <element name="organization">
                 <properties>
-                  <type>islandora_authority_hidden</type>
+                  <type>markup</type>
                   <access>TRUE</access>
+                  <after_build>
+                    <index key="0">utailla_convert_organization_pid_to_title</index>
+                  </after_build>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
                   <disabled>FALSE</disabled>
-                  <element_validate>
-                    <index key="0">utailla_collection_build_uri_on_validate</index>
-                  </element_validate>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
                   <tree>TRUE</tree>
                   <user_data>
-                    <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                    <islandora_authority_t_pattern>!organization</islandora_authority_t_pattern>
+                    <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:organizationCModel"</islandora_authority_fq>
                   </user_data>
                   <actions>
                     <create>
                       <path>self::node()</path>
                       <context>parent</context>
                       <schema/>
-                      <type>attribute</type>
+                      <type>xml</type>
                       <prefix>NULL</prefix>
-                      <value>valueURI</value>
+                      <value>&lt;organization authority="aillaOrganization"&gt;&lt;/organization&gt;</value>
                     </create>
                     <read>
-                      <path>@valueURI</path>
+                      <path>mads:organization</path>
                       <context>parent</context>
                     </read>
                     <update>
@@ -942,28 +942,70 @@
                     <delete>NULL</delete>
                   </actions>
                 </properties>
-                <children/>
-              </element>
-              <element name="organization">
-                <properties>
-                  <type>islandora_authority_textfield</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Organization</title>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                    <islandora_authority_mapping>!organization</islandora_authority_mapping>
-                    <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                  </user_data>
-                </properties>
-                <children/>
+                <children>
+                  <element name="organization_pid">
+                    <properties>
+                      <type>islandora_authority_hidden</type>
+                      <access>TRUE</access>
+                      <collapsed>FALSE</collapsed>
+                      <collapsible>FALSE</collapsible>
+                      <disabled>FALSE</disabled>
+                      <element_validate>
+                        <index key="0">utailla_collection_build_uri_on_validate</index>
+                      </element_validate>
+                      <executes_submit_callback>FALSE</executes_submit_callback>
+                      <multiple>FALSE</multiple>
+                      <required>FALSE</required>
+                      <resizable>FALSE</resizable>
+                      <tree>TRUE</tree>
+                      <user_data>
+                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                      </user_data>
+                      <actions>
+                        <create>
+                          <path>self::node()</path>
+                          <context>parent</context>
+                          <schema/>
+                          <type>attribute</type>
+                          <prefix>NULL</prefix>
+                          <value>valueURI</value>
+                        </create>
+                        <read>
+                          <path>@valueURI</path>
+                          <context>parent</context>
+                        </read>
+                        <update>
+                          <path>self::node()</path>
+                          <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                      </actions>
+                    </properties>
+                    <children/>
+                  </element>
+                  <element name="organization_text">
+                    <properties>
+                      <type>islandora_authority_textfield</type>
+                      <access>TRUE</access>
+                      <collapsed>FALSE</collapsed>
+                      <collapsible>FALSE</collapsible>
+                      <disabled>FALSE</disabled>
+                      <executes_submit_callback>FALSE</executes_submit_callback>
+                      <multiple>FALSE</multiple>
+                      <required>FALSE</required>
+                      <resizable>FALSE</resizable>
+                      <title>Organization</title>
+                      <tree>TRUE</tree>
+                      <user_data>
+                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                        <islandora_authority_mapping>!organization</islandora_authority_mapping>
+                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                      </user_data>
+                    </properties>
+                    <children/>
+                  </element>
+                </children>
               </element>
             </children>
           </element>
