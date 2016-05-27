@@ -447,7 +447,7 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;recordInfo&gt;&lt;recordIdentifier&gt;&lt;/recordIdentifier&gt;&lt;/recordInfo&gt;</value>
+              <value>&lt;recordInfo&gt;&lt;recordIdentifier&gt;%value%&lt;/recordIdentifier&gt;&lt;/recordInfo&gt;</value>
             </create>
             <read>
               <path>recordInfo/recordIdentifier</path>
