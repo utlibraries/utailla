@@ -1825,7 +1825,7 @@
               <schema/>
               <type>xml</type>
               <prefix>NULL</prefix>
-              <value>&lt;identifier type="URI"&gt;&lt;/identifier&gt;</value>
+              <value>&lt;identifier type="URI"&gt;%value%&lt;/identifier&gt;</value>
             </create>
             <read>
               <path>mods:identifier[@type="uri"]</path>

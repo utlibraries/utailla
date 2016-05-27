@@ -1143,25 +1143,16 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
 function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   global $base_url;
   if (empty($form['namepart_autocomplete']['#value'])) {
-    $name_type = (!empty($form['name_type']['#value']) ? $form['name_type']['#value'] : "personal");
+    module_load_include('inc', 'islandora_solr', 'includes/utilities');
     $pid = (!empty($form['contributor_pid']['#value']) ? str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']) : "");
-    if ($name_type == "corporate") {
-      $display_value = $org_name;
-    }
-    else {
-      if (!empty($given_name) && empty($family_name)) {
-        $display_value = $given_name;
-      }
-      elseif (empty($given_name) && !empty($family_name)) {
-        $display_value = $family_name;
-      }
-      elseif (!empty($given_name) && !empty($family_name)) {
-        $display_value = "{$family_name}, {$given_name}";
-      }
-    }
-    if (!empty($display_value)) {
-      $form['namepart_autocomplete']['#value'] = "{$display_value} ({$pid})";
-    }
+    $escaped_pid = islandora_solr_lesser_escape($pid);
+    $qp = new IslandoraSolrQueryProcessor();
+    $qp->buildQuery("PID:$escaped_pid");
+    $qp->solrParams['fl'] = 'PID, fgs_label_s';
+    $qp->executeQuery(FALSE);
+    $object = reset($qp->islandoraSolrResult['response']['objects']);
+    $label = $object ? $object['solr_doc']['fgs_label_s'] : "";
+    $form['namepart_autocomplete']['#value'] = $label;
   }
   return $form;
 }
