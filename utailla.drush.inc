@@ -152,6 +152,20 @@ function utailla_drush_command() {
       'islandora',
     ),
   );
+  $commands['utailla-rename-element'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Update the aillaMacroFam element to the correct aillaMacrolang.',
+    'drupal dependencies' => array(
+      'islandora',
+    ),
+  );
+  $commands['utailla-update-media-metadata'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Update media metadata for AILLA.',
+    'drupal dependencies' => array(
+      'islandora',
+    ),
+  );
   return $commands;
 }
 
@@ -701,5 +715,23 @@ function drush_utailla_clean_multimedia_extents() {
 function drush_utailla_update_metadata() {
   module_load_include('inc', 'utailla', 'includes/update.batch');
   batch_set(utailla_update_metadata_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Command callback; rename the aillaMacroFam element.
+ */
+function drush_utailla_rename_element() {
+  module_load_include('inc', 'utailla', 'includes/update.batch');
+  batch_set(utailla_rename_element_batch());
+  drush_backend_batch_process();
+}
+
+/**
+ * Command callback; clean up media elements.
+ */
+function drush_utailla_update_media_metadata() {
+  module_load_include('inc', 'utailla', 'includes/update.batch');
+  batch_set(utailla_update_media_metadata_batch());
   drush_backend_batch_process();
 }

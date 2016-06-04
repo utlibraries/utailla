@@ -468,3 +468,322 @@ function utailla_update_mads_depositor(&$dom, $xpath) {
   }
   return FALSE;
 }
+
+/**
+ * Boilerplate for the batch.
+ *
+ * @return array
+ *   Array describing the batch to be ran.
+ */
+function utailla_rename_element_batch() {
+  return array(
+    'operations' => array(
+      array(
+        'utailla_rename_element_batch_operation', array(),
+      ),
+    ),
+    'title' => t('Updating metadata for AILLA...'),
+    'init_message' => t('Preparing to update metadata.'),
+    'progress_message' => t('Time elapsed: @elapsed <br/>Estimated time remaining @estimate.'),
+    'error_message' => t('An error has occurred.'),
+    'file' => drupal_get_path('module', 'utailla') . '/includes/update.batch.inc',
+  );
+}
+
+/**
+ * Batch operation to update all LANGUAGE objects.
+ *
+ * @param array $context
+ *   The context of the current batch.
+ */
+function utailla_rename_element_batch_operation(&$context) {
+  $sandbox = &$context['sandbox'];
+  if (!isset($sandbox['total'])) {
+    $qp = new IslandoraSolrQueryProcessor();
+    $qp->buildQuery(format_string('!field:"info:fedora/!cmodel"', array(
+      '!field' => variable_get('islandora_solr_content_model_field', 'RELS_EXT_hasModel_uri_ms'),
+      '!cmodel' => UTAILLA_LANGUAGE_CMODEL,
+    )));
+    $qp->executeQuery(FALSE);
+    $sandbox['progress'] = 0;
+    $sandbox['total'] = $qp->islandoraSolrResult['response']['numFound'];
+    if ($sandbox['total'] == 0) {
+      // Nothing to process.
+      $context['finished'] = 1;
+      $context['message'] = t('Nothing to fix.');
+      return;
+    }
+    $sandbox['result_stash'] = $qp->islandoraSolrResult['response']['objects'];
+  }
+  $result = array_shift($sandbox['result_stash']);
+  $updating_pid = $result['solr_doc']['PID'];
+  $object_to_update = islandora_object_load($updating_pid);
+  utailla_rename_language_element($object_to_update);
+  $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
+  $context['finished'] = $sandbox['progress'] / $sandbox['total'];
+  $context['message'] = t('Updated @progress of @total.', array(
+    '@progress' => $sandbox['progress'],
+    '@total' => $sandbox['total'],
+  ));
+}
+
+/**
+ * Correctly renames the aillaMacroFam element which was wrong previously.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ */
+function utailla_rename_language_element(AbstractObject $object) {
+  $dom = utailla_get_metadata_dom($object['LANGUAGE']->content);
+  $xpath = new DOMXPath($dom);
+  $element_updated = FALSE;
+  $result = $xpath->query('/aillaLanguage/aillaMacroFam[text() = "Y" or text() = "N"]');
+  if ($result->length > 0) {
+    // Remove the old element and make a new one.
+    $old_element = $result->item(0);
+    $element_value = $old_element->nodeValue;
+    $old_element->parentNode->removeChild($old_element);
+    $new_element = $dom->createElement('aillaMacroLang');
+    $new_element->nodeValue = $element_value;
+    $dom->documentElement->appendChild($new_element);
+    $element_updated = TRUE;
+  }
+  if ($element_updated) {
+    $object['LANGUAGE']->content = $dom->saveXML();
+    drush_log(dt('Updated the LANGUAGE for the language object @pid.', array('@pid' => $object->id)));
+  }
+  else {
+    drush_log(dt('No updates to be done for @pid.', array('@pid' => $object->id)));
+  }
+}
+
+/**
+ * Constructs a batch to update all the metadata for media objects.
+ */
+function utailla_update_media_metadata_batch() {
+  return array(
+    'operations' => array(
+      array(
+        'utailla_update_media_metadata_batch_operation',
+        array(),
+      ),
+    ),
+    'title' => t('Updating media metadata for AILLA...'),
+    'init_message' => t('Preparing to update metadata.'),
+    'progress_message' => t('Time elapsed: @elapsed <br/>Estimated time remaining @estimate.'),
+    'error_message' => t('An error has occurred.'),
+    'file' => drupal_get_path('module', 'utailla') . '/includes/update.batch.inc',
+  );
+}
+
+/**
+ * Batch operation to update all media objects.
+ *
+ * @param array $context
+ *   The context of the current batch.
+ */
+function utailla_update_media_metadata_batch_operation(&$context) {
+  // There are four different types of metadata image, audio, video and text.
+  // There is a lot of overlap across what needs to change but map content
+  // models to callbacks for ease.
+  $callable_map = array(
+    'islandora:sp_videoCModel' => 'utailla_update_audio_video_media_metadata',
+    'islandora:sp-audioCModel' => 'utailla_update_audio_video_media_metadata',
+    'islandora:sp_basic_image' => 'utailla_update_image_media_metadata',
+    'islandora:sp_large_image_cmodel' => 'utailla_update_image_media_metadata',
+    'islandora:sp_document' => 'utailla_update_text_media_metadata',
+    'islandora:sp_pdf' => 'utailla_update_text_media_metadata',
+    'islandora:binaryObjectCModel' => 'utailla_update_text_media_metadata',
+  );
+  $sandbox = &$context['sandbox'];
+
+  drupal_static_reset('islandora_get_tuque_connection');
+  $tuque = islandora_get_tuque_connection();
+
+  $query = utailla_helper_set_query('media', 'MODS');
+  if (!isset($sandbox['total'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['total'] = $tuque->repository->ri->countQuery(format_string($query, array(
+      '!filter' => '',
+    )), 'sparql');
+    if ($sandbox['total'] == 0) {
+      // Nothing to process.
+      $context['finished'] = 1;
+      $context['message'] = t('Nothing to fix.');
+      return;
+    }
+    $sandbox['result_stash'] = array();
+  }
+  if (empty($sandbox['result_stash'])) {
+    $limited_query = format_string($query, array(
+      '!filter' => (isset($sandbox['last_date']) ?
+            "FILTER(?created > \"{$sandbox['last_date']}\"^^<xsd:dateTime>)" :
+            ''),
+    )) . <<<EOQ
+LIMIT 1000
+EOQ;
+    drush_log(dt('Querying for 1000 objects.'));
+    $sandbox['result_stash'] = $tuque->repository->ri->sparqlQuery($limited_query);
+    if (empty($sandbox['result_stash'])) {
+      // Ran out of items early?
+      $context['finished'] = 1;
+      $context['message'] = t('Updated @count PID(s) and ran out of items early... Somebody manually updated a document?', array(
+        '@count' => $sandbox['total'],
+      ));
+      return;
+    }
+  }
+  $result = array_shift($sandbox['result_stash']);
+  $updating_pid = $result['object']['value'];
+  $sandbox['last_date'] = $result['created']['value'];
+  // Get the cmodel of the object.
+  $object_to_update = islandora_object_load($updating_pid);
+  $cmodel = reset(array_intersect($object_to_update->models, array_keys($callable_map)));
+  call_user_func($callable_map[$cmodel], $object_to_update);
+  $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
+  $context['finished'] = $sandbox['progress'] / $sandbox['total'];
+  $context['message'] = t('Updated @progress of @total.', array(
+    '@progress' => $sandbox['progress'],
+    '@total' => $sandbox['total'],
+  ));
+}
+
+/**
+ * Updates a image media object.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ */
+function utailla_update_image_media_metadata(AbstractObject $object) {
+  $dom = utailla_get_metadata_dom($object['MODS']->content);
+  $xpath = new DOMXPath($dom);
+  $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+  $extent_nuked = FALSE;
+  // First nuke the extents that aren't supposed to be there due to a previous
+  // batch being not defined correctly in requirements.
+  $results = $xpath->query('/mods:mods/mods:physicalDescription/mods:extent[text() = "0:0:0"]');
+  foreach ($results as $result) {
+    $result->parentNode->removeChild($result);
+    $extent_nuked = TRUE;
+  }
+  $general_updates = utailla_update_media_file_general($dom, $xpath, $object->id);
+  if ($general_updates || $extent_nuked) {
+    $object['MODS']->content = $dom->saveXML();
+    drush_log(dt('Updated the MODS for the image media object @pid.', array('@pid' => $object->id)));
+  }
+  else {
+    drush_log(dt('No updates to be done for @pid.', array('@pid' => $object->id)));
+  }
+}
+
+/**
+ * Updates a audio/video media object.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ */
+function utailla_update_audio_video_media_metadata(AbstractObject $object) {
+  $dom = utailla_get_metadata_dom($object['MODS']->content);
+  $xpath = new DOMXPath($dom);
+  $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+
+  $general_updates = utailla_update_media_file_general($dom, $xpath, $object->id);
+  $display_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:physicalDescription/mods:extent[not(@displayLabel)]', 'displayLabel', 'Length in hrs:min:sec');
+  if ($general_updates || $display_updated) {
+    $object['MODS']->content = $dom->saveXML();
+    drush_log(dt('Updated the MODS for the audio/video object @pid.', array('@pid' => $object->id)));
+  }
+  else {
+    drush_log(dt('No updates to be done for @pid.', array('@pid' => $object->id)));
+  }
+}
+
+
+/**
+ * Updates a text media object.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ */
+function utailla_update_text_media_metadata(AbstractObject $object) {
+  $dom = utailla_get_metadata_dom($object['MODS']->content);
+  $xpath = new DOMXPath($dom);
+  $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+  $general_updates = utailla_update_media_file_general($dom, $xpath, $object->id);
+  if ($general_updates) {
+    $object['MODS']->content = $dom->saveXML();
+    drush_log(dt('Updated the MODS for the text media object @pid.', array('@pid' => $object->id)));
+  }
+  else {
+    drush_log(dt('No updates to be done for @pid.', array('@pid' => $object->id)));
+  }
+
+}
+
+/**
+ * General updates that all media files need.
+ *
+ * @param DOMDocument $dom
+ *   A DOMDocument to be modified.
+ * @param DOMXPath $xpath
+ *   A DOMXPath to be queried.
+ * @param string $pid
+ *   The PID of the object being updated.
+ *
+ * @return bool
+ *   Whether any changes are to take place.
+ */
+function utailla_update_media_file_general(DOMDocument &$dom, DOMXPath $xpath, $pid) {
+  // Update the identifier.
+  $identifier_updated = utailla_update_mods_identifier($dom, $xpath, $pid);
+
+  // Adding displayLabel attribute to existing elements.
+  $date_archived_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:originInfo[@eventType="provenance"]/mods:dateOther[not(@displayLabel)]', 'displayLabel', 'Date archived');
+  $eng_genre_display_label_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:genre[@authority="aillaMediaGenres" and @lang="eng" and not(@displayLabel)]', 'displayLabel', 'Content type (English)');
+  $spa_genre_display_label_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:genre[@authority="aillaMediaGenres" and @lang="spa" and not(@displayLabel)]', 'displayLabel', 'Content type (Spanish)');
+  $eng_technical_display_label_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:note[@type="recording/production note" and @lang="eng" and not(@displayLabel)]', 'displayLabel', 'Technical description (English)');
+  $spa_technical_display_label_updated = utailla_append_attribute_to_element($xpath, '/mods:mods/mods:note[@type="recording/production note" and @lang="spa" and not(@displayLabel)]', 'displayLabel', 'Technical description (Spanish)');
+
+  // Attribute should be lowercased.
+  $medium_updated = FALSE;
+  $lower_results = $xpath->query('/mods:mods/mods:physicalDescription/mods:form[@type="Original Medium"]');
+  foreach ($lower_results as $form_element) {
+    $medium_updated = TRUE;
+    $form_element->setAttribute('type', 'original medium');
+    // To forego XPathing two more times add the missing displayLabel while
+    // here.
+    if ($form_element->getAttribute('lang') == 'eng') {
+      $form_element->setAttribute('displayLabel', 'Original Medium (English)');
+    }
+    else {
+      $form_element->setAttribute('displayLabel', 'Original Medium (Spanish)');
+    }
+  }
+  return $identifier_updated || $date_archived_updated || $eng_genre_display_label_updated || $spa_genre_display_label_updated || $eng_technical_display_label_updated || $spa_technical_display_label_updated || $medium_updated;
+}
+
+/**
+ * Helper that sets an attribute on element.
+ *
+ * @param DOMXPath $xpath
+ *   A DOMXPath to be queried.
+ * @param string $query
+ *   The XPath string to query for.
+ * @param string $attribute_name
+ *   The name of the attribute to add.
+ * @param string $attribute_value
+ *   The value of the attribute to add.
+ *
+ * @return bool
+ *   Whether an update took palce or not.
+ */
+function utailla_append_attribute_to_element(DOMXPath $xpath, $query, $attribute_name, $attribute_value) {
+  $results = $xpath->query($query);
+  $updated = FALSE;
+  if ($results->length == 1) {
+    $element = $results->item(0);
+    $element->setAttribute($attribute_name, $attribute_value);
+    $updated = TRUE;
+  }
+  return $updated;
+}
