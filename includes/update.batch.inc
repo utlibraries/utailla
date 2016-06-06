@@ -536,7 +536,6 @@ function utailla_rename_element_batch_operation(&$context) {
 function utailla_rename_language_element(AbstractObject $object) {
   $dom = utailla_get_metadata_dom($object['LANGUAGE']->content);
   $xpath = new DOMXPath($dom);
-  $element_updated = FALSE;
   $result = $xpath->query('/aillaLanguage/aillaMacroFam[text() = "Y" or text() = "N"]');
   if ($result->length > 0) {
     // Remove the old element and make a new one.
@@ -546,9 +545,6 @@ function utailla_rename_language_element(AbstractObject $object) {
     $new_element = $dom->createElement('aillaMacroLang');
     $new_element->nodeValue = $element_value;
     $dom->documentElement->appendChild($new_element);
-    $element_updated = TRUE;
-  }
-  if ($element_updated) {
     $object['LANGUAGE']->content = $dom->saveXML();
     drush_log(dt('Updated the LANGUAGE for the language object @pid.', array('@pid' => $object->id)));
   }
@@ -583,18 +579,6 @@ function utailla_update_media_metadata_batch() {
  *   The context of the current batch.
  */
 function utailla_update_media_metadata_batch_operation(&$context) {
-  // There are four different types of metadata image, audio, video and text.
-  // There is a lot of overlap across what needs to change but map content
-  // models to callbacks for ease.
-  $callable_map = array(
-    'islandora:sp_videoCModel' => 'utailla_update_audio_video_media_metadata',
-    'islandora:sp-audioCModel' => 'utailla_update_audio_video_media_metadata',
-    'islandora:sp_basic_image' => 'utailla_update_image_media_metadata',
-    'islandora:sp_large_image_cmodel' => 'utailla_update_image_media_metadata',
-    'islandora:sp_document' => 'utailla_update_text_media_metadata',
-    'islandora:sp_pdf' => 'utailla_update_text_media_metadata',
-    'islandora:binaryObjectCModel' => 'utailla_update_text_media_metadata',
-  );
   $sandbox = &$context['sandbox'];
 
   drupal_static_reset('islandora_get_tuque_connection');
@@ -602,6 +586,19 @@ function utailla_update_media_metadata_batch_operation(&$context) {
 
   $query = utailla_helper_set_query('media', 'MODS');
   if (!isset($sandbox['total'])) {
+    // There are four different types of metadata image, audio, video and text.
+    // There is a lot of overlap across what needs to change but map content
+    // models to callbacks for ease.
+    $callable_map = array(
+      'islandora:sp_videoCModel' => 'utailla_update_audio_video_media_metadata',
+      'islandora:sp-audioCModel' => 'utailla_update_audio_video_media_metadata',
+      'islandora:sp_basic_image' => 'utailla_update_image_media_metadata',
+      'islandora:sp_large_image_cmodel' => 'utailla_update_image_media_metadata',
+      'islandora:sp_document' => 'utailla_update_text_media_metadata',
+      'islandora:sp_pdf' => 'utailla_update_text_media_metadata',
+      'islandora:binaryObjectCModel' => 'utailla_update_text_media_metadata',
+    );
+    $sandbox['callable_map'] = $callable_map;
     $sandbox['progress'] = 0;
     $sandbox['total'] = $tuque->repository->ri->countQuery(format_string($query, array(
       '!filter' => '',
@@ -633,6 +630,7 @@ EOQ;
       return;
     }
   }
+  $callable_map = $sandbox['callable_map'];
   $result = array_shift($sandbox['result_stash']);
   $updating_pid = $result['object']['value'];
   $sandbox['last_date'] = $result['created']['value'];
