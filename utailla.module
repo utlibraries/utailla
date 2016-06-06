@@ -574,6 +574,21 @@ function utailla_convert_country_pid_to_title($form, $form_state) {
 }
 
 /**
+ * Used by Ailla Collection MODS Form to country label from hidden PID field.
+ */
+function utailla_convert_collection_pid_to_title($form, $form_state) {
+  global $base_url;
+  if (isset($form['collection_pid']['#value'])) {
+    $pid = str_replace("$base_url/islandora/object/", "", $form['collection_pid']['#value']);
+    $obj = islandora_object_load($pid);
+    if ($obj) {
+      $form['collection_name']['#value'] = $obj->label;
+    }
+  }
+  return $form;
+}
+
+/**
  * Used by Ailla MADS form to set organization label from hidden PID field.
  */
 function utailla_convert_organization_pid_to_title($form, $form_state) {
@@ -1056,32 +1071,6 @@ function utailla_manage_collection_and_resource_object(AbstractObject $object) {
 }
 
 /**
- * After build to populate the value of the language textfield from code.
- *
- * @param array $form
- *   An array representing the form within Drupal.
- * @param array $form_state
- *   An array containing the Drupal form state.
- *
- * @return array
- *   The form to be rendered.
- */
-function utailla_replace_attribute_with_language($form, $form_state) {
-  if (!empty($form['language_attribute']['#value'])) {
-    $qp = new IslandoraSolrQueryProcessor();
-    $qp->buildQuery(format_string('aillaLanguage_aillaLangCode_et:"!code"', array('!code' => $form['language_attribute']['#value'])));
-    $qp->solrParams['fl'] = 'PID, aillaLanguage_aillaEngName_et';
-    $qp->executeQuery(FALSE);
-    // Should only be one result as opearting under the assumption language
-    // codes are unique.
-    $object = reset($qp->islandoraSolrResult['response']['objects']);
-    $language = reset($object['solr_doc']['aillaLanguage_aillaEngName_et']);
-    $form['language']['#value'] = $language;
-  }
-  return $form;
-}
-
-/**
  * Custom access callback for 'Access Level' tab.
  */
 function utailla_access_level_access($perm, $object = NULL) {
@@ -1144,15 +1133,17 @@ function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   global $base_url;
   if (empty($form['namepart_autocomplete']['#value'])) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
-    $pid = (!empty($form['contributor_pid']['#value']) ? str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']) : "");
-    $escaped_pid = islandora_solr_lesser_escape($pid);
-    $qp = new IslandoraSolrQueryProcessor();
-    $qp->buildQuery("PID:$escaped_pid");
-    $qp->solrParams['fl'] = 'PID, fgs_label_s';
-    $qp->executeQuery(FALSE);
-    $object = reset($qp->islandoraSolrResult['response']['objects']);
-    $label = $object ? $object['solr_doc']['fgs_label_s'] : "";
-    $form['namepart_autocomplete']['#value'] = $label;
+    if (!empty($form['contributor_pid']['#value'])) {
+      $pid = str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']);
+      $escaped_pid = islandora_solr_lesser_escape($pid);
+      $qp = new IslandoraSolrQueryProcessor();
+      $qp->buildQuery("PID:$escaped_pid");
+      $qp->solrParams['fl'] = 'PID, fgs_label_s';
+      $qp->executeQuery(FALSE);
+      $object = reset($qp->islandoraSolrResult['response']['objects']);
+      $label = $object ? $object['solr_doc']['fgs_label_s'] : "";
+      $form['namepart_autocomplete']['#value'] = $label;
+    }
   }
   return $form;
 }
