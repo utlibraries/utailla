@@ -505,6 +505,8 @@ function utailla_rename_element_batch_operation(&$context) {
       '!field' => variable_get('islandora_solr_content_model_field', 'RELS_EXT_hasModel_uri_ms'),
       '!cmodel' => UTAILLA_LANGUAGE_CMODEL,
     )));
+    $qp->solrLimit = 100000;
+    $qp->solrParams['fl'] = 'PID';
     $qp->executeQuery(FALSE);
     $sandbox['progress'] = 0;
     $sandbox['total'] = $qp->islandoraSolrResult['response']['numFound'];
