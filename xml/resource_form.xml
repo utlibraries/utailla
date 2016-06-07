@@ -457,6 +457,18 @@
                                             <required>FALSE</required>
                                             <resizable>FALSE</resizable>
                                             <tree>TRUE</tree>
+                                            <actions>
+                                                <create>NULL</create>
+                                                <read>
+                                                    <path>mods:role/mods:roleTerm[@type="text" and @lang="eng"]</path>
+                                                    <context>parent</context>
+                                                </read>
+                                                <update>NULL</update>
+                                                <delete>
+                                                    <path>self::node()</path>
+                                                    <context>self</context>
+                                                </delete>
+                                            </actions>
                                         </properties>
                                         <children>
                                             <element name="role">
@@ -466,9 +478,6 @@
                                                     <collapsed>FALSE</collapsed>
                                                     <collapsible>FALSE</collapsible>
                                                     <disabled>FALSE</disabled>
-                                                    <element_validate>
-                                                        <index key="0">utailla_update_hidden_selects_on_validate</index>
-                                                    </element_validate>
                                                     <executes_submit_callback>FALSE</executes_submit_callback>
                                                     <multiple>FALSE</multiple>
                                                     <options>
@@ -568,17 +577,14 @@
                                                             <value>&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;&lt;/role&gt;</value>
                                                         </create>
                                                         <read>
-                                                            <path>mods:role/mods:roleTerm[@type="text" and @lang="eng"]</path>
+                                                            <path>self::node()</path>
                                                             <context>parent</context>
                                                         </read>
                                                         <update>
                                                             <path>self::node()</path>
                                                             <context>self</context>
                                                         </update>
-                                                        <delete>
-                                                            <path>self::node()</path>
-                                                            <context>self</context>
-                                                        </delete>
+                                                        <delete>NULL</delete>
                                                     </actions>
                                                 </properties>
                                                 <children/>
@@ -645,10 +651,7 @@
                                                             <path>self::node()</path>
                                                             <context>self</context>
                                                         </update>
-                                                        <delete>
-                                                            <path>self::node()</path>
-                                                            <context>self</context>
-                                                        </delete>
+                                                        <delete>NULL</delete>
                                                     </actions>
                                                 </properties>
                                                 <children/>
@@ -1515,6 +1518,15 @@
                             <required>FALSE</required>
                             <resizable>FALSE</resizable>
                             <tree>TRUE</tree>
+                            <actions>
+                                <create>NULL</create>
+                                <read>
+                                    <path>mods:genre[@type="local" and @lang="eng"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>NULL</update>
+                                <delete>NULL</delete>
+                            </actions>
                         </properties>
                         <children>
                             <element name="genre">
@@ -1524,9 +1536,6 @@
                                     <collapsed>FALSE</collapsed>
                                     <collapsible>FALSE</collapsible>
                                     <disabled>FALSE</disabled>
-                                    <element_validate>
-                                        <index key="0">utailla_update_hidden_selects_on_validate</index>
-                                    </element_validate>
                                     <executes_submit_callback>FALSE</executes_submit_callback>
                                     <multiple>FALSE</multiple>
                                     <options>
@@ -1672,7 +1681,7 @@
                                             <value>&lt;genre type="local" authority="aillaResourceGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
                                         </create>
                                         <read>
-                                            <path>mods:genre[@type="local" and @lang="eng"]</path>
+                                            <path>self::node()</path>
                                             <context>parent</context>
                                         </read>
                                         <update>
