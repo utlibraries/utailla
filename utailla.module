@@ -115,6 +115,9 @@ function utailla_menu() {
     'access callback' => 'utailla_resource_ingest_access',
     'access arguments' => array(2),
   );
+  // XXX: Rendering this as a callback so that it isn't editable as a normal
+  // view, as the Solr view definition contains a field that breaks the view
+  // configuration screen.
   $items['ailla_depositors'] = array(
     'title' => 'AILLA Depositors',
     'page callback' => 'utailla_view_ailla_depositors',
