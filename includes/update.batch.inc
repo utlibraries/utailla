@@ -138,6 +138,7 @@ WHERE {
           <fedora-view:disseminates> ?ds .
   ?ds <fedora-view:disseminationType> <info:fedora/*/!dsid> .
   FILTER(sameTerm(?model, <info:fedora/islandora:sp-audioCModel>) || sameTerm(?model, <info:fedora/islandora:sp_pdf>) || sameTerm(?model, <info:fedora/islandora:sp_document>) || sameTerm(?model, <info:fedora/islandora:sp_basic_image>) || sameTerm(?model, <info:fedora/islandora:sp_large_image_cmodel>) || sameTerm(?model, <info:fedora/islandora:binaryObjectCModel>) || sameTerm(?model, <info:fedora/islandora:sp_videoCModel>))
+  !filter
 }
 ORDER BY ?created
 
@@ -636,7 +637,8 @@ EOQ;
   $sandbox['last_date'] = $result['created']['value'];
   // Get the cmodel of the object.
   $object_to_update = islandora_object_load($updating_pid);
-  $cmodel = reset(array_intersect($object_to_update->models, array_keys($callable_map)));
+  $cmodels = array_intersect($object_to_update->models, array_keys($callable_map));
+  $cmodel = reset($cmodels);
   call_user_func($callable_map[$cmodel], $object_to_update);
   $sandbox['progress'] = min($sandbox['total'], $sandbox['progress'] + 1);
   $context['finished'] = $sandbox['progress'] / $sandbox['total'];
