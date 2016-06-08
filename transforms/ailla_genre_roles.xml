@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<terms>
+    <roles>
+        <term>
+            <english>Actor, performer</english>
+            <spanish>Actor, Acrtriz</spanish>
+        </term>
+        <term>
+            <english>Analyst</english>
+            <spanish>Analista</spanish>
+        </term>
+        <term>
+            <english>Annotator</english>
+            <spanish>Anotador</spanish>
+        </term>
+        <term>
+            <english>Author</english>
+            <spanish>Autor</spanish>
+        </term>
+        <term>
+            <english>Compiler</english>
+            <spanish>Recopilador</spanish>
+        </term>
+        <term>
+            <english>Consultant</english>
+            <spanish>Consultante</spanish>
+        </term>
+        <term>
+            <english>Contributor</english>
+            <spanish>Contribuidor</spanish>
+        </term>
+        <term>
+            <english>Creator</english>
+            <spanish>Creador</spanish>
+        </term>
+        <term>
+            <english>Data technician, keyboarder</english>
+            <spanish>T&#xE9;cnico de dato</spanish>
+        </term>
+        <term>
+            <english>Digitizer</english>
+            <spanish>Digitalizador</spanish>
+        </term>
+        <term>
+            <english>Editor</english>
+            <spanish>Editor</spanish>
+        </term>
+        <term>
+            <english>Illustrator</english>
+            <spanish>Ilustrador</spanish>
+        </term>
+        <term>
+            <english>Interlocutor</english>
+            <spanish>Interlocutor</spanish>
+        </term>
+        <term>
+            <english>Interpreter</english>
+            <spanish>Int&#xE9;rprete</spanish>
+        </term>
+        <term>
+            <english>Interviewer</english>
+            <spanish>Entrevistador</spanish>
+        </term>
+        <term>
+            <english>Photographer</english>
+            <spanish>Fot&#xF3;grafo</spanish>
+        </term>
+        <term>
+            <english>Publisher</english>
+            <spanish>Publicador</spanish>
+        </term>
+        <term>
+            <english>Recorder</english>
+            <spanish>Grabador</spanish>
+        </term>
+        <term>
+            <english>Research participant</english>
+            <spanish>Participante de investigaci&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Researcher</english>
+            <spanish>Investigador</spanish>
+        </term>
+        <term>
+            <english>Responder</english>
+            <spanish>Contestador</spanish>
+        </term>
+        <term>
+            <english>Sign language signer</english>
+            <spanish>Se&#xF1;alador de lenguaje de se&#xF1;as</spanish>
+        </term>
+        <term>
+            <english>Signatory</english>
+            <spanish>Firmante</spanish>
+        </term>
+        <term>
+            <english>Singer</english>
+            <spanish>Cantante</spanish>
+        </term>
+        <term>
+            <english>Speaker</english>
+            <spanish>Hablante</spanish>
+        </term>
+        <term>
+            <english>Sponsor</english>
+            <spanish>Patrocinador</spanish>
+        </term>
+        <term>
+            <english>Transcriber</english>
+            <spanish>Transcritor</spanish>
+        </term>
+        <term>
+            <english>Translator</english>
+            <spanish>Traductor</spanish>
+        </term>
+        <term>
+            <english>Videographer</english>
+            <spanish>Camar&#xF3;grafo</spanish>
+        </term>
+    </roles>
+    <genres>
+        <term>
+            <english>Article</english>
+            <spanish>Art&#xED;culo</spanish>
+        </term>
+        <term>
+            <english>Book</english>
+            <spanish>Libro</spanish>
+        </term>
+        <term>
+            <english>Ceremonial dialog</english>
+            <spanish>Di&#xE1;logo ceremonial</spanish>
+        </term>
+        <term>
+            <english>Ceremony</english>
+            <spanish>Ceremonia</spanish>
+        </term>
+        <term>
+            <english>Chant</english>
+            <spanish>Canto</spanish>
+        </term>
+        <term>
+            <english>Commentary</english>
+            <spanish>Commentario</spanish>
+        </term>
+        <term>
+            <english>Conversation</english>
+            <spanish>Conversaci&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Correspondence</english>
+            <spanish>Correo, correspondencia</spanish>
+        </term>
+        <term>
+            <english>Curse</english>
+            <spanish>Maldici&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Dataset</english>
+            <spanish>Juego, conjunto de datos</spanish>
+        </term>
+        <term>
+            <english>Debate</english>
+            <spanish>Debate</spanish>
+        </term>
+        <term>
+            <english>Description</english>
+            <spanish>Descripci&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Dispute</english>
+            <spanish>Dispute</spanish>
+        </term>
+        <term>
+            <english>Document</english>
+            <spanish>Documento</spanish>
+        </term>
+        <term>
+            <english>Drama</english>
+            <spanish>Drama</spanish>
+        </term>
+        <term>
+            <english>Educational material</english>
+            <spanish>Material educativo, did&#xE1;ctico</spanish>
+        </term>
+        <term>
+            <english>Elicitation</english>
+            <spanish>Elicitaci&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Ethnography</english>
+            <spanish>Etnograf&#xED;a</spanish>
+        </term>
+        <term>
+            <english>Field notes</english>
+            <spanish>Notas de campo</spanish>
+        </term>
+        <term>
+            <english>Grammar</english>
+            <spanish>Gram&#xE1;tica</spanish>
+        </term>
+        <term>
+            <english>Grammar sketch</english>
+            <spanish>Esboza de gram&#xE1;tica</spanish>
+        </term>
+        <term>
+            <english>Greeting &amp; leave-taking</english>
+            <spanish>Saludos y despedidas</spanish>
+        </term>
+        <term>
+            <english>Handout</english>
+            <spanish>Gu&#xED;a, volante</spanish>
+        </term>
+        <term>
+            <english>History</english>
+            <spanish>Historia</spanish>
+        </term>
+        <term>
+            <english>Image</english>
+            <spanish>Imagen</spanish>
+        </term>
+        <term>
+            <english>Instructions</english>
+            <spanish>Instrucciones</spanish>
+        </term>
+        <term>
+            <english>Instrumental music</english>
+            <spanish>M&#xFA;sica instrumental</spanish>
+        </term>
+        <term>
+            <english>Interview</english>
+            <spanish>Entrevista</spanish>
+        </term>
+        <term>
+            <english>Lexicon</english>
+            <spanish>L&#xE9;xico</spanish>
+        </term>
+        <term>
+            <english>Map</english>
+            <spanish>Mapa</spanish>
+        </term>
+        <term>
+            <english>Meeting</english>
+            <spanish>Reuni&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Myth</english>
+            <spanish>Mito</spanish>
+        </term>
+        <term>
+            <english>Narrative</english>
+            <spanish>Narrativa</spanish>
+        </term>
+        <term>
+            <english>Oratory</english>
+            <spanish>Oratoria</spanish>
+        </term>
+        <term>
+            <english>Permissions</english>
+            <spanish>Permisos</spanish>
+        </term>
+        <term>
+            <english>Photograph</english>
+            <spanish>Fotograf&#xED;a</spanish>
+        </term>
+        <term>
+            <english>Poetry</english>
+            <spanish>Poes&#xED;a</spanish>
+        </term>
+        <term>
+            <english>Prayer</english>
+            <spanish>Rezos, oraciones</spanish>
+        </term>
+        <term>
+            <english>Presentation</english>
+            <spanish>Ponencia</spanish>
+        </term>
+        <term>
+            <english>Procedure</english>
+            <spanish>Procedimiento</spanish>
+        </term>
+        <term>
+            <english>Proverb</english>
+            <spanish>Refr&#xE1;n, proverbio</spanish>
+        </term>
+        <term>
+            <english>Questionnaire</english>
+            <spanish>Cuestionario</spanish>
+        </term>
+        <term>
+            <english>Reader</english>
+            <spanish>Lectura</spanish>
+        </term>
+        <term>
+            <english>Recipe</english>
+            <spanish>Receta</spanish>
+        </term>
+        <term>
+            <english>Ritual song</english>
+            <spanish>Canci&#xF3;n Ritual</spanish>
+        </term>
+        <term>
+            <english>Song</english>
+            <spanish>Canci&#xF3;n</spanish>
+        </term>
+        <term>
+            <english>Speech play</english>
+            <spanish>Juego de palabras</spanish>
+        </term>
+        <term>
+            <english>Testimony</english>
+            <spanish>Testimonio</spanish>
+        </term>
+        <term>
+            <english>Thesis</english>
+            <spanish>Tesis</spanish>
+        </term>
+        <term>
+            <english>Unintelligble speech</english>
+            <spanish>Habla no inteligible</spanish>
+        </term>
+        <term>
+            <english>Whistled speech</english>
+            <spanish>Habla silbada</spanish>
+        </term>
+        <term>
+            <english>Wordlist</english>
+            <spanish>Lista de palabras</spanish>
+        </term>
+    </genres>
+</terms>

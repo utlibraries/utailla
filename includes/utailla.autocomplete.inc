@@ -41,7 +41,7 @@ EOQ;
       $dom = new DOMDocument();
       $dom->loadXML($object['LANGUAGE']->content);
       $dom_xpath = new DOMXPath($dom);
-      return $dom_xpath->evaluate('/aillaLanguage/aillaLangFam/text() = "Y"');
+      return $dom_xpath->evaluate('/aillaLanguage/aillaMacroLang/text() = "Y"');
     }
     return FALSE;
   };

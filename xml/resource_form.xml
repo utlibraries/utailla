@@ -1,1842 +1,1632 @@
 <?xml version="1.0"?>
 <definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3">
-  <properties>
-    <root_name>mods</root_name>
-    <schema_uri>http://www.loc.gov/standards/mods/v3/mods-3-4.xsd</schema_uri>
-    <namespaces default="http://www.loc.gov/mods/v3">
-      <namespace prefix="mods">http://www.loc.gov/mods/v3</namespace>
-      <namespace prefix="xsi">http://www.w3.org/2001/XMLSchema-instance</namespace>
-      <namespace prefix="xlink">http://www.w3.org/1999/xlink</namespace>
-    </namespaces>
-  </properties>
-  <form>
     <properties>
-      <type>form</type>
-      <access>TRUE</access>
-      <collapsed>FALSE</collapsed>
-      <collapsible>FALSE</collapsible>
-      <disabled>FALSE</disabled>
-      <executes_submit_callback>FALSE</executes_submit_callback>
-      <multiple>FALSE</multiple>
-      <required>FALSE</required>
-      <resizable>FALSE</resizable>
-      <tree>TRUE</tree>
-      <actions>
-        <create>NULL</create>
-        <read>
-          <path>//mods:mods[1]</path>
-          <context>document</context>
-        </read>
-        <update>NULL</update>
-        <delete>NULL</delete>
-      </actions>
+        <root_name>mods</root_name>
+        <schema_uri>http://www.loc.gov/standards/mods/v3/mods-3-4.xsd</schema_uri>
+        <namespaces default="http://www.loc.gov/mods/v3">
+            <namespace prefix="mods">http://www.loc.gov/mods/v3</namespace>
+            <namespace prefix="xsi">http://www.w3.org/2001/XMLSchema-instance</namespace>
+            <namespace prefix="xlink">http://www.w3.org/1999/xlink</namespace>
+        </namespaces>
     </properties>
-    <children>
-      <element name="titleInfoIndigenous">
+    <form>
         <properties>
-          <type>fieldset</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Title [Indigenous]</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous language)" /&gt;</value>
-            </create>
-            <read>
-              <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous language)"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children>
-          <element name="title">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Title</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>element</type>
-                  <prefix>NULL</prefix>
-                  <value>title</value>
-                </create>
-                <read>
-                  <path>mods:title</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-          <element name="language">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <element_validate>
-                <index key="0">utailla_validate_language_code</index>
-              </element_validate>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Language</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>attribute</type>
-                  <prefix>NULL</prefix>
-                  <value>lang</value>
-                </create>
-                <read>
-                  <path>@lang</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-        </children>
-      </element>
-      <element name="titleInfoEnglish">
-        <properties>
-          <type>markup</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;titleInfo lang="eng" /&gt;</value>
-            </create>
-            <read>
-              <path>mods:titleInfo[@lang="eng"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children>
-          <element name="title">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>TRUE</required>
-              <resizable>FALSE</resizable>
-              <title>Title [English]</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>element</type>
-                  <prefix>NULL</prefix>
-                  <value>title</value>
-                </create>
-                <read>
-                  <path>mods:title</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-        </children>
-      </element>
-      <element name="titleInfoSpanish">
-        <properties>
-          <type>markup</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;titleInfo lang="spa" /&gt;</value>
-            </create>
-            <read>
-              <path>mods:titleInfo[@lang="spa"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children>
-          <element name="title">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Title [Spanish]</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>element</type>
-                  <prefix>NULL</prefix>
-                  <value>title</value>
-                </create>
-                <read>
-                  <path>mods:title</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-        </children>
-      </element>
-      <element name="contributors">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Contributor(s)</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <after_build>
-                <index key="0">utailla_convert_hidden_nameparts_to_autocomplete</index>
-              </after_build>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <element_validate>
-                <index key="0">utailla_association_contributor_validate</index>
-              </element_validate>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>element</type>
-                  <prefix>NULL</prefix>
-                  <value>name</value>
-                </create>
-                <read>
-                  <path>mods:name</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </delete>
-              </actions>
-            </properties>
-            <children>
-              <element name="name_type">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <default_value>personal</default_value>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Type</title>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>type</value>
-                    </create>
-                    <read>
-                      <path>@type</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="authority">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <default_value>aillaPerson</default_value>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>authority</value>
-                    </create>
-                    <read>
-                      <path>@authority</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="namepart_autocomplete">
-                <properties>
-                  <type>textfield</type>
-                  <access>TRUE</access>
-                  <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Name</title>
-                  <tree>TRUE</tree>
-                </properties>
-                <children/>
-              </element>
-              <element name="roles">
-                <properties>
-                  <type>tabs</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Roles</title>
-                  <tree>TRUE</tree>
-                </properties>
-                <children>
-                  <element name="0">
-                    <properties>
-                      <type>tabpanel</type>
-                      <access>TRUE</access>
-                      <collapsed>FALSE</collapsed>
-                      <collapsible>FALSE</collapsible>
-                      <disabled>FALSE</disabled>
-                      <executes_submit_callback>FALSE</executes_submit_callback>
-                      <multiple>FALSE</multiple>
-                      <required>FALSE</required>
-                      <resizable>FALSE</resizable>
-                      <tree>TRUE</tree>
-                    </properties>
-                    <children>
-                      <element name="role">
-                        <properties>
-                          <type>select</type>
-                          <access>TRUE</access>
-                          <collapsed>FALSE</collapsed>
-                          <collapsible>FALSE</collapsible>
-                          <disabled>FALSE</disabled>
-                          <element_validate>
-                            <index key="0">utailla_update_hidden_selects_on_validate</index>
-                          </element_validate>
-                          <executes_submit_callback>FALSE</executes_submit_callback>
-                          <multiple>FALSE</multiple>
-                          <options>
-                            <index key="0">Actor, performer/Actor, Actriz</index>
-                            <index key="1">Analyst/Analista</index>
-                            <index key="2">Annotator/Anotador</index>
-                            <index key="3">Author/Autor</index>
-                            <index key="4">Compiler/Recopilador</index>
-                            <index key="5">Consultant/Consultante</index>
-                            <index key="6">Contributor/Contribuidor</index>
-                            <index key="7">Creator/Creador</index>
-                            <index key="8">Data technician, keyboarder/T&#xE9;cnico de datos</index>
-                            <index key="9">Digitizer/Digitalizador</index>
-                            <index key="10">Editor/Editor</index>
-                            <index key="11">Illustrator/Ilustrador</index>
-                            <index key="12">Interlocutor/Interlocutor</index>
-                            <index key="13">Interpreter/Int&#xE9;rprete</index>
-                            <index key="14">Interviewer/Entrevistador</index>
-                            <index key="15">Photographer/Fot&#xF3;grafo</index>
-                            <index key="16">Publisher/Publicador</index>
-                            <index key="17">Recorder/Grabador</index>
-                            <index key="18">Research participant/Participante de investigaci&#xF3;n</index>
-                            <index key="19">Researcher/Investigador</index>
-                            <index key="20">Responder/Contestador</index>
-                            <index key="21">Sign language signer/Se&#xF1;alador de lenguaje de se&#xF1;as</index>
-                            <index key="22">Signatory/Firmante</index>
-                            <index key="23">Singer/Cantante</index>
-                            <index key="24">Speaker/Hablante</index>
-                            <index key="25">Sponsor/Patrocinador</index>
-                            <index key="26">Transcriber/Transcritor</index>
-                            <index key="27">Translator/Traductor</index>
-                            <index key="28">Videographer/Camar&#xF3;grafo</index>
-                          </options>
-                          <required>FALSE</required>
-                          <resizable>FALSE</resizable>
-                          <title>Roles/Papeles</title>
-                          <tree>TRUE</tree>
-                          <user_data>
-                            <index key="0">eng_role</index>
-                            <index key="1">spa_role</index>
-                          </user_data>
-                        </properties>
-                        <children/>
-                      </element>
-                      <element name="eng_role">
-                        <properties>
-                          <type>hidden</type>
-                          <access>TRUE</access>
-                          <collapsed>FALSE</collapsed>
-                          <collapsible>FALSE</collapsible>
-                          <default_value>Contributor</default_value>
-                          <disabled>FALSE</disabled>
-                          <executes_submit_callback>FALSE</executes_submit_callback>
-                          <multiple>FALSE</multiple>
-                          <options>
-                            <index key="Actor, performer">Actor, performer</index>
-                            <Analyst>Analyst</Analyst>
-                            <Annotator>Annotator</Annotator>
-                            <Author>Author</Author>
-                            <Compiler>Compiler</Compiler>
-                            <Consultant>Consultant</Consultant>
-                            <Contributor>Contributor</Contributor>
-                            <Creator>Creator</Creator>
-                            <index key="Data technician, keyboarder">Data technician, keyboarder</index>
-                            <Digitizer>Digitizer</Digitizer>
-                            <Editor>Editor</Editor>
-                            <Illustrator>Illustrator</Illustrator>
-                            <Interlocutor>Interlocutor</Interlocutor>
-                            <Interpreter>Interpreter</Interpreter>
-                            <Interviewer>Interviewer</Interviewer>
-                            <Photographer>Photographer</Photographer>
-                            <Publisher>Publisher</Publisher>
-                            <Recorder>Recorder</Recorder>
-                            <index key="Research participant">Research participant</index>
-                            <Researcher>Researcher</Researcher>
-                            <Responder>Responder</Responder>
-                            <index key="Sign language signer">Sign language signer</index>
-                            <Signatory>Signatory</Signatory>
-                            <Singer>Singer</Singer>
-                            <Speaker>Speaker</Speaker>
-                            <Sponsor>Sponsor</Sponsor>
-                            <Transcriber>Transcriber</Transcriber>
-                            <Translator>Translator</Translator>
-                            <Videographer>Videographer</Videographer>
-                          </options>
-                          <required>FALSE</required>
-                          <resizable>FALSE</resizable>
-                          <title>Contributor Role English</title>
-                          <tree>TRUE</tree>
-                          <actions>
-                            <create>
-                              <path>self::node()</path>
-                              <context>parent</context>
-                              <schema/>
-                              <type>xml</type>
-                              <prefix>NULL</prefix>
-                              <value>&lt;role&gt;&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;&lt;/role&gt;</value>
-                            </create>
-                            <read>
-                              <path>mods:role/mods:roleTerm[@type="text" and @lang="eng"]</path>
-                              <context>parent</context>
-                            </read>
-                            <update>
-                              <path>self::node()</path>
-                              <context>self</context>
-                            </update>
-                            <delete>NULL</delete>
-                          </actions>
-                        </properties>
-                        <children/>
-                      </element>
-                      <element name="spa_role">
-                        <properties>
-                          <type>hidden</type>
-                          <access>TRUE</access>
-                          <collapsed>FALSE</collapsed>
-                          <collapsible>FALSE</collapsible>
-                          <default_value>Contribuidor</default_value>
-                          <disabled>FALSE</disabled>
-                          <executes_submit_callback>FALSE</executes_submit_callback>
-                          <multiple>FALSE</multiple>
-                          <options>
-                            <index key="Actor, Actriz">Actor, Actriz</index>
-                            <Analista>Analista</Analista>
-                            <Anotador>Anotador</Anotador>
-                            <Autor>Autor</Autor>
-                            <Recopilador>Recopilador</Recopilador>
-                            <Consultante>Consultante</Consultante>
-                            <Contribuidor>Contribuidor</Contribuidor>
-                            <Creador>Creador</Creador>
-                            <index key="T&#xE9;cnico de datos">T&#xE9;cnico de datos</index>
-                            <Digitalizador>Digitalizador</Digitalizador>
-                            <Editor>Editor</Editor>
-                            <Ilustrador>Ilustrador</Ilustrador>
-                            <Interlocutor>Interlocutor</Interlocutor>
-                            <index key="Int&#xE9;rprete">Int&#xE9;rprete</index>
-                            <Entrevistador>Entrevistador</Entrevistador>
-                            <index key="Fot&#xF3;grafo">Fot&#xF3;grafo</index>
-                            <Publicador>Publicador</Publicador>
-                            <Grabador>Grabador</Grabador>
-                            <index key="Participante de investigaci&#xF3;n">Participante de investigaci&#xF3;n</index>
-                            <Investigador>Investigador</Investigador>
-                            <Contestador>Contestador</Contestador>
-                            <index key="Se&#xF1;alador de lenguaje de se&#xF1;as">Se&#xF1;alador de lenguaje de se&#xF1;as</index>
-                            <Firmante>Firmante</Firmante>
-                            <Cantante>Cantante</Cantante>
-                            <Hablante>Hablante</Hablante>
-                            <Patrocinador>Patrocinador</Patrocinador>
-                            <Transcritor>Transcritor</Transcritor>
-                            <Traductor>Traductor</Traductor>
-                            <index key="Camar&#xF3;grafo">Camar&#xF3;grafo</index>
-                          </options>
-                          <required>FALSE</required>
-                          <resizable>FALSE</resizable>
-                          <title>Contributor Role Spanish</title>
-                          <tree>TRUE</tree>
-                          <actions>
-                            <create>
-                              <path>self::node()</path>
-                              <context>parent</context>
-                              <schema/>
-                              <type>xml</type>
-                              <prefix>NULL</prefix>
-                              <value>&lt;role&gt;&lt;roleTerm type="text" lang="spa" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;&lt;/role&gt;</value>
-                            </create>
-                            <read>
-                              <path>mods:role/mods:roleTerm[@type="text" and @lang="spa"]</path>
-                              <context>parent</context>
-                            </read>
-                            <update>
-                              <path>self::node()</path>
-                              <context>self</context>
-                            </update>
-                            <delete>NULL</delete>
-                          </actions>
-                        </properties>
-                        <children/>
-                      </element>
-                    </children>
-                  </element>
-                </children>
-              </element>
-              <element name="contributor_pid">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>valueURI</value>
-                    </create>
-                    <read>
-                      <path>@valueURI</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="display_label">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>displayLabel</value>
-                    </create>
-                    <read>
-                      <path>@displayLabel</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="languages_uri">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Subject Languages</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <after_build>
-                <index key="0">utailla_convert_language_pid_to_title</index>
-              </after_build>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <user_data>
-                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"</islandora_authority_fq>
-                <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
-              </user_data>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;language&gt;&lt;languageTerm type="text" authority="aillaLanguage"&gt;&lt;/languageTerm&gt;&lt;/language&gt;</value>
-                </create>
-                <read>
-                  <path>mods:language/mods:languageTerm[@type="text"][@authority="aillaLanguage"]</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </delete>
-              </actions>
-            </properties>
-            <children>
-              <element name="language_pid">
-                <properties>
-                  <type>islandora_authority_hidden</type>
-                  <access>TRUE</access>
-                  <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <element_validate>
-                    <index key="0">utailla_collection_build_uri_on_validate</index>
-                  </element_validate>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
-                  </user_data>
-                  <actions>
-                    <create>
-                      <path>mods:languageTerm</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>valueURI</value>
-                    </create>
-                    <read>
-                      <path>@valueURI</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="language">
-                <properties>
-                  <type>islandora_authority_textfield</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Language</title>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                    <islandora_authority_mapping>!language</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                  </user_data>
-                </properties>
-                <children/>
-              </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="countries_uri">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Countries</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <after_build>
-                <index key="0">utailla_convert_country_pid_to_title</index>
-              </after_build>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <user_data>
-                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
-                <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
-              </user_data>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" authority="aillaCountry" displayLabel="Country"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
-                </create>
-                <read>
-                  <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@authority="aillaCountry"][@displayLabel="Country"]</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>
-                  <path>self::node()/../..</path>
-                  <context>self</context>
-                </delete>
-              </actions>
-            </properties>
-            <children>
-              <element name="country_pid">
-                <properties>
-                  <type>islandora_authority_hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <element_validate>
-                    <index key="0">utailla_collection_build_uri_on_validate</index>
-                  </element_validate>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
-                  </user_data>
-                  <actions>
-                    <create>
-                      <path>mods:place/mods:placeTerm</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>valueURI</value>
-                    </create>
-                    <read>
-                      <path>@valueURI</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="country_name">
-                <properties>
-                  <type>islandora_authority_textfield</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Country</title>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                    <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                    <islandora_authority_mapping>!country</islandora_authority_mapping>
-                  </user_data>
-                </properties>
-                <children/>
-              </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="descriptionEnglish">
-        <properties>
-          <type>textarea</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Description [English]</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;abstract lang="eng" displayLabel="Resource description (English)"&gt;%value%&lt;/abstract&gt;</value>
-            </create>
-            <read>
-              <path>mods:abstract[@lang="eng"][@displayLabel="Resource description (English)"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="descriptionSpanish">
-        <properties>
-          <type>textarea</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Description [Spanish]</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;abstract lang="spa" displayLabel="Resource description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
-            </create>
-            <read>
-              <path>mods:abstract[@lang="spa"][@displayLabel="Resource description (Spanish)"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="descriptionIndigenous">
-        <properties>
-          <type>fieldset</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Description [Indigenous]</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;abstract displayLabel="Resource description (Indigenous language)"&gt;&lt;/abstract&gt;</value>
-            </create>
-            <read>
-              <path>mods:abstract[@displayLabel="Resource description (Indigenous language)"]</path>
-              <context>parent</context>
-            </read>
-            <update>NULL</update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children>
-          <element name="description">
-            <properties>
-              <type>textarea</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Description</title>
-              <tree>TRUE</tree>
-              <actions>
+            <type>form</type>
+            <access>TRUE</access>
+            <collapsed>FALSE</collapsed>
+            <collapsible>FALSE</collapsible>
+            <disabled>FALSE</disabled>
+            <executes_submit_callback>FALSE</executes_submit_callback>
+            <multiple>FALSE</multiple>
+            <required>FALSE</required>
+            <resizable>FALSE</resizable>
+            <tree>TRUE</tree>
+            <actions>
                 <create>NULL</create>
                 <read>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-          <element name="language">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Language</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>attribute</type>
-                  <prefix>NULL</prefix>
-                  <value>lang</value>
-                </create>
-                <read>
-                  <path>@lang</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-        </children>
-      </element>
-      <element name="collections">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Collections</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <user_data>
-                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/islandora:collectionCModel"</islandora_authority_fq>
-                <islandora_authority_t_pattern>!collection</islandora_authority_t_pattern>
-              </user_data>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;relatedItem type='host'&gt;&lt;titleInfo displayLabel='Collection name'&gt;&lt;/titleInfo&gt;&lt;/relatedItem&gt;</value>
-                </create>
-                <read>
-                  <path>mods:relatedItem[@type='host']/mods:titleInfo[@displayLabel='Collection name']</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </delete>
-              </actions>
-            </properties>
-            <children>
-              <element name="collection_name">
-                <properties>
-                  <type>islandora_authority_textfield</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Collection Name</title>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
-                    <islandora_authority_mapping>!collection</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
-                  </user_data>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>xml</type>
-                      <prefix>NULL</prefix>
-                      <value>&lt;title authority="aillaCollection"&gt;%value%&lt;/title&gt;</value>
-                    </create>
-                    <read>
-                      <path>mods:title</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="collection_pid">
-                <properties>
-                  <type>islandora_authority_hidden</type>
-                  <access>TRUE</access>
-                  <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <element_validate>
-                    <index key="0">utailla_collection_build_uri_on_validate</index>
-                  </element_validate>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <islandora_authority_mapping>!pid</islandora_authority_mapping>
-                    <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
-                  </user_data>
-                  <actions>
-                    <create>
-                      <path>self::node()/mods:title</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>attribute</type>
-                      <prefix>NULL</prefix>
-                      <value>valueURI</value>
-                    </create>
-                    <read>
-                      <path>mods:title[@valueURI]</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="language_community">
-        <properties>
-          <type>textfield</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Language Community</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;note type='language community'&gt;%value%&lt;/note&gt;</value>
-            </create>
-            <read>
-              <path>mods:note[@type='language community']</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="source_note">
-        <properties>
-          <type>textfield</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Source note</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;note type="source note"&gt;%value%&lt;/note&gt;</value>
-            </create>
-            <read>
-              <path>mods:note[@type="source note"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="place">
-        <properties>
-          <type>textfield</type>
-          <access>TRUE</access>
-          <after_build>
-            <index key="0">utailla_convert_country_pid_to_title</index>
-          </after_build>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Place created</title>
-          <tree>TRUE</tree>
-          <user_data>
-            <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
-            <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
-          </user_data>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" displayLabel="Place created"&gt;%value%&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
-            </create>
-            <read>
-              <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@displayLabel="Place created"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="date_created">
-        <properties>
-          <type>textfield</type>
-          <access>TRUE</access>
-          <after_build>
-            <index key="0">utailla_convert_country_pid_to_title</index>
-          </after_build>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Date created</title>
-          <tree>TRUE</tree>
-          <user_data>
-            <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
-            <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
-          </user_data>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
-            </create>
-            <read>
-              <path>mods:originInfo[@eventType='production']/mods:dateCreated</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="genres">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Genres</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-            </properties>
-            <children>
-              <element name="genre">
-                <properties>
-                  <type>select</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <element_validate>
-                    <index key="0">utailla_update_hidden_selects_on_validate</index>
-                  </element_validate>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <options>
-                    <index key="0">Article/Artículo</index>
-                    <index key="1">Book/Libro</index>
-                    <index key="2">Ceremonial dialog/Diálogo ceremonial</index>
-                    <index key="3">Ceremony/Ceremonia</index>
-                    <index key="4">Chant/Canto</index>
-                    <index key="5">Commentary/Comentario</index>
-                    <index key="6">Conversation/Conversación</index>
-                    <index key="7">Correspondence/Correo, correspondencia</index>
-                    <index key="8">Curse/Maldición</index>
-                    <index key="9">Dataset/Juego, conjunto de datos</index>
-                    <index key="10">Debate/Debate</index>
-                    <index key="11">Description/Descripción</index>
-                    <index key="12">Dispute/Dispute</index>
-                    <index key="13">Document/Documento</index>
-                    <index key="14">Drama/Drama</index>
-                    <index key="15">Educational material/ Material educativo, didáctico</index>
-                    <index key="16">Elicitation/Elicitación</index>
-                    <index key="17">Ethnography/Etnografía</index>
-                    <index key="18">Field notes/Notas de campo</index>
-                    <index key="19">Grammar/Gramática</index>
-                    <index key="20">Grammar sketch/Esboza de gramática</index>
-                    <index key="21">Greeting &amp; leave-taking/Saludos y despedidas</index>
-                    <index key="22">Handout/Guía, volante</index>
-                    <index key="23">History/Historia</index>
-                    <index key="24">Image/Imagen</index>
-                    <index key="25">Instructions/Instrucciones</index>
-                    <index key="26">Instrumental music/Música instrumental</index>
-                    <index key="27">Interview/Entrevista</index>
-                    <index key="28">Lexicon/Léxico</index>
-                    <index key="29">Map/Mapa</index>
-                    <index key="30">Meeting/Reunión</index>
-                    <index key="31">Myth/Mito</index>
-                    <index key="32">Narrative/Narrativa</index>
-                    <index key="33">Oratory/Oratoria</index>
-                    <index key="34">Permissions/Permisos</index>
-                    <index key="35">Photograph/Fotografía</index>
-                    <index key="36">Poetry/Poesía</index>
-                    <index key="37">Prayer/Rezos, oraciones</index>
-                    <index key="38">Presentation/Ponencia</index>
-                    <index key="39">Procedure/Procedimiento</index>
-                    <index key="40">Proverb/Refrán, proverbio</index>
-                    <index key="41">Questionnaire/Cuestionario</index>
-                    <index key="42">Reader/Lectura</index>
-                    <index key="43">Recipe/Receta</index>
-                    <index key="44">Ritual song/Canción Ritual</index>
-                    <index key="45">Song/Canción</index>
-                    <index key="46">Speech play/Juego de palabras</index>
-                    <index key="47">Testimony/Testimonio</index>
-                    <index key="48">Thesis/Tesis</index>
-                    <index key="49">Unintelligible speech/Habla no inteligible</index>
-                    <index key="50">Whistled speech/Habla silbada</index>
-                    <index key="51">Wordlist/Lista de palabras</index>
-                  </options>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Genres/Géneros</title>
-                  <tree>TRUE</tree>
-                  <user_data>
-                    <index key="0">eng_genre</index>
-                    <index key="1">spa_genre</index>
-                  </user_data>
-                </properties>
-                <children/>
-              </element>
-              <element name="eng_genre">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <default_value>Article</default_value>
-                  <options>
-                    <index key="Article">Article</index>
-                    <index key="Book">Book</index>
-                    <index key="Ceremonial dialog">Ceremonial dialog</index>
-                    <index key="Ceremony">Ceremony</index>
-                    <index key="Chant">Chant</index>
-                    <index key="Commentary">Commentary</index>
-                    <index key="Conversation">Conversation</index>
-                    <index key="Correspondence">Correspondence</index>
-                    <index key="Curse">Curse</index>
-                    <index key="Dataset">Dataset</index>
-                    <index key="Debate">Debate</index>
-                    <index key="Description">Description</index>
-                    <index key="Dispute">Dispute</index>
-                    <index key="Document">Document</index>
-                    <index key="Drama">Drama</index>
-                    <index key="Educational material">Educational material</index>
-                    <index key="Elicitation">Elicitation</index>
-                    <index key="Ethnography">Ethnography</index>
-                    <index key="Field notes">Field notes</index>
-                    <index key="Grammar">Grammar</index>
-                    <index key="Grammar sketch">Grammar sketch</index>
-                    <index key="Greeting &amp; leave-taking">Greeting &amp; leave-taking</index>
-                    <index key="Handout">Handout</index>
-                    <index key="History">History</index>
-                    <index key="Image">Image</index>
-                    <index key="Instructions">Instructions</index>
-                    <index key="Instrumental music">Instrumental music</index>
-                    <index key="Interview">Interview</index>
-                    <index key="Lexicon">Lexicon</index>
-                    <index key="Map">Map</index>
-                    <index key="Meeting">Meeting</index>
-                    <index key="Myth">Myth</index>
-                    <index key="Narrative">Narrative</index>
-                    <index key="Oratory">Oratory</index>
-                    <index key="Permissions">Permissions</index>
-                    <index key="Photograph">Photograph</index>
-                    <index key="Poetry">Poetry</index>
-                    <index key="Prayer">Prayer</index>
-                    <index key="Presentation">Presentation</index>
-                    <index key="Procedure">Procedure</index>
-                    <index key="Proverb">Proverb</index>
-                    <index key="Questionnaire">Questionnaire</index>
-                    <index key="Reader">Reader</index>
-                    <index key="Recipe">Recipe</index>
-                    <index key="Ritual song">Ritual song</index>
-                    <index key="Song">Song</index>
-                    <index key="Speech play">Speech play</index>
-                    <index key="Testimony">Testimony</index>
-                    <index key="Thesis">Thesis</index>
-                    <index key="Unintelligible speech">Unintelligible speech</index>
-                    <index key="Whistled speech">Whistled speech</index>
-                    <index key="Wordlist">Wordlist</index>
-                  </options>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Genre English</title>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>xml</type>
-                      <prefix>NULL</prefix>
-                      <value>&lt;genre type="local" authority="aillaResourceGenres" lang="eng"&gt;%value%&lt;/genre&gt;</value>
-                    </create>
-                    <read>
-                      <path>mods:genre[@type="local" and @lang="eng"]</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-              <element name="spa_genre">
-                <properties>
-                  <type>hidden</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <default_value>Artículo</default_value>
-                  <options>
-                    <index key="Artículo">Artículo</index>
-                    <index key="Libro">Libro</index>
-                    <index key="Diálogo ceremonial">Diálogo ceremonial</index>
-                    <index key="Ceremonia">Ceremonia</index>
-                    <index key="Canto">Canto</index>
-                    <index key="Comentario">Comentario</index>
-                    <index key="Conversación">Conversación</index>
-                    <index key="Correo, correspondencia">Correo, correspondencia</index>
-                    <index key="Maldición">Maldición</index>
-                    <index key="Juego, conjunto de datos">Juego, conjunto de datos</index>
-                    <index key="Debate">Debate</index>
-                    <index key="Descripción">Descripción</index>
-                    <index key="Dispute">Dispute</index>
-                    <index key="Documento">Documento</index>
-                    <index key="Drama">Drama</index>
-                    <index key="Material educativo, didáctico">Material educativo, didáctico</index>
-                    <index key="Elicitación">Elicitación</index>
-                    <index key="Etnografía">Etnografía</index>
-                    <index key="Notas de campo">Notas de campo</index>
-                    <index key="Gramática">Gramática</index>
-                    <index key="Esboza de gramática">Esboza de gramática</index>
-                    <index key="Saludos y despedidas">Saludos y despedidas</index>
-                    <index key="Guía, volante">Guía, volante</index>
-                    <index key="Historia">Historia</index>
-                    <index key="Imagen">Imagen</index>
-                    <index key="Instrucciones">Instrucciones</index>
-                    <index key="Música instrumental">Música instrumental</index>
-                    <index key="Entrevista">Entrevista</index>
-                    <index key="Léxico">Léxico</index>
-                    <index key="Mapa">Mapa</index>
-                    <index key="Reunión">Reunión</index>
-                    <index key="Mito">Mito</index>
-                    <index key="Narrativa">Narrativa</index>
-                    <index key="Oratoria">Oratoria</index>
-                    <index key="Permisos">Permisos</index>
-                    <index key="Fotografía">Fotografía</index>
-                    <index key="Poesía">Poesía</index>
-                    <index key="Rezos, oraciones">Rezos, oraciones</index>
-                    <index key="Ponencia">Ponencia</index>
-                    <index key="Procedimiento">Procedimiento</index>
-                    <index key="Refrán, proverbio">Refrán, proverbio</index>
-                    <index key="Cuestionario">Cuestionario</index>
-                    <index key="Lectura">Lectura</index>
-                    <index key="Receta">Receta</index>
-                    <index key="Canción Ritual">Canción Ritual</index>
-                    <index key="Canción">Canción</index>
-                    <index key="Juego de palabras">Juego de palabras</index>
-                    <index key="Testimonio">Testimonio</index>
-                    <index key="Tesis">Tesis</index>
-                    <index key="Habla no inteligible">Habla no inteligible</index>
-                    <index key="Habla silbada">Habla silbada</index>
-                    <index key="Lista de palabras">Lista de palabras</index>
-                  </options>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Genre Spanish</title>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                      <schema/>
-                      <type>xml</type>
-                      <prefix>NULL</prefix>
-                      <value>&lt;genre type="local" authority="aillaResourceGenres" lang="spa"&gt;%value%&lt;/genre&gt;</value>
-                    </create>
-                    <read>
-                      <path>mods:genre[@type="local" and @lang="spa"]</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>NULL</delete>
-                  </actions>
-                </properties>
-                <children/>
-              </element>
-            </children>
-          </element>
-        </children>
-      </element>
-      <element name="references_tabs">
-        <properties>
-          <type>tabs</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>References</title>
-          <tree>TRUE</tree>
-        </properties>
-        <children>
-          <element name="0">
-            <properties>
-              <type>tabpanel</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <tree>TRUE</tree>
-              <actions>
-                <create>NULL</create>
-                <read>
-                  <path>mods:note[@type="citation/reference"]</path>
-                  <context>parent</context>
+                    <path>//mods:mods[1]</path>
+                    <context>document</context>
                 </read>
                 <update>NULL</update>
                 <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children>
-              <element name="references">
+            </actions>
+        </properties>
+        <children>
+            <element name="titleInfoIndigenous">
                 <properties>
-                  <type>textfield</type>
-                  <access>TRUE</access>
-                  <collapsed>FALSE</collapsed>
-                  <collapsible>FALSE</collapsible>
-                  <disabled>FALSE</disabled>
-                  <executes_submit_callback>FALSE</executes_submit_callback>
-                  <multiple>FALSE</multiple>
-                  <required>FALSE</required>
-                  <resizable>FALSE</resizable>
-                  <title>Reference</title>
-                  <tree>TRUE</tree>
-                  <actions>
-                    <create>
-                      <path>self::node()</path>
-                      <context>document</context>
-                      <schema/>
-                      <type>xml</type>
-                      <prefix>NULL</prefix>
-                      <value>&lt;note type="citation/reference"&gt;%value%&lt;/note&gt;</value>
-                    </create>
-                    <read>
-                      <path>self::node()</path>
-                      <context>parent</context>
-                    </read>
-                    <update>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </update>
-                    <delete>
-                      <path>self::node()</path>
-                      <context>self</context>
-                    </delete>
-                  </actions>
+                    <type>fieldset</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Title [Indigenous]</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;titleInfo type="alternative" displayLabel="Title (Indigenous language)" /&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:titleInfo[@type="alternative"][@displayLabel="Title (Indigenous language)"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children>
+                    <element name="title">
+                        <properties>
+                            <type>textfield</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Title</title>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>element</type>
+                                    <prefix>NULL</prefix>
+                                    <value>title</value>
+                                </create>
+                                <read>
+                                    <path>mods:title</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                    <element name="language">
+                        <properties>
+                            <type>textfield</type>
+                            <access>TRUE</access>
+                            <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_validate_language_code</index>
+                            </element_validate>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Language</title>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>attribute</type>
+                                    <prefix>NULL</prefix>
+                                    <value>lang</value>
+                                </create>
+                                <read>
+                                    <path>@lang</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                </children>
+            </element>
+            <element name="titleInfoEnglish">
+                <properties>
+                    <type>markup</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;titleInfo lang="eng" /&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:titleInfo[@lang="eng"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children>
+                    <element name="title">
+                        <properties>
+                            <type>textfield</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>TRUE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Title [English]</title>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>element</type>
+                                    <prefix>NULL</prefix>
+                                    <value>title</value>
+                                </create>
+                                <read>
+                                    <path>mods:title</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                </children>
+            </element>
+            <element name="titleInfoSpanish">
+                <properties>
+                    <type>markup</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;titleInfo lang="spa" /&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:titleInfo[@lang="spa"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children>
+                    <element name="title">
+                        <properties>
+                            <type>textfield</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Title [Spanish]</title>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>element</type>
+                                    <prefix>NULL</prefix>
+                                    <value>title</value>
+                                </create>
+                                <read>
+                                    <path>mods:title</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                </children>
+            </element>
+            <element name="contributors">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Contributor(s)</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_hidden_nameparts_to_autocomplete</index>
+                            </after_build>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_association_contributor_validate</index>
+                            </element_validate>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>element</type>
+                                    <prefix>NULL</prefix>
+                                    <value>name</value>
+                                </create>
+                                <read>
+                                    <path>mods:name</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="name_type">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <default_value>personal</default_value>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Type</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>type</value>
+                                        </create>
+                                        <read>
+                                            <path>@type</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="authority">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <default_value>aillaPerson</default_value>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>authority</value>
+                                        </create>
+                                        <read>
+                                            <path>@authority</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="namepart_autocomplete">
+                                <properties>
+                                    <type>textfield</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Name</title>
+                                    <tree>TRUE</tree>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="roles">
+                                <properties>
+                                    <type>tabs</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Roles</title>
+                                    <tree>TRUE</tree>
+                                </properties>
+                                <children>
+                                    <element name="0">
+                                        <properties>
+                                            <type>tabpanel</type>
+                                            <access>TRUE</access>
+                                            <collapsed>FALSE</collapsed>
+                                            <collapsible>FALSE</collapsible>
+                                            <disabled>FALSE</disabled>
+                                            <executes_submit_callback>FALSE</executes_submit_callback>
+                                            <multiple>FALSE</multiple>
+                                            <required>FALSE</required>
+                                            <resizable>FALSE</resizable>
+                                            <tree>TRUE</tree>
+                                            <actions>
+                                                <create>
+                                                    <path>self::node()</path>
+                                                    <context>parent</context>
+                                                    <schema/>
+                                                    <type>element</type>
+                                                    <prefix>NULL</prefix>
+                                                    <value>role</value>
+                                                </create>
+                                                <read>
+                                                    <path>mods:role[mods:roleTerm[@type="text" and @lang="eng" and @authority="aillaRoleTerms"]]</path>
+                                                    <context>parent</context>
+                                                </read>
+                                                <update>NULL</update>
+                                                <delete>
+                                                    <path>self::node()</path>
+                                                    <context>self</context>
+                                                </delete>
+                                            </actions>
+                                        </properties>
+                                        <children>
+                                            <element name="role">
+                                                <properties>
+                                                    <type>select</type>
+                                                    <access>TRUE</access>
+                                                    <collapsed>FALSE</collapsed>
+                                                    <collapsible>FALSE</collapsible>
+                                                    <disabled>FALSE</disabled>
+                                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                                    <multiple>FALSE</multiple>
+                                                    <options>
+                                                        <index key="Actor, performer">Actor, performer/Actor, Actriz</index>
+                                                        <Analyst>Analyst/Analista</Analyst>
+                                                        <Annotator>Annotator/Anotador</Annotator>
+                                                        <Author>Author/Autor</Author>
+                                                        <Compiler>Compiler/Recopilador</Compiler>
+                                                        <Consultant>Consultant/Consultante</Consultant>
+                                                        <Contributor>Contributor/Contribuidor</Contributor>
+                                                        <Creator>Creator/Creador</Creator>
+                                                        <index key="Data technician, keyboarder">Data technician, keyboarder/T&#xE9;cnico de datos</index>
+                                                        <Digitizer>Digitizer/Digitalizador</Digitizer>
+                                                        <Editor>Editor/Editor</Editor>
+                                                        <Illustrator>Illustrator/Ilustrador</Illustrator>
+                                                        <Interlocutor>Interlocutor/Interlocutor</Interlocutor>
+                                                        <Interpreter>Interpreter/Int&#xE9;rprete</Interpreter>
+                                                        <Interviewer>Interviewer/Entrevistador</Interviewer>
+                                                        <Photographer>Photographer/Fot&#xF3;grafo</Photographer>
+                                                        <Publisher>Publisher/Publicador</Publisher>
+                                                        <Recorder>Recorder/Grabador</Recorder>
+                                                        <index key="Research participant">Research participant/Participante de investigaci&#xF3;n</index>
+                                                        <Researcher>Researcher/Investigador</Researcher>
+                                                        <Responder>Responder/Contestador</Responder>
+                                                        <index key="Sign language signer">Sign language signer/Se&#xF1;alador de lenguaje de se&#xF1;as</index>
+                                                        <Signatory>Signatory/Firmante</Signatory>
+                                                        <Singer>Singer/Cantante</Singer>
+                                                        <Speaker>Speaker/Hablante</Speaker>
+                                                        <Sponsor>Sponsor/Patrocinador</Sponsor>
+                                                        <Transcriber>Transcriber/Transcritor</Transcriber>
+                                                        <Translator>Translator/Traductor</Translator>
+                                                        <Videographer>Videographer/Camar&#xF3;grafo</Videographer>
+                                                    </options>
+                                                    <required>FALSE</required>
+                                                    <resizable>FALSE</resizable>
+                                                    <title>Roles/Papeles</title>
+                                                    <tree>TRUE</tree>
+                                                    <actions>
+                                                        <create>
+                                                            <path>self::node()</path>
+                                                            <context>parent</context>
+                                                            <schema/>
+                                                            <type>xml</type>
+                                                            <prefix>NULL</prefix>
+                                                            <value>&lt;roleTerm type="text" lang="eng" authority="aillaRoleTerms"&gt;%value%&lt;/roleTerm&gt;</value>
+                                                        </create>
+                                                        <read>
+                                                            <path>mods:roleTerm[@type="text" and @lang="eng" and @authority="aillaRoleTerms"]</path>
+                                                            <context>parent</context>
+                                                        </read>
+                                                        <update>
+                                                            <path>self::node()</path>
+                                                            <context>self</context>
+                                                        </update>
+                                                        <delete>NULL</delete>
+                                                    </actions>
+                                                </properties>
+                                                <children/>
+                                            </element>
+                                        </children>
+                                    </element>
+                                </children>
+                            </element>
+                            <element name="contributor_pid">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="display_label">
+                                <properties>
+                                    <type>hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>displayLabel</value>
+                                        </create>
+                                        <read>
+                                            <path>@displayLabel</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="languages_uri">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Subject Languages</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_language_pid_to_title</index>
+                            </after_build>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <user_data>
+                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:languageCModel"</islandora_authority_fq>
+                                <islandora_authority_t_pattern>!language</islandora_authority_t_pattern>
+                            </user_data>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;language&gt;&lt;languageTerm type="text" authority="aillaLanguage"&gt;&lt;/languageTerm&gt;&lt;/language&gt;</value>
+                                </create>
+                                <read>
+                                    <path>mods:language/mods:languageTerm[@type="text"][@authority="aillaLanguage"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="language_pid">
+                                <properties>
+                                    <type>islandora_authority_hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <element_validate>
+                                        <index key="0">utailla_collection_build_uri_on_validate</index>
+                                    </element_validate>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>mods:languageTerm</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="language">
+                                <properties>
+                                    <type>islandora_authority_textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Language</title>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                                        <islandora_authority_mapping>!language</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                                    </user_data>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="countries_uri">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Countries</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_country_pid_to_title</index>
+                            </after_build>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <user_data>
+                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
+                                <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
+                            </user_data>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" authority="aillaCountry" displayLabel="Country"&gt;&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
+                                </create>
+                                <read>
+                                    <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@authority="aillaCountry"][@displayLabel="Country"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()/../..</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="country_pid">
+                                <properties>
+                                    <type>islandora_authority_hidden</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <element_validate>
+                                        <index key="0">utailla_collection_build_uri_on_validate</index>
+                                    </element_validate>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>mods:place/mods:placeTerm</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="country_name">
+                                <properties>
+                                    <type>islandora_authority_textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Country</title>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                                        <islandora_authority_mapping>!country</islandora_authority_mapping>
+                                    </user_data>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="descriptionEnglish">
+                <properties>
+                    <type>textarea</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Description [English]</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;abstract lang="eng" displayLabel="Resource description (English)"&gt;%value%&lt;/abstract&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:abstract[@lang="eng"][@displayLabel="Resource description (English)"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
                 </properties>
                 <children/>
-              </element>
-            </children>
-          </element>
+            </element>
+            <element name="descriptionSpanish">
+                <properties>
+                    <type>textarea</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Description [Spanish]</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;abstract lang="spa" displayLabel="Resource description (Spanish)"&gt;%value%&lt;/abstract&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:abstract[@lang="spa"][@displayLabel="Resource description (Spanish)"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="descriptionIndigenous">
+                <properties>
+                    <type>fieldset</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Description [Indigenous]</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;abstract displayLabel="Resource description (Indigenous language)"&gt;&lt;/abstract&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:abstract[@displayLabel="Resource description (Indigenous language)"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>NULL</update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children>
+                    <element name="description">
+                        <properties>
+                            <type>textarea</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Description</title>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>NULL</create>
+                                <read>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                </update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                    <element name="language">
+                        <properties>
+                            <type>textfield</type>
+                            <access>TRUE</access>
+                            <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <element_validate>
+                                <index key="0">utailla_validate_language_code</index>
+                            </element_validate>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <title>Language</title>
+                            <tree>TRUE</tree>
+                            <user_data>
+                                <index key="0">description</index>
+                            </user_data>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>attribute</type>
+                                    <prefix>NULL</prefix>
+                                    <value>lang</value>
+                                </create>
+                                <read>
+                                    <path>@lang</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children/>
+                    </element>
+                </children>
+            </element>
+            <element name="collections">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Collections</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <after_build>
+                                <index key="0">utailla_convert_collection_pid_to_title</index>
+                            </after_build>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <user_data>
+                                <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/islandora:collectionCModel"</islandora_authority_fq>
+                                <islandora_authority_t_pattern>!collection</islandora_authority_t_pattern>
+                            </user_data>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;relatedItem type="host"&gt;&lt;titleInfo displayLabel='Collection name'/&gt;&lt;/relatedItem&gt;</value>
+                                </create>
+                                <read>
+                                    <path>mods:relatedItem[@type='host']/mods:titleInfo[@displayLabel='Collection name']</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="collection_pid">
+                                <properties>
+                                    <type>islandora_authority_hidden</type>
+                                    <access>TRUE</access>
+                                    <autocomplete_path>utailla/autocomplete/language</autocomplete_path>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <element_validate>
+                                        <index key="0">utailla_collection_build_uri_on_validate</index>
+                                    </element_validate>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_mapping>!pid</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>PID</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()/mods:titleInfo/mods:title</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>attribute</type>
+                                            <prefix>NULL</prefix>
+                                            <value>valueURI</value>
+                                        </create>
+                                        <read>
+                                            <path>mods:title/@valueURI</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                            <element name="collection_name">
+                                <properties>
+                                    <type>islandora_authority_textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Collection Name</title>
+                                    <tree>TRUE</tree>
+                                    <user_data>
+                                        <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
+                                        <islandora_authority_mapping>!collection</islandora_authority_mapping>
+                                        <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
+                                    </user_data>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()/mods:titleInfo</path>
+                                            <context>parent</context>
+                                            <schema/>
+                                            <type>xml</type>
+                                            <prefix>NULL</prefix>
+                                            <value>&lt;title authority="aillaCollection"/&gt;</value>
+                                        </create>
+                                        <read>NULL</read>
+                                        <update>NULL</update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="language_community">
+                <properties>
+                    <type>textfield</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Language Community</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;note type='language community'&gt;%value%&lt;/note&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:note[@type='language community']</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="source_note">
+                <properties>
+                    <type>textfield</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Source note</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;note type="source note"&gt;%value%&lt;/note&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:note[@type="source note"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="place">
+                <properties>
+                    <type>textfield</type>
+                    <access>TRUE</access>
+                    <after_build>
+                        <index key="0">utailla_convert_country_pid_to_title</index>
+                    </after_build>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Place created</title>
+                    <tree>TRUE</tree>
+                    <user_data>
+                        <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
+                        <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
+                    </user_data>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;originInfo eventType="production"&gt;&lt;place&gt;&lt;placeTerm type="text" displayLabel="Place created"&gt;%value%&lt;/placeTerm&gt;&lt;/place&gt;&lt;/originInfo&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:originInfo[@eventType='production']/mods:place/mods:placeTerm[@type="text"][@displayLabel="Place created"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="date_created">
+                <properties>
+                    <type>textfield</type>
+                    <access>TRUE</access>
+                    <after_build>
+                        <index key="0">utailla_convert_country_pid_to_title</index>
+                    </after_build>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Date created</title>
+                    <tree>TRUE</tree>
+                    <user_data>
+                        <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
+                        <islandora_authority_t_pattern>!country</islandora_authority_t_pattern>
+                    </user_data>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;originInfo eventType="production"&gt;&lt;dateCreated&gt;%value%&lt;/dateCreated&gt;&lt;/originInfo&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:originInfo[@eventType='production']/mods:dateCreated</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="typeOfResource">
+                <properties>
+                    <type>hidden</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <default_value>mixed material</default_value>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Type of Resource</title>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>element</type>
+                            <prefix>NULL</prefix>
+                            <value>typeOfResource</value>
+                        </create>
+                        <read>
+                            <path>mods:typeOfResource</path>
+                            <context>parent</context>
+                        </read>
+                        <update>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </update>
+                        <delete>
+                            <path>self::node()</path>
+                            <context>self</context>
+                        </delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
+            <element name="genres">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>Genres</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>
+                                    <path>self::node()</path>
+                                    <context>parent</context>
+                                    <schema/>
+                                    <type>xml</type>
+                                    <prefix>NULL</prefix>
+                                    <value>&lt;genre type="local" authority="aillaResourceGenres" lang="eng"/&gt;</value>
+                                </create>
+                                <read>
+                                    <path>mods:genre[@type="local" and @authority="aillaResourceGenres" and @lang="eng"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>NULL</update>
+                                <delete>
+                                    <path>self::node()</path>
+                                    <context>self</context>
+                                </delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="genre">
+                                <properties>
+                                    <type>select</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <options>
+                                        <Article>Article/Art&#xED;culo</Article>
+                                        <Book>Book/Libro</Book>
+                                        <index key="Ceremonial dialog">Ceremonial dialog/Di&#xE1;logo ceremonial</index>
+                                        <Ceremony>Ceremony/Ceremonia</Ceremony>
+                                        <Chant>Chant/Canto</Chant>
+                                        <Commentary>Commentary/Comentario</Commentary>
+                                        <Conversation>Conversation/Conversaci&#xF3;n</Conversation>
+                                        <Correspondence>Correspondence/Correo, correspondencia</Correspondence>
+                                        <Curse>Curse/Maldici&#xF3;n</Curse>
+                                        <Dataset>Dataset/Juego, conjunto de datos</Dataset>
+                                        <Debate>Debate/Debate</Debate>
+                                        <Description>Description/Descripci&#xF3;n</Description>
+                                        <Dispute>Dispute/Dispute</Dispute>
+                                        <Document>Document/Documento</Document>
+                                        <Drama>Drama/Drama</Drama>
+                                        <index key="Educational material">Educational material/ Material educativo, did&#xE1;ctico</index>
+                                        <Elicitation>Elicitation/Elicitaci&#xF3;n</Elicitation>
+                                        <Ethnography>Ethnography/Etnograf&#xED;a</Ethnography>
+                                        <index key="Field notes">Field notes/Notas de campo</index>
+                                        <Grammar>Grammar/Gram&#xE1;tica</Grammar>
+                                        <index key="Grammar sketch">Grammar sketch/Esboza de gram&#xE1;tica</index>
+                                        <index key="Greeting &amp; leave-taking">Greeting &amp; leave-taking/Saludos y despedidas</index>
+                                        <Handout>Handout/Gu&#xED;a, volante</Handout>
+                                        <History>History/Historia</History>
+                                        <Image>Image/Imagen</Image>
+                                        <Instructions>Instructions/Instrucciones</Instructions>
+                                        <index key="Instrumental music">Instrumental music/M&#xFA;sica instrumental</index>
+                                        <Interview>Interview/Entrevista</Interview>
+                                        <Lexicon>Lexicon/L&#xE9;xico</Lexicon>
+                                        <Map>Map/Mapa</Map>
+                                        <Meeeting>Meeting/Reuni&#xF3;n</Meeeting>
+                                        <Myth>Myth/Mito</Myth>
+                                        <Narrative>Narrative/Narrativa</Narrative>
+                                        <Oratory>Oratory/Oratoria</Oratory>
+                                        <Permissions>Permissions/Permisos</Permissions>
+                                        <Photograph>Photograph/Fotograf&#xED;a</Photograph>
+                                        <Poetry>Poetry/Poes&#xED;a</Poetry>
+                                        <Prayer>Prayer/Rezos, oraciones</Prayer>
+                                        <Presentation>Presentation/Ponencia</Presentation>
+                                        <Procedure>Procedure/Procedimiento</Procedure>
+                                        <Proverb>Proverb/Refr&#xE1;n, proverbio</Proverb>
+                                        <Questionnaire>Questionnaire/Cuestionario</Questionnaire>
+                                        <Reader>Reader/Lectura</Reader>
+                                        <Recipe>Recipe/Receta</Recipe>
+                                        <index key="Ritual song">Ritual song/Canci&#xF3;n Ritual</index>
+                                        <Song>Song/Canci&#xF3;n</Song>
+                                        <index key="Speech play">Speech play/Juego de palabras</index>
+                                        <Testimony>Testimony/Testimonio</Testimony>
+                                        <Thesis>Thesis/Tesis</Thesis>
+                                        <index key="Unintelligble speech">Unintelligible speech/Habla no inteligible</index>
+                                        <index key="Whistled speech">Whistled speech/Habla silbada</index>
+                                        <Wordlist>Wordlist/Lista de palabras</Wordlist>
+                                    </options>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Genres/G&#xE9;neros</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>NULL</create>
+                                        <read>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                        </update>
+                                        <delete>NULL</delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="references_tabs">
+                <properties>
+                    <type>tabs</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <title>References</title>
+                    <tree>TRUE</tree>
+                </properties>
+                <children>
+                    <element name="0">
+                        <properties>
+                            <type>tabpanel</type>
+                            <access>TRUE</access>
+                            <collapsed>FALSE</collapsed>
+                            <collapsible>FALSE</collapsible>
+                            <disabled>FALSE</disabled>
+                            <executes_submit_callback>FALSE</executes_submit_callback>
+                            <multiple>FALSE</multiple>
+                            <required>FALSE</required>
+                            <resizable>FALSE</resizable>
+                            <tree>TRUE</tree>
+                            <actions>
+                                <create>NULL</create>
+                                <read>
+                                    <path>mods:note[@type="citation/reference"]</path>
+                                    <context>parent</context>
+                                </read>
+                                <update>NULL</update>
+                                <delete>NULL</delete>
+                            </actions>
+                        </properties>
+                        <children>
+                            <element name="references">
+                                <properties>
+                                    <type>textfield</type>
+                                    <access>TRUE</access>
+                                    <collapsed>FALSE</collapsed>
+                                    <collapsible>FALSE</collapsible>
+                                    <disabled>FALSE</disabled>
+                                    <executes_submit_callback>FALSE</executes_submit_callback>
+                                    <multiple>FALSE</multiple>
+                                    <required>FALSE</required>
+                                    <resizable>FALSE</resizable>
+                                    <title>Reference</title>
+                                    <tree>TRUE</tree>
+                                    <actions>
+                                        <create>
+                                            <path>self::node()</path>
+                                            <context>document</context>
+                                            <schema/>
+                                            <type>xml</type>
+                                            <prefix>NULL</prefix>
+                                            <value>&lt;note type="citation/reference"&gt;%value%&lt;/note&gt;</value>
+                                        </create>
+                                        <read>
+                                            <path>self::node()</path>
+                                            <context>parent</context>
+                                        </read>
+                                        <update>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </update>
+                                        <delete>
+                                            <path>self::node()</path>
+                                            <context>self</context>
+                                        </delete>
+                                    </actions>
+                                </properties>
+                                <children/>
+                            </element>
+                        </children>
+                    </element>
+                </children>
+            </element>
+            <element name="identifier">
+                <properties>
+                    <type>hidden</type>
+                    <access>TRUE</access>
+                    <collapsed>FALSE</collapsed>
+                    <collapsible>FALSE</collapsible>
+                    <disabled>FALSE</disabled>
+                    <element_validate>
+                        <index key="0">utailla_update_identifier_with_uri_on_validate</index>
+                    </element_validate>
+                    <executes_submit_callback>FALSE</executes_submit_callback>
+                    <multiple>FALSE</multiple>
+                    <required>FALSE</required>
+                    <resizable>FALSE</resizable>
+                    <tree>TRUE</tree>
+                    <actions>
+                        <create>
+                            <path>self::node()</path>
+                            <context>parent</context>
+                            <schema/>
+                            <type>xml</type>
+                            <prefix>NULL</prefix>
+                            <value>&lt;identifier type="URI"&gt;%value%&lt;/identifier&gt;</value>
+                        </create>
+                        <read>
+                            <path>mods:identifier[@type="URI"]</path>
+                            <context>parent</context>
+                        </read>
+                        <update>NULL</update>
+                        <delete>NULL</delete>
+                    </actions>
+                </properties>
+                <children/>
+            </element>
         </children>
-      </element>
-      <element name="identifier">
-        <properties>
-          <type>hidden</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <element_validate>
-            <index key="0">utailla_update_identifier_with_uri_on_validate</index>
-          </element_validate>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;identifier type="URI"&gt;%value%&lt;/identifier&gt;</value>
-            </create>
-            <read>
-              <path>mods:identifier[@type="uri"]</path>
-              <context>parent</context>
-            </read>
-            <update>NULL</update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-    </children>
-  </form>
+    </form>
 </definition>
