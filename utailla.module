@@ -297,6 +297,7 @@ function utailla_islandora_xml_form_builder_form_associations() {
       'dsid' => 'MODS',
       'title_field' => array('titleInfoEnglish', 'title'),
       'transform' => 'mods_to_dc.xsl',
+      'self_transform' => 'utailla_resource_form_transform',
       'template' => FALSE,
     ),
     'ailla_contributor_form' => array(
@@ -707,7 +708,7 @@ function utailla_update_spanish_original_medium_on_validate($element, &$form_sta
  * Used by Ailla forms to populate the identifier with the URI.
  */
 function utailla_update_identifier_with_uri_on_validate($element, &$form_state) {
-  /*if (empty($element['#value'])) {
+  if (empty($element['#value'])) {
     // Object is contained in the islandora array on ingest, and in the build
     // info on modification.
     $object = reset($form_state['build_info']['args']);
@@ -719,7 +720,7 @@ function utailla_update_identifier_with_uri_on_validate($element, &$form_state) 
       $uri = utailla_get_uri_from_pid($object->id);
       form_set_value($element, $uri, $form_state);
     }
-  }*/
+  }
 }
 
 /**
@@ -1198,29 +1199,11 @@ function utailla_media_file_title_callback(AbstractObject $object) {
   return $titles[$object->id];
 }
 
-
 /**
- * Implements hook_form_form_alter().
+ * Implemenets hook_xml_form_builder_get_self_transforms().
  */
-function utailla_form_alter(&$form, $form_state, $form_id) {
-  /*// Add value callback on the ingest and edit forms.
-  $object = FALSE;
-  if ($form_id == 'xml_form_builder_ingest_form') {
-    $object = islandora_ingest_form_get_object($form_state);
-  }
-  elseif ($form_id == 'xml_form_builder_datastream_form' && !isset($form['available_forms'])) {
-    $object = menu_get_object('islandora_object', 2);
-  }
-  if ($object && in_array('ailla:resourceCModel', $object->models)) {
-    // Awwww shit crazy jQuery time.
-    $form['#attached']['js'][] = array(
-      'type' => 'setting',
-      'data' => array(
-        'utailla-hidden-select-mapping' => array(
-          'Actor, performer/Actor, Actriz' => 'Actor, performer/Actor, Actriz',
-        ),
-      ),
-    );
-    $form['#attached']['js'][] = drupal_get_path('module', 'utailla') . '/js/utailla_hidden_select.js';
-  }*/
+function utailla_xml_form_builder_get_self_transforms() {
+  return array(
+    'utailla_resource_form_transform' => drupal_get_path('module', 'utailla') . '/transforms/resource_cleanup.xsl',
+  );
 }
