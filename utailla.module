@@ -115,6 +115,12 @@ function utailla_menu() {
     'access callback' => 'utailla_resource_ingest_access',
     'access arguments' => array(2),
   );
+  $items['ailla_depositors'] = array(
+    'title' => 'AILLA Depositors',
+    'page callback' => 'utailla_view_ailla_depositors',
+    'type' => MENU_LOCAL_ACTION,
+    'access arguments' => array(ISLANDORA_VIEW_OBJECTS),
+  );
   return $items;
 }
 
@@ -1206,4 +1212,15 @@ function utailla_xml_form_builder_get_self_transforms() {
   return array(
     'utailla_resource_form_transform' => drupal_get_path('module', 'utailla') . '/transforms/resource_cleanup.xsl',
   );
+}
+
+/**
+ * Callback to render the AILLA Depositors view.
+ */
+function utailla_view_ailla_depositors() {
+  $view = views_get_view('ailla_depositors');
+  // XXX: Using view::preview() might sound weird, but view::render() is only
+  // actually for use in theme elements, whereas view::preview() is safe for use
+  // in menu callbacks.
+  return $view->preview();
 }
