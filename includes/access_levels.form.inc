@@ -298,7 +298,7 @@ function utailla_access_level_batch_op($restriction_info, $objects, &$context = 
   if (!isset($sandbox['iterator'])) {
     $sandbox['count'] = 0;
     if (is_array($objects)) {
-      $sandbox['iterator'] = new ArrayIterator($objects);
+      $sandbox['iterator'] = new UtaillaArrayIterator($objects);
     }
     else {
       $sandbox['iterator'] = new UtaillaFileTraversalIterator($objects, utailla_collection_like_models());
@@ -322,9 +322,10 @@ function utailla_access_level_batch_op($restriction_info, $objects, &$context = 
   module_load_include('inc', 'utailla', 'includes/utilities');
   utailla_set_restriction($current, $restriction_info);
 
-  $context['finished'] = $sandbox['count'] / ($sandbox['iterator'] instanceof Countable ?
+  $total = $sandbox['iterator'] instanceof Countable ?
     count($sandbox['iterator']) :
-    $sandbox['count'] + 1);
+    $sandbox['count'] + 1;
+  $context['finished'] = $sandbox['count'] / $total;
   $sandbox['count']++;
 }
 
