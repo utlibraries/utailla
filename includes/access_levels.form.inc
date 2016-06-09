@@ -69,7 +69,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
       $files[$member['object']['value']] = array(
         'title' => l($member['title']['value'], "islandora/object/{$member['object']['value']}/manage/utailla_access_levels"),
         'modified' => $member['date_modified']['value'],
-        'level' => isset($member_info['level']) ? $member_info['level'] : t('Not set'),
+        'level' => isset($member_info['level']) ? $member_info['level'] + 1 : t('Not set'),
         'hint' => isset($member_info['hint']) ? $member_info['hint'] : t('N/A'),
       );
     }
