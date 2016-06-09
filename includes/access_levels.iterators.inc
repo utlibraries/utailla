@@ -320,3 +320,52 @@ class UtaillaTraversalIterator implements RecursiveIterator {
     return new UtaillaTraversalIterator($this->current()->id);
   }
 }
+
+/**
+ * Helper class; work around PHP bug.
+ *
+ * The ArrayIterator class claims to be serializable; however, it does not
+ * maintain the offset within the array, nor does it offer a way to discover it.
+ *
+ * @see http://stackoverflow.com/a/20069139
+ */
+class UtaillaArrayIterator extends ArrayIterator {
+  private $position = 0;
+
+  /**
+   * Proceed to the next element, maintaining our position.
+   */
+  public function next() {
+    $this->position++;
+    parent::next();
+  }
+
+  /**
+   * Rewind the iterator, resetting our position.
+   */
+  public function rewind() {
+    $this->position = 0;
+    parent::rewind();
+  }
+
+  /**
+   * Seek the iterator, updating our position.
+   */
+  public function seek($position) {
+    $this->position = $position;
+    parent::seek($position);
+  }
+
+  /**
+   * Reset the position when unserializing.
+   */
+  public function unserialize($serialized) {
+    parent::unserialize($serialized);
+
+    // PHP does not maintain the position across (de)serialization... Let's set
+    // it up again...
+    $current = $this->position;
+    $this->rewind();
+    $this->seek($current);
+  }
+}
