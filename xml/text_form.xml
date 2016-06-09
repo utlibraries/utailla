@@ -708,7 +708,7 @@
                                     <schema/>
                                     <type>xml</type>
                                     <prefix>NULL</prefix>
-                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" lang="eng" displayLabel="Original Medium (English)""&gt;%value%&lt;/form&gt;</value>
+                                    <value>&lt;form type="original medium" authority="aillaOriginalMedium" lang="eng" displayLabel="Original Medium (English)"&gt;%value%&lt;/form&gt;</value>
                                 </create>
                                 <read>
                                     <path>mods:form[@type="original medium" and @authority="aillaOriginalMedium" and @lang="eng" and @displayLabel="Original Medium (English)"]</path>
