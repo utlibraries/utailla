@@ -364,8 +364,6 @@ class UtaillaArrayIterator extends ArrayIterator {
 
     // PHP does not maintain the position across (de)serialization... Let's set
     // it up again...
-    $current = $this->position;
-    $this->rewind();
-    $this->seek($current);
+    $this->seek($this->position);
   }
 }
