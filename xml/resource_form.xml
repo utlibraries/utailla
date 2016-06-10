@@ -842,10 +842,7 @@
                                             <path>self::node()</path>
                                             <context>self</context>
                                         </update>
-                                        <delete>
-                                            <path>self::node()</path>
-                                            <context>self</context>
-                                        </delete>
+                                        <delete>NULL</delete>
                                     </actions>
                                 </properties>
                                 <children/>
