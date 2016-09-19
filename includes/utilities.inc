@@ -4,6 +4,10 @@
  * Helper functions.
  */
 
+// Objects.
+// Base URL for URIs
+define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
+
 /**
  * Ingests the default thumbnail on an object.
  */
@@ -91,16 +95,14 @@ function utailla_restrict_datastream_to_admin($ds) {
  * Get a site specific URI from a PID.
  */
 function utailla_get_uri_from_pid($pid) {
-  global $base_url;
-  return "$base_url/islandora/object/$pid";
+  return UTAILLA_BASE_URI . "/islandora/object/$pid";
 }
 
 /**
  * Get a site specific URI from a user.
  */
 function utailla_get_uri_from_user($uid) {
-  global $base_url;
-  return "$base_url/user/$uid";
+  return UTAILLA_BASE_URI . "/user/$uid";
 }
 
 /**
