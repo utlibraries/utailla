@@ -95,7 +95,6 @@ function utailla_restrict_datastream_to_admin($ds) {
  * Get a site specific URI from a PID.
  */
 function utailla_get_uri_from_pid($pid) {
-  global $base_url;
   return UTAILLA_BASE_URI . "/islandora/object/$pid";
 }
 
@@ -103,7 +102,6 @@ function utailla_get_uri_from_pid($pid) {
  * Get a site specific URI from a user.
  */
 function utailla_get_uri_from_user($uid) {
-  global $base_url;
   return UTAILLA_BASE_URI . "/user/$uid";
 }
 

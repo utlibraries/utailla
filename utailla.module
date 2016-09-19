@@ -556,9 +556,7 @@ function utailla_validate_language_is_in_collection_language($element, &$form_st
  * Used by Ailla forms to set language label from hidden PID field.
  */
 function utailla_convert_language_pid_to_title($form, $form_state) {
-  global $base_url;
   if (isset($form['language_pid']['#value'])) {
-//    $pid = str_replace("$base_url/islandora/object/", "", $form['language_pid']['#value']);
     $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['language_pid']['#value']);
     $obj = islandora_object_load($pid);
     if ($obj) {
@@ -572,9 +570,7 @@ function utailla_convert_language_pid_to_title($form, $form_state) {
  * Used by Ailla Collection MODS Form to country label from hidden PID field.
  */
 function utailla_convert_country_pid_to_title($form, $form_state) {
-  global $base_url;
   if (isset($form['country_pid']['#value'])) {
-//    $pid = str_replace("$base_url/islandora/object/", "", $form['country_pid']['#value']);
     $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['country_pid']['#value']);
     $obj = islandora_object_load($pid);
     if ($obj) {
@@ -588,9 +584,7 @@ function utailla_convert_country_pid_to_title($form, $form_state) {
  * Used by Ailla Collection MODS Form to country label from hidden PID field.
  */
 function utailla_convert_collection_pid_to_title($form, $form_state) {
-  global $base_url;
   if (isset($form['collection_pid']['#value'])) {
-//    $pid = str_replace("$base_url/islandora/object/", "", $form['collection_pid']['#value']);
     $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['collection_pid']['#value']);
     $obj = islandora_object_load($pid);
     if ($obj) {
@@ -604,9 +598,7 @@ function utailla_convert_collection_pid_to_title($form, $form_state) {
  * Used by Ailla MADS form to set organization label from hidden PID field.
  */
 function utailla_convert_organization_pid_to_title($form, $form_state) {
-  global $base_url;
   if (isset($form['organization_pid']['#value'])) {
-//    $pid = str_replace("$base_url/islandora/object/", "", $form['organization_pid']['#value']);
     $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['organization_pid']['#value']);
     $obj = islandora_object_load($pid);
     if ($obj) {
@@ -640,11 +632,6 @@ function utailla_set_visible_select_value_callback($element, $input, $form_state
  * Used by Ailla forms to set label from hidden PID field.
  */
 function utailla_collection_build_uri_on_validate($element, &$form_state) {
-  global $base_url;
-//   if (!empty($element['#value']) && strpos($element['#value'], $base_url) === FALSE) {
-//     module_load_include('inc', 'utailla', 'includes/utilities');
-//     form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
-//   }
   if (!empty($element['#value']) && strpos($element['#value'], UTAILLA_BASE_URI) === FALSE) {
     module_load_include('inc', 'utailla', 'includes/utilities');
     form_set_value($element, utailla_get_uri_from_pid($element['#value']), $form_state);
@@ -1132,11 +1119,9 @@ function utailla_association_contributor_validate($element, &$form_state, &$form
  * Contributor populate autocomplete field using hidden nameparts and PID.
  */
 function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
-  global $base_url;
   if (empty($form['namepart_autocomplete']['#value'])) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
     if (!empty($form['contributor_pid']['#value'])) {
-//      $pid = str_replace("$base_url/islandora/object/", "", $form['contributor_pid']['#value']);
       $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['contributor_pid']['#value']);
       $escaped_pid = islandora_solr_lesser_escape($pid);
       $qp = new IslandoraSolrQueryProcessor();
