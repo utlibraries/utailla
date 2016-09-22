@@ -32,6 +32,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Image Form</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="typeOfResource">
         <properties>
           <type>hidden</type>
@@ -71,12 +87,16 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Last name, First name&lt;br&gt;
+Name of the person completing this form.&lt;br&gt;
+&lt;i&gt;*Apellido(s), Nombre(s)&lt;br&gt;
+Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Produced By</title>
+          <title>Entered by / Capturista</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -111,7 +131,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Media Languages</title>
+          <title>Media Languages / Idiomas de los Medios de Comunicacio&#x301;n</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -124,6 +144,8 @@
               </after_build>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>List all media languages (any language used in this file).&lt;br&gt;
+&lt;i&gt;*Enumere todos los idiomas medi&#xE1;ticos (todos los idiomas que aparecen en el archivo). &lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -206,12 +228,14 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered Language tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional media languages.&lt;br&gt;
+&lt;i&gt;*Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda proporcionar nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas medi&#xE1;ticos adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Language</title>
+                  <title>Language / Idioma</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
@@ -234,12 +258,15 @@
           </after_build>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Date that this file was created.&lt;br&gt;
+&lt;i&gt;*
+Fecha en que se cre&#xF3; este archivo.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Date created</title>
+          <title> Date Created (YYYY-MM-DD) / Fecha de Creaci&#xF3;n (AAAA-MM-DD)</title>
           <tree>TRUE</tree>
           <user_data>
             <islandora_authority_fq>RELS_EXT_hasModel_uri_ms:"info:fedora/ailla:countryCModel"</islandora_authority_fq>
@@ -376,6 +403,8 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Select one content type from the drop-down menu.&lt;br&gt;
+&lt;i&gt;*Seleccione un tipo de contenido del men&#xFA; desplegable.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -396,7 +425,7 @@
           </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Content Type</title>
+          <title>Content Type / Tipo de Contenido</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -458,88 +487,20 @@
         </properties>
         <children/>
       </element>
-      <element name="descriptionEnglish">
-        <properties>
-          <type>textarea</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>English</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;note type="recording/production note" lang="eng" displayLabel="Technical description (English)"&gt;%value%&lt;/note&gt;</value>
-            </create>
-            <read>
-              <path>mods:note[@type="recording/production note" and @lang="eng"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
-      <element name="descriptionSpanish">
-        <properties>
-          <type>textarea</type>
-          <access>TRUE</access>
-          <collapsed>FALSE</collapsed>
-          <collapsible>FALSE</collapsible>
-          <disabled>FALSE</disabled>
-          <executes_submit_callback>FALSE</executes_submit_callback>
-          <multiple>FALSE</multiple>
-          <required>FALSE</required>
-          <resizable>FALSE</resizable>
-          <title>Spanish</title>
-          <tree>TRUE</tree>
-          <actions>
-            <create>
-              <path>self::node()</path>
-              <context>parent</context>
-              <schema/>
-              <type>xml</type>
-              <prefix>NULL</prefix>
-              <value>&lt;note type="recording/production note" lang="spa" displayLabel="Technical description (Spanish)"&gt;%value%&lt;/note&gt;</value>
-            </create>
-            <read>
-              <path>mods:note[@type="recording/production note" and @lang="spa"]</path>
-              <context>parent</context>
-            </read>
-            <update>
-              <path>self::node()</path>
-              <context>self</context>
-            </update>
-            <delete>NULL</delete>
-          </actions>
-        </properties>
-        <children/>
-      </element>
       <element name="physicalDescription">
         <properties>
           <type>fieldset</type>
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Describe the physical characteristics of the file. &lt;br&gt;
+&lt;i&gt;*Describa las caracter&#xED;sticas f&#xED;sicas del archivo.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Physical Description</title>
+          <title>Physical Description / Descripci&#xF3;n F&#xED;sica</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -559,19 +520,94 @@
           </actions>
         </properties>
         <children>
+          <element name="descriptionEnglish">
+            <properties>
+              <type>textarea</type>
+              <access>TRUE</access>
+              <collapsed>FALSE</collapsed>
+              <collapsible>FALSE</collapsible>
+              <description>Notes in English about the production of the file, including notes about quality or equipment (e.g. the image is blurry or overexposed). &lt;br&gt;
+&lt;i&gt;*Notas en ingl&#xE9;s sobre la producci&#xF3;n del archivo, incluyendo notas sobre la calidad o el equipo (p.e., "The image is blurry or overexposed").&lt;/i&gt;</description>
+              <disabled>FALSE</disabled>
+              <executes_submit_callback>FALSE</executes_submit_callback>
+              <multiple>FALSE</multiple>
+              <required>FALSE</required>
+              <resizable>FALSE</resizable>
+              <title>Technical Description (English) / Descripci&#xF3;n T&#xE9;cnica (ingl&#xE9;s)</title>
+              <tree>TRUE</tree>
+              <actions>
+                <create>
+                  <path>self::node()</path>
+                  <context>parent</context>
+                  <schema/>
+                  <type>xml</type>
+                  <prefix>NULL</prefix>
+                  <value>&lt;note type="recording/production note" lang="eng" displayLabel="Technical description (English)"&gt;%value%&lt;/note&gt;</value>
+                </create>
+                <read>
+                  <path>mods:note[@type="recording/production note" and @lang="eng"]</path>
+                  <context>parent</context>
+                </read>
+                <update>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </update>
+                <delete>NULL</delete>
+              </actions>
+            </properties>
+            <children/>
+          </element>
+          <element name="descriptionSpanish">
+            <properties>
+              <type>textarea</type>
+              <access>TRUE</access>
+              <collapsed>FALSE</collapsed>
+              <collapsible>FALSE</collapsible>
+              <description>Notes in Spanish about the production of the file, including notes about quality or equipment (e.g.,La imagen es borrosa o esta&#x301; sobreexpuesta ). &lt;br&gt;
+&lt;i&gt;*Notas en espa&#xF1;ol sobre la producci&#xF3;n del archivo, incluyendo notas sobre la calidad o el equipo (p.e. La imagen es borrosa o esta&#x301; sobreexpuesta).&lt;/i&gt;</description>
+              <disabled>FALSE</disabled>
+              <executes_submit_callback>FALSE</executes_submit_callback>
+              <multiple>FALSE</multiple>
+              <required>FALSE</required>
+              <resizable>FALSE</resizable>
+              <title>Technical Description (Spanish) / Descripti&#xF3;n T&#xE9;cnica (espan&#xF1;ol)</title>
+              <tree>TRUE</tree>
+              <actions>
+                <create>
+                  <path>self::node()</path>
+                  <context>parent</context>
+                  <schema/>
+                  <type>xml</type>
+                  <prefix>NULL</prefix>
+                  <value>&lt;note type="recording/production note" lang="spa" displayLabel="Technical description (Spanish)"&gt;%value%&lt;/note&gt;</value>
+                </create>
+                <read>
+                  <path>mods:note[@type="recording/production note" and @lang="spa"]</path>
+                  <context>parent</context>
+                </read>
+                <update>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </update>
+                <delete>NULL</delete>
+              </actions>
+            </properties>
+            <children/>
+          </element>
           <element name="length">
             <properties>
               <type>textfield</type>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>In pages</description>
+              <description>Enter the number of pages; all images should be 1 page.&lt;br&gt;
+&lt;i&gt;*Introduzca el n&#xFA;mero de p&#xE1;ginas; Las im&#xE1;genes deben ser de 1 p&#xE1;gina.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Length</title>
+              <title>Length / N&#xFA;mero de p&#xE1;ginas</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -598,10 +634,10 @@
           <element name="encoding_specifications">
             <properties>
               <type>select</type>
-              <access>TRUE</access>
+              <access>FALSE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <default_value>PDF/A</default_value>
+              <default_value>image</default_value>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -636,21 +672,18 @@
           </element>
           <element name="platform">
             <properties>
-              <type>select</type>
+              <type>textfield</type>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Enter the type of computer (PC or Mac) and the Software Program used to create or convert this image.&lt;br&gt;
+&lt;i&gt;*Introduzca el tipo de computadora (PC o Mac) y el nombre de los programas usados para crear o convertir esta imagen.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
-              <options>
-                <index key="unknown/desconocido">Unknown/Desconocido</index>
-                <index key="other/otro">Other/Otro</index>
-                <index key="HP ScanJet5370C">HP ScanJet5370C</index>
-              </options>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Platform</title>
+              <title>Platform / Plataforma</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -680,6 +713,8 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Select one "original medium" type from the drop-down menu.&lt;br&gt;
+&lt;i&gt;*Seleccione un tipo de "medio original" del men&#xFA; desplegable.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -691,7 +726,7 @@
               </options>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Original Medium</title>
+              <title>Original Medium / Medio Original</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -759,13 +794,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>1-5, low to high</description>
+              <description>Rank the quality of the original document or file on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent.&lt;br&gt;
+&lt;i&gt;*Califique la calidad del documento o archivo original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Original Quality</title>
+              <title>Quality of Original Medium / Calidad del Medio Original</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -794,7 +830,7 @@
       <element name="archival_info">
         <properties>
           <type>fieldset</type>
-          <access>TRUE</access>
+          <access>FALSE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <disabled>FALSE</disabled>
@@ -806,80 +842,6 @@
           <tree>TRUE</tree>
         </properties>
         <children>
-          <element name="archival_object">
-            <properties>
-              <type>select</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <options>
-                <Y>Yes</Y>
-                <N>No</N>
-              </options>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Archival Object?</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;note type="archival object"&gt;%value%&lt;/note&gt;</value>
-                </create>
-                <read>
-                  <path>mods:note[@type="archival object"]</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
-          <element name="archival_status">
-            <properties>
-              <type>textfield</type>
-              <access>TRUE</access>
-              <collapsed>FALSE</collapsed>
-              <collapsible>FALSE</collapsible>
-              <disabled>FALSE</disabled>
-              <executes_submit_callback>FALSE</executes_submit_callback>
-              <multiple>FALSE</multiple>
-              <required>FALSE</required>
-              <resizable>FALSE</resizable>
-              <title>Archival Status</title>
-              <tree>TRUE</tree>
-              <actions>
-                <create>
-                  <path>self::node()</path>
-                  <context>parent</context>
-                  <schema/>
-                  <type>xml</type>
-                  <prefix>NULL</prefix>
-                  <value>&lt;note type="archival status"&gt;%value%&lt;/note&gt;</value>
-                </create>
-                <read>
-                  <path>mods:note[@type="archival status"]</path>
-                  <context>parent</context>
-                </read>
-                <update>
-                  <path>self::node()</path>
-                  <context>self</context>
-                </update>
-                <delete>NULL</delete>
-              </actions>
-            </properties>
-            <children/>
-          </element>
           <element name="tape_label">
             <properties>
               <type>textfield</type>
