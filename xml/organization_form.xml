@@ -205,7 +205,7 @@ Para agregar otro Director, haga click sobre el si&#x301;mbolo de ma&#x301;s (+,
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Director(s) Name(s) / Nombre Completo del Director</title>
+          <title>Director Name / Nombre Completo del Director</title>
           <tree>TRUE</tree>
         </properties>
         <children>
