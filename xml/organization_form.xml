@@ -36,6 +36,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Organization Form</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="authority">
         <properties>
           <type>markup</type>
@@ -102,12 +118,14 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Enter the complete name of the organization. Do not abbreviate.&lt;br&gt;
+&lt;i&gt;*Introduzca el nombre completo de la organizaci&#xF3;n. No abreviar.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>TRUE</required>
                   <resizable>FALSE</resizable>
-                  <title>Organization Name</title>
+                  <title>Organization Name / Nombre de la Organizaci&#xF3;n</title>
                   <tree>TRUE</tree>
                   <actions>
                     <create>
@@ -141,12 +159,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Enter the acronym.&lt;br&gt;
+&lt;i&gt;*Introduzca el acr&#xF3;nimo.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Acronym</title>
+          <title>Acronym / Acr&#xF3;nimo</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -176,12 +196,16 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Last name, First name &lt;br&gt;
+To add another Director, click on the green plus sign, then enter the additional name. Repeat for each Director.&lt;br&gt;
+&lt;i&gt;*Apellido(s), Nombre(s)&lt;br&gt;
+Para agregar otro Director, haga click sobre el si&#x301;mbolo de ma&#x301;s (+, verde), despue&#x301;s escriba el nombre. Repite estos pasos para cada Director.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Director(s) Name(s)</title>
+          <title>Director(s) Name(s) / Nombre Completo del Director</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -230,12 +254,15 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>If this organization has a funder, enter the complete name of the organization or person; if not, leave blank.&lt;br&gt;
+&lt;i&gt;*
+Si esta organizaci&#xF3;n cuenta con un proveedor de fondos, introduzca el nombre completo de la organizaci&#xF3;n o persona; si no, d&#xE9;jelo en blanco.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Funder</title>
+          <title>Funder / Proveedor de Fondos</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -265,12 +292,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>If this organization is part of a larger organization, enter the complete name of the parent organization; if not, leave blank.&lt;br&gt;
+&lt;i&gt;*Si esta organizaci&#xF3;n es parte de una organizaci&#xF3;n matriz, introduzca el nombre completo de la organizaci&#xF3;n matriz; si no, d&#xE9;jelo en blanco.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Parent Institution</title>
+          <title>Parent Institution / Entidad Matriz</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -300,12 +329,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give a brief description of the organization in English.&lt;br&gt;
+&lt;i&gt;*De&#x301; una descripcio&#x301;n breve de la organizaci&#xF3;n en ingl&#xE9;s.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [English]</title>
+          <title>Description (English) / Descripcio&#x301;n (Ingle&#x301;s)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -335,12 +366,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give a brief description of the organization in Spanish.&lt;br&gt;
+&lt;i&gt;*De&#x301; una descripcio&#x301;n breve de la organizaci&#xF3;n en espa&#xF1;ol.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Spanish]</title>
+          <title>Description (Spanish) / Descripcio&#x301;n  (Espa&#xF1;ol)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -370,16 +403,19 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <default_value>N</default_value>
+          <description>Is this organization an AILLA depositor? Select Yes or No.&lt;br&gt;
+&lt;i&gt;*Indique si la organizaci&#xF3;n es depositante al AILLA. Selecciona Yes (S&#xED;) o No. &lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <options>
-            <Y>Y</Y>
-            <N>N</N>
+            <Y>Yes/Si</Y>
+            <N>No/No</N>
           </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Depositor Status</title>
+          <title>Depositor Status / Depositante</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -507,12 +543,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Enter a research language for this organization.  &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second research language, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional research languages.&lt;br&gt;
+&lt;i&gt;*Introduzca una lengua de investigacio&#x301;n para esta organizaci&#xF3;n. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas de investigacio&#x301;n adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Research Languages</title>
+                  <title>Research Language(s) / Lengua que investiga</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
