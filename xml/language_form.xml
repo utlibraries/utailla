@@ -28,6 +28,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Language Form</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="name_english">
         <properties>
           <type>textfield</type>
@@ -39,7 +55,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Name (English)</title>
+          <title>Language Name (English) / Nombre del Idioma (Ingle&#x301;s)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -74,7 +90,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Name (Spanish)</title>
+          <title>Language Name (Spanish) / Nombre del Idioma (Espa&#xF1;ol)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -109,7 +125,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Name (Indigenous)</title>
+          <title>Language Name (Indigenous) / Nombre del Idioma (Indi&#x301;gena)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -139,12 +155,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Enter any additional names for this language. To add additional language names, click on the green plus sign, then type another language name.&lt;br&gt;
+&lt;i&gt;*Introducir otro nombre adicional para este idioma. Para agregar nombres adicionales a un idioma, haga click sobre el si&#x301;mbolo de ma&#x301;s (+, verde), despue&#x301;s introduzca el otro nombre.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Name (Alternative)</title>
+          <title>Language Name (Alternative) / Nombre del Idioma (Alternativo)</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -193,12 +211,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Enter the Alpha-3 (3-letter) ISO code for this language. Use lower case letters (e.g. tee but not TEE). Search for codes at Ethnologue.com.&lt;br&gt;
+&lt;i&gt;*Introduzca el co&#x301;digo ISO de tres caracteres para este idioma. Utilice solamente minu&#x301;sculas (p.e., tee, y no TEE) . Busque los co&#x301;digos en Ethnologue.com.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Language Code</title>
+          <title>Language Code / Co&#x301;digo del Idioma</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -229,6 +249,8 @@
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <default_value>N</default_value>
+          <description>Is this a macro (parent) language? Select Yes or No.&lt;br&gt;
+&lt;i&gt;*&#xBF;Es e&#x301;ste un macro idioma? es decir  &#xBF;Hay otras lenguas que derivan de ella, o tiene otros dialectos?&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -238,7 +260,7 @@
           </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Macro Language</title>
+          <title>Macro Language / Macro Idioma</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -269,12 +291,14 @@
           <autocomplete_path>utailla/autocomplete/parentlanguage</autocomplete_path>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Name the language family to which this language belongs. Please type slowly so that the auto-suggest feature can pull up existing language family names.&lt;br&gt;
+&lt;i&gt;*Registre la familia ling&#xFC;&#xED;stica a la que pertenece este idioma. Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar los nombres de las familias ling&#xFC;&#xED;sticas existentes.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Language Family</title>
+          <title>Language Family / Familia Ling&#xFC;&#xED;stica</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -304,12 +328,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Add any information (in English) necessary to help to identify this language.&lt;br&gt;
+&lt;i&gt;*Agrege cualquier informacio&#x301;n necesaria en ingle&#x301;s para facilitar la identificacio&#x301;n de este idioma.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description (English)</title>
+          <title>Description (English) / Descripcio&#x301;n (Ingle&#x301;s)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -339,12 +365,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Add any information (in Spanish) necessary to help to identify this language.&lt;br&gt;
+&lt;i&gt;*Agrege cualquier informacio&#x301;n necesaria en espa&#xF1;ol para facilitar la identificacio&#x301;n de este idioma.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description (Spanish)</title>
+          <title>Description (Spanish) / Descripcio&#x301;n  (Espa&#xF1;ol)</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -375,13 +403,16 @@
           <autocomplete_path>utailla/autocomplete/parentlanguage</autocomplete_path>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Countries where language is spoken</description>
+          <description>Countries where language is spoken. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing country names. To add a second Country, click on the green plus sign, then slowly type another country name.&lt;br&gt;
+&lt;i&gt;*Pai&#x301;ses en donde se habla este idioma. &lt;br&gt;
+Por favor, escriba lentamentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar los nombres de los pai&#x301;ses existentes. Para agregar un segundo pai&#x301;s, haga click sobre el si&#x301;mbolo de ma&#x301;s (+, verde), despue&#x301;s escriba lentamente el nombre del otro pai&#x301;s.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Spoken Countries</title>
+          <title>Countries / Pai&#x301;ses</title>
           <tree>TRUE</tree>
         </properties>
         <children>
