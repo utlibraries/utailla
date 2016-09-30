@@ -559,8 +559,14 @@
                   <path>mads:fieldOfActivity[@type="native language" and @authority="aillaLanguage"]</path>
                   <context>parent</context>
                 </read>
-                <update>NULL</update>
-                <delete>NULL</delete>
+                <update>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </update>
+                <delete>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </delete>
               </actions>
             </properties>
             <children>
