@@ -36,6 +36,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Country Form / Formulario para un Pa&#xED;s</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="authority">
         <properties>
           <type>markup</type>
@@ -76,12 +92,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Enter the English short name for this country. &lt;br&gt;
+Search for names at https://www.iso.org/obp/ui/#home, with "Country codes" selected. Or browse list available at https://www.iso.org/obp/ui/#search/code/.&lt;br&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Name (English)</title>
+              <title>Country Name (English) / Nombre del Pai&#x301;s (Ingle&#x301;s)</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -111,12 +129,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Enter Spanish country name. &lt;br&gt;
+Search for names at http://www.geonames.org/ by entering country name. In search results table, click the name of country in the Country column. Then click "other languages" next to the country name. Find "Spanish" in the Language column and match it to the affiliated country name in "Name" column. Note that there might be more than one choice. Chose the most common Spanish name for this country.</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Name (Spanish)</title>
+              <title>Country Name (Spanish) / Nombre del Pai&#x301;s (Espa&#xF1;ol)</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -146,12 +166,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Enter the Alpha-3 (3-letter) ISO code for this country. Use upper case letters (e.g. MEX). &lt;br&gt;
+Search for codes at https://www.iso.org/obp/ui/#home, with "Country codes" selected. Or browse list available at https://www.iso.org/obp/ui/#search/code/.</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Code</title>
+              <title>Country Code / Co&#x301;digo del Pai&#x301;s</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -181,12 +203,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Enter VIAF URI Permalink for this country. &lt;br&gt;
+Go to http://viaf.org. Under Select Field, chose "Geographic Names" from the drop-down menu. Under Select Index, chose All VIAF from the drop-down menu. In the Search Terms field, enter the country name, and Click the "Search" button.  Click on appropriate heading in the search results. Copy/paste the URI Permalink from the heading details. </description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>URI (VIAF)</title>
+              <title>VIAF Permalink / Enlace permanente de VIAF</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
