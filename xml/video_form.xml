@@ -38,7 +38,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Video Form</description>
+          <description>Video Form / Formulario para Video</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -526,7 +526,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Notes in English about the quality of the video recording or about the equipment used to make the video recording (e.g. The lighting in the room was very dim.). &lt;br&gt;
-&lt;i&gt;*Notas en ingl&#xE9;s sobre la creaci&#xF3;n del video, incluyendo notas sobre la calidad, o el equipo utilizado (p.e., The lighting in the room was very dim).&lt;/i&gt;</description>
+&lt;i&gt;*Notas en ingl&#xE9;s sobre la creaci&#xF3;n del video, incluyendo notas sobre la calidad, o el equipo utilizado (p.e. The lighting in the room was very dim.).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -563,7 +563,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Notes in Spanish about the quality of the video recording or about the equipment used to make the recording (e.g.  La iluminaci&#xF3;n de la habitaci&#xF3;n era muy tenue.).&lt;br&gt;
-&lt;i&gt;*Notas en espa&#xF1;ol sobre la creaci&#xF3;n del  de video, incluyendo notas sobre la calidad, o el equipo utilizado (p.e., La iluminaci&#xF3;n de la habitaci&#xF3;n era muy tenue.).&lt;/i&gt;</description>
+&lt;i&gt;*Notas en espa&#xF1;ol sobre la creaci&#xF3;n del  de video, incluyendo notas sobre la calidad, o el equipo utilizado (p.e. La iluminaci&#xF3;n de la habitaci&#xF3;n era muy tenue.).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -599,9 +599,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the length of the video recording in the format
-hours:minutes:seconds in this format: 00:00:00&lt;br&gt;
-&lt;i&gt;*Anote la duracio&#x301;n del video con el formato horas:minutos:segundos en el formato: 00:00:00&lt;/i&gt;</description>
+              <description>Enter the length of the video recording in the format hh:mm:ss (hours:minutes:seconds).&lt;br&gt;
+&lt;i&gt;*Anote la duracio&#x301;n del video con el formato hh:mm:ss (horas:minutos:segundos).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -681,7 +680,7 @@ hours:minutes:seconds in this format: 00:00:00&lt;br&gt;
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the type of computer (PC or Mac) and the Software Program used to create or convert this video file.&lt;br&gt;
+              <description>Enter the type of computer (PC or Mac) and the software programs used to create or convert this video file.&lt;br&gt;
 &lt;i&gt;*Introduzca el tipo de computadora (PC o Mac) y el nombre de los programas usados para crear o convertir este video. &lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
@@ -803,8 +802,8 @@ hours:minutes:seconds in this format: 00:00:00&lt;br&gt;
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Rank the quality of the original document or file on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent&lt;br&gt;
-&lt;i&gt;*Califique la calidad del archivo original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
+              <description>Rank the quality of the original video on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent.&lt;br&gt;
+&lt;i&gt;*Califique la calidad del video original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>

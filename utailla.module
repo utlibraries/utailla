@@ -602,7 +602,7 @@ function utailla_convert_organization_pid_to_title($form, $form_state) {
     $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['organization_pid']['#value']);
     $obj = islandora_object_load($pid);
     if ($obj) {
-      $form['organization']['#value'] = $obj->label;
+      $form['organization_text']['#value'] = $obj->label;
     }
   }
   return $form;

@@ -42,7 +42,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Country Form</description>
+          <description>Country Form / Formulario para un Pa&#xED;s</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -204,13 +204,13 @@ Search for codes at https://www.iso.org/obp/ui/#home, with "Country codes" selec
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Enter VIAF URI Permalink for this country. &lt;br&gt;
-Go to http://viaf.org. Under Select Field, chose "Geographic Names" from the drop-down menu. Under Select Index, chose All VIAF from the drop-down menu. In the Search Terms field, enter enter the country name, and Click the "Search" button.  Click on appropriate heading in the search results. Copy/paste the URI Permalink from the heading details. </description>
+Go to http://viaf.org. Under Select Field, chose "Geographic Names" from the drop-down menu. Under Select Index, chose All VIAF from the drop-down menu. In the Search Terms field, enter the country name, and Click the "Search" button.  Click on appropriate heading in the search results. Copy/paste the URI Permalink from the heading details. </description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>VIAF Permalink / </title>
+              <title>VIAF Permalink / Enlace permanente de VIAF</title>
               <tree>TRUE</tree>
               <actions>
                 <create>

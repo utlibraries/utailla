@@ -38,7 +38,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Collection Form</description>
+          <description>Collection Form / Formulario para una Colecci&#xF3;n</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -88,13 +88,13 @@
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Please see other AILLA collections for examples.&lt;br&gt;
-&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos &lt;/i&gt;</description>
+&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>TRUE</required>
               <resizable>FALSE</resizable>
-              <title>Collection Title [English] / Ti&#x301;tulo de la Coleccio&#x301;n (Ingle&#x301;s)</title>
+              <title>Collection Title [English] / Ti&#x301;tulo de la Coleccio&#x301;n [Ingle&#x301;s]</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -160,13 +160,13 @@
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Please see other AILLA collections for examples.&lt;br&gt;
-&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos &lt;/i&gt;</description>
+&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Collection Title [Spanish] / Ti&#x301;tulo de la Coleccio&#x301;n (Espa&#xF1;ol)</title>
+              <title>Collection Title [Spanish] / Ti&#x301;tulo de la Coleccio&#x301;n [Espa&#xF1;ol]</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -203,7 +203,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Collection Title [Indigenous] / Ti&#x301;tulo de la Coleccio&#x301;n (Indi&#x301;gena)</title>
+          <title>Collection Title [Indigenous] / Ti&#x301;tulo de la Coleccio&#x301;n [Indi&#x301;gena]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -321,13 +321,13 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <description>If the Collector has a website, enter the URL here. &lt;br&gt;
-&lt;i&gt;*Si el recopilador tiene un pa&#x301;gina web, introduzca el enlace, el URL, aqui&#x301;. &lt;/i&gt;</description>
+&lt;i&gt;*Si el Recopilador tiene un pa&#x301;gina web, introduzca el enlace, el URL, aqui&#x301;. &lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Collector Website / Pa&#x301;gina web del recopilador</title>
+          <title>Collector Website / Pa&#x301;gina web del Recopilador</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -490,9 +490,9 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
                   <description>Name of the person who collected these materials. &lt;br&gt;
-Please type slowly so that the auto-suggest feature can pull from the database of existing names.&lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing names. To add an additional Collector name, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the name. Repeat these steps for each additional Collector. &lt;br&gt;
 &lt;i&gt;*Nombre de la persona que recopilo&#x301; estos materiales. &lt;br&gt;
-Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda extraer de la base de datos nombres existentes.&lt;/i&gt;</description>
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres  de los existentes. Para agregar otro Recopilador, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre. Repita estos pasos para Recopiladores adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
@@ -681,9 +681,9 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda e
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
                   <description>Name of the person who deposited these materials at AILLA. This person might be the same person as the Collector or someone else.&lt;br&gt;
-Please type slowly so that the auto-suggest feature can pull from the database of existing names.&lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing names. To add an additional Depositor's name, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the name. Repeat these steps for each additional Depositor.&lt;br&gt;
 &lt;i&gt;*Nombre de la persona que deposito&#x301; estos materiales en AILLA. Esta persona puede que sea el mismo recopilador, u otra persona diferente. &lt;br&gt;
-Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda extraer de la base de datos nombres existentes.&lt;/i&gt;</description>
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres  de los existentes. Para agregar otro Depositor, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre. Repita estos pasos para Depositores adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
@@ -1010,9 +1010,9 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
                   <description>List all countries where these materials were collected or created. &lt;br&gt;
-Please type slowly so that the auto-suggest feature can pull up existing country names.&lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing country names. To add another country, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the country name. Repeat these steps for additional countries.&lt;br&gt;
 &lt;i&gt;*Registre todos los pai&#x301;ses donde los materiales fueron creados o recolectados. &lt;br&gt;
-Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de los pai&#x301;ses existentes.&lt;/i&gt;</description>
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de los pai&#x301;ses existentes. Para agregar un segundo pa&#xED;s, haga clic en "Add/Agregar". Aparecera&#x301; una nueva pesta&#xF1;a numerada; haga clic sobre la nueva pesta&#xF1;a y lentamente escriba el nombre del pa&#xED;s. Repita estos pasos para paises adicionales. &lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
@@ -1045,7 +1045,7 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [English] / Descripcio&#x301;n (Ingle&#x301;s)</title>
+          <title>Description [English] / Descripcio&#x301;n [Ingle&#x301;s]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -1082,7 +1082,7 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Spanish] / Descripcio&#x301;n (Espa&#xF1;ol)</title>
+          <title>Description [Spanish] / Descripcio&#x301;n [Espa&#xF1;ol]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -1119,7 +1119,7 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda p
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description / Descripcio&#x301;n (Idioma Indi&#x301;gena)</title>
+          <title>Description [Indigenous] / Descripcio&#x301;n [Indi&#x301;gena]</title>
           <tree>TRUE</tree>
           <actions>
             <create>

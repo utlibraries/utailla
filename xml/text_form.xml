@@ -38,7 +38,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>PDF/Text/Binary Object Form</description>
+          <description>Text, PDF, Binary Object Form / Formulario para un Texto, PDF u otro tipo de archivo</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -258,8 +258,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
           </after_build>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Date that this file was created.&lt;br&gt;
-&lt;i&gt;*Fecha en que se cre&#xF3; este archivo.&lt;/i&gt;</description>
+          <description>Date that this document or file was created.&lt;br&gt;
+&lt;i&gt;*Fecha en que se cre&#xF3; este documento o archivo.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -525,8 +525,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Notes in English about the production of the file, including notes about the properties of the file or experimental data it contains.&lt;br&gt;
-&lt;i&gt;*Notas en ingl&#xE9;s sobre la producci&#xF3;n de este archivo, incluyendo notas sobre las propiedades del archivo, o sobre los datos experimentales que contiene.&lt;/i&gt;</description>
+              <description>Notes in English about the physical document or the production of the file, including notes about the properties of the file or experimental data it contains.&lt;br&gt;
+&lt;i&gt;*Notas en ingl&#xE9;s sobre el documento f&#xED;sico o la producci&#xF3;n de este archivo, incluyendo notas sobre las propiedades del archivo, o sobre los datos experimentales que contiene.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -562,8 +562,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Notes in Spanish about the production of the file, including notes about the nature of the file or experimental data it contains.&lt;br&gt;
-&lt;i&gt;*Notas en espa&#xF1;ol sobre la producci&#xF3;n de este archivoincluyendo notas sobre las propiedades del archivo, o sobre los datos experimentales que contiene.&lt;/i&gt;</description>
+              <description>Notes in Spanish about the physical document or the production of the file, including notes about the properties of the file or experimental data it contains.&lt;br&gt;
+&lt;i&gt;*Notas en espa&#xF1;ol sobre el documento f&#xED;sico o la producci&#xF3;n de este archivo, incluyendo notas sobre las propiedades del archivo, o sobre los datos experimentales que contiene.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -600,8 +600,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>For all text or PDF files, enter the number of pages.
-For .xml (including .eaf) or .html files, enter "1". &lt;br&gt;
-&lt;i&gt;*Para los archivos de texto o PDF, introduzca el nu&#x301;mero de pa&#x301;ginas. Para los archivos .xml (incluyendo .eaf) o .html, introduzca "1".&lt;/i&gt;</description>
+For all non-text files (including .xml, .eaf, .html), enter "1". &lt;br&gt;
+&lt;i&gt;*Para los archivos de texto o PDF, introduzca el nu&#x301;mero de pa&#x301;ginas. Para otros tipos de archivos (incluyendo .xml, .eaf, .html), introduzca "1".&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -678,7 +678,7 @@ For .xml (including .eaf) or .html files, enter "1". &lt;br&gt;
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the type of computer (PC or Mac) and the Software Program used to create or convert this file.&lt;br&gt;
+              <description>Enter the type of computer (PC or Mac) and the software programs used to create or convert this file.&lt;br&gt;
 &lt;i&gt;*Introduzca el tipo de computadora (PC o Mac) y el nombre de los programas usados para crear o convertir este archivo. &lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
@@ -804,7 +804,7 @@ For .xml (including .eaf) or .html files, enter "1". &lt;br&gt;
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Rank the quality of the original document or file on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent&lt;br&gt;
+              <description>Rank the quality of the original document or file on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent.&lt;br&gt;
 &lt;i&gt;*Califique la calidad del documento o archivo original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>

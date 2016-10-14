@@ -38,7 +38,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Image Form</description>
+          <description>Image Form / Formulario para un Imagen</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -145,7 +145,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>List all media languages (any language used in this file).&lt;br&gt;
-&lt;i&gt;*Enumere todos los idiomas medi&#xE1;ticos (todos los idiomas que aparecen en el archivo). &lt;/i&gt;</description>
+&lt;i&gt;*Registre todos los idiomas medi&#xE1;ticos (todos los idiomas que aparecen en el archivo). &lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -527,7 +527,7 @@ Fecha en que se cre&#xF3; este archivo.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Notes in English about the production of the file, including notes about quality or equipment (e.g. the image is blurry or overexposed). &lt;br&gt;
-&lt;i&gt;*Notas en ingl&#xE9;s sobre la producci&#xF3;n del archivo, incluyendo notas sobre la calidad o el equipo (p.e., "The image is blurry or overexposed").&lt;/i&gt;</description>
+&lt;i&gt;*Notas en ingl&#xE9;s sobre la producci&#xF3;n del archivo, incluyendo notas sobre la calidad o el equipo (p.e. "The image is blurry or overexposed").&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -563,7 +563,7 @@ Fecha en que se cre&#xF3; este archivo.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Notes in Spanish about the production of the file, including notes about quality or equipment (e.g.,La imagen es borrosa o esta&#x301; sobreexpuesta ). &lt;br&gt;
+              <description>Notes in Spanish about the production of the file, including notes about quality or equipment (e.g. La imagen es borrosa o esta&#x301; sobreexpuesta ). &lt;br&gt;
 &lt;i&gt;*Notas en espa&#xF1;ol sobre la producci&#xF3;n del archivo, incluyendo notas sobre la calidad o el equipo (p.e. La imagen es borrosa o esta&#x301; sobreexpuesta).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
@@ -676,7 +676,7 @@ Fecha en que se cre&#xF3; este archivo.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the type of computer (PC or Mac) and the Software Program used to create or convert this image.&lt;br&gt;
+              <description>Enter the type of computer (PC or Mac) and the software programs used to create or convert this image.&lt;br&gt;
 &lt;i&gt;*Introduzca el tipo de computadora (PC o Mac) y el nombre de los programas usados para crear o convertir esta imagen.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>

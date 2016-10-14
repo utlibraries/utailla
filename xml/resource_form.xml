@@ -38,13 +38,12 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>&lt;b&gt;Resource Form&lt;/b&gt;</description>
+          <description>Resource Form / Formulario para un Recurso</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Resource Form</title>
           <tree>TRUE</tree>
         </properties>
         <children/>
@@ -922,7 +921,7 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
           <description>Give a detailed description in English of the resource (e.g. "This is a traditional story about the natural environment that is told to young men at a certain age"). Be as specific as possible. There is no word limit.&lt;br&gt;
-&lt;i&gt;*D&#xE9; una descripci&#xF3;n detallada en ingl&#xE9;s de los recursos (p.e., "This is a traditional story about the natural environment that is told to young men at a certain age"). Sea lo m&#xE1;s espec&#xED;fico posible. No hay ning&#xFA;n l&#xED;mite de palabras.&lt;/i&gt;</description>
+&lt;i&gt;*D&#xE9; una descripci&#xF3;n detallada en ingl&#xE9;s del recurso (p.e., "This is a traditional story about the natural environment that is told to young men at a certain age"). Sea lo m&#xE1;s espec&#xED;fico posible. No hay ning&#xFA;n l&#xED;mite de palabras.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -958,7 +957,7 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Give a detailed description in Spanish of the resource (e.g. "E&#x301;sta es una historia tradicional sobre el medio ambiente natural que se cuenta a los hombres j&#xF3;venes de una cierta edad").. This should be an exact translation of the English description.There is no word limit.&lt;br&gt;
+          <description>Give a detailed description in Spanish of the resource (p.e., "E&#x301;sta es una historia tradicional sobre el medio ambiente natural que se cuenta a los hombres j&#xF3;venes de una cierta edad"). This should be an exact translation of the English description. There is no word limit.&lt;br&gt;
 &lt;i&gt;*D&#xE9; una descripci&#xF3;n detallada en espa&#xF1;ol del recurso (p.e., "E&#x301;sta es una historia tradicional sobre el medio ambiente natural que se cuenta a los hombres j&#xF3;venes de una cierta edad"). E&#x301;ste debe ser una traducci&#xF3;n exacta de la descripci&#xF3;n en ingl&#xE9;s. No hay l&#xED;mite de palabras.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
@@ -1121,7 +1120,7 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Enter the name of the collection that this resource belongs to. &lt;br&gt;
-&lt;i&gt;*Introduzca el nombre de la colecci&#xF3;n a la cual pertenece este recurso.  &lt;/i&gt;</description>
+&lt;i&gt;*Introduzca el nombre de la colecci&#xF3;n a la cual pertenece este recurso.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -1288,7 +1287,7 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Source Note / Nota sobre la Fuente</title>
+          <title>Source Note / Nota Sobre la Fuente</title>
           <tree>TRUE</tree>
           <actions>
             <create>

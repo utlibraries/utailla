@@ -38,7 +38,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Audio Form</description>
+          <description>Audio Form / Formulario para Audio</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -525,8 +525,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Notes in English about the quality of the recording or about the equipment used to make the recording (e.g. There is a loud hum for the first 3 minutes of the recording). &lt;br&gt;
-&lt;i&gt;*Notas en ingl&#xE9;s sobre la calidad de la grabacio&#x301;n, o sobre el equipo usado para la grabacio&#x301;n (p.e., "There is a loud hum for the first 3 minutes of the recording").&lt;/i&gt;</description>
+              <description>Notes in English about the quality of the recording or about the equipment used to make the recording (e.g. There is a loud hum for the first 3 minutes of the recording.). &lt;br&gt;
+&lt;i&gt;*Notas en ingl&#xE9;s sobre la calidad de la grabacio&#x301;n, o sobre el equipo usado para la grabacio&#x301;n (p.e. There is a loud hum for the first 3 minutes of the recording.).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -563,7 +563,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
               <description>Notes in Spanish about the quality of the recording or about the equipment used to make the recording (e.g. Hay un zumbido que dura los primeros 3 minutos de la grabaci&#xF3;n.).&lt;br&gt;
-&lt;i&gt;*Notas en espa&#xF1;ol sobre la calidad de la grabacio&#x301;n, o sobre el equipo usado para la grabacio&#x301;n (p.e., "Hay un fuerte zumbido durante los tres primeros minutos de la grabacio&#x301;n").&lt;/i&gt;</description>
+&lt;i&gt;*Notas en espa&#xF1;ol sobre la calidad de la grabacio&#x301;n, o sobre el equipo usado para la grabacio&#x301;n (p.e. Hay un fuerte zumbido durante los tres primeros minutos de la grabacio&#x301;n.).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -599,8 +599,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the length of the audio recording in the format hours:minutes:seconds in this format: 00:00:00&lt;br&gt;
-&lt;i&gt;*Anote la duracio&#x301;n de la grabacio&#x301;n de audio con el formato horas:minutos:segundos en el formato: 00:00:00&lt;/i&gt;</description>
+              <description>Enter the length of the audio recording in the format hh:mm:ss (hours:minutes:seconds).&lt;br&gt;
+&lt;i&gt;*Anote la duracio&#x301;n de la grabacio&#x301;n de audio con el formato hh:mm:ss (horas:minutos:segundos).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -638,7 +638,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <collapsible>FALSE</collapsible>
               <default_value>24/44.1 mono</default_value>
               <description>From the drop-down menu, select the encoding specification used for this recording (e.g. 16/44.1 mono = 16 bits, 44,100 Hz, mono).&lt;br&gt;
-&lt;i&gt;*Del menu&#x301; desplegable seleccione la especificacio&#x301;n de codificacio&#x301;n usada para esta grabacio&#x301;n (p.e., 16/44.1 mono = 16 bits, 44,100 Hz, mono).&lt;/i&gt;</description>
+&lt;i&gt;*Del menu&#x301; desplegable seleccione la especificacio&#x301;n de codificacio&#x301;n usada para esta grabacio&#x301;n (p.e. 16/44.1 mono = 16 bits, 44,100 Hz, mono).&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
@@ -696,7 +696,7 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Enter the type of computer (PC or Mac) and the Software Program used to create or convert this audio file.&lt;br&gt;
+              <description>Enter the type of computer (PC or Mac) and the software programs used to create or convert this audio file.&lt;br&gt;
 &lt;i&gt;*Introduzca el tipo de computadora (PC o Mac) y el nombre de los programas usados para crear o convertir esta imagen.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
@@ -817,8 +817,8 @@ Nombre de la persona que rellena este formulario.&lt;/i&gt;</description>
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Rank the quality of the original document or file on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent&lt;br&gt;
-&lt;i&gt;*Califique la calidad del documento o archivo original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
+              <description>Rank the quality of the original recording on a scale of 1 to 5; 1 is poor quality, 3 is average, 5 is excellent.&lt;br&gt;
+&lt;i&gt;*Califique la calidad de la grabaci&#xF3;n original en una escala de 1 a 5; donde 1 indica que es de mala calidad, 3 es de buena calidad, y 5 es de excelente calidad.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>

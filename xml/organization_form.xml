@@ -42,7 +42,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Organization Form</description>
+          <description>Organization Form / Formulario para una Organizaci&#xF3;n</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -405,7 +405,7 @@ Si esta organizaci&#xF3;n cuenta con un proveedor de fondos, introduzca el nombr
           <collapsible>FALSE</collapsible>
           <default_value>N</default_value>
           <description>Is this organization an AILLA depositor? Select Yes or No.&lt;br&gt;
-&lt;i&gt;*Indique si la organizaci&#xF3;n es depositante al AILLA. Selecciona Yes (S&#xED;) o No. &lt;/i&gt;</description>
+&lt;i&gt;*Indique si la organizaci&#xF3;n es depositante al AILLA. Selecciona S&#xED; o No. &lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -545,14 +545,14 @@ Si esta organizaci&#xF3;n cuenta con un proveedor de fondos, introduzca el nombr
                   <collapsible>FALSE</collapsible>
                   <description>Enter a research language for this organization.  &lt;br&gt;
 Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second research language, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional research languages.&lt;br&gt;
-&lt;i&gt;*Introduzca una lengua de investigacio&#x301;n para esta organizaci&#xF3;n. &lt;br&gt;
+&lt;i&gt;*Introduzca un idioma de investigacio&#x301;n para esta organizaci&#xF3;n. &lt;br&gt;
 Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas de investigacio&#x301;n adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Research Language(s) / Lengua que investiga</title>
+                  <title>Research Language(s) / Idioma(s) que investiga</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>

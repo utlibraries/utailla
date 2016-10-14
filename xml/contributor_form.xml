@@ -42,7 +42,7 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Person Form</description>
+          <description>Person Form / Formulario para una Persona</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
@@ -198,7 +198,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Biographical/Historical Notes</title>
+          <title>Biographical Notes / Notas biograficas </title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -248,7 +248,7 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Please enter the date as YYY-MM-DD.&lt;br&gt;
+              <description>Please enter the date as YYYY-MM-DD.&lt;br&gt;
 &lt;i&gt;*Por favor, introduzca la fecha con el formato aaaa-mm-dd&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
@@ -403,14 +403,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Give any additional information [in English] about this person that might be important to the historical record. &lt;br&gt;
+          <description>Give any additional information (in English) about this person that might be important to the historical record. &lt;br&gt;
 &lt;i&gt;*Proporcione cualquier informacio&#x301;n adicional (en ingle&#x301;s) sobre esta persona que puede ser importante en su historial de registro.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [English] / Descripcio&#x301;n (Ingle&#x301;s)</title>
+          <title>Description [English] / Descripcio&#x301;n [Ingle&#x301;s]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -440,14 +440,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <description>Give any additional information [in Spanish] about this person that might be important to the historical record. &lt;br&gt;
+          <description>Give any additional information (in Spanish) about this person that might be important to the historical record. &lt;br&gt;
 &lt;i&gt;*Proporcione cualquier informacio&#x301;n adicional (en espa&#xF1;ol) sobre esta persona que puede ser importante en su historial de registro.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Spanish] / Descripcio&#x301;n (Espa&#xF1;ol)</title>
+          <title>Description [Spanish] / Descripcio&#x301;n [Espa&#xF1;ol]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -626,7 +626,7 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Native Language(s) / Lengua Nativa</title>
+                  <title>Native Language(s) / Idioma(s) Nativo(s)</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -746,14 +746,14 @@ Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda 
                   <collapsible>FALSE</collapsible>
                   <description>Enter a research language for this person. &lt;br&gt; 
 Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional research languages.&lt;br&gt;
-&lt;i&gt;*Introduzca una lengua de investigacio&#x301;n para esta persona. &lt;br&gt;
+&lt;i&gt;*Introduzca un idioma de investigacio&#x301;n para esta persona. &lt;br&gt;
 Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas de investigacio&#x301;n adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Research Language(s) / Lengua que investiga</title>
+                  <title>Research Language(s) / Idioma(s) que investiga</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -880,7 +880,7 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda p
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Other Languages Spoken / Otros Idiomas que habla</title>
+                  <title>Other Language(s) Spoken / Otro(s) Idioma(s) que habla</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -1040,7 +1040,7 @@ Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda p
                       <collapsible>FALSE</collapsible>
                       <description>List any language research organizations or projects in which this person participated (e.g. the Project for the Documentation of the Languages of Mesoamerica). If in doubt, leave this field blank.&lt;br&gt;
 Please type slowly so that the auto-suggest feature can pull up existing organization names. To add a second organization, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the organization name. Repeat these steps for additional organizations to which this person belonged.&lt;br&gt;
-&lt;i&gt;*Registre la(s) organizacio&#x301;n(es) o proyecto(s) de investigacio&#x301;n de lenguas en los cuales ha colaborado esta persona (p.e., El proyecto de Documentacio&#x301;n de la lenguas de Mesoame&#x301;rica). Si no esta&#x301; seguro, deje este campo en blanco. &lt;br&gt;
+&lt;i&gt;*Registre la(s) organizacio&#x301;n(es) o proyecto(s) de investigacio&#x301;n de lenguas en los cuales ha colaborado esta persona (p.e., El Proyecto para la Documentacio&#x301;n de las Lenguas de Mesoame&#x301;rica). Si no esta&#x301; seguro, deje este campo en blanco. &lt;br&gt;
 Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de organizaciones existentes. Para agregar una segunda organizacio&#x301;n, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre de la organizacio&#x301;n. Repita estos pasos para organizaciones o proyectos adicionales en los cuales haya colaborado esta persona.&lt;/i&gt;</description>
                       <disabled>FALSE</disabled>
                       <executes_submit_callback>FALSE</executes_submit_callback>
