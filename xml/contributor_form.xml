@@ -36,6 +36,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Person Form / Formulario para una Persona</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="authority">
         <properties>
           <type>markup</type>
@@ -108,7 +124,7 @@
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>First Name</title>
+                  <title>Given Name(s) / Nombre(s)</title>
                   <tree>TRUE</tree>
                   <actions>
                     <create>
@@ -143,7 +159,7 @@
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Surname(s)</title>
+                  <title>Surname(s) / Apellido(s)</title>
                   <tree>TRUE</tree>
                   <actions>
                     <create>
@@ -182,7 +198,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Biographical/Historical Notes</title>
+          <title>Biographical Notes / Notas biograficas </title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -202,7 +218,7 @@
               </options>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Sex</title>
+              <title>Sex / Sexo</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -232,13 +248,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
-              <description>Please format the date as YYYY-MM-DD</description>
+              <description>Please enter the date as YYYY-MM-DD.&lt;br&gt;
+&lt;i&gt;*Por favor, introduzca la fecha con el formato aaaa-mm-dd&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Date of Birth</title>
+              <title>Date of Birth / Fecha de Nacimiento</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -268,12 +285,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Please enter as much information as possible, such as town or city, state, country, department, county, etc. &lt;br&gt;
+&lt;i&gt;*Por favor, proporcione toda la informacio&#x301;n posible, como puede ser: el pueblo,  la seccio&#x301;n, el distrito, la ciudad, el estado, el pai&#x301;s, el condado, etc.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Place of Origin</title>
+              <title>Place of Origin / Lugar de Origen</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -305,16 +324,19 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <default_value>N</default_value>
+          <description>Select Yes or No from the drop-down menu. If you select "Yes" this person will be listed as "Anonymous" in all records.&lt;br&gt;
+&lt;i&gt;*Seleccione "Si&#x301;" o "No" del menu&#x301; desplegable. Si selecciona "Si&#x301;", esta persona estara&#x301; registrada de esta manera y aparecera&#x301; como "Ano&#x301;nimo" en todos sus registros.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <options>
-            <N>No</N>
-            <Y>Yes</Y>
+            <N>No/No</N>
+            <Y>Yes/Si</Y>
           </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Keep Anonymous</title>
+          <title>Keep Anonymous / Mantenerse ano&#x301;nimo</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -344,12 +366,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>If you list a pseudonym, it will replace the person's name on all records.&lt;br&gt;
+&lt;i&gt;*Si usted registra un "seudo&#x301;nimo", e&#x301;ste sustituira&#x301; el nombre de la persona en todos sus registros.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Pseudonym</title>
+          <title>Pseudonym / Seudo&#x301;nimo</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -379,12 +403,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give any additional information (in English) about this person that might be important to the historical record. &lt;br&gt;
+&lt;i&gt;*Proporcione cualquier informacio&#x301;n adicional (en ingle&#x301;s) sobre esta persona que puede ser importante en su historial de registro.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [English]</title>
+          <title>Description [English] / Descripcio&#x301;n [Ingle&#x301;s]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -414,12 +440,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give any additional information (in Spanish) about this person that might be important to the historical record. &lt;br&gt;
+&lt;i&gt;*Proporcione cualquier informacio&#x301;n adicional (en espa&#xF1;ol) sobre esta persona que puede ser importante en su historial de registro.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Spanish]</title>
+          <title>Description [Spanish] / Descripcio&#x301;n [Espa&#xF1;ol]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -449,17 +477,19 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
-          <default_value>no</default_value>
+          <default_value>N</default_value>
+          <description>Is this person an AILLA depositor? Select Yes or No.&lt;br&gt;
+&lt;i&gt;*&#xBF;Es esta persona un depositor en AILLA? Seleccione Si&#x301; o No.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <options>
-            <Y>Y</Y>
-            <N>N</N>
+            <Y>Yes/Si</Y>
+            <N>No/No</N>
           </options>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Depositor Status</title>
+          <title>Depositor Status / Estatus del depositor</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -529,8 +559,14 @@
                   <path>mads:fieldOfActivity[@type="native language" and @authority="aillaLanguage"]</path>
                   <context>parent</context>
                 </read>
-                <update>NULL</update>
-                <delete>NULL</delete>
+                <update>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </update>
+                <delete>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </delete>
               </actions>
             </properties>
             <children>
@@ -581,12 +617,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Enter the person's native language. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional native languages.&lt;br&gt;
+&lt;i&gt;*Introduzca el idioma nativo de la persona. &lt;br&gt;
+Por favor, escriba lentamente de modo que la funci&#xF3;n de auto-sugerir pueda proporcionar nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas nativos adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Native Language</title>
+                  <title>Native Language(s) / Idioma(s) Nativo(s)</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -704,12 +744,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Enter a research language for this person. &lt;br&gt; 
+Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional research languages.&lt;br&gt;
+&lt;i&gt;*Introduzca un idioma de investigacio&#x301;n para esta persona. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas de investigacio&#x301;n adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Research Languages</title>
+                  <title>Research Language(s) / Idioma(s) que investiga</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -827,12 +871,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Enter any other languages this person speaks. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered Language tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional languages that this person speaks.&lt;br&gt;
+&lt;i&gt;*Introduzca otros idiomas adicionales que esta persona hable.&lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre del idioma. Repita estos pasos para idiomas adicionales que hable esta persona.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Other Languages Spoken</title>
+                  <title>Other Language(s) Spoken / Otro(s) Idioma(s) que habla</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>
@@ -990,12 +1038,16 @@
                       <access>TRUE</access>
                       <collapsed>FALSE</collapsed>
                       <collapsible>FALSE</collapsible>
+                      <description>List any language research organizations or projects in which this person participated (e.g. the Project for the Documentation of the Languages of Mesoamerica). If in doubt, leave this field blank.&lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing organization names. To add a second organization, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the organization name. Repeat these steps for additional organizations to which this person belonged.&lt;br&gt;
+&lt;i&gt;*Registre la(s) organizacio&#x301;n(es) o proyecto(s) de investigacio&#x301;n de lenguas en los cuales ha colaborado esta persona (p.e., El Proyecto para la Documentacio&#x301;n de las Lenguas de Mesoame&#x301;rica). Si no esta&#x301; seguro, deje este campo en blanco. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de organizaciones existentes. Para agregar una segunda organizacio&#x301;n, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre de la organizacio&#x301;n. Repita estos pasos para organizaciones o proyectos adicionales en los cuales haya colaborado esta persona.&lt;/i&gt;</description>
                       <disabled>FALSE</disabled>
                       <executes_submit_callback>FALSE</executes_submit_callback>
                       <multiple>FALSE</multiple>
                       <required>FALSE</required>
                       <resizable>FALSE</resizable>
-                      <title>Organization</title>
+                      <title>Organization(s) / Organizacio&#x301;n a la que pertenece</title>
                       <tree>TRUE</tree>
                       <user_data>
                         <islandora_authority_solr_search_field>dc.title</islandora_authority_solr_search_field>

@@ -32,6 +32,22 @@
       </actions>
     </properties>
     <children>
+      <element name="formTitle">
+        <properties>
+          <type>tag</type>
+          <access>TRUE</access>
+          <collapsed>FALSE</collapsed>
+          <collapsible>FALSE</collapsible>
+          <description>Collection Form / Formulario para una Colecci&#xF3;n</description>
+          <disabled>FALSE</disabled>
+          <executes_submit_callback>FALSE</executes_submit_callback>
+          <multiple>FALSE</multiple>
+          <required>FALSE</required>
+          <resizable>FALSE</resizable>
+          <tree>TRUE</tree>
+        </properties>
+        <children/>
+      </element>
       <element name="titleInfoEnglish">
         <properties>
           <type>markup</type>
@@ -71,12 +87,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Please see other AILLA collections for examples.&lt;br&gt;
+&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>TRUE</required>
               <resizable>FALSE</resizable>
-              <title>Collection Title [English]</title>
+              <title>Collection Title [English] / Ti&#x301;tulo de la Coleccio&#x301;n [Ingle&#x301;s]</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -141,12 +159,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Please see other AILLA collections for examples.&lt;br&gt;
+&lt;i&gt;*Por favor, observe otras colecciones en AILLA como ejemplos.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Collection Title [Spanish]</title>
+              <title>Collection Title [Spanish] / Ti&#x301;tulo de la Coleccio&#x301;n [Espa&#xF1;ol]</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -183,7 +203,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Collection Title [Indigenous]</title>
+          <title>Collection Title [Indigenous] / Ti&#x301;tulo de la Coleccio&#x301;n [Indi&#x301;gena]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -212,12 +232,14 @@
               <access>TRUE</access>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Title of the collection in the indigenous language.&lt;br&gt;
+&lt;i&gt;*T&#xED;tulo de la coleccio&#x301;n en el idioma indi&#x301;gena&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <executes_submit_callback>FALSE</executes_submit_callback>
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Title</title>
+              <title>Title / T&#xED;tulo</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -248,6 +270,10 @@
               <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Indicate the language of the above title. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names.&lt;br&gt;
+&lt;i&gt;*Indique el idioma del t&#xED;tulo anterior. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de los idiomas existentes.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <element_validate>
                 <index key="0">utailla_validate_language_code</index>
@@ -256,7 +282,7 @@
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Language</title>
+              <title>Language / Idioma</title>
               <tree>TRUE</tree>
               <user_data>
                 <index key="0">title</index>
@@ -294,12 +320,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>If the Collector has a website, enter the URL here. &lt;br&gt;
+&lt;i&gt;*Si el Recopilador tiene un pa&#x301;gina web, introduzca el enlace, el URL, aqui&#x301;. &lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Project/Collector Website</title>
+          <title>Collector Website / Pa&#x301;gina web del Recopilador</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -334,7 +362,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Collector(s)</title>
+          <title>Collector(s) / Recopilador(es)</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -461,12 +489,16 @@
                   <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Name of the person who collected these materials. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing names. To add an additional Collector name, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the name. Repeat these steps for each additional Collector. &lt;br&gt;
+&lt;i&gt;*Nombre de la persona que recopilo&#x301; estos materiales. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres  de los existentes. Para agregar otro Recopilador, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre. Repita estos pasos para Recopiladores adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Name</title>
+                  <title>Name / Nombre</title>
                   <tree>TRUE</tree>
                 </properties>
                 <children/>
@@ -521,7 +553,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Depositor(s)</title>
+          <title>Depositor(s) / Depositor(es)</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -648,12 +680,16 @@
                   <autocomplete_path>utailla/autocomplete/associate/contributor</autocomplete_path>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>Name of the person who deposited these materials at AILLA. This person might be the same person as the Collector or someone else.&lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing names. To add an additional Depositor's name, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the name. Repeat these steps for each additional Depositor.&lt;br&gt;
+&lt;i&gt;*Nombre de la persona que deposito&#x301; estos materiales en AILLA. Esta persona puede que sea el mismo recopilador, u otra persona diferente. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres  de los existentes. Para agregar otro Depositor, haga clic en el boto&#x301;n "Add/Agregar". Aparecer&#xE1; una nueva pesta&#xF1;a numerada; haga clic en la nueva pesta&#xF1;a y escriba lentamente el nombre. Repita estos pasos para Depositores adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Name</title>
+                  <title>Name / Nombre</title>
                   <tree>TRUE</tree>
                 </properties>
                 <children/>
@@ -747,7 +783,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Collection Language(s)</title>
+          <title>Collection Language(s) / Idiomas de la Coleccio&#x301;n</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -843,12 +879,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>List all research languages that are represented in this collection. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names. To add a second language, click "Add". A new numbered Language tab will appear; click on the new tab, and slowly type the language name. Repeat these steps for additional research languages. DO NOT list media languages here. &lt;br&gt;
+&lt;i&gt;*Registre todos los Idiomas de Investigacio&#x301;n que esta&#x301;n representados en esta coleccio&#x301;n. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar los nombres de los idiomas existentes. Para agregar un segundo idioma, haga clic en "Add/Agregar". Aparecera&#x301; una nueva pesta&#xF1;a numerada; haga clic sobre la nueva pesta&#xF1;a y lentamente escriba el nombre del idioma. Repita estos pasos para Idiomas de Investigacio&#x301;n adicionales. NO registre idiomas media&#x301;ticos aqui&#x301;. &lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Language</title>
+                  <title>Language / Idioma</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_mapping>!language</islandora_authority_mapping>
@@ -873,7 +913,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Countries</title>
+          <title>Countries / Pai&#x301;s(es)</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -969,12 +1009,16 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>List all countries where these materials were collected or created. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing country names. To add another country, click "Add". A new numbered tab will appear; click on the new tab, and slowly type the country name. Repeat these steps for additional countries.&lt;br&gt;
+&lt;i&gt;*Registre todos los pai&#x301;ses donde los materiales fueron creados o recolectados. &lt;br&gt;
+Por favor, escriba lentamente para que la funcio&#x301;n de auto-sugerir pueda proporcionar nombres de los pai&#x301;ses existentes. Para agregar un segundo pa&#xED;s, haga clic en "Add/Agregar". Aparecera&#x301; una nueva pesta&#xF1;a numerada; haga clic sobre la nueva pesta&#xF1;a y lentamente escriba el nombre del pa&#xED;s. Repita estos pasos para paises adicionales. &lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Country</title>
+                  <title>Country / Pai&#x301;s</title>
                   <tree>TRUE</tree>
                   <user_data>
                     <islandora_authority_search_without_dismax>TRUE</islandora_authority_search_without_dismax>
@@ -994,12 +1038,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give a detailed description in English of the collection, including collection dates, funders and grant numbers, and all other contextual information. Please be as detailed as possible. If your funder requires you to add an Acknowledgement of Support, please add that here.  &lt;br&gt;
+&lt;i&gt;*De&#x301; una descripcio&#x301;n detallada de la coleccio&#x301;n en ingle&#x301;s, incluya fechas en que se realizo&#x301; la recopilacio&#x301;n, financiadores y nu&#x301;meros de subvencio&#x301;n, y dema&#x301;s informacio&#x301;n contextual. Por favor, sea lo ma&#x301;s especi&#x301;fico posible. Si la institucio&#x301;n que finacio&#x301; el proyecto requiere reconocimiento por el apoyo otorgado, favor de hacer el reconocimeinto en este apartado.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [English]</title>
+          <title>Description [English] / Descripcio&#x301;n [Ingle&#x301;s]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -1029,12 +1075,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>Give a detailed description in Spanish of the collection, including collection dates, funders and grant numbers, and all other contextual information. Please be as detailed as possible. If your funder requires you to add an Acknowledgement of Support, please add that here.  &lt;br&gt;
+&lt;i&gt;*De&#x301; una descripcio&#x301;n detallada de la coleccio&#x301;n en espa&#xF1;ol, incluya fechas en que se realizo&#x301; la recopilacio&#x301;n, financiadores y nu&#x301;meros de subvencio&#x301;n, y dema&#x301;s informacio&#x301;n contextual. Por favor, sea lo ma&#x301;s especi&#x301;fico posible. Si la institucio&#x301;n que finacio&#x301; el proyecto requiere reconocimiento por el apoyo otorgado, favor de hacer el reconocimiento en este apartado.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Spanish]</title>
+          <title>Description [Spanish] / Descripcio&#x301;n [Espa&#xF1;ol]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -1064,12 +1112,14 @@
           <access>TRUE</access>
           <collapsed>FALSE</collapsed>
           <collapsible>FALSE</collapsible>
+          <description>If possible, translate the above descriptions into the indigenous language here. &lt;br&gt;
+&lt;i&gt;*De ser posible, realice aqui&#x301; la traduccio&#x301;n de la descripcio&#x301;n anterior en el idioma indi&#x301;gena.&lt;/i&gt;</description>
           <disabled>FALSE</disabled>
           <executes_submit_callback>FALSE</executes_submit_callback>
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>Description [Indigenous]</title>
+          <title>Description [Indigenous] / Descripcio&#x301;n [Indi&#x301;gena]</title>
           <tree>TRUE</tree>
           <actions>
             <create>
@@ -1100,7 +1150,7 @@
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Description</title>
+              <title>Description / Descripcio&#x301;n</title>
               <tree>TRUE</tree>
               <actions>
                 <create>NULL</create>
@@ -1124,6 +1174,10 @@
               <autocomplete_path>utailla/autocomplete/languageCode</autocomplete_path>
               <collapsed>FALSE</collapsed>
               <collapsible>FALSE</collapsible>
+              <description>Indicate the language of the description above. &lt;br&gt;
+Please type slowly so that the auto-suggest feature can pull up existing language names.&lt;br&gt;
+&lt;i&gt;*Indique el idioma (indi&#x301;gena) de la descripcio&#x301;n anterior. &lt;br&gt;
+Por favor, escriba lentemente para que la funcio&#x301;n de auto-sugerir pueda proporcionar los nombres de los idiomas existentes.&lt;/i&gt;</description>
               <disabled>FALSE</disabled>
               <element_validate>
                 <index key="0">utailla_validate_language_code</index>
@@ -1132,7 +1186,7 @@
               <multiple>FALSE</multiple>
               <required>FALSE</required>
               <resizable>FALSE</resizable>
-              <title>Language</title>
+              <title>Language / Idioma</title>
               <tree>TRUE</tree>
               <user_data>
                 <index key="0">description</index>
@@ -1175,7 +1229,7 @@
           <multiple>FALSE</multiple>
           <required>FALSE</required>
           <resizable>FALSE</resizable>
-          <title>References</title>
+          <title>References / Referencias</title>
           <tree>TRUE</tree>
         </properties>
         <children>
@@ -1221,13 +1275,15 @@
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
+                  <description>If any publications or products have resulted from these collection materials, please list them here. To add another reference, click "Add". A new numbered tab will appear; click on the new tab, and type the next reference. Repeat these steps for additional references. &lt;br&gt;
+&lt;i&gt;*Si hay publicaciones u otros productos que hayan resultado de la recopilacio&#x301;n de estos materiales; por favor, ano&#x301;telos aqui&#x301;. Para agregar otra referencia, haga clic en "Add/Agregar". Aparecera&#x301; una nueva pesta&#xF1;a numerada, haga clic en la nueva pesta&#xF1;a, y escriba la nueva referencia. Repita estos pasos para referencias adicionales.&lt;/i&gt;</description>
                   <disabled>FALSE</disabled>
                   <executes_submit_callback>FALSE</executes_submit_callback>
                   <maxlength>1000</maxlength>
                   <multiple>FALSE</multiple>
                   <required>FALSE</required>
                   <resizable>FALSE</resizable>
-                  <title>Reference</title>
+                  <title>Reference / Referencia</title>
                   <tree>TRUE</tree>
                   <actions>
                     <create>
