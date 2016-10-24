@@ -166,6 +166,11 @@ function utailla_drush_command() {
       'islandora',
     ),
   );
+  $commands['utailla-nightly-ingest'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Perform nightly ingest of batched resources.',
+	'drupal dependencies' => array('islandora'),
+  );
   return $commands;
 }
 
@@ -178,6 +183,47 @@ function drush_utailla_media_batch_preprocess() {
     array('directory' => drush_get_option('directory'), 'namespace' => 'ailla')
   );
   islandora_batch_handle_preprocessor($preprocessor);
+}
+
+/**
+ * Drush command for nightly ingest of new Resources  [drush utailla-nightly-ingest]
+ */ 
+function drush_utailla_nightly_ingest($quantity = null) {
+  module_load_include('inc', 'utailla', 'includes/batch_ingest');
+
+  echo "Hi from inside utailla-nightly-ingest \n";
+
+//  ailla:242632_10-17-2016  <=== test batch    
+
+	$path = '/home/itas/Assets/' ;
+
+//  batchRow will be read from drupal db (queued)
+	$batchRow['colPid'] = "ailla:242632";
+	$batchRow['date'] = '10-23-2016';
+	$batchRow['path'] = "ailla:242632_10-17-2016" ;
+	
+	//find resources to ingest
+	$batchPath = $path . $batchRow['path'] . "/" ;
+	$batchResources = scandir($batchPath);
+	
+	foreach ($batchRow as $key => $value) {
+		echo "$key === $value\n";
+	}
+
+	foreach ($batchResources as $value) {
+		if ($value == '.' || $value == '..') { continue;}
+		echo "Value: $value\n";
+		
+		$resource['title'] = preg_replace('/_/', " ", $value);
+		$resource['colPid'] = $batchRow['colPid'];
+		$resource['date'] = $batchRow['date'];
+		$resource['path'] = $batchPath . $value;
+		
+		utailla_ingest_resource($resource);
+		exit;
+	}
+  
+  
 }
 
 /**
