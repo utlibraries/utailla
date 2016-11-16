@@ -95,10 +95,10 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     '#type' => 'radios',
     '#title' => t('Access Level'),
     '#options' => array(
-      UTAILLA_RESTRICTION_LEVEL_1 => t('Level 1: Authenticated Access'),
-      UTAILLA_RESTRICTION_LEVEL_2 => t('Level 2: Password'),
-      UTAILLA_RESTRICTION_LEVEL_3 => t('Level 3: Time limit'),
-      UTAILLA_RESTRICTION_LEVEL_4 => t('Level 4: Contact depositor'),
+      UTAILLA_RESTRICTION_LEVEL_1 => t('Level 0: Authenticated Access'),
+      UTAILLA_RESTRICTION_LEVEL_2 => t('Level 1: Password'),
+      UTAILLA_RESTRICTION_LEVEL_3 => t('Level 2: Time limit'),
+      UTAILLA_RESTRICTION_LEVEL_4 => t('Level 3: Contact depositor'),
     ),
     '#default_value' => $info['level'],
   );
