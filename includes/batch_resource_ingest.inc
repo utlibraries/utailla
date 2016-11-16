@@ -56,9 +56,7 @@ function utailla_ingest_resource($resource) {
      // Add media file collection policy.
 	utailla_set_collection_policy($object, 'media_collection_policy.xml');
 	islandora_add_object($object);
-//	 $restriction=utailla_add_restriction_if_missing($object);
-	utailla_set_restriction($object, array('level' => UTAILLA_RESTRICTION_LEVEL_2));
-	insertPassword($object);
+	$restriction=utailla_add_restriction_if_missing($object);
 	islandora_set_defer_derivatives_flag($object);
 	 
 	 $mediaOut = ingestMedia($fedoraConnection, $config, $resource);
@@ -97,11 +95,11 @@ function ingestMedia($fedoraConnection, $config, $resource)
 	$mediaPath = $resource['ingest_path'] . "/" ;
 	$resMedia = scandir($mediaPath);
 	$resource['mediaPids'] = array();
-	$genres = array();
-	$encodings = array();
-	$platforms = array();
-	$mediums = array();
-	$parameters = array();
+// 	$genres = array();
+// 	$encodings = array();
+// 	$platforms = array();
+// 	$mediums = array();
+// 	$parameters = array();
 	$mediaOut = "" ;
 	foreach ($resMedia as $key => $value) {
 		if ($value == '.' || $value == '..' || $value == 'Thumbs.db' || $value == '.DS_Store') { continue;}
