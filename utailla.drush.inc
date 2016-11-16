@@ -189,41 +189,113 @@ function drush_utailla_media_batch_preprocess() {
  * Drush command for nightly ingest of new Resources  [drush utailla-nightly-ingest]
  */ 
 function drush_utailla_nightly_ingest($quantity = null) {
-  module_load_include('inc', 'utailla', 'includes/batch_ingest');
+  module_load_include('inc', 'utailla', 'includes/batch_resource_ingest');
 
   echo "Hi from inside utailla-nightly-ingest \n";
 
-//  ailla:242632_10-17-2016  <=== test batch    
-
-	$path = '/home/itas/Assets/' ;
-
-//  batchRow will be read from drupal db (queued)
-	$batchRow['colPid'] = "ailla:242632";
-	$batchRow['date'] = '10-23-2016';
-	$batchRow['path'] = "ailla:242632_10-17-2016" ;
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    $assetPath = $config['data_dir'] ;
+    $logLoc = $config['logs_dir'] ;
+    $cronLoc = $config['cron_dir'] ;
 	
-	//find resources to ingest
-	$batchPath = $path . $batchRow['path'] . "/" ;
-	$batchResources = scandir($batchPath);
+	$getTime = date("Y-m-d_h-i-sA") ;
+	$logFile = $logLoc . "outputfile_" . $getTime ;
+	$cronFile = $cronLoc . "outputfile_" . $getTime ;
 	
-	foreach ($batchRow as $key => $value) {
-		echo "$key === $value\n";
-	}
+	$now = "Batch Date is " . date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	
+    $out = 'Ingesting Batches: Nightly Ingest On ' . $now . PHP_EOL;
 
-	foreach ($batchResources as $value) {
-		if ($value == '.' || $value == '..') { continue;}
-		echo "Value: $value\n";
+    // Database information
+    $dbDriver  = $config['database']['driver'];
+    $dbHost = $config['database']['host'];
+    $dbUsr  = $config['database']['usr'];
+    $dbPwd  = $config['database']['pwd'];
+    $dbName  = $config['database']['name'];
+
+    // connect to database
+    $utailla_database = array(
+        'database' => $dbName,
+        'username' => $dbUsr,
+        'password' => $dbPwd,
+        'host' => $dbHost,
+        'driver' => $dbDriver,
+    );
+
+    Database::addConnectionInfo('UTAILLA', 'default', $utailla_database);
+    db_set_active('UTAILLA');
+
+    $query = 'SELECT * FROM utailla_batch_ingest_queue WHERE completed = 0';
+    $results = db_query($query);
+
+    if ($results->rowCount() != 0) {
+		foreach ($results as $record) {
+
+			$refid = $record->refid;
+			$batchRow['colPid'] = trim($record->collection);
+			$batchRow['ingest_path'] = trim($record->ingest_path);
+			$batchRow['batch_date'] = trim($record->batch_date);
+			$batchRow['enteredBy'] = trim($record->enteredBy);
+			$batchRow['numResources'] = trim($record->numResources);
+			$batchRow['completed'] = trim($record->completed);
 		
-		$resource['title'] = preg_replace('/_/', " ", $value);
-		$resource['colPid'] = $batchRow['colPid'];
-		$resource['date'] = $batchRow['date'];
-		$resource['path'] = $batchPath . $value;
+			$out2 = "Batch ID:	" . $refid . PHP_EOL;
+			$out2 .= "Collection:	" . $batchRow['colPid'] . PHP_EOL;
+			$out2 .= "Location:	" . $batchRow['ingest_path'] . PHP_EOL;	
+			$out2 .= "Batch Date:	" . $batchRow['batch_date'] . PHP_EOL;
+			$out2 .= "Entered By:	" . $batchRow['enteredBy'] . PHP_EOL;
+			$out2 .= "Number of Resources in batch:	" . $batchRow['numResources'] . PHP_EOL;
+
+			$out .= PHP_EOL . $out2 . PHP_EOL;
+
+			//find resources to ingest
+			$batchPath = $assetPath . $batchRow['ingest_path'] . "/" ;
+			if (!file_exists($batchPath)) { 
+				$out .= "Batch " . $batchRow['ingest_path'] . " is not a valid batch directory\n";
+				continue;			
+			}
+			
+			$batchResources = scandir($batchPath);
+			foreach ($batchRow as $key => $value) {
+				echo "$key === $value\n";
+			}
+
+			foreach ($batchResources as $value) {
+				if ($value == '.' || $value == '..' || $value == 'DONE' || $value == 'Thumbs.db' || $value == '.DS_Store' || $value == 'Cron') { continue;}
+				
+				echo "Value: $value\n";
 		
-		utailla_ingest_resource($resource);
-		exit;
+				$resource['title'] = preg_replace('/_/', " ", $value);
+				$resource['colPid'] = $batchRow['colPid'];
+				$resource['batch_date'] = $batchRow['batch_date'];
+				$resource['ingest_path'] = $batchPath . $value;
+		
+				if (!file_exists($resource['ingest_path'])) {
+					$out .= "Resource " . $resource['ingest_path'] . " is not a valid resource directory\n";
+					continue;			
+				}
+			
+				var_dump($resource);
+				$resourceOut = utailla_ingest_resource($resource);
+				
+				$out .= PHP_EOL . $resourceOut . PHP_EOL;
+
+			    $query2 = 'UPDATE utailla_batch_ingest_queue SET completed = :completed WHERE refid = :refid';
+			    $results2 = db_query($query2, array(':completed' => time(), ':refid' => $refid));
+				$results2 = db_update('utailla_batch_ingest_queue') ;
+
+			}
+		}
+	} else {
+	    $out .= 'There were no ingests to process' . PHP_EOL;
 	}
-  
-  
+	var_dump($out);
+	$out .= date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	file_put_contents($logFile, $out, FILE_APPEND);
+	file_put_contents($cronFile, $out, FILE_APPEND);
+
 }
 
 /**
