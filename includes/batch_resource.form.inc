@@ -19,8 +19,6 @@
 function utailla_batch_resource(array $form, array &$form_state) 
 {
 
-//    module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
-
     global $user;
     $form = array();
     $form['#tree'] = TRUE;
@@ -81,7 +79,6 @@ function utailla_batch_resource_submit($form, &$form_state) {
     global $user;
     $uname = $user->name;
 
-//	drupal_set_message('<pre>formState is: '.print_r($form_state['values'], true).'</pre>');
 	$queueB = queueBatch($form_state);
 	$form_state['rebuild'] = TRUE;
 }
