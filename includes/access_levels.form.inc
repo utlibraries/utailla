@@ -171,6 +171,32 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     ),
   );
 
+  $form['depositor_name'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 256,
+    '#title' => t('Depositor Name'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name=level]' => array(
+          'value' => UTAILLA_RESTRICTION_LEVEL_4,
+        ),
+      ),
+    ),
+  );
+
+  $form['depositor_email'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 256,
+    '#title' => t('Depositor Email'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name=level]' => array(
+          'value' => UTAILLA_RESTRICTION_LEVEL_4,
+        ),
+      ),
+    ),
+  );
+
   $form['actions'] = array(
     '#type' => 'actions',
     'submit' => array(
@@ -201,7 +227,14 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       // Fall-through.
 
     case UTAILLA_RESTRICTION_LEVEL_4:
+      if (empty($values['depositor_name'])) {
+        form_error($form['depositor_name'], t('Depositor name must be entered.'));
+      }
+      if (empty($values['depositor_email'])) {
+        form_error($form['depositor_email'], t('Depositor email must be entered.'));
+      }
       // Fall-through.
+
     case UTAILLA_RESTRICTION_LEVEL_2:
       if (empty($values['password']) && empty($first_restriction['password'])) {
         form_error($form['password'], t('A password must be entered.'));
@@ -246,6 +279,10 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
   }
   if (intval($restriction['level']) === UTAILLA_RESTRICTION_LEVEL_3) {
     $restriction['end_time'] = strtotime($to_set['end_time']);
+  }
+  if (intval($restriction['level']) === UTAILLA_RESTRICTION_LEVEL_4) {
+      $restriction['depositor_name'] = $to_set['depositor_name'];
+      $restriction['depositor_email'] = $to_set['depositor_email'];
   }
 
   return $restriction;
