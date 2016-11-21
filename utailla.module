@@ -99,6 +99,16 @@ function utailla_menu() {
     'access arguments' => array(ISLANDORA_METADATA_EDIT),
     'type' => MENU_CALLBACK,
   );
+  $items['utailla/batch_resource'] = array(
+    'title' => 'AILLA Batch Resource Ingest',
+    'description' => 'Add batch resources to ingest queue.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('utailla_batch_resource'),
+    'file' => 'includes/batch_resource.form.inc',
+    'access arguments' => array('view AILLA batch resource ingest form'),
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 0,
+  );
   $items['islandora/object/%islandora_object/manage/utailla_access_levels'] = array(
     'title' => 'Access Levels',
     'page callback' => 'drupal_get_form',
@@ -400,6 +410,10 @@ function utailla_permission() {
   $permission['bypass access level restrictions'] = array(
     'title' => t('Bypass Access Level restrictions'),
     'description' => t('Permit access to view datastreams that are restricted by access levels.'),
+  );
+  $permission['view AILLA batch resource ingest form'] = array(
+    'title' => t('View the batch resource ingest form'),
+    'description' => t('Permit access to view AILLA batch resource ingest form.'),
   );
 
   return $permission;
