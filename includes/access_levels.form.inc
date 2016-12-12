@@ -57,6 +57,8 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     'reason_option' => 0,
     'custom_reason' => '',
     'end_time' => NULL,
+    'depositor_name' => '',
+    'depositor_email' => '',
   );
   $form_state['utailla_first_file_info'] = $info;
   $justifications = utailla_access_justification_options();
@@ -71,6 +73,8 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         'modified' => $member['date_modified']['value'],
         'level' => isset($member_info['level']) ? $member_info['level'] + 1 : t('Not set'),
         'hint' => isset($member_info['hint']) ? $member_info['hint'] : t('N/A'),
+        'depositor_name' => isset($member_info['depositor_name']) ? $member_info['depositor_name'] : t('N/A'),
+        'depositor_email' => isset($member_info['depositor_email']) ? $member_info['depositor_email'] : t('N/A'),
       );
     }
     $form['files'] = array(
@@ -171,6 +175,34 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     ),
   );
 
+  $form['depositor_name'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 256,
+    '#title' => t('Depositor Name'),
+    '#default_value' => $info['depositor_name'],
+    '#states' => array(
+      'visible' => array(
+        ':input[name=level]' => array(
+          'value' => UTAILLA_RESTRICTION_LEVEL_4,
+        ),
+      ),
+    ),
+  );
+
+  $form['depositor_email'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 256,
+    '#title' => t('Depositor Email'),
+    '#default_value' => $info['depositor_email'],
+    '#states' => array(
+      'visible' => array(
+        ':input[name=level]' => array(
+          'value' => UTAILLA_RESTRICTION_LEVEL_4,
+        ),
+      ),
+    ),
+  );
+
   $form['actions'] = array(
     '#type' => 'actions',
     'submit' => array(
@@ -201,7 +233,14 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       // Fall-through.
 
     case UTAILLA_RESTRICTION_LEVEL_4:
+      if (empty($values['depositor_name'])) {
+        form_error($form['depositor_name'], t('Depositor name must be entered.'));
+      }
+      if (empty($values['depositor_email'])) {
+        form_error($form['depositor_email'], t('Depositor email must be entered.'));
+      }
       // Fall-through.
+
     case UTAILLA_RESTRICTION_LEVEL_2:
       if (empty($values['password']) && empty($first_restriction['password'])) {
         form_error($form['password'], t('A password must be entered.'));
@@ -247,6 +286,10 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
   if (intval($restriction['level']) === UTAILLA_RESTRICTION_LEVEL_3) {
     $restriction['end_time'] = strtotime($to_set['end_time']);
   }
+  if (intval($restriction['level']) === UTAILLA_RESTRICTION_LEVEL_4) {
+      $restriction['depositor_name'] = $to_set['depositor_name'];
+      $restriction['depositor_email'] = $to_set['depositor_email'];
+  }
 
   return $restriction;
 }
@@ -259,9 +302,13 @@ function utailla_access_level_form_submit(&$form, &$form_state) {
   $object = islandora_object_load($object_in->id);
 
   $schema = drupal_get_schema('utailla_media_file_restrictions');
+//  drupal_set_message('<pre>'. print_r($schema['fields'], true) .'</pre>'); 
+//  drupal_set_message('<pre>'. print_r($form_state['values'], true) .'</pre>'); 
+  
   $restriction_info = array_intersect_key($form_state['values'], $schema['fields']);
   $first_restriction = $form_state['utailla_first_file_info'];
   $restriction_info = utailla_calculate_restriction_level_info($restriction_info, $first_restriction);
+//  drupal_set_message('<pre>'. print_r($restriction_info, true) .'</pre>'); 
 
   $files = isset($form_state['values']['files']) ? array_filter($form_state['values']['files']) : array();
   $operand = in_array(UTAILLA_RESOURCE_CMODEL, $object->models) && !empty($files) ?

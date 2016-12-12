@@ -468,47 +468,61 @@ function utailla_islandora_object_alter(AbstractObject $object, &$context) {
  * Implements hook_block_info().
  */
 function utailla_block_info() {
-  return array(
-    'utailla_object_credentials' => array(
+
+  $blocks = array();
+
+  $blocks['view_download'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('Download Object'),
+  );
+
+  $blocks['utailla_object_credentials'] = array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Object Credential Input'),
-    ),
   );
+  return $blocks;
 }
 
 /**
  * Implements hook_block_view().
  */
 function utailla_block_view($delta = '') {
-  $to_render = array();
+	$to_render = array();
 
-  switch ($delta) {
-    case 'utailla_object_credentials':
-      module_load_include('inc', 'utailla', 'includes/object_credentials');
-      module_load_include('inc', 'utailla', 'includes/db');
-      module_load_include('inc', 'utailla', 'includes/utilities');
-      $object = menu_get_object('islandora_object', 2);
-      $restriction = utailla_get_restriction($object->id);
-      if ($object &&
-        // Objects with a restricion level of 'Authenticated Access' may
-        // still contain a password; this is inherited from the collection and
-        // exists as a default if the access level is changed.
-        isset($restriction['level']) && $restriction['level'] != UTAILLA_RESTRICTION_LEVEL_1 &&
-        isset($restriction['password']) && $restriction['password'] &&
-        !utailla_user_media_file_current_authorization($object->id) &&
-        !utailla_is_object_archived($object)) {
+	switch ($delta) {
+		case 'utailla_object_credentials':
+			module_load_include('inc', 'utailla', 'includes/object_credentials');
+			module_load_include('inc', 'utailla', 'includes/db');
+			module_load_include('inc', 'utailla', 'includes/utilities');
+			$object = menu_get_object('islandora_object', 2);
+			$restriction = utailla_get_restriction($object->id);
+			if ($object &&
+			// Objects with a restricion level of 'Authenticated Access' may
+			// still contain a password; this is inherited from the collection and
+			// exists as a default if the access level is changed.
+				isset($restriction['level']) && $restriction['level'] != UTAILLA_RESTRICTION_LEVEL_1 &&
+				isset($restriction['password']) && $restriction['password'] &&
+				!utailla_user_media_file_current_authorization($object->id) &&
+				!utailla_is_object_archived($object)) {
 
-        $to_render['subject'] = t('Unlock Object');
-        $to_render['content'] = drupal_get_form(
-          'utailla_object_credentials_form',
-          $object
-        );
-      }
-      break;
-  }
-  return $to_render;
+				$to_render['subject'] = t('Unlock Object');
+				$to_render['content'] = drupal_get_form(
+				'utailla_object_credentials_form',
+				$object
+				);
+			}
+			break;
+		case 'view_download':
+			module_load_include('inc', 'utailla', 'includes/view_download');
+			$to_render['subject'] = t('Download Object');
+			$to_render['content'] = drupal_get_form('view_download_form');
+			break;
+	}
+	return $to_render;
 }
 
 /**

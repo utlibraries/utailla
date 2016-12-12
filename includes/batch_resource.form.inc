@@ -79,6 +79,7 @@ function utailla_batch_resource_submit($form, &$form_state) {
     global $user;
     $uname = $user->name;
 
+//	drupal_set_message('<pre>formState is: '.print_r($form_state['values'], true).'</pre>');
 	$queueB = queueBatch($form_state);
 	$form_state['rebuild'] = TRUE;
 }

@@ -129,7 +129,7 @@ function ingestMedia($fedoraConnection, $config, $resource)
 		$modelInfo = getMediaModels($media) ;
 		$media['typeOfResource'] = $modelInfo['type'] ;
 		$content = utailla_build_minimal_media_mods($media);
-		$mediaOut .= "Media:  " . $media['title'] . " (Type: " . $modelInfo['type'] . ") has PID:  http://islandora-ailla-dev.lib.utexas.edu/islandora/object/" . $object->id . PHP_EOL;
+		$mediaOut .= "Media:  " . $media['title'] . " (Type: " . $modelInfo['type'] . ") has PID: " . $object->id . PHP_EOL;
 		
 		var_dump($media);
 		
@@ -159,7 +159,10 @@ function ingestMedia($fedoraConnection, $config, $resource)
 		insertPassword($object);
 
 		utailla_set_default_thumb($object);
-		if ($modelsInfo['type'] != 'text' && $modelsInfo['type'] != 'binary' ) { islandora_run_derivatives($object, 'OBJ'); }
+		if ($modelsInfo['type'] != 'text' && $modelsInfo['type'] != 'binary' ) { 
+			echo ("Running Derivatives for of Type " . $modelsInfo['type'] . " and PID " . $object->id . "\n");
+			islandora_run_derivatives($object, 'OBJ'); 
+		}
 	}
 
 	var_dump($resource['mediaPids']);
