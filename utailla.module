@@ -478,15 +478,6 @@ function utailla_block_info() {
       'info' => t('Download Object'),
   );
 
-//   return array(
-//     'utailla_object_credentials' => array(
-//       'visibility' => BLOCK_VISIBILITY_LISTED,
-//       'pages' => 'islandora/object/*',
-//       'cache' => DRUPAL_NO_CACHE,
-//       'info' => t('Object Credential Input'),
-//     ),
-//   );
-
   $blocks['utailla_object_credentials'] = array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
