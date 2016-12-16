@@ -56,6 +56,7 @@ function utailla_ingest_resource($resource) {
      // Add media file collection policy.
 	utailla_set_collection_policy($object, 'media_collection_policy.xml');
 	islandora_add_object($object);
+	utailla_set_default_thumb($object);
 	$restriction=utailla_add_restriction_if_missing($object);
 	islandora_set_defer_derivatives_flag($object);
 	 
@@ -95,11 +96,6 @@ function ingestMedia($fedoraConnection, $config, $resource)
 	$mediaPath = $resource['ingest_path'] . "/" ;
 	$resMedia = scandir($mediaPath);
 	$resource['mediaPids'] = array();
-// 	$genres = array();
-// 	$encodings = array();
-// 	$platforms = array();
-// 	$mediums = array();
-// 	$parameters = array();
 	$mediaOut = "" ;
 	foreach ($resMedia as $key => $value) {
 		if ($value == '.' || $value == '..' || $value == 'Thumbs.db' || $value == '.DS_Store') { continue;}
@@ -157,8 +153,8 @@ function ingestMedia($fedoraConnection, $config, $resource)
 
 		utailla_set_restriction($object, array('level' => UTAILLA_RESTRICTION_LEVEL_2));
 		insertPassword($object);
-
-		utailla_set_default_thumb($object);
+//		utailla_set_default_thumb($object);
+		utailla_set_restricted_thumb($object);
 		if ($modelsInfo['type'] != 'text' && $modelsInfo['type'] != 'binary' ) { 
 			echo ("Running Derivatives for of Type " . $modelsInfo['type'] . " and PID " . $object->id . "\n");
 			islandora_run_derivatives($object, 'OBJ'); 
@@ -169,6 +165,19 @@ function ingestMedia($fedoraConnection, $config, $resource)
 	return $mediaOut;
 
 }
+
+/**
+ * Ingests the default "restricted" thumbnail on an object.
+ */
+function utailla_set_restricted_thumb(AbstractObject $object) {
+	$path = drupal_get_path('module', 'utailla');
+	$datastream = $object->constructDatastream('TN', 'M');
+	$datastream->label = 'Restricted Thumbnail';
+	$datastream->mimetype = 'image/png';
+	$datastream->setContentFromFile("$path/images/restricted.png", FALSE);
+	$object->ingestDatastream($datastream);
+}
+
 
 /**
  * Build minimal MODS datastream for Resource
@@ -192,24 +201,24 @@ function utailla_build_minimal_resource_mods($resource)
 	}
 	
   // Collection Name.
-	if ($resource['colPid']) {
-		$pid = $resource['colPid'];
-		$collection = islandora_object_load($pid);
-		if ($collection) {
-			$writer->startElement('relatedItem');
-			$writer->writeAttribute('type', 'host');
-			$writer->startElement('titleInfo');
-			$writer->writeAttribute('displayLabel', 'Collection name');
-			$writer->startElement('title');
-			$writer->writeAttribute('authority', 'aillaCollection');
-			$writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
-			$writer->text($collection->label);
-			$writer->endElement();
-			$writer->endElement();
-			$writer->endElement();
-		}
-	}
-
+// 	if ($resource['colPid']) {
+// 		$pid = $resource['colPid'];
+// 		$collection = islandora_object_load($pid);
+// 		if ($collection) {
+// 			$writer->startElement('relatedItem');
+// 			$writer->writeAttribute('type', 'host');
+// 			$writer->startElement('titleInfo');
+// 			$writer->writeAttribute('displayLabel', 'Collection name');
+// 			$writer->startElement('title');
+// 			$writer->writeAttribute('authority', 'aillaCollection');
+// 			$writer->writeAttribute('valueURI', utailla_get_uri_from_pid($pid));
+// 			$writer->text($collection->label);
+// 			$writer->endElement();
+// 			$writer->endElement();
+// 			$writer->endElement();
+// 		}
+// 	}
+// 
   // Date Created.
 	if ($resource['date']) {
 		$writer->startElement('originInfo');
@@ -406,7 +415,7 @@ function getMediaModels($media)
 		30 => 'audio/x-wav',
 	);
 	$metaMap = array(
-		'text' => array(4),
+	    'text' => array(4, 5, 6, 7, 8, 10, 12, 16, 18, 19, 25),
 		'audio' => array(1, 2, 3, 30),
 		'image' => array(9, 11, 24, 27),
 		'video' => array(13, 14, 15, 17, 20, 21, 22, 23, 28, 29),
