@@ -224,6 +224,9 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
   $first_restriction = $form_state['utailla_first_file_info'];
   switch ($values['level']) {
     case UTAILLA_RESTRICTION_LEVEL_3:
+      if (empty($values['password']) && empty($first_restriction['password'])) {
+        form_error($form['password'], t('A password must be entered.'));
+      }
       if (empty($values['end_time'])) {
         form_error($form['end_time'], t('An ending time must be selected.'));
       }
@@ -233,6 +236,9 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
       break;
 
     case UTAILLA_RESTRICTION_LEVEL_4:
+      if (empty($values['password']) && empty($first_restriction['password'])) {
+        form_error($form['password'], t('A password must be entered.'));
+      }
       if (empty($values['depositor_name'])) {
         form_error($form['depositor_name'], t('Depositor name must be entered.'));
       }
