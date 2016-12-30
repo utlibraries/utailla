@@ -484,6 +484,13 @@ function utailla_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Object Credential Input'),
   );
+
+  $blocks['utailla_object_metadata'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('UTAilla Object Metadata'),
+  );
   return $blocks;
 }
 
@@ -520,6 +527,11 @@ function utailla_block_view($delta = '') {
 			module_load_include('inc', 'utailla', 'includes/view_download');
 			$to_render['subject'] = t('Download Object');
 			$to_render['content'] = drupal_get_form('view_download_form');
+			break;
+		case 'utailla_object_metadata':
+			module_load_include('inc', 'utailla', 'includes/object_metadata');
+			$to_render['subject'] = t('Object Metadata');
+			$to_render['content'] = utailla_object_metadata();
 			break;
 	}
 	return $to_render;
