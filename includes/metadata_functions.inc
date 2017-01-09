@@ -28,8 +28,7 @@ function utailla_get_title($PID) {
 	return $title;
 }
 
-function parseResourceDatastreamMODS($content) {
-
+function parseResourceDatastreamMODS($content, $langSwitch) {
 	/* Set Vars */
 	$info = array();
 	$languagePIDs = array();
@@ -65,9 +64,9 @@ function parseResourceDatastreamMODS($content) {
 			$i++;
 		}
 		
-		foreach ($languagePIDs as $lang) {
-			$lang = explode('/', $lang);
-			$langPID = array_pop($lang);
+		foreach ($languagePIDs as $langP) {
+			$langP = explode('/', $langP);
+			$langPID = array_pop($langP);
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -186,12 +185,12 @@ function parseResourceDatastreamMODS($content) {
 			if ($genre[@lang] == 'eng') {
 				$genres_eng[$i] = (string)$genre;
 			$i++;
-			next;
+			continue;
 			}
 			if ($genre[@lang] == 'spa') {
 				$genres_spa[$i] = (string)$genre;
 			$i++;
-			next;
+			continue;
 			}
 		}
 	}
@@ -231,11 +230,15 @@ function parseResourceDatastreamMODS($content) {
 	$info['spa']['Géneros'] = (array)$genres_spa;
 	$info['spa']['Nota Sobre la Fuente'] = (string)$source_note;
 	$info['spa']['Referencia'] = (array) $references;
-	
-//	$results = display_info_results($info);
-	
-//	return $mods;
-	return $info;
+
+	if ($langSwitch == 'es') {
+		$results = $info['spa'];
+	} else {
+		$results = $info['eng'];
+	}
+
+	return $results;
+//	return $info;
 }
 
 function parseCollectionDatastreamMODS($content) {
@@ -396,13 +399,13 @@ function parseAudioDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
-	$description_eng = '';
-	$description_spa = '';
-	$description_indigenous = '';
+	$date_created = '';
+	$place_created = '';
+	$date_archived = '';
+	$tech_description_eng = '';
+	$tech_description_spa = '';
 	$lang_comm = '';
 	$countryPIDS = array();
-	$place_created = '';
-	$date_created = '';
 	$contributors_personal_eng = array();
 	$contributors_personal_spa = array();
 	$contributors_corp_eng = array();
@@ -529,12 +532,12 @@ function parseAudioDatastreamMODS($content) {
 			if ($genre[@displayLabel] == 'Content type (English)') {
 				$genres_eng[$i] = (string)$genre;
 			$i++;
-			next;
+			continue;
 			}
 			if ($genre[@displayLabel] == 'Content type (Spanish)') {
 				$genres_spa[$i] = (string)$genre;
 			$i++;
-			next;
+			continue;
 			}
 		}
 	}

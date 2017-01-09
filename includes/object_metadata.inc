@@ -7,6 +7,15 @@
 function utailla_object_metadata()
 {
     module_load_include('inc', 'utailla', 'includes/metadata_functions');
+	$current_url = $_SERVER['REQUEST_URI'];
+	$path = explode('/', $current_url);
+	$lang_path = $path[1];
+	if ($lang_path == 'es') {
+		$lang = 'es';
+	} else if ($lang_path == 'islandora') {
+		$lang = 'eng';
+	}
+
 	$object = menu_get_object('islandora_object', 2);
 	$objectID = $object->id;
     if (!$object) {
@@ -17,13 +26,13 @@ function utailla_object_metadata()
 	$relsDatastream = $object['RELS-EXT'];
 	$relsResult = $relsDatastream->content;
 	$relsInfo = parse_relsExt_for_Cmodel($relsResult);
-
+	
 	switch ($relsInfo) {
 		case 'info:fedora/ailla:resourceCModel':
 			$resource_datastream = $object['MODS'];
 			if ($resource_datastream) {
-				$info = parseResourceDatastreamMODS($resource_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+				$info = parseResourceDatastreamMODS($resource_datastream->content, $lang);
+				//drupal_set_message('<pre>'.print_r($info, true).'</pre>');
 			}
 			$test_message = t('Object is a resource!!!');
 			break;
@@ -86,14 +95,23 @@ function utailla_object_metadata()
 	}
 
 	$list = array();
+	
 	foreach ($info as $key =>$value) {
+		if (is_array($value)) {
+			foreach ($value as $v) {
+				$formatted .= $v . '<br />';
+			}
+			$value = $formatted;
+			$formatted = '';
+		}
 		$list[] = t($key.': '.$value);
+//		$list[] = '<dt>'.$key.'</dt><dd>'.$value.'</dd>';
 	}
+
 	$render_array['object_metadata'] = array(
 		'#theme' => 'item_list',  // The theme function to apply to the #items
 		'#items' => $list,  // The list itself.
 	);
+
 	return $render_array;
-
-
 }
