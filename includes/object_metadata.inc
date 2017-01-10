@@ -49,7 +49,7 @@ function utailla_object_metadata()
 		case 'info:fedora/islandora_sp_pdf':
 			$pdf_datastream = $object['MODS'];
 			if ($pdf_datastream) {
-				$info = parsePDFDatastreamMODS($pdf_datastream->content);
+				$info = parseBinDocPDFDatastreamMODS($pdf_datastream->content);
 			}
 			break;
 		case 'info:fedora/islandora_sp_videoCModel':
@@ -58,32 +58,28 @@ function utailla_object_metadata()
 				$info = parseVideoDatastreamMODS($video_datastream->content);
 			}
 			break;
-		case 'info:fedora/islandora_sp_document':
-			$document_datastream = $object['MODS'];
-			if ($document_datastream) {
-				$info = parseDocumentDatastreamMODS($audio_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
-			}
-			break;
 		case 'info:fedora/islandora_binaryObjectCModel':
 			$binaryObject_datastream = $object['MODS'];
 			if ($binaryObject_datastream) {
-				$info = parseBinaryObjectDatastreamMODS($binaryObject_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+				$info = parseBinDocPDFDatastreamMODS($binaryObject_datastream->content);
+			}
+			break;
+		case 'info:fedora/islandora_sp_document':
+			$document_datastream = $object['MODS'];
+			if ($document_datastream) {
+				$info = parseBinDocPDFDatastreamMODS($document_datastream->content);
 			}
 			break;
 		case 'info:fedora/islandora_sp_basic_image':
 			$basicImage_datastream = $object['MODS'];
 			if ($basicImage_datastream) {
-				$info = parseBasicImageDatastreamMODS($basicImage_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+				$info = parseImageDatastreamMODS($basicImage_datastream->content);
 			}
 			break;
 		case 'info:fedora/islandora_sp_large_image_cmodel':
 			$largeImage_datastream = $object['MODS'];
 			if ($largeImage_datastream) {
-				$info = parseLargeImageDatastreamMODS($largeImage_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+				$info = parseImageDatastreamMODS($largeImage_datastream->content);
 			}
 			break;
 	}
