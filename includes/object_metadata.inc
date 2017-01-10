@@ -50,7 +50,12 @@ function utailla_object_metadata()
 			$pdf_datastream = $object['MODS'];
 			if ($pdf_datastream) {
 				$info = parsePDFDatastreamMODS($pdf_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+			}
+			break;
+		case 'info:fedora/islandora_sp_videoCModel':
+			$video_datastream = $object['MODS'];
+			if ($video_datastream) {
+				$info = parseVideoDatastreamMODS($video_datastream->content);
 			}
 			break;
 		case 'info:fedora/islandora_sp_document':
@@ -64,13 +69,6 @@ function utailla_object_metadata()
 			$binaryObject_datastream = $object['MODS'];
 			if ($binaryObject_datastream) {
 				$info = parseBinaryObjectDatastreamMODS($binaryObject_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
-			}
-			break;
-		case 'info:fedora/islandora_sp_videoCModel':
-			$video_datastream = $object['MODS'];
-			if ($video_datastream) {
-				$info = parseVideoDatastreamMODS($video_datastream->content);
 				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
 			}
 			break;
