@@ -11,9 +11,9 @@ function utailla_object_metadata()
 	$path = explode('/', $current_url);
 	$lang_path = $path[1];
 	if ($lang_path == 'es') {
-		$lang = 'es';
+		$langSwitch = 'es';
 	} else if ($lang_path == 'islandora') {
-		$lang = 'eng';
+		$langSwitch = 'eng';
 	}
 
 	$object = menu_get_object('islandora_object', 2);
@@ -31,23 +31,19 @@ function utailla_object_metadata()
 		case 'info:fedora/ailla:resourceCModel':
 			$resource_datastream = $object['MODS'];
 			if ($resource_datastream) {
-				$info = parseResourceDatastreamMODS($resource_datastream->content, $lang);
-				//drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+				$info = parseResourceDatastreamMODS($resource_datastream->content);
 			}
-			$test_message = t('Object is a resource!!!');
 			break;
 		case 'info:fedora/islandora_collectionCModel':
 			$collection_datastream = $object['MODS'];
 			if ($collection_datastream) {
 				$info = parseCollectionDatastreamMODS($collection_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
 			}
 			break;
 		case 'info:fedora/islandora_sp-audioCModel':
 			$audio_datastream = $object['MODS'];
 			if ($audio_datastream) {
 				$info = parseAudioDatastreamMODS($audio_datastream->content);
-				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
 			}
 			break;
 		case 'info:fedora/islandora_sp_pdf':
@@ -93,6 +89,12 @@ function utailla_object_metadata()
 			}
 			break;
 	}
+	
+	if ($langSwitch == 'es') {
+		$info = $info['spa'];
+	} else {
+		$info = $info['eng'];
+	}
 
 	$list = array();
 	
@@ -104,14 +106,15 @@ function utailla_object_metadata()
 			$value = $formatted;
 			$formatted = '';
 		}
-		$list[] = t($key.': '.$value);
-//		$list[] = '<dt>'.$key.'</dt><dd>'.$value.'</dd>';
+		$rows[] = array($key,$value);
 	}
 
-	$render_array['object_metadata'] = array(
-		'#theme' => 'item_list',  // The theme function to apply to the #items
-		'#items' => $list,  // The list itself.
-	);
-
-	return $render_array;
+	$header = '';
+	$output = theme('table', array(
+					'header' => $header,
+					'rows'   => $rows,
+					'attributes' => array('width' => '100%')
+				));
+	
+	return $output;
 }
