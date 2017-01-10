@@ -533,6 +533,275 @@ function parseAudioDatastreamMODS($content) {
 function parsePDFDatastreamMODS($content) {
 
 	$info = array();
+	$languagePIDs = array();
+	$languages = array();
+	$content_type_eng = '';
+	$content_type_spa = '';
+	$date_created = '';
+	$date_archived = '';
+	$tech_description_eng = '';
+	$tech_description_spa = '';
+	$entered_by = '';
+	$length = '';
+	$encoding = '';
+	$platform = '';
+	$org_medium_eng = '';
+	$org_medium_spa = '';
+	$quality = '';
+	
+	$xml = (string)$content;
+	
+	$mods = simplexml_load_string($xml);
+
+	/* Data from LanguageTerm */	
+	if (!empty($mods->language->languageTerm[@valueURI])) {
+		$i = 0;
+		foreach ($mods->language as $l) {
+			if (!empty($l->languageTerm[@valueURI])) {
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
+		}
+		
+		foreach ($languagePIDs as $lang) {
+			$lang = explode('/', $lang);
+			$langPID = array_pop($lang);
+			$languages[] = utailla_get_title($langPID);
+		}
+	}
+	/* End Data from LanguageTerm */	
+	
+	/* Data from genre (creates Content Type) */	
+	if (!empty($mods->genre)) {
+		$i = 0;
+		foreach ($mods->genre as $genre) {
+			if ($genre[@displayLabel] == 'Content type (English)') {
+				$content_type_eng[$i] = (string)$genre;
+			$i++;
+			continue;
+			}
+			if ($genre[@displayLabel] == 'Content type (Spanish)') {
+				$content_type_spa[$i] = (string)$genre;
+			$i++;
+			continue;
+			}
+		}
+	}
+	/* End Data from genre */	
+	
+	/* Data from originInfo (creates date info) */	
+	if (!empty($mods->originInfo)) {
+		foreach ($mods->originInfo as $origin) {
+			if ($origin->dateCreated[@displayLabel] == 'Date research material was created') {
+				$date_created = (string)$origin->dateCreated;
+			}
+			if ($origin->dateOther[@displayLabel] == 'Date archived') {
+				$date_archived = (string)$origin->dateOther;
+			}
+		}
+	}
+	/* End Data from originInfo (creates date info)  */	
+
+	/* Data from Note (Tech description & entered by) */
+	if (!empty($mods->note)) {
+		foreach ($mods->note as $note) {
+			if ((string)$note[@displayLabel] == 'Technical description (English)') {
+				$tech_description_eng = (string)$note;
+			}
+			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
+				$tech_description_spa = (string)$note;
+			}
+			if ((string)$note[@type] == 'record producer') {
+				$entered_by = (string)$note;
+			}
+		}
+	}
+	/* Data from Note (Tech description & entered by) */
+
+	/* Data from physicalDescription */
+	if (!empty($mods->physicalDescription)) {
+		$length = (string)$mods->physicalDescription->extent;
+		foreach ($mods->physicalDescription->note as $phys) {
+			if ((string)$phys[@type] == 'platform') {
+				$platform = (string)$phys;
+			}
+			if ((string)$phys[@type] == 'original quality') {
+				$quality = (string)$phys;
+			}
+		}
+		foreach ($mods->physicalDescription->form as $physForm) {
+			if ((string)$physForm[@lang] == 'eng') {
+				$org_medium_eng = (string)$physForm;
+			}
+			if ((string)$physForm[@lang] == 'spa') {
+				$org_medium_spa = (string)$physForm;
+			}
+		}
+	}
+	/* Data from Note (Language Community & Source Note) */
+
+	/* Package data for return to view */
+	$info['eng']['Language(s)'] = (array)$languages;
+	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Content type'] = (array)$content_type_eng;
+	$info['eng']['Date Created'] = (string)$date_created;
+	$info['eng']['Date Archived'] = (string)$date_archived;
+	$info['eng']['Technical Description[English]'] = (string)$tech_description_eng;
+	$info['eng']['Length'] = (string)$length;
+	$info['eng']['Platform'] = (string)$platform;
+	$info['eng']['Original Medium'] = (string)$org_medium_eng;
+	$info['eng']['Quality of Original Medium'] = (string)$quality;
+	$info['eng']['Entered By'] = (string)$entered_by;
+
+	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
+	$info['spa']['Fecha de Creación'] = (string)$date_created;
+	$info['spa']['Fecha archivada'] = (string)$date_archived;
+	$info['spa']['Descripción técnica [español]'] = (string)$tech_description_spa;
+	$info['spa']['Duración'] = (string)$length;
+	$info['spa']['Platforma'] = (string)$platform;
+	$info['spa']['Medio original'] = (string)$org_medium_spa;
+	$info['spa']['Calidad del medio original'] = (string)$quality;
+	$info['spa']['Capturista'] = (string)$entered_by;
+
+	return $info;
+}
+
+function parseVideoDatastreamMODS($content) {
+
+	$info = array();
+	$languagePIDs = array();
+	$languages = array();
+	$content_type_eng = '';
+	$content_type_spa = '';
+	$date_created = '';
+	$date_archived = '';
+	$tech_description_eng = '';
+	$tech_description_spa = '';
+	$entered_by = '';
+	$length = '';
+	$encoding = '';
+	$platform = '';
+	$org_medium_eng = '';
+	$org_medium_spa = '';
+	$quality = '';
+	
+	$xml = (string)$content;
+	
+	$mods = simplexml_load_string($xml);
+
+	/* Data from LanguageTerm */	
+	if (!empty($mods->language->languageTerm[@valueURI])) {
+		$i = 0;
+		foreach ($mods->language as $l) {
+			if (!empty($l->languageTerm[@valueURI])) {
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
+		}
+		
+		foreach ($languagePIDs as $lang) {
+			$lang = explode('/', $lang);
+			$langPID = array_pop($lang);
+			$languages[] = utailla_get_title($langPID);
+		}
+	}
+	/* End Data from LanguageTerm */	
+	
+	/* Data from genre (creates Content Type) */	
+	if (!empty($mods->genre)) {
+		$i = 0;
+		foreach ($mods->genre as $genre) {
+			if ($genre[@displayLabel] == 'Content type (English)') {
+				$content_type_eng[$i] = (string)$genre;
+			$i++;
+			continue;
+			}
+			if ($genre[@displayLabel] == 'Content type (Spanish)') {
+				$content_type_spa[$i] = (string)$genre;
+			$i++;
+			continue;
+			}
+		}
+	}
+	/* End Data from genre */	
+	
+	/* Data from originInfo (creates date info) */	
+	if (!empty($mods->originInfo)) {
+		foreach ($mods->originInfo as $origin) {
+			if ($origin->dateCreated[@displayLabel] == 'Date research material was created') {
+				$date_created = (string)$origin->dateCreated;
+			}
+			if ($origin->dateOther[@displayLabel] == 'Date archived') {
+				$date_archived = (string)$origin->dateOther;
+			}
+		}
+	}
+	/* End Data from originInfo (creates date info)  */	
+
+	/* Data from Note (Tech description & entered by) */
+	if (!empty($mods->note)) {
+		foreach ($mods->note as $note) {
+			if ((string)$note[@displayLabel] == 'Technical description (English)') {
+				$tech_description_eng = (string)$note;
+			}
+			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
+				$tech_description_spa = (string)$note;
+			}
+			if ((string)$note[@type] == 'record producer') {
+				$entered_by = (string)$note;
+			}
+		}
+	}
+	/* Data from Note (Tech description & entered by) */
+
+	/* Data from physicalDescription */
+	if (!empty($mods->physicalDescription)) {
+		$length = (string)$mods->physicalDescription->extent;
+		foreach ($mods->physicalDescription->note as $phys) {
+			if ((string)$phys[@type] == 'platform') {
+				$platform = (string)$phys;
+			}
+			if ((string)$phys[@type] == 'original quality') {
+				$quality = (string)$phys;
+			}
+		}
+		foreach ($mods->physicalDescription->form as $physForm) {
+			if ((string)$physForm[@lang] == 'eng') {
+				$org_medium_eng = (string)$physForm;
+			}
+			if ((string)$physForm[@lang] == 'spa') {
+				$org_medium_spa = (string)$physForm;
+			}
+		}
+	}
+	/* Data from Note (Language Community & Source Note) */
+
+	/* Package data for return to view */
+	$info['eng']['Language(s)'] = (array)$languages;
+	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Content type'] = (array)$content_type_eng;
+	$info['eng']['Date Created'] = (string)$date_created;
+	$info['eng']['Date Archived'] = (string)$date_archived;
+	$info['eng']['Technical Description[English]'] = (string)$tech_description_eng;
+	$info['eng']['Length'] = (string)$length;
+	$info['eng']['Platform'] = (string)$platform;
+	$info['eng']['Original Medium'] = (string)$org_medium_eng;
+	$info['eng']['Quality of Original Medium'] = (string)$quality;
+	$info['eng']['Entered By'] = (string)$entered_by;
+
+	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
+	$info['spa']['Fecha de Creación'] = (string)$date_created;
+	$info['spa']['Fecha archivada'] = (string)$date_archived;
+	$info['spa']['Descripción técnica [español]'] = (string)$tech_description_spa;
+	$info['spa']['Duración'] = (string)$length;
+	$info['spa']['Platforma'] = (string)$platform;
+	$info['spa']['Medio original'] = (string)$org_medium_spa;
+	$info['spa']['Calidad del medio original'] = (string)$quality;
+	$info['spa']['Capturista'] = (string)$entered_by;
 
 	return $info;
 }
@@ -545,13 +814,6 @@ function parseDocumentDatastreamMODS($content) {
 }
 
 function parseBinaryObjectDatastreamMODS($content) {
-
-	$info = array();
-
-	return $info;
-}
-
-function parseVideoDatastreamMODS($content) {
 
 	$info = array();
 
