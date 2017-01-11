@@ -943,3 +943,79 @@ function parseImageDatastreamMODS($content) {
 
 	return $info;
 }
+
+function parseLanguageDatastream($content) {
+
+	$info = array();
+	$name_eng = '';
+	$name_spa = '';
+	$name_ind = '';
+	$name_alt = '';
+	$langCode = '';
+	$langFam = '';
+	$macroLang = '';
+	$description_eng = '';
+	$description_spa = '';
+	$countries = '';
+	$langPID = '';
+
+	$xmlDoc = (string)$content;
+	
+	$xml = simplexml_load_string($xmlDoc);
+	
+	if (!empty($xml->aillaEngName)) {
+		$name_eng = (string)$xml->aillaEngName;
+	}
+	if (!empty($xml->aillaSpaName)) {
+		$name_spa = (string)$xml->aillaSpaName;
+	}
+	if (!empty($xml->aillaIndName)) {
+		$name_ind = (string)$xml->aillaEngName;
+	}
+	if (!empty($xml->aillaAltName)) {
+		$name_alt = (string)$xml->aillaAltName;
+	}
+	if (!empty($xml->aillaLangCode)) {
+		$langCode = (string)$xml->aillaLangCode;
+	}
+	if (!empty($xml->aillaMacroLang)) {
+		$macroLang = (string)$xml->aillaMacroLang;
+	}
+	if (!empty($xml->aillaLangFam)) {
+		$langFam = (string)$xml->aillaLangFam;
+	}
+	if (!empty($xml->aillaEngDesc)) {
+		$description_eng = (string)$xml->aillaEngDesc;
+	}
+	if (!empty($xml->aillaSpaDesc)) {
+		$description_spa = (string)$xml->aillaSpaDesc;
+	}
+	if (!empty($xml->aillaSpokenCountries)) {
+		$countries = (string)$xml->aillaSpokenCountries;
+	}
+	if (!empty($xml->recordInfo)) {
+		$langPID = (string)$xml->recordInfo->recordIdentifier;
+	}
+
+	$info['eng']['Name'] = (string)$name_eng;
+	$info['eng']['Name (Indigenous)'] = (string)$name_ind;
+	$info['eng']['Alternate Name(s)'] = (string)$name_alt;
+	$info['eng']['Language Code'] = (string)$langCode;
+	$info['eng']['Macro Language'] = (string)$macroLang;
+	$info['eng']['Language Family'] = (string)$langFam;
+	$info['eng']['Description (English)'] = (string)$description_eng;
+	$info['eng']['Countries'] = (string)$countries;
+	$info['eng']['Language PID'] = (string)$langPID;
+	
+	$info['spa']['Nombre'] = (string)$name_spa;
+	$info['spa']['Nombre Indígena'] = (string)$name_ind;
+	$info['spa']['Nombre Alternativo'] = (string)$name_alt;
+	$info['spa']['Código de lengua'] = (string)$langCode;
+	$info['spa']['MacroLengua'] = (string)$macroLang;
+	$info['spa']['Familia de Lengua'] = (string)$langFam;
+	$info['spa']['Descripción'] = (string)$description_eng;
+	$info['spa']['Pais'] = (string)$description_spa;
+	$info['spa']['Idioma PID'] = (string)$langPID;
+
+	return $info;
+}

@@ -82,6 +82,13 @@ function utailla_object_metadata()
 				$info = parseImageDatastreamMODS($largeImage_datastream->content);
 			}
 			break;
+		case 'info:fedora/ailla:languageCModel':
+			$language_datastream = $object['LANGUAGE'];
+			if ($language_datastream) {
+				$info = parseLanguageDatastream($language_datastream->content);
+//				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+			}
+			break;
 	}
 	
 	if ($langSwitch == 'es') {
@@ -90,8 +97,6 @@ function utailla_object_metadata()
 		$info = $info['eng'];
 	}
 
-	$list = array();
-	
 	foreach ($info as $key =>$value) {
 		if (is_array($value)) {
 			foreach ($value as $v) {
