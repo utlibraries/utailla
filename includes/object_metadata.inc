@@ -86,7 +86,18 @@ function utailla_object_metadata()
 			$language_datastream = $object['LANGUAGE'];
 			if ($language_datastream) {
 				$info = parseLanguageDatastream($language_datastream->content);
-//				drupal_set_message('<pre>'.print_r($info, true).'</pre>');
+			}
+			break;
+		case 'info:fedora/ailla:organizationCModel':
+			$organization_datastream = $object['MADS'];
+			if ($organization_datastream) {
+				$info = parseOrganizationDatastream($organization_datastream->content);
+			}
+			break;
+		case 'info:fedora/ailla:countryCModel':
+			$country_datastream = $object['MADS'];
+			if ($country_datastream) {
+				$info = parseCountryDatastream($country_datastream->content);
 			}
 			break;
 	}

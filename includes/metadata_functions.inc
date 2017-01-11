@@ -966,33 +966,43 @@ function parseLanguageDatastream($content) {
 	if (!empty($xml->aillaEngName)) {
 		$name_eng = (string)$xml->aillaEngName;
 	}
+	
 	if (!empty($xml->aillaSpaName)) {
 		$name_spa = (string)$xml->aillaSpaName;
 	}
+	
 	if (!empty($xml->aillaIndName)) {
 		$name_ind = (string)$xml->aillaEngName;
 	}
+	
 	if (!empty($xml->aillaAltName)) {
 		$name_alt = (string)$xml->aillaAltName;
 	}
+	
 	if (!empty($xml->aillaLangCode)) {
 		$langCode = (string)$xml->aillaLangCode;
 	}
+	
 	if (!empty($xml->aillaMacroLang)) {
 		$macroLang = (string)$xml->aillaMacroLang;
 	}
+	
 	if (!empty($xml->aillaLangFam)) {
 		$langFam = (string)$xml->aillaLangFam;
 	}
+	
 	if (!empty($xml->aillaEngDesc)) {
 		$description_eng = (string)$xml->aillaEngDesc;
 	}
+	
 	if (!empty($xml->aillaSpaDesc)) {
 		$description_spa = (string)$xml->aillaSpaDesc;
 	}
+	
 	if (!empty($xml->aillaSpokenCountries)) {
 		$countries = (string)$xml->aillaSpokenCountries;
 	}
+	
 	if (!empty($xml->recordInfo)) {
 		$langPID = (string)$xml->recordInfo->recordIdentifier;
 	}
@@ -1018,4 +1028,140 @@ function parseLanguageDatastream($content) {
 	$info['spa']['Idioma PID'] = (string)$langPID;
 
 	return $info;
+}
+
+function parseOrganizationDatastream($content) {
+
+	$info = array();
+	$orgName = '';
+	$acronym = '';
+	$directors = array();
+	$funder = array();
+	$parentInstitution = '';
+	$description_eng = '';
+	$description_spa = '';
+	$depositorStatus = '';
+	$researchLanguages = array();
+
+	$madsDoc = (string)$content;
+	
+	$mads = simplexml_load_string($madsDoc);
+	
+	if (!empty($mads->authority->name)) {
+		$orgName = (string)$mads->authority->name->namePart;
+	}
+	
+	if (!empty($mads->note)) {
+			$i = 0;
+		foreach ($mads->note as $note) {
+			if ((string)$note[@type] == 'acronym') {
+				$acronym = (string)$note;
+			}
+			if ((string)$note[@type] == 'director') {
+				$directors[$i] = (string)$note;
+				$i++;
+				continue;
+			}
+			if ((string)$note[@type] == 'funder') {
+				$funder[$i] = (string)$note;
+				$i++;
+				continue;
+			}
+			if ((string)$note[@type] == 'parent institution') {
+				$parentInstitution = (string)$note;
+			}
+			if ((string)$note[@type] == 'biographical/historical') {
+				if ((string)$note[@lang] == 'eng') {
+					$description_eng = (string)$note;
+				}
+				if ((string)$note[@lang] == 'spa') {
+					$description_spa = (string)$note;
+				}
+			}
+			if ((string)$note[@type] == 'depositor status') {
+				$depositorStatus = (string)$note;
+			}
+		}
+	}
+	
+	if (!empty($mads->fieldOfActivity[@valueURI])) {
+		$i = 0;
+		foreach ($mads->fieldOfActivity as $l) {
+			if (!empty($l[@valueURI])) {
+				$rLangPIDs[$i] = (string)$l[@valueURI];
+				$i++;
+			}
+		}
+		
+		foreach ($rLangPIDs as $lang) {
+			$lang = explode('/', $lang);
+			$langPID = array_pop($lang);
+			$researchLanguages[] = utailla_get_title($langPID);
+		}
+	}
+	
+	$info['eng']['Organization Name'] = (string)$orgName;
+	$info['eng']['Acronym'] = (string)$acronym;
+	$info['eng']['Director(s) Name(s)'] = (array)$directors;
+	$info['eng']['Funder'] = (array)$funder;
+	$info['eng']['Parent Institution'] = (string)$parentInstitution;
+	$info['eng']['Description'] = (string)$description_eng;
+	$info['eng']['Depositor Status'] = (string)$depositorStatus;
+	$info['eng']['Research Language(s)'] = (array)$researchLanguages;
+	
+	$info['spa']['Nombre de la Organización'] = (string)$orgName;
+	$info['spa']['Acrónimo'] = (string)$acronym;
+	$info['spa']['Nombre(s) Completo(s) de el(los) Director(es)'] = (array)$directors;
+	$info['spa']['Proveedor de Fondos'] = (array)$funder;
+	$info['spa']['Entidad Matriz'] = (string)$parentInstitution;
+	$info['spa']['Descripción'] = (string)$description_spa;
+	$info['spa']['Depositante'] = (string)$depositorStatus;
+	$info['spa']['Idioma(s) de Investigación'] = (array)$researchLanguages;
+	
+	return $info;
+	
+}
+
+function parseCountryDatastream($content) {
+
+	$info = array();
+	$name_eng = '';
+	$name_spa = '';
+	$countryCode = '';
+	$viaf = '';
+	
+	$madsDoc = (string)$content;
+	
+	$mads = simplexml_load_string($madsDoc);
+	
+	if (!empty($mads->authority->geographic)) {
+		foreach($mads->authority->geographic as $geo) {
+			if ((string)$geo[@lang] == 'eng') {
+				$name_eng = (string)$geo;
+			}
+			if ((string)$geo[@lang] == 'spa') {
+				$name_spa = (string)$geo;
+			}
+			if ((string)$geo[@authority] == 'viaf') {
+				$viaf = (string)$geo;
+			}
+			if (((string)$geo[@authority] == 'iso3166-1') && ((string)$geo[@lang] != 'eng')) {
+				$countryCode = (string)$geo;
+			}
+		}
+	}
+
+
+	$info['eng']['Name (English)'] = $name_eng;
+	$info['eng']['Name (Spanish)'] = $name_spa;
+	$info['eng']['Country Code'] = $countryCode;
+	$info['eng']['VIAF Permalink'] = $viaf;
+	
+	$info['spa']['Nombre (Inglés)'] = $name_eng;
+	$info['spa']['Nombre (Español)'] = $name_spa;
+	$info['spa']['Código del País'] = $countryCode;
+	$info['spa']['Enlace Permanente de VIAF'] = $viaf;
+
+	return $info;
+	
 }
