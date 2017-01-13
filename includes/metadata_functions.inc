@@ -271,6 +271,7 @@ function parseCollectionDatastreamMODS($content) {
 		foreach ($languagePIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
+			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -326,9 +327,11 @@ function parseCollectionDatastreamMODS($content) {
 		foreach ($mods->abstract as $abs) {
 			if ((string)$abs[@lang] == 'eng') {
 				$description_eng = (string)$abs;
+				$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
 			}
 			if((string)$abs[@lang] == 'spa') {
 				$description_spa = (string)$abs;
+				$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 			}
 			if((string)$abs[@displayLabel] == 'Resource description (Indigenous language)') {
 				$description_ind = (string)$abs;
@@ -352,9 +355,9 @@ function parseCollectionDatastreamMODS($content) {
 
 
 	/* Package data for return to view */
-//	$info['eng']['Language PID'] = (array)$languagePIDs;
 //	$info['eng']['Country(ies) (PID)'] = (array)$countryPIDs;
-	$info['eng']['Subject Language'] = (array)$languages;
+	$info['eng']['Collection Language'] = (array)$languages;
+	$info['eng']['Language PID'] = (array)$langPIDs;
 	$info['eng']['Title [Indigenous]'] = (string)$alt_title_indigenous;
 	$info['eng']['Title'] = (string)$title_eng;
 	$info['eng']['Collector(s)'] = (array)$collectors_eng;
@@ -364,7 +367,8 @@ function parseCollectionDatastreamMODS($content) {
 	$info['eng']['Description'] = (string)$description_eng;
 	$info['eng']['References'] = (array) $references;
 
-	$info['spa']['Idioma'] = (array)$languages;
+	$info['spa']['Idioma de la colección'] = (array)$languages;
+	$info['spa']['Idioma PID'] = (array)$langPIDs;
 	$info['spa']['Título [Indígena]'] = (string)$alt_title_indigenous;
 	$info['spa']['Título'] = (string)$title_spa;
 	$info['spa']['Coleccionista'] = (array)$collectors_spa;
@@ -412,6 +416,7 @@ function parseAudioDatastreamMODS($content) {
 		foreach ($languagePIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
+			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -491,7 +496,7 @@ function parseAudioDatastreamMODS($content) {
 
 	/* Package data for return to view */
 	$info['eng']['Language(s)'] = (array)$languages;
-	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Language PID(s)'] = (array)$langPIDs;
 	$info['eng']['Content type'] = (array)$content_type_eng;
 	$info['eng']['Date Created'] = (string)$date_created;
 	$info['eng']['Date Archived'] = (string)$date_archived;
@@ -504,7 +509,7 @@ function parseAudioDatastreamMODS($content) {
 	$info['eng']['Entered By'] = (string)$entered_by;
 
 	$info['spa']['Idioma(s)'] = (array)$languages;
-	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Fecha archivada'] = (string)$date_archived;
@@ -555,6 +560,7 @@ function parseVideoDatastreamMODS($content) {
 		foreach ($languagePIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
+			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -631,7 +637,7 @@ function parseVideoDatastreamMODS($content) {
 
 	/* Package data for return to view */
 	$info['eng']['Language(s)'] = (array)$languages;
-	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Language PID(s)'] = (array)$langPIDs;
 	$info['eng']['Content type'] = (array)$content_type_eng;
 	$info['eng']['Date Created'] = (string)$date_created;
 	$info['eng']['Date Archived'] = (string)$date_archived;
@@ -643,7 +649,7 @@ function parseVideoDatastreamMODS($content) {
 	$info['eng']['Entered By'] = (string)$entered_by;
 
 	$info['spa']['Idioma(s)'] = (array)$languages;
-	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Fecha archivada'] = (string)$date_archived;
@@ -693,6 +699,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 		foreach ($languagePIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
+			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -769,7 +776,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 
 	/* Package data for return to view */
 	$info['eng']['Language(s)'] = (array)$languages;
-	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Language PID(s)'] = (array)$langPIDs;
 	$info['eng']['Content type'] = (array)$content_type_eng;
 	$info['eng']['Date Created'] = (string)$date_created;
 	$info['eng']['Date Archived'] = (string)$date_archived;
@@ -781,7 +788,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 	$info['eng']['Entered By'] = (string)$entered_by;
 
 	$info['spa']['Idioma(s)'] = (array)$languages;
-	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Fecha archivada'] = (string)$date_archived;
@@ -831,6 +838,7 @@ function parseImageDatastreamMODS($content) {
 		foreach ($languagePIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
+			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
 		}
 	}
@@ -907,7 +915,7 @@ function parseImageDatastreamMODS($content) {
 
 	/* Package data for return to view */
 	$info['eng']['Language(s)'] = (array)$languages;
-	$info['eng']['Language PID(s)'] = (array)$languagePIDs;
+	$info['eng']['Language PID(s)'] = (array)$langPIDs;
 	$info['eng']['Content type'] = (array)$content_type_eng;
 	$info['eng']['Date Created'] = (string)$date_created;
 	$info['eng']['Date Archived'] = (string)$date_archived;
@@ -919,7 +927,7 @@ function parseImageDatastreamMODS($content) {
 	$info['eng']['Entered By'] = (string)$entered_by;
 
 	$info['spa']['Idioma(s)'] = (array)$languages;
-	$info['spa']['Idioma PID(s)'] = (array)$languagePIDs;
+	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Fecha archivada'] = (string)$date_archived;
