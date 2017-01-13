@@ -100,6 +100,13 @@ function utailla_object_metadata()
 				$info = parseCountryDatastream($country_datastream->content);
 			}
 			break;
+		case 'info:fedora/ailla:personsCModel':
+			$persons_datastream = $object['MADS'];
+			if ($persons_datastream) {
+				$info = parsePersonsDatastream($persons_datastream->content);
+//				drupal_set_message(print_r($info, true));
+			}
+			break;
 	}
 	
 	if ($langSwitch == 'es') {
