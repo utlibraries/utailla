@@ -26,6 +26,7 @@ function utailla_object_metadata()
 	$relsDatastream = $object['RELS-EXT'];
 	$relsResult = $relsDatastream->content;
 	$relsInfo = parse_relsExt_for_Cmodel($relsResult);
+	$info = array();
 	
 	switch ($relsInfo) {
 		case 'info:fedora/ailla:resourceCModel':
@@ -126,12 +127,18 @@ function utailla_object_metadata()
 		$rows[] = array($key,$value);
 	}
 
+	if (!empty($info)) {
+		$block_title = '<h2>Object Details</h2>';
+	} else {
+		$block_title = '';
+	}
 	$header = '';
 	$output = theme('table', array(
 					'header' => $header,
 					'rows'   => $rows,
 					'attributes' => array('width' => '100%')
 				));
+	$output = $block_title . $output;
 	
 	return $output;
 }
