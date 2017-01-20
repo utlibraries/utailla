@@ -28,14 +28,36 @@ function utailla_get_title($PID) {
 	return $title;
 }
 
+function utailla_get_spanish_langName($PID) {
+	$islandora_tuque = islandora_get_tuque_connection();
+	$spanish_langName = '';
+	$object = $islandora_tuque->repository->getObject($PID);
+	$language_dstream = $object['LANGUAGE'];
+	$content = $language_dstream->content;
+	
+	$xml = (string)$content;
+	
+	$aillaLanguage = simplexml_load_string($xml);
+	
+	if (!empty($aillaLanguage->aillaSpaName)) {
+		$spanish_langName = (string)$aillaLanguage->aillaSpaName;
+	} else {
+		$spanish_langName = 'Curso de idiomas en curso';
+	}
+	
+	return $spanish_langName;
+}
+
 function parseResourceDatastreamMODS($content) {
 	/* Set Vars */
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$title_eng = '';
 	$title_spa = '';
 	$alt_title_indigenous = '';
+	$ind_title_lang = '';
 	$description_eng = '';
 	$description_spa = '';
 	$description_indigenous = '';
@@ -69,6 +91,7 @@ function parseResourceDatastreamMODS($content) {
 			$langPID = array_pop($langP);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -76,8 +99,9 @@ function parseResourceDatastreamMODS($content) {
 	/* Data from TitleInfo */
 	if (!empty($mods->titleInfo->title)) {
 		foreach ($mods->titleInfo as $titleInfo) {
-			if ((string)$titleInfo[@type] == 'alternative') {
+			if ((string)$titleInfo[@displayLabel] == 'Title (Indigenous language)') {
 				$alt_title_indigenous = (string)$titleInfo->title;
+				$ind_title_lang = (string)$titleInfo[@lang];
 			}
 			if((string)$titleInfo[@lang] == 'eng') {
 				$title_eng = (string)$titleInfo->title;
@@ -94,12 +118,15 @@ function parseResourceDatastreamMODS($content) {
 		foreach ($mods->abstract as $abs) {
 			if ((string)$abs[@lang] == 'eng') {
 				$description_eng = (string)$abs;
+				$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
 			}
 			if((string)$abs[@lang] == 'spa') {
 				$description_spa = (string)$abs;
+				$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 			}
 			if((string)$abs[@displayLabel] == 'Resource description (Indigenous language)') {
 				$description_ind = (string)$abs;
+				$description_ind = preg_replace('/\r/', '<br \/>', $description_ind);
 				$description_lang = (string)$abs[@lang];
 			}
 		}
@@ -163,15 +190,15 @@ function parseResourceDatastreamMODS($content) {
         	$namePID = array_pop($namePID);
         	$name = utailla_get_title($namePID);
 			if($n[@type] == 'personal') {
-				$contributors_personal_eng[$i] = $name .'('. $roles_eng.')';
-				$contributors_personal_spa[$i] = $name .'('. $roles_spa.')';
+				$contributors_personal_eng[$i] = $name .' ('. $roles_eng.')';
+				$contributors_personal_spa[$i] = $name .' ('. $roles_spa.')';
 			}
 			if($n[@type] == 'corporate') {
-					$contributors_corp_eng[$i] = $name .'('. $roles_eng.')';
+					$contributors_corp_eng[$i] = $name .' ('. $roles_eng.')';
 				if (!empty($roles_spa)) {
-					$contributors_corp_spa[$i] = $name .'('. $roles_spa.')';
+					$contributors_corp_spa[$i] = $name .' ('. $roles_spa.')';
 				} else {
-					$contributors_corp_spa[$i] = $name .'('. $roles_eng.')';
+					$contributors_corp_spa[$i] = $name .' ('. $roles_eng.')';
 				}
 			}
 			$roles_eng = '';
@@ -204,6 +231,7 @@ function parseResourceDatastreamMODS($content) {
 	$info['eng']['Subject Language'] = (array)$languages;
 	$info['eng']['Language PID(s)'] = (array)$langPIDs;
 	$info['eng']['Title [Indigenous]'] = (string)$alt_title_indigenous;
+	$info['eng']['Language of Indigenous Title'] = (string)$ind_title_lang;
 	$info['eng']['Title'] = (string)$title_eng;
 	$info['eng']['Language Community'] = (string)$lang_comm;
 	$info['eng']['Country(ies)'] = (array)$countries;
@@ -218,9 +246,10 @@ function parseResourceDatastreamMODS($content) {
 	$info['eng']['Contributor(s) Individual / Role'] = (array)$contributors_personal_eng;
 	$info['eng']['Contributor(s) Corporate / Role'] = (array)$contributors_corp_eng;
 
-	$info['spa']['Idioma'] = (array)$languages;
+	$info['spa']['Idioma'] = (array)$languages_spa;
 	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Título [Indígena]'] = (string)$alt_title_indigenous;
+	$info['spa']['Idioma del Título Indígena'] = (string)$ind_title_lang;
 	$info['spa']['Título'] = (string)$title_spa;
 	$info['spa']['Comunidad del Idioma'] = (string)$lang_comm;
 	$info['spa']['Pais'] = (array)$countries;
@@ -244,9 +273,11 @@ function parseCollectionDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$title_eng = '';
 	$title_spa = '';
 	$alt_title_indigenous = '';
+	$alt_title_ind_lang = '';
 	$description_eng = '';
 	$description_spa = '';
 	$description_indigenous = '';
@@ -254,6 +285,7 @@ function parseCollectionDatastreamMODS($content) {
 	$collectors_spa = array();
 	$depositors_eng = array();
 	$depositors_spa = array();
+	$project_collector_website = '';
 	$references = array();
 
 	$xml = (string)$content;
@@ -273,6 +305,7 @@ function parseCollectionDatastreamMODS($content) {
 			$langPID = array_pop($lang);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -282,6 +315,7 @@ function parseCollectionDatastreamMODS($content) {
 		foreach ($mods->titleInfo as $titleInfo) {
 			if ((string)$titleInfo[@type] == 'alternative') {
 				$alt_title_indigenous = (string)$titleInfo->title;
+				$alt_title_ind_lang = (string)$titleInfo[@lang];
 			}
 			if((string)$titleInfo[@lang] == 'eng') {
 				$title_eng = (string)$titleInfo->title;
@@ -321,6 +355,14 @@ function parseCollectionDatastreamMODS($content) {
         }
     }
 	/* End Data from Name/Role */
+	
+	/* Data from Source Note for collector website */
+	if (!empty($mods->note)) {
+		if ((string)$mods->note[@type] == 'source note') {
+			$project_collector_website = (string)$mods->note;
+		}
+	}
+	/* Data from Source Note for collector website */
 
 	/* Data from Abstract (description) */
 	if (!empty($mods->abstract)) {
@@ -333,8 +375,9 @@ function parseCollectionDatastreamMODS($content) {
 				$description_spa = (string)$abs;
 				$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 			}
-			if((string)$abs[@displayLabel] == 'Resource description (Indigenous language)') {
+			if((string)$abs[@displayLabel] == 'Collection description (Indigenous language)') {
 				$description_ind = (string)$abs;
+				$description_ind = preg_replace('/\r/', '<br \/>', $description_ind);
 				$description_lang = (string)$abs[@lang];
 			}
 		}
@@ -359,20 +402,24 @@ function parseCollectionDatastreamMODS($content) {
 	$info['eng']['Collection Language'] = (array)$languages;
 	$info['eng']['Language PID'] = (array)$langPIDs;
 	$info['eng']['Title [Indigenous]'] = (string)$alt_title_indigenous;
+	$info['eng']['Language of Indigenous Title'] = (string)$alt_title_ind_lang;
 	$info['eng']['Title'] = (string)$title_eng;
 	$info['eng']['Collector(s)'] = (array)$collectors_eng;
 	$info['eng']['Depositor(s)'] = (array)$depositors_eng;
+	$info['eng']['Project/Collector Website'] = (string)$project_collector_website;
 	$info['eng']['Description [Indigenous]'] = (string)$description_ind;
 	$info['eng']['Language of Indigenous Description'] = (string)$description_lang;
 	$info['eng']['Description'] = (string)$description_eng;
 	$info['eng']['References'] = (array) $references;
 
-	$info['spa']['Idioma de la colección'] = (array)$languages;
+	$info['spa']['Idioma de la colección'] = (array)$languages_spa;
 	$info['spa']['Idioma PID'] = (array)$langPIDs;
 	$info['spa']['Título [Indígena]'] = (string)$alt_title_indigenous;
+	$info['spa']['Idioma del Título Indígena'] = (string)$alt_title_ind_lang;
 	$info['spa']['Título'] = (string)$title_spa;
 	$info['spa']['Coleccionista'] = (array)$collectors_spa;
 	$info['spa']['Depositante'] = (array)$depositors_spa;
+	$info['spa']['Sitio web del proyecto / recaudador'] = (string)$project_collector_website;
 	$info['spa']['Descripción [Indígena]'] = (string)$description_ind;
 	$info['spa']['Language of Indigenous Description'] = (string)$description_lang;
 	$info['spa']['Descripción'] = (string)$description_spa;
@@ -387,6 +434,7 @@ function parseAudioDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$content_type_eng = '';
 	$content_type_spa = '';
 	$date_created = '';
@@ -418,6 +466,7 @@ function parseAudioDatastreamMODS($content) {
 			$langPID = array_pop($lang);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -458,9 +507,11 @@ function parseAudioDatastreamMODS($content) {
 		foreach ($mods->note as $note) {
 			if ((string)$note[@displayLabel] == 'Technical description (English)') {
 				$tech_description_eng = (string)$note;
+				$tech_description_eng = preg_replace('/\r/', '<br \/>', $tech_description_eng);
 			}
 			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
 				$tech_description_spa = (string)$note;
+				$tech_description_spa = preg_replace('/\r/', '<br \/>', $tech_description_spa);
 			}
 			if ((string)$note[@type] == 'record producer') {
 				$entered_by = (string)$note;
@@ -508,7 +559,7 @@ function parseAudioDatastreamMODS($content) {
 	$info['eng']['Quality of Original Medium'] = (string)$quality;
 	$info['eng']['Entered By'] = (string)$entered_by;
 
-	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma(s)'] = (array)$languages_spa;
 	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
@@ -529,6 +580,7 @@ function parseVideoDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$content_type_eng = '';
 	$content_type_spa = '';
 	$date_created = '';
@@ -562,6 +614,7 @@ function parseVideoDatastreamMODS($content) {
 			$langPID = array_pop($lang);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -602,9 +655,11 @@ function parseVideoDatastreamMODS($content) {
 		foreach ($mods->note as $note) {
 			if ((string)$note[@displayLabel] == 'Technical description (English)') {
 				$tech_description_eng = (string)$note;
+				$tech_description_eng = preg_replace('/\r/', '<br \/>', $tech_description_eng);
 			}
 			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
 				$tech_description_spa = (string)$note;
+				$tech_description_spa = preg_replace('/\r/', '<br \/>', $tech_description_spa);
 			}
 			if ((string)$note[@type] == 'record producer') {
 				$entered_by = (string)$note;
@@ -648,7 +703,7 @@ function parseVideoDatastreamMODS($content) {
 	$info['eng']['Quality of Original Medium'] = (string)$quality;
 	$info['eng']['Entered By'] = (string)$entered_by;
 
-	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma(s)'] = (array)$languages_spa;
 	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
@@ -668,6 +723,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$content_type_eng = '';
 	$content_type_spa = '';
 	$date_created = '';
@@ -701,6 +757,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 			$langPID = array_pop($lang);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -741,9 +798,11 @@ function parseBinDocPDFDatastreamMODS($content) {
 		foreach ($mods->note as $note) {
 			if ((string)$note[@displayLabel] == 'Technical description (English)') {
 				$tech_description_eng = (string)$note;
+				$tech_description_eng = preg_replace('/\r/', '<br \/>', $tech_description_eng);
 			}
 			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
 				$tech_description_spa = (string)$note;
+				$tech_description_spa = preg_replace('/\r/', '<br \/>', $tech_description_spa);
 			}
 			if ((string)$note[@type] == 'record producer') {
 				$entered_by = (string)$note;
@@ -787,7 +846,7 @@ function parseBinDocPDFDatastreamMODS($content) {
 	$info['eng']['Quality of Original Medium'] = (string)$quality;
 	$info['eng']['Entered By'] = (string)$entered_by;
 
-	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma(s)'] = (array)$languages_spa;
 	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
@@ -807,6 +866,7 @@ function parseImageDatastreamMODS($content) {
 	$info = array();
 	$languagePIDs = array();
 	$languages = array();
+	$languages_spa = array();
 	$content_type_eng = '';
 	$content_type_spa = '';
 	$date_created = '';
@@ -840,6 +900,7 @@ function parseImageDatastreamMODS($content) {
 			$langPID = array_pop($lang);
 			$langPIDs[] = $langPID;
 			$languages[] = utailla_get_title($langPID);
+			$languages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	/* End Data from LanguageTerm */	
@@ -878,12 +939,6 @@ function parseImageDatastreamMODS($content) {
 	/* Data from Note (Tech description & entered by) */
 	if (!empty($mods->note)) {
 		foreach ($mods->note as $note) {
-			if ((string)$note[@displayLabel] == 'Technical description (English)') {
-				$tech_description_eng = (string)$note;
-			}
-			if ((string)$note[@displayLabel] == 'Technical description (Spanish)') {
-				$tech_description_spa = (string)$note;
-			}
 			if ((string)$note[@type] == 'record producer') {
 				$entered_by = (string)$note;
 			}
@@ -895,6 +950,14 @@ function parseImageDatastreamMODS($content) {
 	if (!empty($mods->physicalDescription)) {
 		$length = (string)$mods->physicalDescription->extent;
 		foreach ($mods->physicalDescription->note as $phys) {
+			if ((string)$phys[@displayLabel] == 'Technical description (English)') {
+				$tech_description_eng = (string)$phys;
+				$tech_description_eng = preg_replace('/\r/', '<br \/>', $tech_description_eng);
+			}
+			if ((string)$phys[@displayLabel] == 'Technical description (Spanish)') {
+				$tech_description_spa = (string)$phys;
+				$tech_description_spa = preg_replace('/\r/', '<br \/>', $tech_description_spa);
+			}
 			if ((string)$phys[@type] == 'platform') {
 				$platform = (string)$phys;
 			}
@@ -926,7 +989,7 @@ function parseImageDatastreamMODS($content) {
 	$info['eng']['Quality of Original Medium'] = (string)$quality;
 	$info['eng']['Entered By'] = (string)$entered_by;
 
-	$info['spa']['Idioma(s)'] = (array)$languages;
+	$info['spa']['Idioma(s)'] = (array)$languages_spa;
 	$info['spa']['Idioma PID(s)'] = (array)$langPIDs;
 	$info['spa']['Tipo de contenido'] = (array)$content_type_spa;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
@@ -947,7 +1010,7 @@ function parseLanguageDatastream($content) {
 	$name_eng = '';
 	$name_spa = '';
 	$name_ind = '';
-	$name_alt = '';
+	$name_alt = array();
 	$langCode = '';
 	$langFam = '';
 	$macroLang = '';
@@ -969,11 +1032,15 @@ function parseLanguageDatastream($content) {
 	}
 	
 	if (!empty($xml->aillaIndName)) {
-		$name_ind = (string)$xml->aillaEngName;
+		$name_ind = (string)$xml->aillaIndName;
 	}
 	
 	if (!empty($xml->aillaAltName)) {
-		$name_alt = (string)$xml->aillaAltName;
+		$i = 0;
+		foreach ($xml->aillaAltName as $alt) {
+			$name_alt[$i] = (string)$alt;
+			$i++;
+		}
 	}
 	
 	if (!empty($xml->aillaLangCode)) {
@@ -990,10 +1057,12 @@ function parseLanguageDatastream($content) {
 	
 	if (!empty($xml->aillaEngDesc)) {
 		$description_eng = (string)$xml->aillaEngDesc;
+		$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
 	}
 	
 	if (!empty($xml->aillaSpaDesc)) {
 		$description_spa = (string)$xml->aillaSpaDesc;
+		$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 	}
 	
 	if (!empty($xml->aillaSpokenCountries)) {
@@ -1006,7 +1075,7 @@ function parseLanguageDatastream($content) {
 
 	$info['eng']['Name'] = (string)$name_eng;
 	$info['eng']['Name (Indigenous)'] = (string)$name_ind;
-	$info['eng']['Alternate Name(s)'] = (string)$name_alt;
+	$info['eng']['Alternate Name(s)'] = (array)$name_alt;
 	$info['eng']['Language Code'] = (string)$langCode;
 	$info['eng']['Macro Language'] = (string)$macroLang;
 	$info['eng']['Language Family'] = (string)$langFam;
@@ -1016,7 +1085,7 @@ function parseLanguageDatastream($content) {
 	
 	$info['spa']['Nombre'] = (string)$name_spa;
 	$info['spa']['Nombre Indígena'] = (string)$name_ind;
-	$info['spa']['Nombre Alternativo'] = (string)$name_alt;
+	$info['spa']['Nombre Alternativo'] = (array)$name_alt;
 	$info['spa']['Código de lengua'] = (string)$langCode;
 	$info['spa']['MacroLengua'] = (string)$macroLang;
 	$info['spa']['Familia de Lengua'] = (string)$langFam;
@@ -1039,6 +1108,7 @@ function parseOrganizationDatastream($content) {
 	$description_spa = '';
 	$depositorStatus = '';
 	$researchLanguages = array();
+	$researchLanguages_spa = array();
 
 	$madsDoc = (string)$content;
 	
@@ -1070,9 +1140,11 @@ function parseOrganizationDatastream($content) {
 			if ((string)$note[@type] == 'biographical/historical') {
 				if ((string)$note[@lang] == 'eng') {
 					$description_eng = (string)$note;
+					$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
 				}
 				if ((string)$note[@lang] == 'spa') {
 					$description_spa = (string)$note;
+					$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 				}
 			}
 			if ((string)$note[@type] == 'depositor status') {
@@ -1094,6 +1166,7 @@ function parseOrganizationDatastream($content) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
 			$researchLanguages[] = utailla_get_title($langPID);
+			$researchLanguages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 	
@@ -1113,7 +1186,7 @@ function parseOrganizationDatastream($content) {
 	$info['spa']['Entidad Matriz'] = (string)$parentInstitution;
 	$info['spa']['Descripción'] = (string)$description_spa;
 	$info['spa']['Depositante'] = (string)$depositorStatus;
-	$info['spa']['Idioma(s) de Investigación'] = (array)$researchLanguages;
+	$info['spa']['Idioma(s) de Investigación'] = (array)$researchLanguages_spa;
 	
 	return $info;
 	
@@ -1174,8 +1247,11 @@ function parsePersonsDatastream($content) {
 	$description_spa = '';
 	$depositorStatus = '';
 	$nativeLanguages = array();
+	$nativeLanguages_spa = array();
 	$researchLanguages = array();
+	$researchLanguages_spa = array();
 	$otherLanguages = array();
+	$otherLanguages_spa = array();
 	$organizations = array();
 	
 	$madsDoc = (string)$content;
@@ -1208,9 +1284,11 @@ function parsePersonsDatastream($content) {
 				}
 				if ((string)$note[@lang] == 'eng') {
 					$description_eng = (string)$note;
+					$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
 				}
 				if ((string)$note[@lang] == 'spa') {
 					$description_spa = (string)$note;
+					$description_spa = preg_replace('/\r/', '<br \/>', $description_spa);
 				}
 			}
 			if ((string)$note[@type] == 'depositor status') {
@@ -1242,31 +1320,35 @@ function parsePersonsDatastream($content) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
 			$nativeLanguages[] = utailla_get_title($langPID);
+			$nativeLanguages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 		foreach ($rLangPIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
 			$researchLanguages[] = utailla_get_title($langPID);
+			$researchLanguages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 		foreach ($oLangPIDs as $lang) {
 			$lang = explode('/', $lang);
 			$langPID = array_pop($lang);
 			$otherLanguages[] = utailla_get_title($langPID);
+			$otherLanguages_spa[] = utailla_get_spanish_langName($langPID);
 		}
 	}
 
-	if (!empty($mads->affiliation->organization[@valueURI])) {
+	if (!empty($mads->affiliation)) {
 		$i = 0;
-		foreach ($mads->affiliation->organization as $org) {
-			if (!empty($org[@valueURI])) {
-				$orgPIDs[$i] = (string)$org[@valueURI];
+		foreach ($mads->affiliation as $aff) {
+			if (!empty($aff->organization[@valueURI])) {
+				$orgPIDs[$i] = (string)$aff->organization[@valueURI];
 				$i++;
 			}
 		}
 		foreach ($orgPIDs as $o) {
 			$o = explode('/', $o);
 			$orgPID = array_pop($o);
-			$organizations[] = utailla_get_title($orgPID);
+			$organizations[$i] = utailla_get_title($orgPID);
+			$i++;
 		}
 	}
 
@@ -1286,10 +1368,10 @@ function parsePersonsDatastream($content) {
 	$info['spa']['Sexo'] = (string)$sex;
 	$info['spa']['Lugar de origen'] = (string)$placeOfOrigin;
 	$info['spa']['Descripción'] = (string)$description_spa;
-	$info['spa']['Depositante'] = (string)$depositorStatus;;
-	$info['spa']['Lenguaje nativo'] = (array)$nativeLanguages;
-	$info['spa']['Idiomas de investigación'] = (array)$researchLanguages;
-	$info['spa']['Otros idiomas hablados'] = (array)$otherLanguages;
+	$info['spa']['Depositante'] = (string)$depositorStatus;
+	$info['spa']['Lenguaje nativo'] = (array)$nativeLanguages_spa;
+	$info['spa']['Idiomas de investigación'] = (array)$researchLanguages_spa;
+	$info['spa']['Otros idiomas hablados'] = (array)$otherLanguages_spa;
 	$info['spa']['Organizaciones'] = (array)$organizations;
 
 	return $info;
