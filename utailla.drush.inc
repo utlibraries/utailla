@@ -171,14 +171,6 @@ function utailla_drush_command() {
     'description' => 'Perform nightly ingest of batched resources.',
 	'drupal dependencies' => array('islandora'),
   );
-  $commands['utailla-restriction-restore'] = array(
-    'boostrap' => DRUSH_BOOTSTRAP_MAX,
-    'description' => 'Restore restriction info on media files.',
-	'drupal dependencies' => array(
-	  'islandora',
-      'islandora_solr',
-    ),
-  );
   return $commands;
 }
 
@@ -194,151 +186,23 @@ function drush_utailla_media_batch_preprocess() {
 }
 
 /**
- * Drush command for nightly ingest of new Resources  [drush utailla-restriction-restore]
- */ 
-function drush_utailla_restriction_restore($quantity = null) {
-    db_set_active();
-
-    echo "Hi from inside utailla-restriction-restore \n";
-
-	module_load_include('inc', 'utailla', 'includes/batch_resource_ingest');
-	module_load_include('inc', 'utailla', 'includes/media_restrictions_functions');
-    module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
-    module_load_include('inc', 'islandora', 'includes/tuque');
-    module_load_include('php', 'islandora_solr', 'SolrPhpClient/Apache/Solr/Service');
-
-    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
-    require_once $path . 'includes/fedora_connection.inc';
-
-    $config = parse_ini_file($path . 'includes/config.ini', true);
-
-	//Steps on Dev
-	// (Step 2) gets mapping info from utailla_media_file_map TABLE on OLDAILLA db
-	//$mediaMap = getMediaInfo() ;
-	// (Step 5) gets security info from OLDAILLA db FROM media_file WHERE archival_status = N
-	//getPassInfo($mediaOBJ) ;
+ * Updates all out of date restrictions.
+ */
+function utailla_update_embargos() {
+	echo "Hi from inside utailla_update_embargos \n";
 	
-	//Steps on QA/PROD
-	// (Step 1) Writes to file mediaOBJsfromFedora which I clean up manually
-	//$mediaOBJ = findFedoraOBJs();
-	// (Step 3) gets list of currently restricted objects in utailla_media_file_restrictions TABLE to prevent duplication
-	//getRestrictedOBJs();
-	// (Step 4) writes to utailla_media_file_restrictions TABLE to set level 1 (password restriction)
-	//tempRestrictions($mediaOBJ) 
-	// (Step 6) updates utailla_media_file_restrictions with correct levels & passwords where available	
-	//reAddRestrictions($restrictionInfo);
-	
- 	$fileOBJ = '/home/itas/mediaOBJsfromFedora.txt';
- 	$fileMap = '/home/itas/mediaMap2PID.txt';
- 	$file2Res = '/home/itas/newRestricted.txt';
- 	$filePassInfo = '/home/itas/passInfo.txt';
-	$mediaOBJ = array();
- 	$maps = array();
- 	$mediaMap = array();
-	$preexisting = array();
-	$newRestricted = array();
-	$map2OBJ = array();
-	$passInfo = array();
-	
-//	//Uncomment for Step 1 only;
-// 	$mediaOBJ = findFedoraOBJs();
-// 	
-// 	// Write the objects to the file mediaOBJsfromFedora
-// 	file_put_contents($fileOBJ, $mediaOBJ);
-	
-	//Uncomment for Step 2 only;
-//  $mediaOBJ = file($fileOBJ, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-//	sort($mediaOBJ);
-// 
-// 	$mediaMap = getMediaInfo() ;
-// 	foreach ($mediaOBJ as $mo) {		
-// 		$maps[] = ($mo . "=" . $mediaMap[$mo]['map'] . "\n");	
-//  }
-// 
-//	// Write the objects to the file mediaMap2PID (edit to remove non-pairs)
-//	file_put_contents($fileMap, $maps);
-	
-	//Uncomment for Step 3 & 4 only;
-// 	$preexisting = getRestrictedOBJs();
-// 	$map2OBJ = file($fileMap, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-// 	foreach ($map2OBJ as $mo) {	
-// 		trim($mo);
-// 		list($pid, $map) = explode('=', $mo);	
-// 		if (in_array($pid, $preexisting)) {
-//     		continue;
-// 		} else {
-// 			$newRestricted[] = $pid;
-// 		}	
-//  	}
-// 
-// 	echo ("map2OBJ is " . count($map2OBJ) . "\n");
-// 	echo ("preexisting is " . count($preexisting) . "\n");
-// 	echo ("newRestricted is " . count($newRestricted) . "\n");
-// 	sort($preexisting);
-// 	sort($newRestricted);
-// 	
-// // 	var_dump($preexisting);
-// // 	var_dump($newRestricted);
-// 	tempRestrictions($newRestricted) ;
-// 	
- 	
-	//Uncomment for Step 5 only;
-	$passInfo = getPassInfo("2");
-	$level2 = array();
-	$level3 = array();
-	$level4 = array();
-	$level = array_shift($passInfo);
-	$out = "";
-	$mapPassInfo = array();
-	
-	echo ("level is $level\n");
-	foreach ($passInfo as $info) {
-		switch ($level) {
-			case 2:
-				//echo "level equals 2\n";
-				$map = $info['map'];
-				$out .= $map . "xxx" ;
-		//		echo ($info['map'] . "\n");
-				
-//				var_dump($info);
-				$level2[$map]['level'] = $info['level'] ;
-				$out .= "level=" . $info['level'] . "xx";
-				$level2[$map]['password'] = $info['password'] ;
-				$out .= "password=" . $info['password'] . "xx";
-				$level2[$map]['password_hint'] = $info['password_hint'] ;
-				$out .= "password_hint=" . $info['password_hint'] . "xx";
-				$level2[$map]['access_justification'] = $info['access_justification'] ;
-				$out .= "access_justification=" . $info['access_justification'] . "xx";
-				$level2[$map]['justification_other'] = $info['justification_other'] ;
-				$out .= "justification_other=" . $info['justification_other'] . "xx";
-				$level2[$map]['map'] = $info['map'] ;
-				$out .= "map=" . $info['map'] . "\n";
-
-				break;
-			case 3:
-				echo "level equals 3\n";
-				break;
-			case 4:
-				echo "level equals 4\n";
-				break;
-		}
-	
-//1973xxxlevel=2xxtime_limit=xxpassword=xxpassword_hint=xxaccess_justification=0xxjustification_other=xxmap=1973xx	
-		
-	}
-	
-	
-	var_dump($level2);
-//	var_dump($mapPassInfo);
- 	// Write the objects to the file mediaOBJsfromFedora
- 	file_put_contents($filePassInfo, $out);
-
-// 	foreach ($passInfoas $key => $value) {		
-// 		$maps[] = ($key . "=" . $mediaMap[$mo]['map'] . "\n");	
-// 	}
-
-
-
+  db_update('utailla_media_file_restrictions')
+    ->fields(
+      array(
+        'level' => UTAILLA_RESTRICTION_LEVEL_1,
+        'end_time' => NULL,
+        'password' => NULL,
+        'hint' => NULL,
+      )
+    )
+    ->condition('level', UTAILLA_RESTRICTION_LEVEL_3)
+    ->condition('end_time', time(), '<')
+    ->execute();
 }
 
 /**
