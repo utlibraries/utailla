@@ -1617,7 +1617,7 @@ Ciudad/lugar, estado, pa&#xED;s donde se crearon originalmente estos materiales 
             <children>
               <element name="references">
                 <properties>
-                  <type>textfield</type>
+                  <type>textarea</type>
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>
