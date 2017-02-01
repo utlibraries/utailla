@@ -71,11 +71,11 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
       $files[$member['object']['value']] = array(
         'title' => l($member['title']['value'], "islandora/object/{$member['object']['value']}/manage/utailla_access_levels"),
         'modified' => $member['date_modified']['value'],
-        'level' => isset($member_info['level']) ? $member_info['level'] + 1 : t('Not set'),
+        'level' => isset($member_info['level']) ? $member_info['level'] : t('Not set'),
         'hint' => isset($member_info['hint']) ? $member_info['hint'] : t('N/A'),
         'depositor_name' => isset($member_info['depositor_name']) ? $member_info['depositor_name'] : t('N/A'),
         'depositor_email' => isset($member_info['depositor_email']) ? $member_info['depositor_email'] : t('N/A'),
-      );
+	  );
     }
     $form['files'] = array(
       '#type' => 'tableselect',
@@ -224,22 +224,28 @@ function utailla_access_level_form_validate(&$form, &$form_state) {
   $first_restriction = $form_state['utailla_first_file_info'];
   switch ($values['level']) {
     case UTAILLA_RESTRICTION_LEVEL_3:
+      if (empty($values['password']) && empty($first_restriction['password'])) {
+        form_error($form['password'], t('A password must be entered.'));
+      }
       if (empty($values['end_time'])) {
         form_error($form['end_time'], t('An ending time must be selected.'));
       }
       elseif (strtotime($values['end_time']) < REQUEST_TIME) {
         form_error($form['end_time'], t('The ending time must be in the future.'));
       }
-      // Fall-through.
+      break;
 
     case UTAILLA_RESTRICTION_LEVEL_4:
+      if (empty($values['password']) && empty($first_restriction['password'])) {
+        form_error($form['password'], t('A password must be entered.'));
+      }
       if (empty($values['depositor_name'])) {
         form_error($form['depositor_name'], t('Depositor name must be entered.'));
       }
       if (empty($values['depositor_email'])) {
         form_error($form['depositor_email'], t('Depositor email must be entered.'));
       }
-      // Fall-through.
+      break;
 
     case UTAILLA_RESTRICTION_LEVEL_2:
       if (empty($values['password']) && empty($first_restriction['password'])) {
@@ -270,6 +276,8 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
     'reason_option' => NULL,
     'custom_reason' => NULL,
     'end_time' => NULL,
+    'depositor_name' => NULL,
+    'depositor_email' => NULL,
   );
 
   if ($restriction['level'] > 0) {

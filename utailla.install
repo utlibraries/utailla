@@ -262,6 +262,16 @@ function utailla_schema() {
         'type' => 'varchar',
         'length' => 256,
       ),
+      'depositor_name' => array(
+        'description' => 'The name of the contact depositor.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'depositor_email' => array(
+        'description' => 'The email of the contact depositor.',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
     ),
     'primary key' => array('pid'),
     'indexes' => array(

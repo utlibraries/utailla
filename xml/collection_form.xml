@@ -1271,7 +1271,7 @@ Por favor, escriba lentemente para que la funcio&#x301;n de auto-sugerir pueda p
             <children>
               <element name="reference">
                 <properties>
-                  <type>textfield</type>
+                  <type>textarea</type>
                   <access>TRUE</access>
                   <collapsed>FALSE</collapsed>
                   <collapsible>FALSE</collapsible>

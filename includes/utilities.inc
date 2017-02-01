@@ -245,6 +245,7 @@ function utailla_access_justification_options() {
     t('Thesis in progress'),
     t('Material under copyright'),
     t('Could not obtain informed consent'),
+    t('Administrative curation in progress'),
     t('Other reason: please explain'),
   );
 }
