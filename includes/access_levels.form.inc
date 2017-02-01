@@ -75,7 +75,7 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         'hint' => isset($member_info['hint']) ? $member_info['hint'] : t('N/A'),
         'depositor_name' => isset($member_info['depositor_name']) ? $member_info['depositor_name'] : t('N/A'),
         'depositor_email' => isset($member_info['depositor_email']) ? $member_info['depositor_email'] : t('N/A'),
-      );
+	  );
     }
     $form['files'] = array(
       '#type' => 'tableselect',
@@ -276,6 +276,8 @@ function utailla_calculate_restriction_level_info($to_set, $first) {
     'reason_option' => NULL,
     'custom_reason' => NULL,
     'end_time' => NULL,
+    'depositor_name' => NULL,
+    'depositor_email' => NULL,
   );
 
   if ($restriction['level'] > 0) {
