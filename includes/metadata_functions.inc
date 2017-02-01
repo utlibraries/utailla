@@ -77,6 +77,7 @@ function parseResourceDatastreamMODS($content) {
 	$genres_eng = array();
 	$genres_spa = array();
 	$source_note = '';
+	$reference = '';
 	$references = array();
 	
 	$xml = (string)$content;
@@ -102,20 +103,18 @@ function parseResourceDatastreamMODS($content) {
 	/* End Data from LanguageTerm */	
 	
 	/* Data from TitleInfo */
-//	if (!empty($mods->titleInfo->title)) {
-		foreach ($mods->titleInfo as $titleInfo) {
-			if ((string)$titleInfo[@displayLabel] == 'Title (Indigenous language)') {
-				$alt_title_indigenous = (string)$titleInfo->title;
-				$ind_title_lang = (string)$titleInfo[@lang];
-			}
-			if((string)$titleInfo[@lang] == 'eng') {
-				$title_eng = (string)$titleInfo->title;
-			}
-			if((string)$titleInfo[@lang] == 'spa') {
-				$title_spa = (string)$titleInfo->title;
-			}
+	foreach ($mods->titleInfo as $titleInfo) {
+		if ((string)$titleInfo[@displayLabel] == 'Title (Indigenous language)') {
+			$alt_title_indigenous = (string)$titleInfo->title;
+			$ind_title_lang = (string)$titleInfo[@lang];
 		}
-//	}
+		if((string)$titleInfo[@lang] == 'eng') {
+			$title_eng = (string)$titleInfo->title;
+		}
+		if((string)$titleInfo[@lang] == 'spa') {
+			$title_spa = (string)$titleInfo->title;
+		}
+	}
 	/* End Data from TitleInfo */
 
 	/* Data from Abstract (description) */
@@ -146,7 +145,9 @@ function parseResourceDatastreamMODS($content) {
 				$source_note = (string)$note;
 			}
 			if ((string)$note[@type] == 'citation/reference') {
-				$references[] = (string)$note;
+				$reference = (string)$note;
+				$reference = preg_replace('/\r/', '<br \/>', $reference);
+				$references[] = $reference;
 			}
 		}
 	/* Data from Note (Language Community & Source Note) */
@@ -300,6 +301,7 @@ function parseCollectionDatastreamMODS($content) {
 	$depositors_eng = array();
 	$depositors_spa = array();
 	$project_collector_website = '';
+	$reference = '';
 	$references = array();
 
 	$xml = (string)$content;
@@ -325,7 +327,6 @@ function parseCollectionDatastreamMODS($content) {
 	/* End Data from LanguageTerm */	
 
 		/* Data from TitleInfo */
-//	if (!empty($mods->titleInfo->title)) {
 		foreach ($mods->titleInfo as $titleInfo) {
 			if ((string)$titleInfo[@type] == 'alternative') {
 				$alt_title_indigenous = (string)$titleInfo->title;
@@ -338,7 +339,6 @@ function parseCollectionDatastreamMODS($content) {
 				$title_spa = (string)$titleInfo->title;
 			}
 		}
-//	}
 	/* End Data from TitleInfo */
 
 	/* Data from originInfo */	
@@ -421,7 +421,9 @@ function parseCollectionDatastreamMODS($content) {
 	$i = 0;
 		foreach ($mods->relatedItem as $item) {
 			if ((string)$item->note[@type] == 'citation/reference') {
-				$references[$i] = (string)$item->note;
+				$reference = (string)$item->note;
+				$reference = preg_replace('/\r/', '<br \/>', $reference);
+				$references[$i] = $reference;
 			}
 			$i++;
 		}
