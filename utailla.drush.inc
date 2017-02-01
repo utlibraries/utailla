@@ -171,6 +171,11 @@ function utailla_drush_command() {
     'description' => 'Perform nightly ingest of batched resources.',
 	'drupal dependencies' => array('islandora'),
   );
+  $commands['utailla-fix-messes'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Revolving Function to fix Messes.',
+	'drupal dependencies' => array('islandora'),
+  );
   return $commands;
 }
 
@@ -204,6 +209,45 @@ function utailla_update_embargos() {
     ->condition('end_time', time(), '<')
     ->execute();
 }
+
+/**
+ * Revolving Function to fix Messes.
+ */
+function utailla_fix_messes() {
+	echo "Hi from inside utailla_fix_messes \n";
+	module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+    module_load_include('php', 'islandora_solr', 'SolrPhpClient/Apache/Solr/Service');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    require_once $path . 'includes/fedora_connection.inc';
+
+    $needAsset = array();
+    
+    $query = 'RELS_EXT_hasModel_uri_ss:"info:fedora/islandora:sp-audioCModel"' ;
+    $solrLimit = 45000;
+    $params = array();
+    $solr = new Apache_Solr_Service('localhost', 8080, '/solr');
+    try {
+        $results = $solr->search($query, 0, $solrLimit, $params,  'GET');
+    } catch (Exception $ex) {
+        drupal_set_message($ex->__toString() . PHP_EOL);
+    }
+
+    foreach ($results->response->docs as $doc) {
+        $needAsset[] = $doc->__get('PID');
+    }
+
+    print ("started with " . count($needAsset) . " needAsset\n");
+    sort($needAsset);
+
+    var_dump($needAsset);
+
+
+}
+
 
 /**
  * Drush command for nightly ingest of new Resources  [drush utailla-nightly-ingest]
