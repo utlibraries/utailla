@@ -523,10 +523,10 @@ function utailla_block_view($delta = '') {
 				);
 			}
 			break;
-		case 'view_download':
-			module_load_include('inc', 'utailla', 'includes/view_download');
+		case 'utailla_object_download':
+			module_load_include('inc', 'utailla', 'includes/object_download');
 			$to_render['subject'] = t('Download Object');
-			$to_render['content'] = drupal_get_form('view_download_form');
+			$to_render['content'] = utailla_object_download();
 			break;
 		case 'utailla_object_metadata':
 			module_load_include('inc', 'utailla', 'includes/object_metadata');
