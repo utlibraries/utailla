@@ -261,11 +261,11 @@ function parseResourceDatastreamMODS($content) {
 	$info['spa']['Idioma del Título Indígena'] = (string)$ind_title_lang;
 	$info['spa']['Título'] = (string)$title_spa;
 	$info['spa']['Comunidad del Idioma'] = (string)$lang_comm;
-	$info['spa']['Pais'] = (array)$countries;
+	$info['spa']['País'] = (array)$countries;
 	$info['spa']['Lugar de Creación'] = (string)$place_created;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Descripción [Indígena]'] = (string)$description_ind;
-	$info['spa']['Language of Indigenous Description'] = (string)$description_lang;
+	$info['spa']['Idioma de la descripción indígena'] = (string)$description_lang;
 	$info['spa']['Descripción'] = (string)$description_spa;
 	$info['spa']['Géneros'] = (array)$genres_spa;
 	$info['spa']['Nota Sobre la Fuente'] = (string)$source_note;
@@ -450,12 +450,12 @@ function parseCollectionDatastreamMODS($content) {
 	$info['spa']['Título [Indígena]'] = (string)$alt_title_indigenous;
 	$info['spa']['Idioma del Título Indígena'] = (string)$alt_title_ind_lang;
 	$info['spa']['Título'] = (string)$title_spa;
-	$info['spa']['Pais'] = (array)$countries;
+	$info['spa']['País'] = (array)$countries;
 	$info['spa']['Coleccionista'] = (array)$collectors_spa;
 	$info['spa']['Depositante'] = (array)$depositors_spa;
 	$info['spa']['Sitio web del proyecto / recaudador'] = (string)$project_collector_website;
 	$info['spa']['Descripción [Indígena]'] = (string)$description_ind;
-	$info['spa']['Language of Indigenous Description'] = (string)$description_lang;
+	$info['spa']['Idioma de la descripción indígena'] = (string)$description_lang;
 	$info['spa']['Descripción'] = (string)$description_spa;
 	$info['spa']['Referencia'] = (array) $references;
 
@@ -1124,7 +1124,7 @@ function parseLanguageDatastream($content) {
 	$info['spa']['MacroLengua'] = (string)$macroLang;
 	$info['spa']['Familia de Lengua'] = (string)$langFam;
 	$info['spa']['Descripción'] = (string)$description_spa;
-	$info['spa']['Pais'] = (string)$countries;
+	$info['spa']['País'] = (string)$countries;
 	$info['spa']['Idioma PID'] = (string)$langPID;
 
 	return $info;
