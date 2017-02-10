@@ -88,8 +88,11 @@ function parseResourceDatastreamMODS($content) {
 	if (!empty($mods->language->languageTerm[@valueURI])) {
 		$i = 0;
 		foreach ($mods->language as $l) {
-			$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
-			$i++;
+			if (!empty($l->languageTerm[@valueURI])) {
+//				drupal_set_message(print_r($l->languageTerm[@valueURI], true));
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
 		}
 		
 		foreach ($languagePIDs as $langP) {
@@ -312,8 +315,11 @@ function parseCollectionDatastreamMODS($content) {
 	if (!empty($mods->language->languageTerm[@valueURI])) {
 		$i = 0;
 		foreach ($mods->language as $l) {
-			$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
-			$i++;
+			if (!empty($l->languageTerm[@valueURI])) {
+//				drupal_set_message(print_r($l->languageTerm[@valueURI], true));
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
 		}
 		
 		foreach ($languagePIDs as $lang) {
@@ -1410,4 +1416,52 @@ function parsePersonsDatastream($content) {
 
 	return $info;
 	
+}
+
+/**
+ * Gets access restrictions info from utailla_media_file_restrictions table
+ */
+
+function getMediaAccess($mediaOBJ) 
+{
+	db_set_active();
+
+    module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    // Database information
+    $dbDriver  = $config['database']['driver'];
+    $dbHost = $config['database']['host'];
+    $dbUsr  = $config['database']['usr'];
+    $dbPwd  = $config['database']['pwd'];
+    $dbName  = $config['database']['name'];
+
+    // connect to database
+    $utailla_database = array(
+        'database' => $dbName,
+        'username' => $dbUsr,
+        'password' => $dbPwd,
+        'host' => $dbHost,
+        'driver' => $dbDriver,
+    );
+	
+    Database::addConnectionInfo('UTAILLA', 'default', $utailla_database);
+    db_set_active('UTAILLA');
+
+	$query = 'SELECT * FROM utailla_media_file_restrictions WHERE pid=:pid';
+	$results = db_query($query, array(':pid' => $mediaOBJ));
+
+	if ($results->rowCount() != 0) {
+		foreach ($results as $record) {
+			$level = $record->level;
+			$mediaInfo = $level ;
+		}
+	}
+
+	return $mediaInfo;
+
+
 }
