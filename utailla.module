@@ -471,18 +471,18 @@ function utailla_block_info() {
 
   $blocks = array();
 
-  $blocks['view_download'] = array(
-      'visibility' => BLOCK_VISIBILITY_LISTED,
-      'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
-      'info' => t('Download Object'),
-  );
-
   $blocks['utailla_object_credentials'] = array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Object Credential Input'),
+  );
+
+  $blocks['utailla_object_download'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('UTAilla Download Object'),
   );
 
   $blocks['utailla_object_metadata'] = array(
@@ -491,6 +491,14 @@ function utailla_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('UTAilla Object Metadata'),
   );
+
+  $blocks['utailla_media_files'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('UTAilla Media Files'),
+  );
+
   return $blocks;
 }
 
@@ -532,6 +540,11 @@ function utailla_block_view($delta = '') {
 			module_load_include('inc', 'utailla', 'includes/object_metadata');
 			$to_render['subject'] = t('Object Metadata');
 			$to_render['content'] = utailla_object_metadata();
+			break;
+		case 'utailla_media_files':
+			module_load_include('inc', 'utailla', 'includes/media_files');
+			$to_render['subject'] = t('Media Files');
+			$to_render['content'] = utailla_media_files();
 			break;
 	}
 	return $to_render;
