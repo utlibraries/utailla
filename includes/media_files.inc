@@ -25,7 +25,7 @@ function utailla_media_files()
 	$object = menu_get_object('islandora_object', 2);
 	$objectID = $object->id;
     if (!$object) {
-        drupal_set_message("Fedora Object isn't in the repo!");
+        //drupal_set_message("Fedora Object isn't in the repo!");
         return;
     }
 
@@ -64,11 +64,22 @@ function utailla_media_files()
 		}
 
 		$header = array("Object", "File Types", "Access Level") ;
-		$output = theme('table', array(
-						'header' => $header,
-						'rows'   => $rows,
-						'attributes' => array('width' => '100%')
-					));
+
+		$per_page = 20;
+		// Initialize the pager
+		$current_page = pager_default_initialize(count($rows), $per_page);
+		// Split your list into page sized chunks
+		$chunks = array_chunk($rows, $per_page, TRUE);
+		// Show the appropriate items from the list
+		$output = theme('table', array('header' => $header, 'rows' => $chunks[$current_page]));
+		// Show the pager
+		$output .= theme('pager', array('quantity',count($rows)));
+		
+// 		$output = theme('table', array(
+// 						'header' => $header,
+// 						'rows'   => $rows,
+// 						'attributes' => array('width' => '100%')
+// 					));
 		$output = $block_title . $caption . $output;
 	
 	} else {
