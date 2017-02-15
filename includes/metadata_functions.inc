@@ -48,6 +48,28 @@ function utailla_get_spanish_langName($PID) {
 	return $spanish_langName;
 }
 
+function utailla_get_spanish_country($PID) {
+	$islandora_tuque = islandora_get_tuque_connection();
+	$spanish_countryName = '';
+	$object = $islandora_tuque->repository->getObject($PID);
+	$country_dstream = $object['MADS'];
+	$content = $country_dstream->content;
+	
+	$xml = (string)$content;
+	
+	$mads = simplexml_load_string($xml);
+	
+	if (!empty($mads->authority->geographic)) {
+		foreach($mads->authority->geographic as $geo) {
+			if ((string)$geo[@lang] == 'spa') {
+				$spanish_countryName = (string)$geo;
+			}
+		}
+	}
+		
+	return $spanish_countryName;
+}
+
 function parseResourceDatastreamMODS($content) {
 	/* Set Vars */
 	$info = array();
@@ -68,6 +90,7 @@ function parseResourceDatastreamMODS($content) {
 	$countryPIDS = array();
 	$countryPID = '';
 	$countries = array();
+	$countries_spa = array();
 	$place_created = '';
 	$date_created = '';
 	$contributors_personal_eng = array();
@@ -88,8 +111,11 @@ function parseResourceDatastreamMODS($content) {
 	if (!empty($mods->language->languageTerm[@valueURI])) {
 		$i = 0;
 		foreach ($mods->language as $l) {
-			$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
-			$i++;
+			if (!empty($l->languageTerm[@valueURI])) {
+//				drupal_set_message(print_r($l->languageTerm[@valueURI], true));
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
 		}
 		
 		foreach ($languagePIDs as $langP) {
@@ -174,6 +200,7 @@ function parseResourceDatastreamMODS($content) {
 				$country = explode('/', $country);
 				$countryPID = array_pop($country);
 				$countries[] = utailla_get_title($countryPID);
+				$countries_spa[] = utailla_get_spanish_country($countryPID);
 			}
 		}
 	/* End Data from originInfo */	
@@ -261,11 +288,11 @@ function parseResourceDatastreamMODS($content) {
 	$info['spa']['Idioma del Título Indígena'] = (string)$ind_title_lang;
 	$info['spa']['Título'] = (string)$title_spa;
 	$info['spa']['Comunidad del Idioma'] = (string)$lang_comm;
-	$info['spa']['Pais'] = (array)$countries;
+	$info['spa']['País'] = (array)$countries_spa;
 	$info['spa']['Lugar de Creación'] = (string)$place_created;
 	$info['spa']['Fecha de Creación'] = (string)$date_created;
 	$info['spa']['Descripción [Indígena]'] = (string)$description_ind;
-	$info['spa']['Language of Indigenous Description'] = (string)$description_lang;
+	$info['spa']['Idioma de la descripción indígena'] = (string)$description_lang;
 	$info['spa']['Descripción'] = (string)$description_spa;
 	$info['spa']['Géneros'] = (array)$genres_spa;
 	$info['spa']['Nota Sobre la Fuente'] = (string)$source_note;
@@ -292,6 +319,7 @@ function parseCollectionDatastreamMODS($content) {
 	$countryPIDS = array();
 	$countryPID = '';
 	$countries = array();
+	$countries_spa = array();
 	$description_eng = '';
 	$description_spa = '';
 	$description_ind = '';
@@ -312,8 +340,11 @@ function parseCollectionDatastreamMODS($content) {
 	if (!empty($mods->language->languageTerm[@valueURI])) {
 		$i = 0;
 		foreach ($mods->language as $l) {
-			$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
-			$i++;
+			if (!empty($l->languageTerm[@valueURI])) {
+//				drupal_set_message(print_r($l->languageTerm[@valueURI], true));
+				$languagePIDs[$i] = (string)$l->languageTerm[@valueURI];
+				$i++;
+			}
 		}
 		
 		foreach ($languagePIDs as $lang) {
@@ -343,7 +374,7 @@ function parseCollectionDatastreamMODS($content) {
 
 	/* Data from originInfo */	
 		foreach ($mods->originInfo as $origin) {
-			if ($origin->place->placeTerm[@displayLabel] == 'Country') {
+			if ($origin->place->placeTerm[@authority] == 'aillaCountry') {
 				if ($origin->place->placeTerm[@valueURI] != '') {
 					$countryPIDs[] = (string)$origin->place->placeTerm[@valueURI];
 				}
@@ -354,6 +385,7 @@ function parseCollectionDatastreamMODS($content) {
 				$country = explode('/', $country);
 				$countryPID = array_pop($country);
 				$countries[] = utailla_get_title($countryPID);
+				$countries_spa[] = utailla_get_spanish_country($countryPID);
 			}
 		}
 	/* End Data from originInfo */	
@@ -450,12 +482,12 @@ function parseCollectionDatastreamMODS($content) {
 	$info['spa']['Título [Indígena]'] = (string)$alt_title_indigenous;
 	$info['spa']['Idioma del Título Indígena'] = (string)$alt_title_ind_lang;
 	$info['spa']['Título'] = (string)$title_spa;
-	$info['spa']['Pais'] = (array)$countries;
+	$info['spa']['País'] = (array)$countries_spa;
 	$info['spa']['Coleccionista'] = (array)$collectors_spa;
 	$info['spa']['Depositante'] = (array)$depositors_spa;
 	$info['spa']['Sitio web del proyecto / recaudador'] = (string)$project_collector_website;
 	$info['spa']['Descripción [Indígena]'] = (string)$description_ind;
-	$info['spa']['Language of Indigenous Description'] = (string)$description_lang;
+	$info['spa']['Idioma de la descripción indígena'] = (string)$description_lang;
 	$info['spa']['Descripción'] = (string)$description_spa;
 	$info['spa']['Referencia'] = (array) $references;
 
@@ -1124,7 +1156,7 @@ function parseLanguageDatastream($content) {
 	$info['spa']['MacroLengua'] = (string)$macroLang;
 	$info['spa']['Familia de Lengua'] = (string)$langFam;
 	$info['spa']['Descripción'] = (string)$description_spa;
-	$info['spa']['Pais'] = (string)$countries;
+	$info['spa']['País'] = (string)$countries;
 	$info['spa']['Idioma PID'] = (string)$langPID;
 
 	return $info;
@@ -1410,4 +1442,52 @@ function parsePersonsDatastream($content) {
 
 	return $info;
 	
+}
+
+/**
+ * Gets access restrictions info from utailla_media_file_restrictions table
+ */
+
+function getMediaAccess($mediaOBJ) 
+{
+	db_set_active();
+
+    module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    // Database information
+    $dbDriver  = $config['database']['driver'];
+    $dbHost = $config['database']['host'];
+    $dbUsr  = $config['database']['usr'];
+    $dbPwd  = $config['database']['pwd'];
+    $dbName  = $config['database']['name'];
+
+    // connect to database
+    $utailla_database = array(
+        'database' => $dbName,
+        'username' => $dbUsr,
+        'password' => $dbPwd,
+        'host' => $dbHost,
+        'driver' => $dbDriver,
+    );
+	
+    Database::addConnectionInfo('UTAILLA', 'default', $utailla_database);
+    db_set_active('UTAILLA');
+
+	$query = 'SELECT * FROM utailla_media_file_restrictions WHERE pid=:pid';
+	$results = db_query($query, array(':pid' => $mediaOBJ));
+
+	if ($results->rowCount() != 0) {
+		foreach ($results as $record) {
+			$level = $record->level;
+			$mediaInfo = $level ;
+		}
+	}
+
+	return $mediaInfo;
+
+
 }
