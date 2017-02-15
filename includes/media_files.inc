@@ -65,7 +65,7 @@ function utailla_media_files()
 
 		$header = array("Object", "File Types", "Access Level") ;
 
-		$per_page = 20;
+		$per_page = 100;
 		// Initialize the pager
 		$current_page = pager_default_initialize(count($rows), $per_page);
 		// Split your list into page sized chunks
