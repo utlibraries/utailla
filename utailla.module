@@ -471,18 +471,18 @@ function utailla_block_info() {
 
   $blocks = array();
 
-  $blocks['view_download'] = array(
-      'visibility' => BLOCK_VISIBILITY_LISTED,
-      'pages' => 'islandora/object/*',
-      'cache' => DRUPAL_NO_CACHE,
-      'info' => t('Download Object'),
-  );
-
   $blocks['utailla_object_credentials'] = array(
       'visibility' => BLOCK_VISIBILITY_LISTED,
       'pages' => 'islandora/object/*',
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('Object Credential Input'),
+  );
+
+  $blocks['utailla_object_download'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('UTAilla Download Object'),
   );
 
   $blocks['utailla_object_metadata'] = array(
@@ -491,6 +491,14 @@ function utailla_block_info() {
       'cache' => DRUPAL_NO_CACHE,
       'info' => t('UTAilla Object Metadata'),
   );
+
+  $blocks['utailla_media_files'] = array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'cache' => DRUPAL_NO_CACHE,
+      'info' => t('UTAilla Media Files'),
+  );
+
   return $blocks;
 }
 
@@ -523,15 +531,20 @@ function utailla_block_view($delta = '') {
 				);
 			}
 			break;
-		case 'view_download':
-			module_load_include('inc', 'utailla', 'includes/view_download');
+		case 'utailla_object_download':
+			module_load_include('inc', 'utailla', 'includes/object_download');
 			$to_render['subject'] = t('Download Object');
-			$to_render['content'] = drupal_get_form('view_download_form');
+			$to_render['content'] = utailla_object_download();
 			break;
 		case 'utailla_object_metadata':
 			module_load_include('inc', 'utailla', 'includes/object_metadata');
 			$to_render['subject'] = t('Object Metadata');
 			$to_render['content'] = utailla_object_metadata();
+			break;
+		case 'utailla_media_files':
+			module_load_include('inc', 'utailla', 'includes/media_files');
+			$to_render['subject'] = t('Media Files');
+			$to_render['content'] = utailla_media_files();
 			break;
 	}
 	return $to_render;
@@ -1260,3 +1273,33 @@ function utailla_view_ailla_depositors() {
   // in menu callbacks.
   return $view->preview();
 }
+
+/**
+ * Implements hook_file_mimetype_mapping_alter().
+ */
+function utailla_file_mimetype_mapping_alter(&$mapping) {
+  // Based on https://api.drupal.org/comment/22373#comment-22373
+
+  // Add support for new mappings.
+  $new_mappings['mp3'] = 'audio/mpeg';
+  $new_mappings['mp4'] = 'video/mp4';
+  $new_mappings['html'] = 'text/html';
+  $new_mappings['txt'] = 'text/plain';
+  $new_mappings['TextGrid'] = 'text/xml';
+  $new_mappings['trs'] = 'text/x-trs+xml';
+  $new_mappings['eaf'] = 'text/x-eaf+xml';
+
+  foreach ($new_mappings as $extension => $mime_type) {
+    if (!in_array($mime_type, $mapping['mimetypes'])) {
+      // If the mime type does not already exist, add it.
+      $mapping['mimetypes'][] = $mime_type;
+    }
+
+    // Get the index of the mime type, remove other extensions for that
+    // index, and and assign our extension to that index.
+    $index = array_search($mime_type, $mapping['mimetypes']);
+    $mapping['extensions'] = array_diff($mapping['extensions'], array($index));
+    $mapping['extensions'][$extension] = $index;
+  }
+}
+

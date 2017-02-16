@@ -91,6 +91,7 @@ function parseResourceDatastreamMODS($content) {
 	$countryPID = '';
 	$countries = array();
 	$countries_spa = array();
+
 	$place_created = '';
 	$date_created = '';
 	$contributors_personal_eng = array();
