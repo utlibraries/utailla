@@ -508,11 +508,16 @@ function utailla_block_info() {
 function utailla_block_view($delta = '') {
 	$to_render = array();
 
+	$current_url = $_SERVER['REQUEST_URI'];
+	$path = explode('/', $current_url);
+	$lang_path = $path[1];
+
 	switch ($delta) {
 		case 'utailla_object_credentials':
 			module_load_include('inc', 'utailla', 'includes/object_credentials');
 			module_load_include('inc', 'utailla', 'includes/db');
 			module_load_include('inc', 'utailla', 'includes/utilities');
+
 			$object = menu_get_object('islandora_object', 2);
 			$restriction = utailla_get_restriction($object->id);
 			if ($object &&
@@ -524,7 +529,11 @@ function utailla_block_view($delta = '') {
 				!utailla_user_media_file_current_authorization($object->id) &&
 				!utailla_is_object_archived($object)) {
 
-				$to_render['subject'] = t('Unlock Object');
+				if ($lang_path == 'es') {
+					$to_render['subject'] = t('Desbloquear objeto');
+				} else {
+					$to_render['subject'] = t('Unlock Object');
+				}
 				$to_render['content'] = drupal_get_form(
 				'utailla_object_credentials_form',
 				$object
@@ -533,7 +542,11 @@ function utailla_block_view($delta = '') {
 			break;
 		case 'utailla_object_download':
 			module_load_include('inc', 'utailla', 'includes/object_download');
-			$to_render['subject'] = t('Download Object');
+			if ($lang_path == 'es') {
+				$to_render['subject'] = t('Descargar objeto');
+			} else {
+				$to_render['subject'] = t('Download Object');
+			}
 			$to_render['content'] = utailla_object_download();
 			break;
 		case 'utailla_object_metadata':
