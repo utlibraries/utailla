@@ -8,10 +8,26 @@
  * Object credentials form.
  */
 function utailla_object_credentials_form($form, &$form_state, $object) {
-  form_load_include($form_state, 'inc', 'utailla', 'includes/object_credentials');
-  form_load_include($form_state, 'inc', 'utailla', 'includes/db');
-  form_load_include($form_state, 'inc', 'utailla', 'includes/utilities');
-  form_load_include($form_state, 'inc', 'islandora_basic_collection', 'includes/utilities');
+	form_load_include($form_state, 'inc', 'utailla', 'includes/object_credentials');
+	form_load_include($form_state, 'inc', 'utailla', 'includes/db');
+	form_load_include($form_state, 'inc', 'utailla', 'includes/utilities');
+	form_load_include($form_state, 'inc', 'islandora_basic_collection', 'includes/utilities');
+
+	$current_url = $_SERVER['REQUEST_URI'];
+	$path = explode('/', $current_url);
+	$lang_path = $path[1];
+
+	$lang_path = $path[1];
+	if ($lang_path == 'es') {
+		$hintTitle = 'Insinuación';
+		$submitTitle = 'Autenticar';
+		$reasonTitle = 'Razón';
+	} else {
+		$hintTitle = 'Hint';
+		$submitTitle = 'Authenticate';
+		$reasonTitle = 'Reason';
+	}
+
   $restriction = utailla_get_restriction($object->id);
   $form['object_pass'] = array(
     '#type' => 'password',
@@ -24,12 +40,12 @@ function utailla_object_credentials_form($form, &$form_state, $object) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Authenticate'),
+    '#value' => t($submitTitle),
   );
   if (isset($restriction['hint']) && $restriction['hint']) {
     $form['hint'] = array(
       '#type' => 'item',
-      '#title' => t('Hint'),
+      '#title' => t($hintTitle),
       '#description' => check_plain($restriction['hint']),
     );
   }
@@ -38,7 +54,7 @@ function utailla_object_credentials_form($form, &$form_state, $object) {
     $reason = isset($reasons[$restriction['reason_option'] + 1]) ? $reasons[$restriction['reason_option']] : $restriction['custom_reason'];
     $form['reason'] = array(
       '#type' => 'item',
-      '#title' => t('Reason'),
+      '#title' => t($reasonTitle),
       '#description' => check_plain($reason),
     );
   }
