@@ -33,7 +33,11 @@ function utailla_media_files()
 	$relsResult = $relsDatastream->content;
 	$relsInfo = parse_relsExt_for_Cmodel($relsResult);
 	
-	$objPath = 'http://' . $_SERVER['HTTP_HOST'] . "/islandora/object/";
+	if ($langSwitch == 'es') {
+		$objPath = 'http://' . $_SERVER['HTTP_HOST'] . "/es/islandora/object/";
+	} else {
+		$objPath = 'http://' . $_SERVER['HTTP_HOST'] . "/islandora/object/";
+	}
 
 	if ($relsInfo == 'info:fedora/ailla:resourceCModel') {
 		$query = 'select $pid from <#ri> where $pid <fedora-rels-ext:isMemberOfCollection> <info:fedora/'.$objectID.'>';
