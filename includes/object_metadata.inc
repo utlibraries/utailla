@@ -112,8 +112,10 @@ function utailla_object_metadata()
 	
 	if ($langSwitch == 'es') {
 		$info = $info['spa'];
+		$block_title = '<h2>Detalles del Objeto</h2>';
 	} else {
 		$info = $info['eng'];
+		$block_title = '<h2>Object Details</h2>';
 	}
 
 	foreach ($info as $key =>$value) {
@@ -128,9 +130,9 @@ function utailla_object_metadata()
 	}
 
 	if (!empty($info)) {
-		$block_title = '<h2>Object Details</h2>';
+		$btitle = $block_title;
 	} else {
-		$block_title = '';
+		$btitle = '';
 	}
 	$header = '';
 	$output = theme('table', array(
@@ -138,7 +140,7 @@ function utailla_object_metadata()
 					'rows'   => $rows,
 					'attributes' => array('width' => '100%')
 				));
-	$output = $block_title . $output;
+	$output = $btitle . $output;
 	
 	return $output;
 }
