@@ -1295,6 +1295,7 @@ function utailla_file_mimetype_mapping_alter(&$mapping) {
 
   // Add support for new mappings.
   $new_mappings['mp3'] = 'audio/mpeg';
+  $new_mappings['mp3'] = 'audio/mp3';
   $new_mappings['mp4'] = 'video/mp4';
   $new_mappings['html'] = 'text/html';
   $new_mappings['txt'] = 'text/plain';
