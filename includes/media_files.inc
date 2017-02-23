@@ -44,7 +44,11 @@ function utailla_media_files()
 		$result = $repository->ri->itqlQuery($query);
 		
 		if (!empty($result)) {
-			$caption = "There are " . count($result) . " Objects in this Resource<br />";
+			if ($langSwitch == 'es') {
+				$caption = "Hay " . count($result) . " objetos en este recurso<br />";
+			} else {
+				$caption = "There are " . count($result) . " objects in this resource<br />";
+			}
  			foreach ($result as $r) {
 
  				$mediaPID = $r['pid']['value'] ;
@@ -63,11 +67,12 @@ function utailla_media_files()
 	
 		if ($langSwitch == 'es') {
 			$block_title = '<h2>Listado de Medios</h2>';
+			$header = array("Objeto", "Tipos de Archivo", "Nivel de Acceso") ;
 		} else {
 			$block_title = '<h2>Media Files</h2>';
+			$header = array("Object", "File Types", "Access Level") ;
 		}
 
-		$header = array("Object", "File Types", "Access Level") ;
 
 		$per_page = 100;
 		// Initialize the pager
@@ -79,11 +84,6 @@ function utailla_media_files()
 		// Show the pager
 		$output .= theme('pager', array('quantity',count($rows)));
 		
-// 		$output = theme('table', array(
-// 						'header' => $header,
-// 						'rows'   => $rows,
-// 						'attributes' => array('width' => '100%')
-// 					));
 		$output = $block_title . $caption . $output;
 	
 	} else {
