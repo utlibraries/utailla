@@ -23,7 +23,6 @@ function utailla_object_metadata()
         return;
     }
     
-//    $header_title = utailla_get_title($objectID);
     $header_title = '';
 
 	$relsDatastream = $object['RELS-EXT'];
@@ -110,7 +109,6 @@ function utailla_object_metadata()
 			$persons_datastream = $object['MADS'];
 			if ($persons_datastream) {
 				$info = parsePersonsDatastream($persons_datastream->content);
-//				drupal_set_message(print_r($info, true));
 			}
 			break;
 	}
@@ -139,15 +137,12 @@ function utailla_object_metadata()
 	} else {
 		$btitle = '';
 	}
-//	$main_title = '<p /><p /><h1 class="page-title">'.$header_title.'</h1>';
 	$header = '';
 	$output = theme('table', array(
 					'header' => $header,
 					'rows'   => $rows,
 					'attributes' => array('width' => '100%')
 				));
-//	$output = $btitle . $output;
-//	$output = $main_title . $btitle . $output;
 	$output = $header_title . $btitle . $output;
 	
 	return $output;
