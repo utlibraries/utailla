@@ -171,11 +171,19 @@ function utailla_drush_command() {
     'description' => 'Perform nightly ingest of batched resources.',
 	'drupal dependencies' => array('islandora'),
   );
+  
+  $commands['utailla-nightly-restriction-cleanup'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Perform nightly restriction cleanup of media.',
+	'drupal dependencies' => array('islandora'),
+  );
+  
   $commands['utailla-fix-messes'] = array(
     'boostrap' => DRUSH_BOOTSTRAP_MAX,
     'description' => 'Revolving Function to fix Messes.',
 	'drupal dependencies' => array('islandora'),
   );
+
   return $commands;
 }
 
@@ -246,6 +254,97 @@ function utailla_fix_messes() {
     var_dump($needAsset);
 
 
+}
+
+/**
+ * Nigtly script to clean restriction TN from released media
+ */
+function drush_utailla_nightly_restriction_cleanup($quantity = null) {
+	echo "Hi from inside drush_utailla_nightly_restriction_cleanup \n";
+	$out = date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	var_dump($out);
+
+	module_load_include('inc', 'utailla', 'includes/utilities');
+	module_load_include('inc', 'islandora', 'includes/derivatives');
+	module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+	module_load_include('inc', 'utailla', 'includes/batch_resource_ingest');
+
+//	module_load_include('inc', 'utailla', 'includes/media_restrictions_functions');
+    module_load_include('inc', 'utailla', 'includes/metadata_functions');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    require_once $path . 'includes/fedora_connection.inc';
+
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+
+    $namespace = $config['default_namespace'];
+    
+	
+// 	$resInfo = array(
+// 		"level" => "0",
+// 		"time_limit" => "",
+// 		"password" => "",
+// 		"password_hint" => "",
+// 		"access_justification" => "",
+// 		"justification_other" => "",
+// 	)
+
+    $params = array();
+    setup($config, $params);
+    $fedoraConnection = $params['fedoraConnection'];
+ 
+    $username = "fedoraAdmin";
+    $now = date("m/d/Y h:i a");
+
+    $mediaOBJ = array();
+	$mediaOBJ = getRestrictedOBJs()  ;
+	
+    print ("started with " . count($mediaOBJ) . " mediaOBJ\n");
+ 
+ 	sort($mediaOBJ);
+	
+	$inL1=count($mediaOBJ);
+    $level01 = array();
+
+
+// 	foreach ($mediaOBJ as $mo) {
+// 		$level = $mo['level']  ;
+// 		$pid = $mo['pid']  ;
+// //		echo ("$pid has level $level\n");
+// 		$msg="";
+// 		switch ($level) {
+// 			case '0':
+// //				if ($inL1 > 5) { break; }
+// 				$level01[] = $pid ;
+// 				$inL1++;				
+// 				$msg = addPOLs($pid, $content);
+// 				break;
+// 			case '1':
+// 				$level02[] = $pid ;
+// 				$inL2++;
+// //				$msg = addResTN($pid);
+// // 				echo ("level 1 " . $msg);
+// 				break;
+// 			case '2':
+// 				$level03[] = $pid ;
+// 				$inL3++;
+// //				$msg = addResTN($pid);
+// //				echo ("level 2 " . $msg);
+// 				break;
+// 			case '3':
+// 				$level04[] = $pid ;
+// 				$inL4++;
+// //				$msg = addResTN($pid);
+// //				echo ("level 3 " . $msg);
+// 				break;
+// 			default:
+// 				break;
+// 		}
+// 		
+// 	}
+
+ 	echo ("there were $inL1 PIDs in this batch\n");
 }
 
 
