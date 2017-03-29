@@ -1317,3 +1317,32 @@ function utailla_file_mimetype_mapping_alter(&$mapping) {
   }
 }
 
+/**
+ * Implements hook_islandora_xacml_editor_child_query().
+ */
+function utailla_ailla_resourceCmodel_islandora_xacml_editor_child_query(AbstractObject $object) {
+  $collection_query = <<<EOQ
+select ?object from <#ri> WHERE
+  {
+    {
+      ?object <fedora-rels-ext:isMemberOfCollection> <info:fedora/{$object->id}>
+    }
+    UNION
+    {
+      ?object <fedora-rels-ext:isMemberOf> <info:fedora/{$object->id}>
+    }
+    ?object <fedora-model:state> <info:fedora/fedora-system:def/model#Active>
+}
+EOQ;
+  $results = $object->repository->ri->sparqlQuery($collection_query);
+
+  if (count($results) > 0) {
+    return array(
+      'all_children' => array(
+        'type' => 'sparql',
+        'query' => $collection_query,
+        'description' => t('All children of this collection and collections within this collection (existing and new).'),
+      ),
+    );
+  }
+}
