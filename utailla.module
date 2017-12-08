@@ -29,7 +29,7 @@ define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
 define('UTAILLA_ORGANIZATION_AUTOCOMPLETE', 'utailla/autocomplete/organization');
 define('UTAILLA_ASSOCIATE_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/associate/contributor');
 // Base URL for URIs
-define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
+//define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
