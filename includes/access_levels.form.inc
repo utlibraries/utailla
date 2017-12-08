@@ -62,10 +62,41 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
   );
   $form_state['utailla_first_file_info'] = $info;
   $justifications = utailla_access_justification_options();
-
+  $form['object_count'] = array(
+    '#type' => 'select',
+    '#title' => t('File view count'),
+    '#options' => array(
+      20 => t('20'),
+      50 => t('50'),
+      100 => t('100'),
+      250 => t('250'),
+      500 => t('500'),
+      'all' => t('All objects'),
+    ),
+    '#default_value' => 20,
+    '#description' => t('How many file objects to be shown in the Files table. Defaults to 20.'),
+    '#ajax' => array(
+      'callback' => 'utailla_access_levels_object_count_callback',
+      'wrapper' => 'files_table',
+    ),
+  );
   if (in_array(UTAILLA_RESOURCE_CMODEL, $object->models)) {
     $files = array();
-    list($count, $members) = islandora_basic_collection_get_member_objects($object);
+
+    if (isset($form_state['values']['object_count'])) {
+        if ($form_state['values']['object_count'] === 'all') {
+          $results = islandora_basic_collection_get_member_objects($object_in, 0, 0);
+          $object_count = reset($results);
+        }
+        else {
+          $object_count = $form_state['values']['object_count'];
+        }
+    }
+    else {
+      $object_count = 20;
+    }
+
+    list($count, $members) = islandora_basic_collection_get_member_objects($object, 0, $object_count);
     foreach ($members as $member) {
       $member_info = utailla_get_restriction($member['object']['value']);
       $files[$member['object']['value']] = array(
@@ -92,9 +123,10 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         '@total' => $count,
       )),
       '#theme_wrappers' => array('form_element'),
+      '#prefix' => '<div id="files_table">',
+      '#suffix' => '</div>',
     );
   }
-
   $form['level'] = array(
     '#type' => 'radios',
     '#title' => t('Access Level'),
@@ -215,6 +247,13 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
 }
 
 /**
+ * Ajax callback to update the files table.
+ */
+function utailla_access_levels_object_count_callback(&$form, &$form_state) {
+  return $form['files'];
+}
+
+/**
  * Form validation handler; validate values submitted to the access level form.
  */
 function utailla_access_level_form_validate(&$form, &$form_state) {
@@ -310,13 +349,13 @@ function utailla_access_level_form_submit(&$form, &$form_state) {
   $object = islandora_object_load($object_in->id);
 
   $schema = drupal_get_schema('utailla_media_file_restrictions');
-//  drupal_set_message('<pre>'. print_r($schema['fields'], true) .'</pre>'); 
-//  drupal_set_message('<pre>'. print_r($form_state['values'], true) .'</pre>'); 
-  
+//  drupal_set_message('<pre>'. print_r($schema['fields'], true) .'</pre>');
+//  drupal_set_message('<pre>'. print_r($form_state['values'], true) .'</pre>');
+
   $restriction_info = array_intersect_key($form_state['values'], $schema['fields']);
   $first_restriction = $form_state['utailla_first_file_info'];
   $restriction_info = utailla_calculate_restriction_level_info($restriction_info, $first_restriction);
-//  drupal_set_message('<pre>'. print_r($restriction_info, true) .'</pre>'); 
+//  drupal_set_message('<pre>'. print_r($restriction_info, true) .'</pre>');
 
   $files = isset($form_state['values']['files']) ? array_filter($form_state['values']['files']) : array();
   $operand = in_array(UTAILLA_RESOURCE_CMODEL, $object->models) && !empty($files) ?

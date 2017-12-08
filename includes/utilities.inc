@@ -4,10 +4,6 @@
  * Helper functions.
  */
 
-// Objects.
-// Base URL for URIs
-define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
-
 /**
  * Ingests the default thumbnail on an object.
  */
