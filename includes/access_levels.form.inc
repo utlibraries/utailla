@@ -62,24 +62,6 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
   );
   $form_state['utailla_first_file_info'] = $info;
   $justifications = utailla_access_justification_options();
-  $form['object_count'] = array(
-    '#type' => 'select',
-    '#title' => t('File view count'),
-    '#options' => array(
-      20 => t('20'),
-      50 => t('50'),
-      100 => t('100'),
-      250 => t('250'),
-      500 => t('500'),
-      'all' => t('All objects'),
-    ),
-    '#default_value' => 20,
-    '#description' => t('How many file objects to be shown in the Files table. Defaults to 20.'),
-    '#ajax' => array(
-      'callback' => 'utailla_access_levels_object_count_callback',
-      'wrapper' => 'files_table',
-    ),
-  );
   if (in_array(UTAILLA_RESOURCE_CMODEL, $object->models)) {
     $files = array();
 
@@ -108,6 +90,24 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         'depositor_email' => isset($member_info['depositor_email']) ? $member_info['depositor_email'] : t('N/A'),
 	  );
     }
+    $form['object_count'] = array(
+      '#type' => 'select',
+      '#title' => t('File view count'),
+      '#options' => array(
+        20 => t('20'),
+        50 => t('50'),
+        100 => t('100'),
+        250 => t('250'),
+        500 => t('500'),
+        'all' => t('All objects'),
+      ),
+      '#default_value' => 20,
+      '#description' => t('How many file objects to be shown in the Files table. Defaults to 20.'),
+      '#ajax' => array(
+        'callback' => 'utailla_access_levels_object_count_callback',
+        'wrapper' => 'files_table',
+      ),
+    );
     $form['files'] = array(
       '#type' => 'tableselect',
       '#title' => t('Files'),
