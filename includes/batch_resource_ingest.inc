@@ -8,11 +8,15 @@
  * Batch ingest of resources.
  */
 
+// Relationships.
+define('MANAGEABLE_BY_ROLE', 'isManageableByRole');
+
 function utailla_ingest_resource($resource) {
 	module_load_include('inc', 'utailla', 'includes/utilities');
     module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
     module_load_include('inc', 'islandora', 'includes/tuque');
 	module_load_include('inc', 'islandora', 'includes/derivatives');
+    module_load_include('inc', 'utailla', 'includes/utailla_functions');
 
     $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
     require_once $path . 'includes/fedora_connection.inc';
@@ -58,6 +62,10 @@ function utailla_ingest_resource($resource) {
 	islandora_add_object($object);
 	utailla_set_default_thumb($object);
 	$restriction=utailla_add_restriction_if_missing($object);
+
+//	islandora_xacml_editor_apply_parent_policy($object, $resource['colPid']);
+ 	add_parent_policy($object, $resource['colPid']);
+
 	islandora_set_defer_derivatives_flag($object);
 	 
 	 $mediaOut = ingestMedia($fedoraConnection, $config, $resource);
@@ -75,6 +83,7 @@ function ingestMedia($fedoraConnection, $config, $resource)
     module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
     module_load_include('inc', 'islandora', 'includes/tuque');
 	module_load_include('inc', 'islandora', 'includes/derivatives');
+    module_load_include('inc', 'utailla', 'includes/utailla_functions');
 
     $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
     require_once $path . 'includes/fedora_connection.inc';
@@ -151,6 +160,7 @@ function ingestMedia($fedoraConnection, $config, $resource)
 
 	    islandora_add_object($object);
 
+		$restriction=utailla_add_restriction_if_missing($object);
 		utailla_set_restriction($object, array('level' => UTAILLA_RESTRICTION_LEVEL_2));
 		insertPassword($object);
 //		utailla_set_default_thumb($object);
@@ -159,6 +169,9 @@ function ingestMedia($fedoraConnection, $config, $resource)
 			echo ("Running Derivatives for of Type " . $modelsInfo['type'] . " and PID " . $object->id . "\n");
 			islandora_run_derivatives($object, 'OBJ'); 
 		}
+		
+//		islandora_xacml_editor_apply_parent_policy($object, $media['resPid']);
+ 	    add_parent_policy($object, $media['resPid']);
 	}
 
 	var_dump($resource['mediaPids']);
@@ -178,6 +191,29 @@ function utailla_set_restricted_thumb(AbstractObject $object) {
 	$object->ingestDatastream($datastream);
 }
 
+/**
+*  Read parent POLICY datastream and add to object
+*/	
+function add_parent_policy($object, $parent)
+{
+	$policy = "Hello";
+	$dsid = "POLICY";
+	$parent_object = islandora_object_load($parent);
+	
+	if ($parent_object['POLICY']) {
+	  $object->relationships->add(ISLANDORA_RELS_EXT_URI, 'inheritXacmlFrom', $parent_object->id, RELS_TYPE_URI);
+	  $xacml = new IslandoraXacml($object, $parent_object['POLICY']->content);
+	  $xacml->writeBackToFedora();
+	  drupal_set_message(t('@child now inherits XACML from @parent.', array(
+		'@child' => $object->id,
+		'@parent' => $parent_object->id)), 'status');
+	}
+	else {
+	  drupal_set_message(t('@parent does not have an XACML policy.', array(
+		'@parent' => $parent_object->id)), 'status');
+	}
+	
+}
 
 /**
  * Build minimal MODS datastream for Resource
@@ -333,7 +369,8 @@ function utailla_build_minimal_media_mods($media)
 
 /**
  * function to setup the environment, e.g. a connecction to Fedora, etc.
-*/
+	moved to functions file
+	
 function setup($config, &$params) 
 {
   // Fedora information
@@ -346,6 +383,7 @@ function setup($config, &$params)
   $params['fedoraConnection'] = $fedoraConnection;
 
 }
+*/
 
 function getMediaModels($media)
 {
@@ -381,6 +419,9 @@ function getMediaModels($media)
 		28 => 'islandora:sp_videoCModel',
 		29 => 'islandora:sp_videoCModel',
 		30 => 'islandora:sp-audioCModel',
+		31 => 'islandora:sp_videoCModel',
+		32 => 'islandora:sp_videoCModel',
+		33 => 'islandora:sp-audioCModel',
 	);
 	$mimes = array(
 		1 => 'audio/mp3',
@@ -413,12 +454,15 @@ function getMediaModels($media)
 		28 => 'video/mp4',
 		29 => 'video/m4v',
 		30 => 'audio/x-wav',
+		31 => 'video/mpg',
+		32 => 'video/mkv',
+		33 => 'audio/vnd.wave',
 	);
 	$metaMap = array(
 	    'text' => array(4, 5, 6, 7, 8, 10, 12, 16, 18, 19, 25),
-		'audio' => array(1, 2, 3, 30),
+		'audio' => array(1, 2, 3, 30, 33),
 		'image' => array(9, 11, 24, 27),
-		'video' => array(13, 14, 15, 17, 20, 21, 22, 23, 28, 29),
+		'video' => array(13, 14, 15, 17, 20, 21, 22, 23, 28, 29, 31, 32),
 	);
 	
 	if (in_array($media['mime'], $mimes)) {

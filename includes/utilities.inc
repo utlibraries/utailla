@@ -6,7 +6,8 @@
 
 // Objects.
 // Base URL for URIs
-define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
+//define('UTAILLA_BASE_URI', 'https://islandora-ailla.lib.utexas.edu');
+define('UTAILLA_BASE_URI', 'https://ailla.utexas.org');
 
 /**
  * Ingests the default thumbnail on an object.
@@ -88,6 +89,7 @@ function utailla_restrict_datastream_to_admin($ds) {
   $xacml = new IslandoraXacml($ds->parent);
   $xacml->datastreamRule->addDsid($ds->id);
   $xacml->datastreamRule->addRole('admin');
+  $xacml->datastreamRule->addRole('superuser');
   $xacml->writeBackToFedora();
 }
 
@@ -249,6 +251,25 @@ function utailla_access_justification_options() {
     t('Other reason: please explain'),
   );
 }
+
+/**
+ * Get the array of access justification options (spanish).
+ */
+function utailla_access_justification_options_spa() {
+  return array(
+    t('Población protegida (p.ej. los niños)'),
+    t('Requerido por el IRB u otra autoridad'),
+    t('Acceso restringido por la comunidad del habla'),
+    t('Deseo del hablante o su familia'),
+    t('Lenguaje ceremonial, ritual esotérico o tabú'),
+    t('Tésis en progreso'),
+    t('Material protegido por derechos de autor'),
+    t('No se pudo presenciar consentimiento informado'),
+    t('Organización administrativa en progreso'),
+    t('Otra razón: por favor explique'),
+  );
+}
+
 
 /**
  * Get a list of lockable DSIDs.
@@ -527,3 +548,37 @@ function utailla_get_media_models() {
 
   return $models;
 }
+
+/**
+ * remove collection identifier from MODS since it is already in the RELS-EXT and having it
+ * in the MODS causes conflict when moving to new collection because MODS doesn't auto-update
+ * that point
+ */
+
+function utailla_clean_collection_from_mods() {
+
+	$doc = new DOMDocument; 
+	$doc->load('theFile.xml');
+
+	$thedocument = $doc->documentElement;
+
+	//this gives you a list of the messages
+	$list = $thedocument->getElementsByTagName('message');
+
+	//figure out which ones you want -- assign it to a variable (ie: $nodeToRemove )
+	$nodeToRemove = null;
+	foreach ($list as $domElement){
+	  $attrValue = $domElement->getAttribute('time');
+	  if ($attrValue == 'VALUEYOUCAREABOUT') {
+		$nodeToRemove = $domElement; //will only remember last one- but this is just an example :)
+	  }
+	}
+
+	//Now remove it.
+	if ($nodeToRemove != null)
+	$thedocument->removeChild($nodeToRemove);
+
+	echo $doc->saveXML(); 
+
+}
+

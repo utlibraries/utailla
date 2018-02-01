@@ -22,6 +22,8 @@ function utailla_object_metadata()
         drupal_set_message("Fedora Object isn't in the repo!");
         return;
     }
+    
+    $header_title = '';
 
 	$relsDatastream = $object['RELS-EXT'];
 	$relsResult = $relsDatastream->content;
@@ -33,12 +35,14 @@ function utailla_object_metadata()
 			$resource_datastream = $object['MODS'];
 			if ($resource_datastream) {
 				$info = parseResourceDatastreamMODS($resource_datastream->content);
+				$header_title = '<p /><p /><h1 class="page-title">'.$info['spa']['Título'].'</h1>';
 			}
 			break;
 		case 'info:fedora/islandora_collectionCModel':
 			$collection_datastream = $object['MODS'];
 			if ($collection_datastream) {
 				$info = parseCollectionDatastreamMODS($collection_datastream->content);
+				$header_title = '<p /><p /><h1 class="page-title">'.$info['spa']['Título'].'</h1>';
 			}
 			break;
 		case 'info:fedora/islandora_sp-audioCModel':
@@ -105,15 +109,16 @@ function utailla_object_metadata()
 			$persons_datastream = $object['MADS'];
 			if ($persons_datastream) {
 				$info = parsePersonsDatastream($persons_datastream->content);
-//				drupal_set_message(print_r($info, true));
 			}
 			break;
 	}
 	
 	if ($langSwitch == 'es') {
 		$info = $info['spa'];
+		$block_title = '<h2>Detalles del Objeto</h2>';
 	} else {
 		$info = $info['eng'];
+		$block_title = '<h2>Object Details</h2>';
 	}
 
 	foreach ($info as $key =>$value) {
@@ -128,9 +133,9 @@ function utailla_object_metadata()
 	}
 
 	if (!empty($info)) {
-		$block_title = '<h2>Object Details</h2>';
+		$btitle = $block_title;
 	} else {
-		$block_title = '';
+		$btitle = '';
 	}
 	$header = '';
 	$output = theme('table', array(
@@ -138,7 +143,7 @@ function utailla_object_metadata()
 					'rows'   => $rows,
 					'attributes' => array('width' => '100%')
 				));
-	$output = $block_title . $output;
+	$output = $header_title . $btitle . $output;
 	
 	return $output;
 }

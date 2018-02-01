@@ -1083,7 +1083,7 @@ function parseLanguageDatastream($content) {
 	$macroLang = '';
 	$description_eng = '';
 	$description_spa = '';
-	$countries = '';
+	$countries = array();
 	$langPID = '';
 
 	$xmlDoc = (string)$content;
@@ -1133,7 +1133,11 @@ function parseLanguageDatastream($content) {
 	}
 	
 	if (!empty($xml->aillaSpokenCountries)) {
-		$countries = (string)$xml->aillaSpokenCountries;
+		$i = 0;
+		foreach ($xml->aillaSpokenCountries as $asc) {
+			$countries[$i] = (string)$asc;
+			$i++;
+		}
 	}
 	
 	if (!empty($xml->recordInfo)) {
@@ -1147,7 +1151,7 @@ function parseLanguageDatastream($content) {
 	$info['eng']['Macro Language'] = (string)$macroLang;
 	$info['eng']['Language Family'] = (string)$langFam;
 	$info['eng']['Description'] = (string)$description_eng;
-	$info['eng']['Countries'] = (string)$countries;
+	$info['eng']['Countries'] = (array)$countries;
 	$info['eng']['Language PID'] = (string)$langPID;
 	
 	$info['spa']['Nombre'] = (string)$name_spa;
@@ -1157,7 +1161,7 @@ function parseLanguageDatastream($content) {
 	$info['spa']['MacroLengua'] = (string)$macroLang;
 	$info['spa']['Familia de Lengua'] = (string)$langFam;
 	$info['spa']['Descripción'] = (string)$description_spa;
-	$info['spa']['País'] = (string)$countries;
+	$info['spa']['País'] = (array)$countries;
 	$info['spa']['Idioma PID'] = (string)$langPID;
 
 	return $info;
@@ -1310,6 +1314,8 @@ function parsePersonsDatastream($content) {
 	$surnames = array();
 	$sex = '';
 	$placeOfOrigin = '';
+	$dateOfBirth = '';
+	$anon = '';
 	$description_eng = '';
 	$description_spa = '';
 	$depositorStatus = '';
@@ -1349,6 +1355,9 @@ function parsePersonsDatastream($content) {
 				if ((string)$note[@displayLabel] == 'Place of Origin') {
 					$placeOfOrigin = (string)$note;
 				}
+				if ((string)$note[@displayLabel] == 'Date of Birth') {
+					$dateOfBirth = (string)$note;
+				}
 				if ((string)$note[@lang] == 'eng') {
 					$description_eng = (string)$note;
 					$description_eng = preg_replace('/\r/', '<br \/>', $description_eng);
@@ -1360,6 +1369,9 @@ function parsePersonsDatastream($content) {
 			}
 			if ((string)$note[@type] == 'depositor status') {
 				$depositorStatus = (string)$note;
+			}
+			if ((string)$note[@type] == 'anonymous') {
+				$anon = (string)$note;
 			}
 		}
 	}
@@ -1419,8 +1431,19 @@ function parsePersonsDatastream($content) {
 		}
 	}
 
-	$info['eng']['Given Name(s)'] = (array)$givenNames;
-	$info['eng']['Surname(s)'] = (array)$surnames;
+	if ($anon == "Y") {    
+		$info['eng']['Given Name(s)'] = (array)("Anonymous");
+		$info['eng']['Surname(s)'] = (array)("Anonymous");
+		$info['spa']['Nombres dados'] = (array)("Anónimo");
+		$info['spa']['Apellido(s)'] = (array)("Anónimo");
+	
+	} else {
+		$info['eng']['Given Name(s)'] = (array)$givenNames;
+		$info['eng']['Surname(s)'] = (array)$surnames;
+		$info['spa']['Nombres dados'] = (array)$givenNames;
+		$info['spa']['Apellido(s)'] = (array)$surnames;
+	
+	}
 	$info['eng']['Sex'] = (string)$sex;
 	$info['eng']['Place of Origin'] = (string)$placeOfOrigin;
 	$info['eng']['Description'] = (string)$description_eng;
@@ -1430,8 +1453,6 @@ function parsePersonsDatastream($content) {
 	$info['eng']['Other Language(s) Spoken'] = (array)$otherLanguages;
 	$info['eng']['Organization(s)'] = (array)$organizations;
 	
-	$info['spa']['Nombres dados'] = (array)$givenNames;
-	$info['spa']['Apellido(s)'] = (array)$surnames;
 	$info['spa']['Sexo'] = (string)$sex;
 	$info['spa']['Lugar de origen'] = (string)$placeOfOrigin;
 	$info['spa']['Descripción'] = (string)$description_spa;

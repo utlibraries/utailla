@@ -29,7 +29,8 @@ define('UTAILLA_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/contributor');
 define('UTAILLA_ORGANIZATION_AUTOCOMPLETE', 'utailla/autocomplete/organization');
 define('UTAILLA_ASSOCIATE_CONTRIBUTOR_AUTOCOMPLETE', 'utailla/autocomplete/associate/contributor');
 // Base URL for URIs
-define('UTAILLA_BASE_URI', 'http://islandora-ailla.lib.utexas.edu');
+//define('UTAILLA_BASE_URI', 'https://islandora-ailla.lib.utexas.edu');
+define('UTAILLA_BASE_URI', 'https://ailla.utexas.org');
 
 // Second duration of media file authorization.
 const UTAILLA_AUTHORIZATION_DURATION = 600;
@@ -508,11 +509,16 @@ function utailla_block_info() {
 function utailla_block_view($delta = '') {
 	$to_render = array();
 
+	$current_url = $_SERVER['REQUEST_URI'];
+	$path = explode('/', $current_url);
+	$lang_path = $path[1];
+
 	switch ($delta) {
 		case 'utailla_object_credentials':
 			module_load_include('inc', 'utailla', 'includes/object_credentials');
 			module_load_include('inc', 'utailla', 'includes/db');
 			module_load_include('inc', 'utailla', 'includes/utilities');
+
 			$object = menu_get_object('islandora_object', 2);
 			$restriction = utailla_get_restriction($object->id);
 			if ($object &&
@@ -524,7 +530,11 @@ function utailla_block_view($delta = '') {
 				!utailla_user_media_file_current_authorization($object->id) &&
 				!utailla_is_object_archived($object)) {
 
-				$to_render['subject'] = t('Unlock Object');
+				if ($lang_path == 'es') {
+					$to_render['subject'] = t('Desbloquear objeto');
+				} else {
+					$to_render['subject'] = t('Unlock Object');
+				}
 				$to_render['content'] = drupal_get_form(
 				'utailla_object_credentials_form',
 				$object
@@ -533,7 +543,11 @@ function utailla_block_view($delta = '') {
 			break;
 		case 'utailla_object_download':
 			module_load_include('inc', 'utailla', 'includes/object_download');
-			$to_render['subject'] = t('Download Object');
+			if ($lang_path == 'es') {
+				$to_render['subject'] = t('Descargar objeto');
+			} else {
+				$to_render['subject'] = t('Download Object');
+			}
 			$to_render['content'] = utailla_object_download();
 			break;
 		case 'utailla_object_metadata':
@@ -610,11 +624,13 @@ function utailla_validate_language_is_in_collection_language($element, &$form_st
  */
 function utailla_convert_language_pid_to_title($form, $form_state) {
   if (isset($form['language_pid']['#value'])) {
-    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['language_pid']['#value']);
+  	$urlParts = parse_url($form['language_pid']['#value']) ;
+//    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['language_pid']['#value']);  	
+    $pid = str_replace("/islandora/object/", "", $urlParts['path']);
     $obj = islandora_object_load($pid);
     if ($obj) {
       $form['language']['#value'] = $obj->label;
-    }
+    } 
   }
   return $form;
 }
@@ -624,7 +640,9 @@ function utailla_convert_language_pid_to_title($form, $form_state) {
  */
 function utailla_convert_country_pid_to_title($form, $form_state) {
   if (isset($form['country_pid']['#value'])) {
-    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['country_pid']['#value']);
+  	$urlParts = parse_url($form['country_pid']['#value']) ;
+//    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['country_pid']['#value']);
+    $pid = str_replace("/islandora/object/", "", $urlParts['path']);
     $obj = islandora_object_load($pid);
     if ($obj) {
       $form['country_name']['#value'] = $obj->label;
@@ -638,7 +656,9 @@ function utailla_convert_country_pid_to_title($form, $form_state) {
  */
 function utailla_convert_collection_pid_to_title($form, $form_state) {
   if (isset($form['collection_pid']['#value'])) {
-    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['collection_pid']['#value']);
+//    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['collection_pid']['#value']);
+  	$urlParts = parse_url($form['collection_pid']['#value']) ;
+    $pid = str_replace("/islandora/object/", "", $urlParts['path']);
     $obj = islandora_object_load($pid);
     if ($obj) {
       $form['collection_name']['#value'] = $obj->label;
@@ -652,7 +672,9 @@ function utailla_convert_collection_pid_to_title($form, $form_state) {
  */
 function utailla_convert_organization_pid_to_title($form, $form_state) {
   if (isset($form['organization_pid']['#value'])) {
-    $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['organization_pid']['#value']);
+    //$pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['organization_pid']['#value']);
+  	$urlParts = parse_url($form['organization_pid']['#value']) ;
+    $pid = str_replace("/islandora/object/", "", $urlParts['path']);
     $obj = islandora_object_load($pid);
     if ($obj) {
       $form['organization_text']['#value'] = $obj->label;
@@ -1175,7 +1197,9 @@ function utailla_convert_hidden_nameparts_to_autocomplete($form, $form_state) {
   if (empty($form['namepart_autocomplete']['#value'])) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
     if (!empty($form['contributor_pid']['#value'])) {
-      $pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['contributor_pid']['#value']);
+      //$pid = str_replace(UTAILLA_BASE_URI . "/islandora/object/", "", $form['contributor_pid']['#value']);
+  	  $urlParts = parse_url($form['contributor_pid']['#value']) ;
+      $pid = str_replace("/islandora/object/", "", $urlParts['path']);
       $escaped_pid = islandora_solr_lesser_escape($pid);
       $qp = new IslandoraSolrQueryProcessor();
       $qp->buildQuery("PID:$escaped_pid");
@@ -1282,7 +1306,10 @@ function utailla_file_mimetype_mapping_alter(&$mapping) {
 
   // Add support for new mappings.
   $new_mappings['mp3'] = 'audio/mpeg';
+  $new_mappings['mp3'] = 'audio/mp3';
   $new_mappings['mp4'] = 'video/mp4';
+  $new_mappings['m4v'] = 'video/mp4';
+  $new_mappings['mkv'] = 'video/mp4';
   $new_mappings['html'] = 'text/html';
   $new_mappings['txt'] = 'text/plain';
   $new_mappings['TextGrid'] = 'text/xml';
@@ -1303,3 +1330,60 @@ function utailla_file_mimetype_mapping_alter(&$mapping) {
   }
 }
 
+/**
+ * Implements hook_islandora_xacml_editor_child_query().
+ */
+function utailla_ailla_resourceCmodel_islandora_xacml_editor_child_query(AbstractObject $object) {
+  $collection_query = <<<EOQ
+select ?object from <#ri> WHERE
+  {
+    {
+      ?object <fedora-rels-ext:isMemberOfCollection> <info:fedora/{$object->id}>
+    }
+    UNION
+    {
+      ?object <fedora-rels-ext:isMemberOf> <info:fedora/{$object->id}>
+    }
+    ?object <fedora-model:state> <info:fedora/fedora-system:def/model#Active>
+}
+EOQ;
+  $results = $object->repository->ri->sparqlQuery($collection_query);
+
+  if (count($results) > 0) {
+    return array(
+      'all_children' => array(
+        'type' => 'sparql',
+        'query' => $collection_query,
+        'description' => t('All children of this collection and collections within this collection (existing and new).'),
+      ),
+    );
+  }
+}
+
+
+//alter description of allowed ingest file types
+function ailla_form_islandora_video_upload_form_alter(&$form, &$form_state, $form_id) {
+  $form["file"]["#description"] = "Select video to upload.<br/>Files must be less than <strong>2048 MB.</strong><br/>Allowed file types: <strong>mp4 mov m4v avi mpeg mpg.</strong>";
+}
+
+function seven_form_islandora_video_upload_form_alter(&$form, &$form_state, $form_id) {
+  $form["file"]["#description"] = "Select video to upload.<br/>Files must be less than <strong>2048 MB.</strong><br/>Allowed file types: <strong>mp4 mov m4v avi mpeg mpg.</strong>";
+}
+
+function ailla_form_islandora_large_image_image_upload_form_alter(&$form, &$form_state, $form_id) {
+  $form["file"]["#description"] = "Select image to upload.<br/>Files must be less than <strong>2048 MB.</strong><br/>Allowed file types: <strong>tiff tif.</strong>";
+}
+
+function seven_form_islandora_large_image_image_upload_form_alter(&$form, &$form_state, $form_id) {
+  $form["file"]["#description"] = "Select image to upload.<br/>Files must be less than <strong>2048 MB.</strong><br/>Allowed file types: <strong>tiff tif.</strong>";
+}
+
+
+//Add "Do not use EID" warning
+function ailla_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form["account"]["name"]["#description"] = "Spaces are allowed; punctuation is not allowed except for periods, hyphens, apostrophes, and underscores. University of Texas students, faculty and staff: do NOT use your EID as your username.";
+}
+
+function seven_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form["account"]["name"]["#description"] = "Spaces are allowed; punctuation is not allowed except for periods, hyphens, apostrophes, and underscores. University of Texas students, faculty and staff: do NOT use your EID as your username.";
+}
