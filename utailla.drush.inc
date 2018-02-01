@@ -176,6 +176,7 @@ function utailla_drush_command() {
     'description' => 'Revolving Function to fix Messes.',
 	'drupal dependencies' => array('islandora'),
   );
+
   return $commands;
 }
 

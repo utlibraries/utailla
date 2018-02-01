@@ -47,6 +47,10 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
   module_load_include('inc', 'utailla', 'includes/db');
   module_load_include('inc', 'utailla', 'includes/utilities');
 
+  $current_url = $_SERVER['REQUEST_URI'];
+  $path = explode('/', $current_url);
+  $lang_path = $path[1];
+
   // XXX: Reload the object to attempt to alleviate any form/caching issues.
   $object = islandora_object_load($object_in->id);
 
@@ -61,11 +65,30 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
     'depositor_email' => '',
   );
   $form_state['utailla_first_file_info'] = $info;
-  $justifications = utailla_access_justification_options();
+  if ($lang_path == 'es') {
+	$justifications = utailla_access_justification_options_spa();
+  } else {
+	$justifications = utailla_access_justification_options();
+  }
 
   if (in_array(UTAILLA_RESOURCE_CMODEL, $object->models)) {
     $files = array();
-    list($count, $members) = islandora_basic_collection_get_member_objects($object);
+
+    if (isset($form_state['values']['object_count'])) {
+        if ($form_state['values']['object_count'] === 'all') {
+          $results = islandora_basic_collection_get_member_objects($object_in, 0, 0);
+          $object_count = reset($results);
+        }
+        else {
+          $object_count = $form_state['values']['object_count'];
+        }
+    }
+    else {
+      $object_count = 20;
+    }
+
+    list($count, $members) = islandora_basic_collection_get_member_objects($object, 0, $object_count);
+
     foreach ($members as $member) {
       $member_info = utailla_get_restriction($member['object']['value']);
       $files[$member['object']['value']] = array(
@@ -77,7 +100,27 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         'depositor_email' => isset($member_info['depositor_email']) ? $member_info['depositor_email'] : t('N/A'),
 	  );
     }
-    $form['files'] = array(
+ 
+     $form['object_count'] = array(
+      '#type' => 'select',
+      '#title' => t('File view count'),
+      '#options' => array(
+        20 => t('20'),
+        50 => t('50'),
+        100 => t('100'),
+        250 => t('250'),
+        500 => t('500'),
+        'all' => t('All objects'),
+      ),
+      '#default_value' => 20,
+      '#description' => t('How many file objects to be shown in the Files table. Defaults to 20.'),
+      '#ajax' => array(
+        'callback' => 'utailla_access_levels_object_count_callback',
+        'wrapper' => 'files_table',
+      ),
+    );
+
+   $form['files'] = array(
       '#type' => 'tableselect',
       '#title' => t('Files'),
       '#header' => array(
@@ -92,6 +135,8 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
         '@total' => $count,
       )),
       '#theme_wrappers' => array('form_element'),
+      '#prefix' => '<div id="files_table">',
+      '#suffix' => '</div>',
     );
   }
 
@@ -212,6 +257,13 @@ function utailla_access_level_form($form, &$form_state, AbstractObject $object_i
   );
 
   return $form;
+}
+
+/**
+ * Ajax callback to update the files table.
+ */
+function utailla_access_levels_object_count_callback(&$form, &$form_state) {
+  return $form['files'];
 }
 
 /**
