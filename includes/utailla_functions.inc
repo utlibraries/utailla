@@ -147,7 +147,7 @@ function replaceTN($pid, $type) {
 			break;
 		case 'video':
 			echo ("Working with video" . PHP_EOL);
-			$file = $path . 'images/video.png' ;
+			$file = $path . 'images/video.jpg' ;
 			$mimetype = findMime($file) ;
 			break;
 		case 'pdf':
@@ -287,6 +287,56 @@ function getRestrictedOBJs() {
 	return $resMedia;
 
 }
+
+/**
+* getFedoraObjwResTN()
+* function that finds all Fedora OBJs with Restricted Thumbnail 
+*/
+function getFedoraObjwResTN() 
+{
+	echo "Hi from inside getFedoraObjwResTN \n";
+	db_set_active();
+
+    module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    $namespace = $config['default_namespace'];
+    
+    $params = array();
+    setup($config, $params);
+    $fedoraConnection = $params['fedoraConnection'];
+ 
+    $username = "fedoraAdmin";
+    $now = date("m/d/Y h:i a");
+
+    $imageNOs = array();
+    $queryNO = 'fedora_datastream_latest_TN_LABEL_mt:Restricted Thumbnail' ;
+    $solrLimit = 50000;
+    $params = array();
+    $solrNO = new Apache_Solr_Service('localhost', 8080, '/solr');
+    try {
+        $resultsNO = $solrNO->search($queryNO, 0, $solrLimit, $params,  'GET');
+    } catch (Exception $ex) {
+        drupal_set_message($ex->__toString() . PHP_EOL);
+    }
+
+    foreach ($resultsNO->response->docs as $doc) {
+		$test = $doc->__get('PID') ;
+        $imageNOs[] = $doc->__get('PID');
+    }
+
+    print ("started with " . count($imageNOs) . " imageNOs\n");
+    sort($imageNOs);
+
+
+	return $imageNOs  ;
+
+
+}
+
 /**
  * function to setup the environment, e.g. a connecction to Fedora, etc.
 */

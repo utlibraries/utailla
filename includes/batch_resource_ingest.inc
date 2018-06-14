@@ -367,24 +367,6 @@ function utailla_build_minimal_media_mods($media)
 
 }
 
-/**
- * function to setup the environment, e.g. a connecction to Fedora, etc.
-	moved to functions file
-	
-function setup($config, &$params) 
-{
-  // Fedora information
-  $fedoraHost = $config['fedora_host'];
-  $fedoraUsr  = $config['fedora_usr'];
-  $fedoraPwd  = $config['fedora_pwd'];
-
-  // create a connection to Fedora
-  $fedoraConnection = new FedoraConnection($fedoraHost, $fedoraUsr, $fedoraPwd);
-  $params['fedoraConnection'] = $fedoraConnection;
-
-}
-*/
-
 function getMediaModels($media)
 {
 	//got this from the dgi migrate functions
