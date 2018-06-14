@@ -171,11 +171,19 @@ function utailla_drush_command() {
     'description' => 'Perform nightly ingest of batched resources.',
 	'drupal dependencies' => array('islandora'),
   );
+  
+  $commands['utailla-nightly-restriction-cleanup'] = array(
+    'boostrap' => DRUSH_BOOTSTRAP_MAX,
+    'description' => 'Perform nightly restriction cleanup of media.',
+	'drupal dependencies' => array('islandora'),
+  );
+  
   $commands['utailla-fix-messes'] = array(
     'boostrap' => DRUSH_BOOTSTRAP_MAX,
     'description' => 'Revolving Function to fix Messes.',
 	'drupal dependencies' => array('islandora'),
   );
+
   return $commands;
 }
 
@@ -211,40 +219,266 @@ function utailla_update_embargos() {
 }
 
 /**
- * Revolving Function to fix Messes.
+ * Updates all out of date restrictions.
  */
-function utailla_fix_messes() {
-	echo "Hi from inside utailla_fix_messes \n";
+function utailla_fix_aillaperson() {
+	echo "Hi from inside utailla_fix_aillaperson \n";
+	module_load_include('inc', 'utailla', 'includes/utilities');
 	module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
     module_load_include('inc', 'islandora', 'includes/tuque');
-    module_load_include('php', 'islandora_solr', 'SolrPhpClient/Apache/Solr/Service');
+	module_load_include('inc', 'utailla', 'includes/utailla_functions');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+    
+    require_once $path . 'includes/fedora_connection.inc';
+	
+	
+	
+}
+
+/**
+ * Revolving Function to fix Messes.
+ * drush utailla-fix-messes
+ */
+function drush_utailla_fix_messes($quantity = null) {
+	echo "Hi from inside utailla_fix_messes \n";
+	
+	module_load_include('inc', 'utailla', 'includes/utilities');
+	module_load_include('inc', 'islandora', 'includes/derivatives');
+	module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+	module_load_include('inc', 'utailla', 'includes/utailla_functions');
+  	module_load_include('inc', 'utailla', 'includes/batch_resource_ingest');
 
     $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
     $config = parse_ini_file($path . 'includes/config.ini', true);
     
     require_once $path . 'includes/fedora_connection.inc';
 
-    $needAsset = array();
+    $needTN = array();
+    $resTN = array();
+    $nonresTN = array();
     
-    $query = 'RELS_EXT_hasModel_uri_ss:"info:fedora/islandora:sp-audioCModel"' ;
-    $solrLimit = 45000;
+	$needTN = file('/home/minx/fedora_datastreams_ms-PROXY_MP3.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    print ("started with " . count($needTN) . " needTN\n");
+    //sort($needAsset);
+    //var_dump($needTN);
+
+    $namespace = $config['default_namespace'];
+    
     $params = array();
-    $solr = new Apache_Solr_Service('localhost', 8080, '/solr');
-    try {
-        $results = $solr->search($query, 0, $solrLimit, $params,  'GET');
-    } catch (Exception $ex) {
-        drupal_set_message($ex->__toString() . PHP_EOL);
-    }
+    setup($config, $params);
+    $fedoraConnection = $params['fedoraConnection'];
+ 
+    $username = "fedoraAdmin";
+    $now = date("m/d/Y h:i a");
+	
+	$tnFile = $path . 'images/video.jpg' ;
+	
+	
+	foreach ($needTN as $na) {
+		
+//		echo ("PID -- " . $na . " is the current object\n");
+		
+		$object = islandora_object_load($na);
+		if (!$object) {
+		  echo ("PID -- " . $na . " did not load\n");
+		  continue;
+		} else {
+//			echo ("PID -- " . $na . " loaded properly\n");
+		}
 
-    foreach ($results->response->docs as $doc) {
-        $needAsset[] = $doc->__get('PID');
-    }
+		if (!isset($object['OBJ'])) {
+		  echo ("PID -- " . $na . " is not an actual Object\n");
+		  $notOBJ++;
+		  continue;
+		}
+		
+		$tn_ds = $object->getDatastream("TN") ;
+		$tn_label = $tn_ds->label ;
+//		$tn_mime = findMime($tnFile) ;
+		
+		if (strpos($tn_label, 'Restricted') !== false) {
+			$resTN[] = $na;
+		} else {
+			$nonresTN[] = $na;
+		}
+		
+//		echo ("PID -- " . $na . " has TN label " . $tn_label . " with mimetype " . $tn_mime . "\n");
+// 		
+// 		// Create/Update TN datastream
+// 		if (!isset($object["TN"])) {
+// 			$datastream_id = "TN";
+// 			$controlGroup = "M";
+// 			$datastream = $object->constructDatastream($datastream_id, $controlGroup);
+// 			$datastream->label = 'Thumbnail';
+// 			$datastream->mimetype = $tn_mime;
+// 			$datastream->setContentFromFile($tnFile);
+// 			$object->ingestDatastream($datastream);
+// 		} else {
+// 			$datastream = $object["TN"];
+// 			$datastream->label = $tn_label;
+// 			$datastream->mimetype = $tn_mime;
+// 			$datastream->content = $tnFile;
+// 		}	
+ 		
+ 	}
+ 	
+ 	echo (count($nonresTN) . " unrestricted need new TN datastream\n");
+ 	echo (count($resTN) . " restricted need new TN datastream\n");
+	
+	
+ 	$ct = 0;
+	foreach ($nonresTN as $nr) {
+		$object = islandora_object_load($nr);
+		
+//		$tn_ds = $object->getDatastream("TN") ;
+//		$tn_label = $tn_ds->label ;
+//		$tn_mime = findMime($tnFile) ;
+ 		
+  		$ct++;
+// 		if ($ct < 25) { continue; }
+// 		if ($ct > 5000) { break; }
+		
+		$options = array(
+			force => TRUE,
+			destination_dsid => 'TN'
+		) ;
+		
+		$results = array();
+		$results = islandora_do_derivatives($object, $options) ;
 
-    print ("started with " . count($needAsset) . " needAsset\n");
-    sort($needAsset);
+// 		$datastream = $object["TN"];
+// 		$datastream->label = 'Restricted Thumbnail';
+// 		$datastream->mimetype = 'image/png';
+// 		$datastream->setContentFromFile("$path/images/restricted.png", FALSE);
 
-    var_dump($needAsset);
+		echo ("PID -- " . $nr . " has TN label " . $tn_label . " \n");
+ 	}
+ 	
+	$endTime = date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	var_dump($endTime);
+}
 
+/**
+ * Nigtly script to clean restriction TN from released media
+ */
+function drush_utailla_nightly_restriction_cleanup($quantity = null) {
+	echo "Hi from inside drush utailla-nightly-restriction-cleanup \n";
+	$out = date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	var_dump($out);
+
+	module_load_include('inc', 'utailla', 'includes/utilities');
+	module_load_include('inc', 'islandora', 'includes/derivatives');
+	module_load_include('inc', 'islandora', 'includes/regenerate_derivatives.form');
+	module_load_include('inc', 'islandora', 'includes/IslandoraTuque');
+    module_load_include('inc', 'islandora', 'includes/tuque');
+    module_load_include('php', 'islandora_solr', 'SolrPhpClient/Apache/Solr/Service');
+
+	module_load_include('inc', 'utailla', 'includes/utailla_functions');
+
+    $path = DRUPAL_ROOT . DIRECTORY_SEPARATOR . drupal_get_path('module', 'utailla') . DIRECTORY_SEPARATOR;
+    require_once $path . 'includes/fedora_connection.inc';
+
+    $config = parse_ini_file($path . 'includes/config.ini', true);
+
+    $namespace = $config['default_namespace'];
+    
+    $params = array();
+    setup($config, $params);
+    $fedoraConnection = $params['fedoraConnection'];
+ 
+    $username = "fedoraAdmin";
+    $now = date("m/d/Y h:i a");
+	
+    $mediaOBJ = array();
+    $unRes = array();
+    $restrictedOBJs = array();
+    $reGenTN = array();
+    
+	$mediaOBJ = getUnrestrictedOBJs()  ;
+	foreach ($mediaOBJ as $m) {
+		$unRes[] = $m['pid'] ;
+	}
+	
+	$cntMO=count($unRes);
+	
+    echo ("started with $cntMO unrestriced mediaOBJ\n");
+// 	var_dump($mediaOBJ);
+    $mediaOBJ = array();
+		
+	$restrictedOBJs = file('/home/minx/restrictedTN.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	//$restrictedOBJs = getFedoraObjwResTN();
+	//var_dump($restrictedOBJs);
+	
+ 	echo ("there were " . count($restrictedOBJs) . " restricted PIDs in this batch\n");
+	//var_dump($restrictedOBJs);
+
+	foreach ($restrictedOBJs as $r) {
+		if (in_array($r, $unRes)) {
+			$reGenTN[] = $r ;
+		} 	
+	}
+	
+//	$reGenTN = array_diff($restrictedOBJs, $unRes);
+//	$reGenTN = array_intersect($restrictedOBJs, $unRes);
+	
+	//$reGenTN = file('/home/minx/imageTN.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+ 	echo (count($reGenTN) . " need new TN datastream\n");
+	var_dump($reGenTN);
+    $unRes = array();
+    $restrictedOBJs = array();
+
+	$ct = 0;
+	$notOBJ = 0;
+
+	foreach ($reGenTN as $rg) {
+		
+//		echo ("PID -- " . $rg . " is the current object\n");
+		
+		$object = islandora_object_load($rg);
+		if (!$object) {
+		  echo ("PID -- " . $rg . " did not load\n");
+		  continue;
+		} else {
+//			echo ("PID -- " . $rg . " loaded properly\n");
+		}
+
+		if (!isset($object['OBJ'])) {
+		  echo ("PID -- " . $rg . " is not an actual Object\n");
+		  $notOBJ++;
+		  continue;
+		}
+		
+		$tn_ds = $object->getDatastream("TN") ;
+		if (!$tn_ds) {
+		  echo ("PID -- " . $rg . " does not have a TN\n");
+		  continue;
+		} 
+		
+		$tn_label = $tn_ds->label ;
+		$tn_ds->label = 'Thumbnail';
+		//$tn_mime = findMime($tnFile) ;
+	
+//  		$ct++;
+//  		if ($ct > 5) { continue; }
+	
+		$options = array(
+			force => TRUE,
+			destination_dsid => 'TN'
+		) ;
+	
+		$results = array();
+		$results = islandora_do_derivatives($object, $options) ;
+		echo ("PID -- " . $rg . " has TN label " . $tn_label . " \n");
+		
+	}
+	
+
+	$endTime = date("Y-m-d") . "_" . date("h:i:sa") . "\n\n" ;
+	var_dump($endTime);
 
 }
 
