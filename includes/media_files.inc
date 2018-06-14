@@ -55,8 +55,12 @@ function utailla_media_files()
  				$mediaURL = $objPath . $mediaPID ;
 				$mediaOBJ = $repository->getObject($mediaPID);
 				$datastream = $mediaOBJ['OBJ'] ;
+				if (!$datastream) {
+					$label = $mediaOBJ->label ;
+				} else {
+					$label = $datastream->label ;
+				}
 				$accessLevel = getMediaAccess($mediaPID) + 1;
-				$label = $mediaOBJ->label ;
 				$mimetype = $datastream->mimetype ;
 				$link = '<a href="' . $mediaURL . '">' . $label . "</a>" ;			
 				$rows[] = array($link, $mimetype, $accessLevel)  ;
@@ -72,7 +76,6 @@ function utailla_media_files()
 			$block_title = '<h2>Media Files</h2>';
 			$header = array("Object", "File Types", "Access Level") ;
 		}
-
 
 		$per_page = 100;
 		// Initialize the pager
